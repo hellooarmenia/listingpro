@@ -4,22 +4,22 @@ $IDs = get_post_meta( $post->ID, 'gallery_image_ids', true );
 if($lp_detail_slider_styles == 'style1'){
     if (!empty($IDs)) {
         if($gallery_show=="true"){
-			
-            $imgIDs = array();
-			$numImages = 0;
-			$ximgIDs = explode(',',$IDs);
-			if(!empty($ximgIDs)){
-				foreach ($ximgIDs as $value) {
-					if (!empty(get_post_status($value))) {
-						 $imgIDs[] = $value;
-					}
-				}
 
-				if(!empty($imgIDs)){
-				   $numImages = count($imgIDs);  
-				}
-			}
-			
+            $imgIDs = array();
+            $numImages = 0;
+            $ximgIDs = explode(',',$IDs);
+            if(!empty($ximgIDs)){
+                foreach ($ximgIDs as $value) {
+                    if (!empty(get_post_status($value))) {
+                        $imgIDs[] = $value;
+                    }
+                }
+
+                if(!empty($imgIDs)){
+                    $numImages = count($imgIDs);
+                }
+            }
+
             if($numImages >= 1 ){ ?>
                 <div class="pos-relative">
                     <div class="spinner">
@@ -63,11 +63,11 @@ if($lp_detail_slider_styles == 'style1'){
                                         $imgFull = wp_get_attachment_image_src( $imgID, 'full');
                                         if(!empty($imgurl[0])){
                                             echo '
-															<div class="slide">
-																<a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
-																	<img src="'. $imgSrc .'" alt="'.get_the_title().'" />
-																</a>
-															</div>';
+                                                            <div class="slide">
+                                                                <a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
+                                                                    <img src="'. $imgSrc .'" alt="'.get_the_title().'" />
+                                                                </a>
+                                                            </div>';
                                         }
                                     }
                                     ?>
@@ -82,11 +82,11 @@ if($lp_detail_slider_styles == 'style1'){
                 $imgFull = wp_get_attachment_image_src( $imgID, 'full');
                 if(!empty($imgurl[0])){
                     echo '
-								<div class="slide_ban text-center">
-									<a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
-										<img src="'. $imgurl[0] .'" alt="'.get_the_title().'" />
-									</a>
-								</div>';
+                                <div class="slide_ban text-center">
+                                    <a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
+                                        <img src="'. $imgurl[0] .'" alt="'.get_the_title().'" />
+                                    </a>
+                                </div>';
                 }
             }
         }
@@ -118,11 +118,11 @@ if($lp_detail_slider_styles == 'style1'){
                                         $gstyle= 'style="height:'.$slider_height.'px;object-fit: cover"';
                                         if(!empty($img_url[0])){
                                             echo '
-															<div class="slide">
-																<a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
-																	<img '.$gstyle.' src="'. $img_url[0] .'" alt="'.get_the_title().'" />
-																</a>
-															</div>';
+                                                            <div class="slide">
+                                                                <a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
+                                                                    <img '.$gstyle.' src="'. $img_url[0] .'" alt="'.get_the_title().'" />
+                                                                </a>
+                                                            </div>';
                                         }
                                     }
                                     ?>
@@ -138,14 +138,76 @@ if($lp_detail_slider_styles == 'style1'){
                 $imgFull = wp_get_attachment_image_src( $imgID, 'full');
                 if(!empty($imgurl[0])){
                     echo '
-								<div class="slide_ban text-center">
-									<a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
-										<img src="'. $imgurl[0] .'" alt="'.get_the_title().'" />
-									</a>
-								</div>';
+                                <div class="slide_ban text-center">
+                                    <a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
+                                        <img src="'. $imgurl[0] .'" alt="'.get_the_title().'" />
+                                    </a>
+                                </div>';
                 }
             }
         }
     }
 }
+
+
+
+elseif($lp_detail_slider_styles == 'style3'){
+    if (!empty($IDs)) {
+        if($gallery_show=="true"){
+            $imgIDs = explode(',',$IDs);
+            $numImages = count($imgIDs);
+            if($numImages >= 1 ){ ?>
+                <div class="pos-relative">
+                    <div class="spinner">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                    <div class="single-page-slider-container style2">
+                        <div class="row">
+                            <div class="">
+                                <div class="listing-slide img_<?php echo esc_attr($numImages); ?>" data-images-num="<?php echo esc_attr($numImages); ?>">
+                                    <?php
+                                    $slider_height = $listingpro_options['slider_height'];
+                                    //$imgSize = 'listingpro-gal';
+                                    require_once (THEME_PATH . "/include/aq_resizer.php");
+                                    $imgSize = 'listingpro-detail_gallery';
+                                    foreach($imgIDs as $imgID){
+                                        $img_url = wp_get_attachment_image_src( $imgID, 'full');
+                                        $imgSrc = $img_url;
+                                        $imgFull = wp_get_attachment_image_src( $imgID, 'full');
+                                        $gstyle= 'style="height:'.$slider_height.'px;object-fit: cover"';
+                                        if(!empty($img_url[0])){
+                                            echo '
+                                                            <div class="slide">
+                                                                <a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
+                                                                    <img '.$gstyle.' src="'. $img_url[0] .'" alt="'.get_the_title().'" />
+                                                                </a>
+                                                            </div>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+            else{
+                $imgurl = wp_get_attachment_image_src( $imgIDs[0], 'listingpro-listing-gallery');
+                $imgFull = wp_get_attachment_image_src( $imgID, 'full');
+                if(!empty($imgurl[0])){
+                    echo '
+                                <div class="slide_ban text-center">
+                                    <a href="'. $imgFull[0] .'" rel="prettyPhoto[gallery1]">
+                                        <img src="'. $imgurl[0] .'" alt="'.get_the_title().'" />
+                                    </a>
+                                </div>';
+                }
+            }
+        }
+    }
+}
+
+
 ?>

@@ -98,13 +98,9 @@ if(!function_exists('listingpro_2checkout_pay_campaigns')){
 				$transactionId = $charge['response']['transactionId'];
 				
 				
-						$ads_durations = $listingpro_options['listings_ads_durations'];
-						
+	
 						$currentdate = date("d-m-Y");
-						$exprityDate = date('Y-m-d', strtotime($currentdate. ' + '.$ads_durations.' days'));
-						$exprityDate = date('d-m-Y', strtotime( $exprityDate ));
-						
-						
+		
 						$my_post = array(
 							'post_title'    => $listing_id,
 							'post_status'   => 'publish',
@@ -116,8 +112,7 @@ if(!function_exists('listingpro_2checkout_pay_campaigns')){
 						
 						listing_set_metabox('ad_status', 'Active', $adID);
 						listing_set_metabox('ad_date', $currentdate, $adID);
-						listing_set_metabox('ad_expiryDate', $exprityDate, $adID);
-						
+		
 						listing_set_metabox('campaign_id', $adID, $listing_id);
 						update_post_meta( $listing_id, 'campaign_status', 'active' );
 						
@@ -297,7 +292,7 @@ if(!function_exists('lp_save_2cheeckout_campaign_data')){
 		
 		lp_mail_headers_append();
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
-		wp_mail( $admin_email, $subject, $formated_mail_content, $headers);
+        LP_send_mail( $admin_email, $subject, $formated_mail_content, $headers);
 		
 		 /* for author */
 		 
@@ -313,7 +308,7 @@ if(!function_exists('lp_save_2cheeckout_campaign_data')){
 			'listing_url' => "$listing_url",
 		));
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
-		wp_mail( $user_email, $subject, $formated_mail_content, $headers);
+        LP_send_mail( $user_email, $subject, $formated_mail_content, $headers);
 		lp_mail_headers_remove();
 		
 	}

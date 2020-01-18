@@ -11,9 +11,8 @@ $listingpro_options =   get_option('listingpro_options');
 /* ============== version2 Style Load ============ */
 
 add_action('wp_enqueue_scripts', 'listingpro_style_version2');
-
+if( !function_exists('listingpro_style_version2')){
 function listingpro_style_version2()
-
 {
 
     wp_enqueue_style('version2-countdown', THEME_DIR . '/assets/lib/countdown/flipclock.css');
@@ -27,40 +26,118 @@ function listingpro_style_version2()
 		wp_enqueue_script('singlepostmap-version2', THEME_DIR. '/assets/js/singlepostmap-new.js', 'jquery', '', true);
 	}
 }
-
-
+}
 
 /* ============== version2 scripts Load ============ */
 
 add_action('wp_enqueue_scripts', 'listingpro_scripts_version2');
-
-function listingpro_scripts_version2()
+if( !function_exists('listingpro_scripts_version2')){
+    function listingpro_scripts_version2()
 {
-
    global $listingpro_options;
+   $current_page_url    =   get_permalink(get_the_ID());
    $mobile_view =   '';
-   $listing_layout =   $listingpro_options['lp_detail_page_styles'];
+   $listing_layout  =   $listingpro_options['lp_detail_page_styles'];
+   $author_page_url  =   $listingpro_options['listing-author'];
    wp_enqueue_script('version-countdown-js', THEME_DIR. '/assets/lib/countdown/flipclock.min.js', 'jquery', '', true);
-	if( ($listing_layout == 'lp_detail_page_styles4' || $listing_layout == 'lp_detail_page_styles3' && !wp_is_mobile())
-	    || ($listing_layout == 'lp_detail_page_styles4' || $listing_layout == 'lp_detail_page_styles3' && $mobile_view == 'responsive_view' && wp_is_mobile()) )
-	{
-		wp_enqueue_script('singlepostmap-version2', THEME_DIR. '/assets/js/singlepostmap-new.js', 'jquery', '', true);
-	}
+    if( ($listing_layout == 'lp_detail_page_styles4' || $listing_layout == 'lp_detail_page_styles3' && !wp_is_mobile())
+        || ($listing_layout == 'lp_detail_page_styles4' || $listing_layout == 'lp_detail_page_styles3' && $mobile_view == 'responsive_view' && wp_is_mobile()) )
+    {
+        wp_enqueue_script('singlepostmap-version2', THEME_DIR. '/assets/js/singlepostmap-new.js', 'jquery', '', true);
+    }
+    if( $current_page_url == $author_page_url ) {
+        $lp_wp_lang    =   get_option('WPLANG');
+        $available_locales  =   array(
+                'af',
+                'ar-DZ',
+                'ar',
+                'az',
+                'be',
+                'bg',
+                'cs',
+                'bs',
+                'ca',
+                'cy-GB',
+                'da',
+                'de',
+                'el',
+                'en-AU',
+                'en-GB',
+                'en-NZ',
+                'eo',
+                'es',
+                'et',
+                'eu',
+                'fa',
+                'fi',
+                'fo',
+                'fr-CA',
+                'fr-CH',
+                'fr',
+                'gl',
+                'he',
+                'hi',
+                'hr',
+                'hu',
+                'hy',
+                'id',
+                'is',
+                'it-CH',
+                'it',
+                'js',
+                'ka',
+                'kk',
+                'km',
+                'ko',
+                'ky',
+                'lb',
+                'lt',
+                'lv',
+                'mk',
+                'ml',
+                'ms',
+                'nb',
+                'nl-BE',
+                'nl',
+                'nn',
+                'no',
+                'pl',
+                'pt',
+                'pt-BR',
+                'rm',
+                'ro',
+                'ru',
+                'sk',
+                'sl',
+                'sq',
+                'sr',
+                'sr-SR',
+                'sv',
+                'ta',
+                'tj',
+                'th',
+                'tr',
+                'uk',
+                'vi',
+                'zh-CN',
+                'zh-HK',
+                'zh-TW'
+        );
+
+        if(!empty($lp_wp_lang) && in_array($lp_wp_lang, $available_locales)) {
+            wp_enqueue_script('datelocale', 'https://sandbox.listingprowp.com/datepicker-locales/datepicker-'.$lp_wp_lang.'.js', array('jquery-ui'));
+        }
+
+    }
    wp_enqueue_script('Main-Version2', THEME_DIR. '/assets/js/main-new.js', 'jquery', '', true);
-
 }
-
-
+}
 
 /* ============== version2 dynamic options ============ */
 
 require_once THEME_PATH . '/include/dynamic-options-new.php';
 
-
-
 /* ============== Check TIme ============ */
-
-
 
 if ( !function_exists('listingpro_check_time_v2' ) )
 
@@ -217,8 +294,6 @@ if ( !function_exists('listingpro_check_time_v2' ) )
 
 }
 
-
-
 /* ============== Top bar share icons ============ */
 
 if( !function_exists( 'listingpro_sharing_topbar' ) )
@@ -235,7 +310,6 @@ if( !function_exists( 'listingpro_sharing_topbar' ) )
 
         $tw_h =   $listingpro_options['tw_h'];
 
-        $gog_h =   $listingpro_options['gog_h'];
 
         $insta_h =   $listingpro_options['insta_h'];
 
@@ -271,13 +345,6 @@ if( !function_exists( 'listingpro_sharing_topbar' ) )
 
             }
 
-            if( $gog_h != '' && $gog_h != '#' )
-
-            {
-
-                echo '<li><a href="'. $gog_h .'" target="_blank"><i class="fa fa-google-plus"></i></a></li>';
-
-            }
 
             if( $insta_h != '' && $insta_h != '#' )
 
@@ -337,8 +404,6 @@ if( !function_exists( 'listingpro_sharing_topbar' ) )
 
 }
 
-
-
 /* ============== Detail Page Reviews ============ */
 
 if( !function_exists('listingpro_get_all_reviews_v2 ') )
@@ -346,12 +411,12 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
 {
 
     function listingpro_get_all_reviews_v2($postid)
-
     {
 
         global $listingpro_options;
 
         $showReport = true;
+		$reviewOrder = 'DESC';
 
         if( isset( $listingpro_options['lp_detail_page_review_report_button'] ) )
 
@@ -374,26 +439,9 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
         if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
 
         {
-            $lp_multi_rating_fields_active	=	array();
-
-            for ($x = 1; $x <= 4; $x++) {
-
-                $field_active	=	$listingpro_options['lp_multi_ratiing'.$x.'_switch'];
-                if( $field_active == 1 )
-                {
-                    
-                    $field_active_label			=	$listingpro_options['lp_multi_ratiing'.$x.'_label_switch'];
-
-                    $lp_multi_rating_fields_active['field'.$x]['label']			=	$field_active_label;
-                    
-                }
-
-            }
-
-
+            $lp_multi_rating_fields =   get_listing_multi_ratings_fields( $postid );
 
         }
-
 
 
         ?>
@@ -465,8 +513,41 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
                 $label = esc_html__('Reviews for ','listingpro').$l_title;
 
             }
-
+            $colclass = 'col-md-12';
+			$reviewFilter = false;
+			if(lp_theme_option('lp_listing_reviews_orderby')=='on'){
+				$colclass = 'col-md-8';
+				$reviewFilter = true;
+			}
+            ?>
+            <div class="row">
+                <div class="<?php echo $colclass; ?>">
+            <?php
             echo '<h4 class="lp-total-reviews">'.count($active_reviews_ids).' '. $label .'</h4>';
+            ?>
+                </div>
+            <?php
+                if(!empty($reviewFilter)){ ?>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                         <label for="sel1"><?php echo esc_html__('Filter By : ', 'listingpro'); ?></label>
+                            <select class="form-control" id="lp_reivew_drop_filter">
+                                <option value="DESC"><?php echo esc_html__('Newest', 'listingpro'); ?></option>
+                                <option value="ASC"><?php echo esc_html__('Oldest', 'listingpro'); ?></option>
+                                <option value="listing_rate"><?php echo esc_html__('Highest Rated', 'listingpro'); ?></option>
+                                <option value="listing_rate_lowest"><?php echo esc_html__('Lowest Rated', 'listingpro'); ?></option>
+
+                            </select>
+                        </div>
+                        <div class="review-filter-loader">
+                            <img src="<?php echo THEME_DIR.'/assets/images/search-load.gif'?>">
+                        </div>
+                    </div>
+                    <?php
+                }
+            ?>
+            </div>
+        <?php
 
         }
 
@@ -494,7 +575,7 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
 
                 'orderby'    => 'date',
 
-                'order'      => 'ASC',
+                'order'      => $reviewOrder,
 
                 'post__in'	 => $review_ids,
 
@@ -535,7 +616,10 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
 
 
                     $rating = listing_get_metabox_by_ID('rating' ,get_the_ID());
-
+                    $exRating = get_post_meta(get_the_ID(),'rating', true);
+                    if(empty($exRating)){
+                        update_post_meta(get_the_ID(),'rating', $rating);
+                    }
                     $rate = $rating;
 
                     $gallery = get_post_meta(get_the_ID(), 'gallery_image_ids', true);
@@ -617,9 +701,7 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
                     if( empty( $loves ) )
 
                     {
-
                         $loves = 0;
-
                     }
 
                     $reacted_msg    =   esc_html__('You already reacted', 'listingpro');
@@ -628,14 +710,10 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
 
                     $rating_num_clr  =   '';
 
-
-
-                   if( $rating < 2 ){ $rating_num_bg  =   'num-level1'; $rating_num_clr  =   'level1'; }
-                   if( $rating < 3 ){ $rating_num_bg  =   'num-level2'; $rating_num_clr  =   'level2'; }
-                   if( $rating < 4 ){ $rating_num_bg  =   'num-level3'; $rating_num_clr  =   'level3'; }
-                   if( $rating >= 4 ){ $rating_num_bg  =   'num-level4'; $rating_num_clr  =   'level4'; }
-
-
+                    if( $rating < 2 ){ $rating_num_bg  =   'num-level1'; $rating_num_clr  =   'level1'; }
+                    elseif( $rating < 3 ){ $rating_num_bg  =   'num-level2'; $rating_num_clr  =   'level2'; }
+                    elseif( $rating < 4 ){ $rating_num_bg  =   'num-level3'; $rating_num_clr  =   'level3'; }
+                    elseif( $rating >= 4 ){ $rating_num_bg  =   'num-level4'; $rating_num_clr  =   'level4'; }
 
                     ?>
 
@@ -666,24 +744,26 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
                                 <time><?php echo get_the_time('F j, Y g:i a'); ?></time>
 
                                 <div class="lp-review-stars">
-
                                     <?php
-
                                     if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
-
                                     {
-
-                                        echo '<a href="#" data-rate-box="multi-box-'.$post->ID.'" class="open-multi-rate-box"><i class="fa fa-chevron-down" aria-hidden="true"></i> '. esc_html__( 'View All', 'listingpro' ) .'</a>';
-
                                         $post_rating_data   =   get_post_meta( $post->ID, 'lp_listingpro_options', true );
+                                        $show_multi_rate_drop   =   false;
+                                        if(count($lp_multi_rating_fields) > 0) {
+                                            if(array_key_exists(0, $post_rating_data)) {
+                                                $show_multi_rate_drop   =   true;
+                                            }
+                                        }
+                                        if($show_multi_rate_drop) {
+                                             echo '<a href="#" data-rate-box="multi-box-'.$post->ID.'" class="open-multi-rate-box"><i class="fa fa-chevron-down" aria-hidden="true"></i> '. esc_html__( 'View All', 'listingpro' ) .'</a>';
+
 
                                         ?>
 
                                         <div class="lp-multi-star-wrap" id="multi-box-<?php echo $post->ID; ?>">
-
                                             <?php
-
-                                            foreach ( $lp_multi_rating_fields_active as $k => $v )
+                                            if(count($lp_multi_rating_fields) > 0) {
+                                                foreach ( $lp_multi_rating_fields as $k => $v )
                                             {
                                                 $field_rating_val   =   '';
                                                if( isset($post_rating_data[$k]) )
@@ -692,8 +772,8 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
                                                }
 
                                                 ?>
-                                                <div class="lp-multi-star-field">
-                                                    <label><?php echo $v['label'];  ?></label>
+                                                <div class="lp-multi-star-field rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
+                                                    <label><?php echo $v;  ?></label>
                                                     <p>
                                                         <i class="fa <?php if( $field_rating_val > 0 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
                                                         <i class="fa <?php if( $field_rating_val > 1 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
@@ -701,19 +781,20 @@ if( !function_exists('listingpro_get_all_reviews_v2 ') )
                                                         <i class="fa <?php if( $field_rating_val > 3 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
                                                         <i class="fa <?php if( $field_rating_val > 4 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
                                                     </p>
-                                                    <span class="lp-multi-star-label-start"><?php echo $v['label_start']; ?></span>
-                                                    <span class="lp-multi-star-label-end"><?php echo $v['label_end']; ?></span>
                                                 </div>
 
                                                 <?php
 
                                             }
-
+                                            }
                                             ?>
 
                                         </div>
 
                                         <?php
+
+                                        }
+
 
                                     }
 
@@ -904,24 +985,7 @@ if( !function_exists( 'activity_reviews' ) )
 
         {
 
-            $lp_multi_rating_fields_active	=	array();
-
-            for ($x = 1; $x <= 4; $x++) {
-                $field_active	=	$listingpro_options['lp_multi_ratiing'.$x.'_switch'];
-                if( $field_active == 1 )
-                {
-                    
-                    $field_active_label			=	$listingpro_options['lp_multi_ratiing'.$x.'_label_switch'];
-
-                    $lp_multi_rating_fields_active['field'.$x]['label']			=	$field_active_label;
-                    
-
-                }
-
-            }
-
-
-
+            $lp_multi_rating_fields =   get_listing_multi_ratings_fields( $review_id );
         }
         $currentUserId = get_current_user_id();
         $review_reply = '';
@@ -1072,7 +1136,7 @@ if( !function_exists( 'activity_reviews' ) )
 
                         <?php
 
-                            echo human_time_diff( get_the_time('U', $review_id) ). ' ' .esc_html__( 'Ago', 'listingpro' );
+                            echo human_time_diff( get_the_time('U', $review_id) ). ' ' .esc_html__( 'ago', 'listingpro' );
 
                             //echo get_the_time('F j, Y g:i a', $review_id);
 
@@ -1098,7 +1162,7 @@ if( !function_exists( 'activity_reviews' ) )
 
                                 <?php
 
-                                foreach ( $lp_multi_rating_fields_active as $k => $v )
+                                foreach ( $lp_multi_rating_fields as $k => $v )
 
                                 {
                                     $field_rating_val   =   '';
@@ -1107,25 +1171,17 @@ if( !function_exists( 'activity_reviews' ) )
 									   $field_rating_val   =   $post_rating_data[$k];
 								   }
                                     ?>
-                                    <div class="lp-multi-star-field rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
+                                    <div class="lp-multi-star-field  rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
                                         <label><?php echo $v['label'];  ?></label>
                                         <p>
                                             <i class="fa <?php if( $field_rating_val > 0 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-
                                             <i class="fa <?php if( $field_rating_val > 1 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-
                                             <i class="fa <?php if( $field_rating_val > 2 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-
                                             <i class="fa <?php if( $field_rating_val > 3 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-
                                             <i class="fa <?php if( $field_rating_val > 4 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-
                                         </p>
-
                                         <span class="lp-multi-star-label-start"><?php echo $v['label_start']; ?></span>
-
                                         <span class="lp-multi-star-label-end"><?php echo $v['label_end']; ?></span>
-
                                     </div>
 
                                     <?php
@@ -1273,8 +1329,6 @@ if( !function_exists( 'activity_reviews' ) )
 
 }
 
-
-
 /* ============== ListingPro Price Range Symbol ============ */
 
 if( !function_exists('listing_price_range_symbol' ) )
@@ -1381,8 +1435,6 @@ if( !function_exists('listing_price_range_symbol' ) )
 
 }
 
-
-
 /* ============== ListingPro Price Range ============ */
 
 if( !function_exists('listing_price_range' ) )
@@ -1483,8 +1535,6 @@ if( !function_exists('listing_price_range' ) )
 
 }
 
-
-
 /* ============== ListingPro sidebar extra fields ============ */
 
 if( !function_exists('listing_all_extra_fields_v2_right' ) )
@@ -1552,15 +1602,17 @@ if( !function_exists('listing_all_extra_fields_v2_right' ) )
                             $value = implode(', ', $value);
 
                         }
-
-                        if( !empty( $value ) && $value == 'Yes' || $value == 'yes' )
-
+                        if($value == '0')
                         {
-
-                            $value  =   '<i class="fa fa-check" aria-hidden="true"></i>';
-
+                            $value  =   'No';
                         }
-
+                        if( !empty( $value ) && $value == 'Yes' || $value == 'yes' )
+                        {
+                            $value  =   '<i class="fa fa-check" aria-hidden="true"></i>';
+                        }
+                        if($value == 'No') {
+                            $value  =   '<i class="fa fa-close" aria-hidden="true"></i>';
+                        }
                         if(!empty($value)){
 
                             $output .= '<li><label>'.get_the_title($dieldsID).'</label><span>'.$value.'</span></li>';
@@ -1608,7 +1660,10 @@ if( !function_exists('listing_all_extra_fields_v2_right' ) )
                                     $value = implode(', ', $value);
 
                                 }
-
+                                if($value == '0')
+                                {
+                                    $value  =   'No';
+                                }
                                 if( !empty( $value ) && $value == 'Yes' || $value == 'yes' )
 
                                 {
@@ -1616,7 +1671,9 @@ if( !function_exists('listing_all_extra_fields_v2_right' ) )
                                     $value  =   '<i class="fa fa-check" aria-hidden="true"></i>';
 
                                 }
-
+                                if($value == 'No') {
+                                    $value  =   '<i class="fa fa-close" aria-hidden="true"></i>';
+                                }
                                 if(!empty($value)){
 
                                     $output .= '<li><label>'.get_the_title($dieldsID).'</label><span>'.$value.'</span></li>';
@@ -1640,8 +1697,6 @@ if( !function_exists('listing_all_extra_fields_v2_right' ) )
                 $output .=  '</div>';
 
             }
-
-
 
             return $output;
 
@@ -1702,7 +1757,10 @@ function listing_all_extra_fields_v2( $postid )
                                 $value = implode(', ', $value);
 
                             }
-
+                            if($value == '0')
+                            {
+                                $value  =   'No';
+                            }
                             if( !empty( $value ) )
 
                             {
@@ -1733,8 +1791,6 @@ function listing_all_extra_fields_v2( $postid )
 
 }
 
-
-
 /* ============== Listingpro Sharing ============ */
 
 if( !function_exists('listingpro_sharing_v2' ) )
@@ -1763,15 +1819,6 @@ if( !function_exists('listingpro_sharing_v2' ) )
 
             </div>
 
-            <div>
-
-                <a href="<?php echo listingpro_social_sharing_buttons('gplus'); ?>" target="_blank"><!-- Google Plus icon by Icons8 -->
-
-                    <i class="fa fa-google-plus"></i>
-
-                </a>
-
-            </div>
 
             <div>
 
@@ -1843,8 +1890,6 @@ if( !function_exists('listingpro_sharing_v2' ) )
 
 }
 
-
-
 /* ============== is favourite or not only ============ */
 
 if ( !function_exists('listingpro_is_favourite_v2' ) ) {
@@ -1874,16 +1919,10 @@ if ( !function_exists('listingpro_is_favourite_v2' ) ) {
     }
 }
 
-
-
 /* ============== ListingPro Add to favorite ============ */
 
 add_action('wp_ajax_listingpro_add_favorite_v2',        'listingpro_add_favorite_v2');
-
 add_action('wp_ajax_nopriv_listingpro_add_favorite_v2', 'listingpro_add_favorite_v2');
-
-
-
 if( !function_exists('listingpro_add_favorite_v2' ) )
 
 {
@@ -1891,6 +1930,13 @@ if( !function_exists('listingpro_add_favorite_v2' ) )
     function listingpro_add_favorite_v2()
 
     {
+
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 
         // Load current favourite posts from cookie
 
@@ -1902,9 +1948,9 @@ if( !function_exists('listingpro_add_favorite_v2' ) )
 
         // Add (or remove) favourite post IDs
 
-        $favposts[] = $_POST['post-id'];
+        $favposts[] = sanitize_text_field($_POST['post-id']);
 
-        $type = $_POST['type'];
+        $type = sanitize_text_field($_POST['type']);
 
 
 
@@ -1916,13 +1962,15 @@ if( !function_exists('listingpro_add_favorite_v2' ) )
 		
 		
 		if(is_user_logged_in()){
-			$uid = get_current_user_id();
-			$savedListing = array();
-			if(!empty($savedListing)){
-				$savedListing = get_user_meta($uid, 'lp_saved_user_posts', true);
-			}
-			$savedListing[]=$_POST['post-id'];
-			update_user_meta($uid, 'lp_saved_user_posts', array_unique($savedListing));
+            $uid = get_current_user_id();
+            $savedListing = get_user_meta($uid, 'lp_saved_user_posts', true);
+            if(!empty($savedListing)){
+                $savedListing = get_user_meta($uid, 'lp_saved_user_posts', true);
+            }else{
+                $savedListing = array();
+            }
+            $savedListing[]=sanitize_text_field($_POST['post-id']);
+            update_user_meta($uid, 'lp_saved_user_posts', array_unique($savedListing));
 		}else{
 			$time_to_live = 3600 * 24 * 30; // 30 days
 			setcookie('newco', implode(',', array_unique($favposts)), time() + $time_to_live ,"/");
@@ -1938,16 +1986,10 @@ if( !function_exists('listingpro_add_favorite_v2' ) )
 
 }
 
-
-
 /* ============== ListingPro Remove from favorite ============ */
 
 add_action('wp_ajax_listingpro_remove_favorite_v2',        'listingpro_remove_favorite_v2');
-
 add_action('wp_ajax_nopriv_listingpro_remove_favorite_v2', 'listingpro_remove_favorite_v2');
-
-
-
 if( !function_exists('listingpro_remove_favorite_v2' ) )
 
 {
@@ -1955,6 +1997,12 @@ if( !function_exists('listingpro_remove_favorite_v2' ) )
     function listingpro_remove_favorite_v2()
 
     {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field(sanitize_text_field($_POST['lpNonce'])), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 
         // Load current favourite posts from cookie
 
@@ -1966,8 +2014,8 @@ if( !function_exists('listingpro_remove_favorite_v2' ) )
 
         // Add (or remove) favourite post IDs
 
-        $favpostsd = $_POST['post-id'];
-		$type = $_POST['type'];
+        $favpostsd = sanitize_text_field($_POST['post-id']);
+		$type =sanitize_text_field($_POST['type']);
 		if(is_user_logged_in()){
 			$uid = get_current_user_id();
 			$savedinMeta = get_user_meta($uid, 'lp_saved_user_posts', true);
@@ -2023,7 +2071,6 @@ if( !function_exists('listingpro_remove_favorite_v2' ) )
 
 }
 
-
 /* ============== ListingPro add announcement ============ */
 
 add_action('wp_ajax_add_announcements_cb', 'add_announcements_cb');
@@ -2035,25 +2082,31 @@ if( !function_exists('add_announcements_cb') )
 function add_announcements_cb()
 
     {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         $return                     =   array();
         $lp_listing_announcements   =   array();
 
         $user_id    =   get_current_user_id();
-        $user_idd   =   $_POST['user_id'];
+        $user_idd   =   sanitize_text_field($_POST['user_id']);
 
-        $announcement_data['annMsg']    =   $_POST['annMsg'];
-        $announcement_data['annBT']    =   $_POST['annBT'];
-        $announcement_data['annBL']    =   $_POST['annBL'];
-        $announcement_data['annLI']    =   $_POST['annLI'];
-        $announcement_data['annSt']    =   $_POST['annSt'];
-        $announcement_data['annTI']    =   $_POST['annTI'];
-        $announcement_data['annType']    =   $_POST['annType'];
-        $announcement_data['annIC']    =   $_POST['annIC'];
+        $announcement_data['annMsg']    =   sanitize_text_field($_POST['annMsg']);
+        $announcement_data['annBT']    =   sanitize_text_field($_POST['annBT']);
+        $announcement_data['annBL']    =   sanitize_text_field($_POST['annBL']);
+        $announcement_data['annLI']    =   sanitize_text_field($_POST['annLI']);
+        $announcement_data['annSt']    =   sanitize_text_field($_POST['annSt']);
+        $announcement_data['annTI']    =   sanitize_text_field($_POST['annTI']);
+        $announcement_data['annType']    =   sanitize_text_field($_POST['annType']);
+        $announcement_data['annIC']    =   sanitize_text_field($_POST['annIC']);
         $announcement_data['annStatus']    =   1;
 
-        $annUP      =   $_POST['annUP'];
-        $annID      =   $_POST['annID'];
-        $annLI      =   $_POST['annLI'];
+        $annUP      =   sanitize_text_field($_POST['annUP']);
+        $annID      =   sanitize_text_field($_POST['annID']);
+        $annLI      =   sanitize_text_field($_POST['annLI']);
 
         if( $user_id != $user_idd )
         {
@@ -2069,13 +2122,13 @@ function add_announcements_cb()
             $ann_index  =   $annID_arr[1];
             $existing_data  =   get_post_meta( $annLI, 'lp_listing_announcements', true );
 
-            $existing_data[$ann_index]['annMsg']    =   $_POST['annMsg'];
-            $existing_data[$ann_index]['annBT']    =   $_POST['annBT'];
-            $existing_data[$ann_index]['annBL']    =   $_POST['annBL'];
-            $existing_data[$ann_index]['annSt']    =   $_POST['annSt'];
-            $existing_data[$ann_index]['annTI']    =   $_POST['annTI'];
-            $existing_data[$ann_index]['annType']    =   $_POST['annType'];
-            $existing_data[$ann_index]['annIC']    =   $_POST['annIC'];
+            $existing_data[$ann_index]['annMsg']    =   sanitize_text_field($_POST['annMsg']);
+            $existing_data[$ann_index]['annBT']    =   sanitize_text_field($_POST['annBT']);
+            $existing_data[$ann_index]['annBL']    =   sanitize_text_field($_POST['annBL']);
+            $existing_data[$ann_index]['annSt']    =   sanitize_text_field($_POST['annSt']);
+            $existing_data[$ann_index]['annTI']    =   sanitize_text_field($_POST['annTI']);
+            $existing_data[$ann_index]['annType']    =   sanitize_text_field($_POST['annType']);
+            $existing_data[$ann_index]['annIC']    =   sanitize_text_field($_POST['annIC']);
 
             update_post_meta( $annLI, 'lp_listing_announcements', $existing_data );
 
@@ -2090,7 +2143,7 @@ function add_announcements_cb()
         {
             $annID_arr  =   explode( '-', $annID );
             $ann_index  =   $annID_arr[1];
-            $status =   $_POST['status'];
+            $status =   sanitize_text_field($_POST['status']);
             if( $status ==  'active' )
             {
                 $status =   0;
@@ -2153,49 +2206,46 @@ function add_announcements_cb()
 
 }
 
-
-
 /* ============== ListingPro add Offers ============ */
-
 add_action('wp_ajax_add_offer_cb', 'add_offer_cb');
-
 add_action('wp_ajax_nopriv_add_offer_cb', 'add_offer_cb');
-
-
-
 if( !function_exists( 'add_offer_cb' ) )
 
 {
-
     function add_offer_cb()
-
     {
 
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         $user_id    =   get_current_user_id();
 
-        $user_idd   =   $_POST['user_id'];
+        $user_idd   =   sanitize_text_field($_POST['user_id']);
 
 
 
-        $listing_offer_data['offerTitle']     =   $_POST['offerTitle'];
+        $listing_offer_data['offerTitle']     =   sanitize_text_field($_POST['offerTitle']);
 
-        $listing_offer_data['offerDes']     =   $_POST['offerDes'];
+        $listing_offer_data['offerDes']     =   sanitize_text_field($_POST['offerDes']);
 
-        $listing_offer_data['offerExp']      =   strtotime( $_POST['offerExp'] );
+        $listing_offer_data['offerExp']      =   strtotime( sanitize_text_field($_POST['offerExp']) );
 
-        $listing_offer_data['offerBT']      =   $_POST['offerBT'];
+        $listing_offer_data['offerBT']      =   sanitize_text_field($_POST['offerBT']);
 
-        $listing_offer_data['offerBL']      =   $_POST['offerBL'];
+        $listing_offer_data['offerBL']      =   sanitize_text_field($_POST['offerBL']);
 
-        $listing_offer_data['offerLI']     =   $_POST['offerLI'];
+        $listing_offer_data['offerLI']     =   sanitize_text_field($_POST['offerLI']);
 
-        $listing_offer_data['offerImg']     =   $_POST['offerImg'];
+        $listing_offer_data['offerImg']     =   sanitize_text_field($_POST['offerImg']);
 
 
 
-        $offerID      =   $_POST['offerID'];
+        $offerID      =   sanitize_text_field($_POST['offerID']);
 
-        $offerUP      =   $_POST['offerUP'];
+        $offerUP      =   sanitize_text_field($_POST['offerUP']);
 
 
 
@@ -2247,7 +2297,7 @@ if( !function_exists( 'add_offer_cb' ) )
 
         {
 
-            $existing_offers                =   get_post_meta( $_POST['offerLI'], 'lp_listing_offers', true );
+            $existing_offers                =   get_post_meta( sanitize_text_field($_POST['offerLI']), 'lp_listing_offers', true );
 
             if( $existing_offers != '' && $existing_offers != false )
 
@@ -2255,7 +2305,7 @@ if( !function_exists( 'add_offer_cb' ) )
 
                 $new_data   =   array_merge( $existing_offers, $data_arr );
 
-                update_post_meta( $_POST['offerLI'], 'lp_listing_offers', $new_data );
+                update_post_meta( sanitize_text_field($_POST['offerLI']), 'lp_listing_offers', $new_data );
 
 
 
@@ -2271,7 +2321,7 @@ if( !function_exists( 'add_offer_cb' ) )
 
             {
 
-                update_post_meta( $_POST['offerLI'], 'lp_listing_offers', $data_arr );
+                update_post_meta( sanitize_text_field($_POST['offerLI']), 'lp_listing_offers', $data_arr );
 
 
 
@@ -2295,394 +2345,419 @@ if( !function_exists( 'add_offer_cb' ) )
 
 }
 
-
-
-
-
 add_action('wp_ajax_add_menu_type_cb', 'add_menu_type_cb');
-
 add_action('wp_ajax_nopriv_add_menu_type_cb', 'add_menu_type_cb');
-
-
-
 if( !function_exists( 'add_menu_type_cb' ) )
 
 {
 
     function add_menu_type_cb()
-
     {
-
         $user_id        =   get_current_user_id();
-
-        $user_idd       =   $_POST['user_id'];
-
-
-
-        $type_data['type']    =   $_POST['type'];
-
+        $user_idd       =   sanitize_text_field($_POST['user_id']);
+        $type_data['type']    =   sanitize_text_field($_POST['type']);
         $data_arr[] =   $type_data;
-
-
-
         if( $user_id != $user_idd )
-
         {
-
             $return['status']   =   'error';
-
             $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
-
             die( json_encode( $return ) );
-
         }
-
-
-
         $existing_data  =   get_user_meta( $user_id, 'user_menu_types', true );
-
         if( is_array( $existing_data ) && !empty( $existing_data ) )
-
         {
-
             $new_data   =   array_merge( $existing_data, $data_arr );
-
             update_user_meta( $user_id, 'user_menu_types', $new_data );
-
+            $var_key    =   array_search( sanitize_text_field($_POST['type']), $new_data );
             $return['status']   =   'success';
-
-            $return['msg']      =   esc_html__('Something went wrong', 'listingpro');
-
+            $return['data_index']      =   $var_key;
             die( json_encode( $return ) );
-
         }
-
         else
-
         {
-
             update_user_meta( $user_id, 'user_menu_types', $data_arr );
-
+            $var_key    =   array_search( sanitize_text_field($_POST['type']), $data_arr );
             $return['status']   =   'success';
-
-            $return['msg']      =   esc_html__('Something went wrong', 'listingpro');
-
+            $return['data_index']      =   $var_key;
             die( json_encode( $return ) );
-
         }
-
     }
 
 }
 
+add_action('wp_ajax_add_menu_service_cb', 'add_menu_service_cb');
+add_action('wp_ajax_nopriv_add_menu_service_cb', 'add_menu_service_cb');
+if( !function_exists( 'add_menu_service_cb' ) )
+{
+    function add_menu_service_cb()
+    {
+        $user_id        =   get_current_user_id();
+        $user_idd       =   sanitize_text_field($_POST['user_id']);
+        $serviceVal     =   sanitize_text_field($_POST['serviceVal']);
+        $serviceUrl     =   sanitize_text_field($_POST['serviceUrl']);
+        $data_arr   =   array();
+        if( $user_id != $user_idd )
+        {
+            $return['status']   =   'error';
+            $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
+            die( json_encode( $return ) );
+        }
+        $existing_data  =   get_user_meta( $user_id, 'order_services', true );
+        if( is_array( $existing_data ) && !empty( $existing_data ) )
+        {
+            $existing_data[$serviceUrl]   =   $serviceVal;
+            update_user_meta( $user_id, 'order_services', $existing_data );
+            $var_key    =   array_search( $serviceVal, $existing_data );
+            $embed_markup   =   '<li><a href="'. $var_key .'" target="_blank">'. $serviceVal .'</a> <span class="del-order-service" data-uid="'. $user_id .'" data-target="'. $var_key .'"><i class="fa fa-trash"></i></span></li>';
+            $return['status']   =   'success';
+            $return['msg']      =   $embed_markup;
+            die( json_encode( $return ) );
+        }
+        else
+        {
+            $data_arr[$serviceUrl]   =   $serviceVal;
+            update_user_meta( $user_id, 'order_services', $data_arr );
+            $var_key    =   array_search( $serviceVal, $data_arr );
+            $embed_markup   =   '<li><a href="'. $var_key .'" target="_blank">'. $serviceVal .'</a> <span class="del-order-service" data-uid="'. $user_id .'" data-target="'. $var_key .'"><i class="fa fa-trash"></i></span></li>';
+            $return['status']   =   'success';
+            $return['msg']      =   $embed_markup;
+            die( json_encode( $return ) );
+        }
+    }
+}
 
+add_action('wp_ajax_del_ordering_service', 'del_ordering_service');
+add_action('wp_ajax_nopriv_del_ordering_service', 'del_ordering_service');
+if( !function_exists( 'del_ordering_service' ) )
+{
+    function del_ordering_service()
+    {
+        $user_id        =   get_current_user_id();
+        $user_idd       =   sanitize_text_field($_POST['uid']);
+        $target_key     =   sanitize_text_field($_POST['target']);
 
+        if( $user_id != $user_idd )
+        {
+            $return['status']   =   'error';
+            $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
+            die( json_encode( $return ) );
+        }
+        $existing_data  =   get_user_meta( $user_id, 'order_services', true );
+        if( is_array( $existing_data ) && !empty( $existing_data ) )
+        {
+            unset($existing_data[$target_key]);
+            update_user_meta( $user_id, 'order_services', $existing_data );
 
+            $return['status']   =   'success';
+
+            die( json_encode( $return ) );
+        }
+
+    }
+}
 
 add_action('wp_ajax_add_menu_group_cb', 'add_menu_group_cb');
-
 add_action('wp_ajax_nopriv_add_menu_group_cb', 'add_menu_group_cb');
-
-
-
 if( !function_exists( 'add_menu_group_cb' ) )
 
 {
 
     function add_menu_group_cb()
-
     {
-
         $user_id        =   get_current_user_id();
-
-        $user_idd       =   $_POST['user_id'];
-
-
-
-        $type_data['group']    =   $_POST['group'];
-
+        $user_idd       =   sanitize_text_field($_POST['user_id']);
+        $type_data['group']    =   sanitize_text_field($_POST['group']);
         $data_arr[] =   $type_data;
+        if( $user_id != $user_idd )
+        {
+            $return['status']   =   'error';
+            $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
+            die( json_encode( $return ) );
+        }
+        $existing_data  =   get_user_meta( $user_id, 'user_menu_groups', true );
+        if( is_array( $existing_data ) && !empty( $existing_data ) )
+        {
+            $new_data   =   array_merge( $existing_data, $data_arr );
+            update_user_meta( $user_id, 'user_menu_groups', $new_data );
+            $var_key    =   array_search( sanitize_text_field($_POST['group']), $new_data );
+            $return['status']   =   'success';
+            $return['data_index']      =   $var_key;
+            die( json_encode( $return ) );
+        }
+        else
+        {
+            update_user_meta( $user_id, 'user_menu_groups', $data_arr );
+            $var_key    =   array_search( sanitize_text_field($_POST['type']), $data_arr );
+            $return['status']   =   'success';
+            $return['data_index']      =   $var_key;
+            die( json_encode( $return ) );
+        }
+    }
 
+}
 
+add_action('wp_ajax_add_menu_cb', 'add_menu_cb');
+add_action('wp_ajax_nopriv_add_menu_cb', 'add_menu_cb');
+if( !function_exists( 'add_menu_cb' ) )
+{
+    function add_menu_cb()
+    {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+        $user_id        =   get_current_user_id();
+        $user_idd       =   $_POST['user_id'];
+        $data_arr       =   array();
+        $menu_type_arr  =   array();
+
+        if( isset( $_POST['menuUp'] ) && $_POST['menuUp'] == 'yes' )
+        {
+            $mTitle    =   esc_html( $_POST['mTitle'] );
+            $mDetail    =   htmlentities($_POST['mDetail']);
+            $mOldPrice    =   $_POST['mOldPrice'];
+            $mNewPrice    =   $_POST['mNewPrice'];
+            $mQuoteT    =   $_POST['mQuoteT'];
+            $mQuoteL    =   $_POST['mQuoteL'];
+            $mLink    =   $_POST['mLink'];
+            $menuID    =   $_POST['menuID'];
+            $LID    =   $_POST['LID'];
+            $mImage    =   $_POST['mImage'];
+            $mType  =   $_POST['mType'];
+            $mGroup  =   $_POST['mGroup'];
+            $orderU  =   $_POST['orderU'];
+            $orderP  =   $_POST['orderP'];
+            $popularItem  =   $_POST['popularItem'];
+            $spiceLVL  =   $_POST['spiceLVL'];
+
+            $menuID_arr     =   explode( '_', $menuID );
+            $menu_type      =   str_replace( '-', ' ', $menuID_arr[0]);
+            $menu_group     =   str_replace( '-', ' ', $menuID_arr[1]);
+            $menu_indx      =   $menuID_arr[2];
+
+        }
+        else
+        {
+            $menu_data['mTitle']    =   esc_html( $_POST['mTitle'] );
+            $menu_data['mDetail']    =   htmlentities($_POST['mDetail']);
+            $menu_data['mOldPrice']    =   $_POST['mOldPrice'];
+            $menu_data['mNewPrice']    =   $_POST['mNewPrice'];
+            $menu_data['mQuoteL']    =   $_POST['mQuoteL'];
+            $menu_data['mQuoteT']    =   $_POST['mQuoteT'];
+            $menu_data['mListing']    =   $_POST['mListing'];
+            $menu_data['mLink']    =   $_POST['mLink'];
+            $menu_data['mImage']    =   $_POST['mImage'];
+            $menu_data['mType']    =   $_POST['mType'];
+            $menu_data['mGroup']    =   $_POST['mGroup'];
+            $menu_data['orderU']    =   $_POST['orderU'];
+            $menu_data['orderP']    =   $_POST['orderP'];
+            $menu_data['popularItem']  =   $_POST['popularItem'];
+            $menu_data['spiceLVL']  =   $_POST['spiceLVL'];
+
+        }
 
         if( $user_id != $user_idd )
-
         {
-
             $return['status']   =   'error';
-
             $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
-
             die( json_encode( $return ) );
-
         }
 
-
-
-        $existing_data  =   get_user_meta( $user_id, 'user_menu_groups', true );
-
-        if( is_array( $existing_data ) && !empty( $existing_data ) )
-
+        if( isset( $_POST['menuUp'] ) && $_POST['menuUp'] == 'yes' )
         {
+            $existing_menus     =   get_post_meta( $LID, 'lp-listing-menu', true );
+            $target_arr =   $existing_menus[$menu_type][$menu_group][$menu_indx];
 
-            $new_data   =   array_merge( $existing_data, $data_arr );
+            if( $menu_type == $_POST['mType'] && $menu_group == $_POST['mGroup'] )
+            {
+                $target_arr['mDetail']  = $mDetail;
+                $target_arr['mTitle']   =   $mTitle;
+                $target_arr['mNewPrice']    =   $mNewPrice;
+                $target_arr['mOldPrice']    =   $mOldPrice;
+                $target_arr['mQuoteT']    =   $mQuoteT;
+                $target_arr['mQuoteL']    =   $mQuoteL;
+                $target_arr['mLink']    =   $mLink;
+                $target_arr['mImage']    =   $mImage;
+                $target_arr['orderU']    =   $orderU;
+                $target_arr['orderP']    =   $orderP;
+                $target_arr['popularItem']    =   $popularItem;
+                $target_arr['spiceLVL']    =   $spiceLVL;
 
-            update_user_meta( $user_id, 'user_menu_groups', $new_data );
 
-            $return['status']   =   'success';
 
-            $return['msg']      =   esc_html__('Something went wrong', 'listingpro');
+                $existing_menus[$menu_type][$menu_group][$menu_indx]    =   $target_arr;
+                update_post_meta( $LID, 'lp-listing-menu', $existing_menus );
 
-            die( json_encode( $return ) );
+                $return['status']   =   'success';
+                $return['msg']      =   esc_html__('Menu item updated successfully', 'listingpro');
+                die( json_encode( $return ) );
+            }
+            else
+            {
+
+                unset( $existing_menus[$menu_type][$menu_group][$menu_indx] );
+                $group_count =   count( $existing_menus[$menu_type][$menu_group] );
+                if( $group_count == 0 )
+                {
+                    unset( $existing_menus[$menu_type][$menu_group] );
+                }
+
+                $type_count =  count( $existing_menus[$menu_type] );
+
+                if( $type_count == 0 )
+                {
+                    unset( $existing_menus[$menu_type] );
+
+                }
+
+                $new_menu_data_arr  =   array();
+                $new_menu_data_arr['mDetail']  = $mDetail;
+                $new_menu_data_arr['mTitle']   =   $mTitle;
+                $new_menu_data_arr['mNewPrice']    =   $mNewPrice;
+                $new_menu_data_arr['mOldPrice']    =   $mOldPrice;
+                $new_menu_data_arr['mQuoteT']    =   $mQuoteT;
+                $new_menu_data_arr['mQuoteL']    =   $mQuoteL;
+                $new_menu_data_arr['mLink']    =   $mLink;
+                $new_menu_data_arr['mImage']    =   $mImage;
+                $new_menu_data_arr['mListing']    =   $LID;
+                $new_menu_data_arr['mGroup']    =   $mGroup;
+                $new_menu_data_arr['mType']    =   $mType;
+                $new_menu_data_arr['orderU']    =   $orderU;
+                $new_menu_data_arr['orderP']    =   $orderP;
+                $new_menu_data_arr['popularItem']    =   $popularItem;
+                $new_menu_data_arr['spiceLVL']    =   $spiceLVL;
+                
+
+                $existing_menus[$_POST['mType']][$_POST['mGroup']][]    =   $new_menu_data_arr;
+                update_post_meta( $LID, 'lp-listing-menu', $existing_menus );
+
+                $return['status']   =   'success';
+                $return['msg']      =   esc_html__('Menu item updated successfully', 'listingpro');
+                die( json_encode( $return ) );
+            }
 
         }
-
         else
-
         {
+            $checkStatus = lp_validate_listing_action($_POST['mListing'], 'menu');
+            if(empty($checkStatus)){
+                $return['status']   =   'error';
+                $return['msg']      =   'Event not   with this listing';
+                die( json_encode( $return ) );
+            }
+            $existing_menus     =   get_post_meta( $_POST['mListing'], 'lp-listing-menu', true );
+            if( is_array( $existing_menus ) && !empty( $existing_menus ) )
+            {
+                $menu_type_arr[]    =   $_POST['mType'];
+                if( is_array( $menu_type_arr ) )
+                {
+                    foreach ( $menu_type_arr as $k => $v )
+                    {
+                        if( is_array( $_POST['mGroup'] ) )
+                        {
+                            foreach ( $_POST['mGroup'] as $mGroup )
+                            {
+                                $data_arr[$v][$mGroup][]   =   $menu_data;
+                            }
+                        }
+                        else
+                        {
+                            $data_arr[$v][$menu_data['mGroup']][]   =   $menu_data;
+                        }
 
-            update_user_meta( $user_id, 'user_menu_groups', $data_arr );
+                    }
+                }
+                $new_data   =   array_merge_recursive( $existing_menus, $data_arr );
 
-            $return['status']   =   'success';
+                update_post_meta( $_POST['mListing'], 'lp-listing-menu', $new_data );
 
-            $return['msg']      =   esc_html__('Something went wrong', 'listingpro');
+                $menu_after_update  =   get_post_meta($_POST['mListing'], 'lp-listing-menu', true);
 
-            die( json_encode( $return ) );
+                $return['status']   =   'success';
+                $return['msg']      =   esc_html__('Menu item added successfully', 'listingpro');
+                $return['data'] =   $new_data;
+                $return['menu_after_update']    =   $menu_after_update;
+                die( json_encode( $return ) );
+            }
+            else
+            {
 
+                $menu_type_arr[]    =   $_POST['mType'];
+                if( is_array( $menu_type_arr ) )
+                {
+                    foreach ( $menu_type_arr as $k => $v )
+                    {
+                        if( is_array( $_POST['mGroup'] ) )
+                        {
+                            foreach ( $_POST['mGroup'] as $mGroup )
+                            {
+                                $data_arr[$v][$mGroup][]   =   $menu_data;
+                            }
+                        }
+                        else
+                        {
+                            $data_arr[$v][$menu_data['mGroup']][]   =   $menu_data;
+                        }
+
+                    }
+
+                }
+                update_post_meta( $_POST['mListing'], 'lp-listing-menu', $data_arr );
+
+                $menu_after_update  =   get_post_meta($_POST['mListing'], 'lp-listing-menu', true);
+
+
+
+
+                $return['status']       =   'success';
+                $return['msg']          =   esc_html__('Menu item added successfully', 'listingpro');
+                $return['data']         =   $data_arr;
+                $return['menu_after_update']    =   $menu_after_update;
+                die( json_encode( $return ) );
+            }
         }
+
+
 
     }
 
 }
 
-
-
-add_action('wp_ajax_add_menu_cb', 'add_menu_cb');
-add_action('wp_ajax_nopriv_add_menu_cb', 'add_menu_cb');
-if( !function_exists( 'add_menu_cb' ) )
-
-{
-	function add_menu_cb()
-	{
-		$user_id        =   get_current_user_id();
-		$user_idd       =   $_POST['user_id'];
-		$data_arr       =   array();
-
-		if( isset( $_POST['menuUp'] ) && $_POST['menuUp'] == 'yes' )
-		{
-			$mTitle    =   esc_html( $_POST['mTitle'] );
-			$mDetail    =   htmlentities($_POST['mDetail']);
-			$mOldPrice    =   $_POST['mOldPrice'];
-			$mNewPrice    =   $_POST['mNewPrice'];
-			$mQuoteT    =   $_POST['mQuoteT'];
-			$mQuoteL    =   $_POST['mQuoteL'];
-			$mLink    =   $_POST['mLink'];
-			$menuID    =   $_POST['menuID'];
-			$LID    =   $_POST['LID'];
-			$mImage    =   $_POST['mImage'];
-			$mType  =   $_POST['mType'];
-			$mGroup  =   $_POST['mGroup'];
-
-			$menuID_arr     =   explode( '_', $menuID );
-			$menu_type      =   str_replace( '-', ' ', $menuID_arr[0]);
-			$menu_group     =   str_replace( '-', ' ', $menuID_arr[1]);
-			$menu_indx      =   $menuID_arr[2];
-
-		}
-		else
-		{
-			$menu_data['mTitle']    =   esc_html( $_POST['mTitle'] );
-			$menu_data['mDetail']    =   htmlentities($_POST['mDetail']);
-			$menu_data['mOldPrice']    =   $_POST['mOldPrice'];
-			$menu_data['mNewPrice']    =   $_POST['mNewPrice'];
-			$menu_data['mQuoteL']    =   $_POST['mQuoteL'];
-			$menu_data['mQuoteT']    =   $_POST['mQuoteT'];
-			$menu_data['mListing']    =   $_POST['mListing'];
-			$menu_data['mLink']    =   $_POST['mLink'];
-			$menu_data['mImage']    =   $_POST['mImage'];
-			$menu_data['mType']    =   $_POST['mType'];
-			$menu_data['mGroup']    =   $_POST['mGroup'];
-
-		}
-
-		if( $user_id != $user_idd )
-
-		{
-			$return['status']   =   'error';
-			$return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
-			die( json_encode( $return ) );
-		}
-
-		if( isset( $_POST['menuUp'] ) && $_POST['menuUp'] == 'yes' )
-		{
-			$existing_menus     =   get_post_meta( $LID, 'lp-listing-menu', true );
-			$target_arr =   $existing_menus[$menu_type][$menu_group][$menu_indx];
-
-			if( $menu_type == $_POST['mType'] && $menu_group == $_POST['mGroup'] )
-			{
-				$target_arr['mDetail']  = $mDetail;
-				$target_arr['mTitle']   =   $mTitle;
-				$target_arr['mNewPrice']    =   $mNewPrice;
-				$target_arr['mOldPrice']    =   $mOldPrice;
-				$target_arr['mQuoteT']    =   $mQuoteT;
-				$target_arr['mQuoteL']    =   $mQuoteL;
-				$target_arr['mLink']    =   $mLink;
-				$target_arr['mImage']    =   $mImage;
-
-				$existing_menus[$menu_type][$menu_group][$menu_indx]    =   $target_arr;
-				update_post_meta( $LID, 'lp-listing-menu', $existing_menus );
-
-				$return['status']   =   'success';
-				$return['msg']      =   esc_html__('Menu item updated successfully', 'listingpro');
-				die( json_encode( $return ) );
-			}
-			else
-			{
-
-				unset( $existing_menus[$menu_type][$menu_group][$menu_indx] );
-				$group_count =   count( $existing_menus[$menu_type][$menu_group] );
-				if( $group_count == 0 )
-				{
-					unset( $existing_menus[$menu_type][$menu_group] );
-				}
-
-				$type_count =  count( $existing_menus[$menu_type] );
-
-				if( $type_count == 0 )
-				{
-					unset( $existing_menus[$menu_type] );
-
-				}
-
-				$new_menu_data_arr  =   array();
-				$new_menu_data_arr['mDetail']  = $mDetail;
-				$new_menu_data_arr['mTitle']   =   $mTitle;
-				$new_menu_data_arr['mNewPrice']    =   $mNewPrice;
-				$new_menu_data_arr['mOldPrice']    =   $mOldPrice;
-				$new_menu_data_arr['mQuoteT']    =   $mQuoteT;
-				$new_menu_data_arr['mQuoteL']    =   $mQuoteL;
-				$new_menu_data_arr['mLink']    =   $mLink;
-				$new_menu_data_arr['mImage']    =   $mImage;
-				$new_menu_data_arr['mListing']    =   $LID;
-				$new_menu_data_arr['mGroup']    =   $mGroup;
-				$new_menu_data_arr['mType']    =   $mType;
-
-				$existing_menus[$_POST['mType']][$_POST['mGroup']][]    =   $new_menu_data_arr;
-				update_post_meta( $LID, 'lp-listing-menu', $existing_menus );
-
-				$return['status']   =   'success';
-				$return['msg']      =   esc_html__('Menu item updated successfully', 'listingpro');
-				die( json_encode( $return ) );
-			}
-
-		}
-		else
-		{
-			$checkStatus = lp_validate_listing_action($_POST['mListing'], 'menu');
-			if(empty($checkStatus)){
-				$return['status']   =   'error';
-				$return['msg']      =   'Event not   with this listing';
-				die( json_encode( $return ) );
-			}
-			$existing_menus     =   get_post_meta( $_POST['mListing'], 'lp-listing-menu', true );
-			if( is_array( $existing_menus ) && !empty( $existing_menus ) )
-			{
-				if( is_array( $_POST['mType'] ) )
-				{
-					foreach ( $_POST['mType'] as $k => $v )
-					{
-						if( is_array( $_POST['mGroup'] ) )
-						{
-							foreach ( $_POST['mGroup'] as $mGroup )
-							{
-								$data_arr[$v][$mGroup][]   =   $menu_data;
-							}
-						}
-						else
-						{
-							$data_arr[$v][$menu_data['mGroup']][]   =   $menu_data;
-						}
-
-					}
-				}
-				$new_data   =   array_merge_recursive( $existing_menus, $data_arr );
-
-				update_post_meta( $_POST['mListing'], 'lp-listing-menu', $new_data );
-
-				$return['status']   =   'success';
-				$return['msg']      =   esc_html__('Menu item added successfully', 'listingpro');
-				$return['data'] =   $new_data;
-				die( json_encode( $return ) );
-
-			}
-			else
-			{
-				if( is_array( $_POST['mType'] ) )
-				{
-					foreach ( $_POST['mType'] as $k => $v )
-					{
-						if( is_array( $_POST['mGroup'] ) )
-						{
-							foreach ( $_POST['mGroup'] as $mGroup )
-							{
-								$data_arr[$v][$mGroup][]   =   $menu_data;
-							}
-						}
-						else
-						{
-							$data_arr[$v][$menu_data['mGroup']][]   =   $menu_data;
-						}
-
-					}
-				}
-				update_post_meta( $_POST['mListing'], 'lp-listing-menu', $data_arr );
-
-				$return['status']   =   'success';
-				$return['msg']      =   esc_html__('Menu item added successfully', 'listingpro');
-				$return['data']      =   $data_arr;
-				die( json_encode( $return ) );
-			}
-		}
-
-
-
-	}
-
-}
-
-
-
-
-
 /* ============== ListingPro add Discount codes ============ */
 
 add_action('wp_ajax_add_discount_cb', 'add_discount_cb');
 add_action('wp_ajax_nopriv_add_discount_cb', 'add_discount_cb');
-
 if( !function_exists( 'add_discount_cb' ) )
 {
     function add_discount_cb()
 
     {
-
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         $return                 =   array();
         $listing_discount_data  =   array();
 
         $user_id    =   get_current_user_id();
-        $user_idd   =   $_POST['user_id'];
+        $user_idd   =   sanitize_text_field($_POST['user_id']);
 
-        $listing_discount_data['disHea']     =   $_POST['disHea'];
-        $listing_discount_data['disCod']     =   $_POST['disCod'];
-        $listing_discount_data['disExpS']     =   strtotime( $_POST['disExpS'] );
-        $listing_discount_data['disExpE']     =   strtotime( $_POST['disExpE'] );
-        $listing_discount_data['disBT']      =   $_POST['disBT'];
-        $listing_discount_data['disBL']      =   $_POST['disBL'];
-        $listing_discount_data['disLI']      =   $_POST['disLI'];
-        $listing_discount_data['disDes']     =   htmlentities( $_POST['disDes'] );
-        $listing_discount_data['disID']      =   $_POST['disID'];
-        $listing_discount_data['disImg']      =   $_POST['disImg'];
-        $listing_discount_data['disOff']      =   $_POST['disOff'];
-        $listing_discount_data['disSta']      =   $_POST['disSta'];
+        $listing_discount_data['disHea']     =   sanitize_text_field($_POST['disHea']);
+        $listing_discount_data['disCod']     =   sanitize_text_field($_POST['disCod']);
+        $listing_discount_data['disExpS']     =   strtotime( sanitize_text_field($_POST['disExpS']) );
+        $listing_discount_data['disExpE']     =   strtotime( sanitize_text_field($_POST['disExpE']) );
+        $listing_discount_data['disBT']      =   sanitize_text_field($_POST['disBT']);
+        $listing_discount_data['disBL']      =   sanitize_text_field($_POST['disBL']);
+        $listing_discount_data['disLI']      =   sanitize_text_field($_POST['disLI']);
+        $listing_discount_data['disDes']     =   htmlentities( sanitize_text_field($_POST['disDes']) );
+        $listing_discount_data['disID']      =   sanitize_text_field($_POST['disID']);
+        $listing_discount_data['disImg']      =   sanitize_text_field($_POST['disImg']);
+        $listing_discount_data['disOff']      =   sanitize_text_field($_POST['disOff']);
+        $listing_discount_data['disSta']      =   sanitize_text_field($_POST['disSta']);
 
         $listing_id    =   $listing_discount_data['disLI'];
         if( $listing_id == '' || $listing_id == null )
@@ -2699,20 +2774,20 @@ if( !function_exists( 'add_discount_cb' ) )
         $disUp      =   $_POST['disUp'];
         if( $disUp == 'yes' )
         {
-            $disID_arr  =   explode( '-', $_POST['disID'] );
+            $disID_arr  =   explode( '-', sanitize_text_field($_POST['disID'] ));
             $data_index =   $disID_arr[1];
 
             $existing_data  =   get_post_meta( $listing_id, 'listing_discount_data', true );
 
-            $existing_data[$data_index]['disHea']     =   $_POST['disHea'];
-            $existing_data[$data_index]['disCod']     =   $_POST['disCod'];
-            $existing_data[$data_index]['disExpS']     =   strtotime( $_POST['disExpS'] );
-            $existing_data[$data_index]['disExpE']     =   strtotime( $_POST['disExpE'] );
-            $existing_data[$data_index]['disBT']      =   $_POST['disBT'];
-            $existing_data[$data_index]['disBL']      =   $_POST['disBL'];
-            $existing_data[$data_index]['disDes']     =   htmlentities( $_POST['disDes'] );
-            $existing_data[$data_index]['disOff']      =   $_POST['disOff'];
-			$existing_data[$data_index]['disImg']      =   $_POST['disImg'];
+            $existing_data[$data_index]['disHea']     =   sanitize_text_field($_POST['disHea']);
+            $existing_data[$data_index]['disCod']     =   sanitize_text_field($_POST['disCod']);
+            $existing_data[$data_index]['disExpS']     =   strtotime( sanitize_text_field($_POST['disExpS']) );
+            $existing_data[$data_index]['disExpE']     =   strtotime( sanitize_text_field($_POST['disExpE']) );
+            $existing_data[$data_index]['disBT']      =   sanitize_text_field($_POST['disBT']);
+            $existing_data[$data_index]['disBL']      =   sanitize_text_field($_POST['disBL']);
+            $existing_data[$data_index]['disDes']     =   htmlentities( sanitize_text_field($_POST['disDes']) );
+            $existing_data[$data_index]['disOff']      =   sanitize_text_field($_POST['disOff']);
+			$existing_data[$data_index]['disImg']      =   sanitize_text_field($_POST['disImg']);
 
             update_post_meta( $listing_id, 'listing_discount_data', $existing_data );
 
@@ -2754,29 +2829,31 @@ if( !function_exists( 'add_discount_cb' ) )
     }
 }
 
-
-
 /* ============== Listingpro delete announcements/Discount Codes ============ */
 add_action('wp_ajax_del_ann_dis_menu_cb', 'del_ann_dis_menu_cb');
 add_action('wp_ajax_nopriv_del_ann_dis_menu_cb', 'del_ann_dis_menu_cb');
 if( !function_exists( 'del_ann_dis_menu_cb' ) )
-
 {
 
 	function del_ann_dis_menu_cb()
-
 	{
 
+	    check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 		$return =   array();
 
 
 
 		$user_id        =   get_current_user_id();
-		$user_idd       =   $_POST['user_id'];
+		$user_idd       =   sanitize_text_field($_POST['user_id']);
 
-		$delType        =   $_POST['delType'];
-		$targetID       =   $_POST['targetID'];
-		$delIDS         =   $_POST['delIDS'];
+		$delType        =   sanitize_text_field($_POST['delType']);
+		$targetID       =   sanitize_text_field($_POST['targetID']);
+		$delIDS         =   sanitize_text_field($_POST['delIDS']);
 
 
 
@@ -2821,16 +2898,11 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 				update_post_meta( $target_listing, 'listing_discount_data', $target_data );
 			}
 
-
-
 			$return['status'] = 'success';
-
 			$return['msg'] = esc_html__('Data deleted', 'listingpro');
-
 			die(json_encode($return));
 
 		}
-
 		if( $delType == 'ann' )
 
 		{
@@ -2876,7 +2948,6 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 			die(json_encode($return));
 
 		}
-
 		if( $delType == 'offer' )
 
 		{
@@ -2908,19 +2979,22 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 			die(json_encode($return));
 
 		}
-
-
-
 		if( $delType == 'menu' )
-
 		{
-
 			$menuID_arr     =   explode( '_', $targetID );
 			$menu_type      =   str_replace( '-', ' ', $menuID_arr[0]);
 			$menu_group     =   str_replace( '-', ' ', $menuID_arr[1]);
 			$menu_indx      =   $menuID_arr[2];
 
+
+
+
 			$existing_menus =   get_post_meta( $delIDS, 'lp-listing-menu', true );
+
+
+
+
+
 			$array1 = count($existing_menus[$menu_type]);
 			$array2 =   count($existing_menus[$menu_type][$menu_group]);
 			unset( $existing_menus[$menu_type][$menu_group][$menu_indx] );
@@ -2935,7 +3009,12 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 			{
 				unset( $existing_menus[$menu_type] );
 			}
-			update_post_meta( $delIDS, 'lp-listing-menu', $existing_menus );
+
+			if(count($existing_menus) > 0) {
+			    update_post_meta( $delIDS, 'lp-listing-menu', $existing_menus );
+			} else {
+			    delete_post_meta($delIDS, 'lp-listing-menu');
+			}
 
 			$return['status'] = 'success';
 			$return['msg'] = esc_html__('Data deleted', 'listingpro');
@@ -2947,7 +3026,7 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 		if( $delType == 'type' )
 		{
 			$menu_types_data        =   get_user_meta( $user_id, 'user_menu_types' );
-			$del_all                =   $_POST['dellAll'];
+			$del_all                =   sanitize_text_field($_POST['dellAll']);
 			$menu_types_data        =   $menu_types_data[0];
 			$type_key               =   $menu_types_data[$targetID]['type'];
 			$del_res                =   '';
@@ -2965,11 +3044,10 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 
 			die(json_encode($return));
 		}
-
 		if( $delType == 'group' )
 		{
 			$menu_groups_data       =   get_user_meta( $user_id, 'user_menu_groups' );
-			$del_all                =   $_POST['dellAll'];
+			$del_all                =   sanitize_text_field($_POST['dellAll']);
 			$menu_groups_data       =   $menu_groups_data[0];
 			$group_Key              =   $menu_groups_data[$targetID]['group'];
 
@@ -2985,7 +3063,6 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 
 			die(json_encode($return));
 		}
-
 		$return['status'] = 'fail';
 		$return['msg'] = esc_html__('Bad Request', 'listingpro');
 		die(json_encode($return));
@@ -2994,16 +3071,21 @@ if( !function_exists( 'del_ann_dis_menu_cb' ) )
 
 }
 
-
 add_action('wp_ajax_del_all_menu_cb', 'del_all_menu_cb');
 add_action('wp_ajax_nopriv_del_all_menu_cb', 'del_all_menu_cb');
 if( !function_exists( 'del_all_menu_cb' ) )
 {
     function del_all_menu_cb()
     {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         $user_id        =   get_current_user_id();
-        $user_idd       =   $_POST['user_id'];
-        $lid            =   $_POST['lid'];
+        $user_idd       =   sanitize_text_field($_POST['user_id']);
+        $lid            =   sanitize_text_field($_POST['lid']);
 
         if( $user_id != $user_idd )
         {
@@ -3022,24 +3104,22 @@ if( !function_exists( 'del_all_menu_cb' ) )
 }
 
 add_action('wp_ajax_discount_display_area', 'discount_display_area');
-
 add_action('wp_ajax_nopriv_discount_display_area', 'discount_display_area');
-
-
-
-if( !function_exists( 'discount_display_area' ) )
-
-{
-
+if( !function_exists( 'discount_display_area' ) ){
     function discount_display_area()
 
     {
-
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         $user_idd   =   get_current_user_id();
 
-        $userID       =   $_POST['userID'];
+        $userID       =  sanitize_text_field( $_POST['userID']);
 
-        $thisval        =   $_POST['thisval'];
+        $thisval        =   sanitize_text_field($_POST['thisval']);
 
 
 
@@ -3067,20 +3147,74 @@ if( !function_exists( 'discount_display_area' ) )
 
 }
 
+add_action('wp_ajax_event_display_area', 'event_display_area');
+add_action('wp_ajax_nopriv_event_display_area', 'event_display_area');
+if( !function_exists( 'event_display_area' ) )
 
+{
+
+    function event_display_area()
+
+    {
+
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+
+        $user_idd   =   get_current_user_id();
+
+        $userID       =   sanitize_text_field($_POST['userID']);
+
+        $thisval        =  sanitize_text_field( $_POST['thisval']);
+
+
+
+        if( $userID != $user_idd )
+
+        {
+
+            $return['status']   =   'error';
+
+            $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
+
+            die( json_encode( $return ) );
+
+        }
+
+        update_user_meta( $userID, 'event_display_area', $thisval );
+
+        $return['status'] = 'success';
+
+        $return['msg'] = $thisval.'-'.$userID;
+
+        die(json_encode($return));
+
+    }
+
+}
 
 add_action('wp_ajax_author_review_tab_cb', 'author_review_tab_cb');
 add_action('wp_ajax_nopriv_author_review_tab_cb', 'author_review_tab_cb');
 //author_review_tab_cb
-
 if( !function_exists( 'author_review_tab_cb' ) )
 
 {
     function author_review_tab_cb()
     {
-        $reviewStyle    =   $_POST['reviewStyle'];
-        $listID         =   $_POST['listID'];
-        $authorID       =   $_POST['authorID'];
+
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+
+        $reviewStyle    =  sanitize_text_field( $_POST['reviewStyle']);
+        $listID         =   sanitize_text_field($_POST['listID']);
+        $authorID       =  sanitize_text_field( $_POST['authorID']);
 
         if( $reviewStyle == 'style1' )
         {
@@ -3104,13 +3238,9 @@ if( !function_exists( 'author_review_tab_cb' ) )
         }
         ?>
         <?php
-
         die();
-
     }
-
 }
-
 
 add_action('wp_ajax_author_archive_tabs_cb', 'author_archive_tabs_cb');
 add_action('wp_ajax_nopriv_author_archive_tabs_cb', 'author_archive_tabs_cb');
@@ -3118,20 +3248,26 @@ if( !function_exists( 'author_archive_tabs_cb' ) )
 {
     function author_archive_tabs_cb()
     {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 
         if( isset( $_POST['authorPagin'] ) )
         {
-            $GLOBALS['my_listing_views']    =   $_POST['listingLayout'];
-            $GLOBALS['pageno']  =   $_POST['pageNo'];
-            $GLOBALS['authorID']  =   $_POST['authorID'];
+            $GLOBALS['my_listing_views']    =  sanitize_text_field( $_POST['listingLayout']);
+            $GLOBALS['pageno']  =   sanitize_text_field($_POST['pageNo']);
+            $GLOBALS['authorID']  =   sanitize_text_field($_POST['authorID']);
             get_template_part( 'templates/author/author-listings' );
         }
         else
         {
-            $tabType        =   $_POST['tabType'];
-            $reviewStyle    =   $_POST['reviewStyle'];
-            $authorID       =   $_POST['authorID'];
-            $listingLayout       =   $_POST['listingLayout'];
+            $tabType        =   sanitize_text_field($_POST['tabType']);
+            $reviewStyle    =  sanitize_text_field( $_POST['reviewStyle']);
+            $authorID       =   sanitize_text_field($_POST['authorID']);
+            $listingLayout       =   sanitize_text_field($_POST['listingLayout']);
             $GLOBALS['authorID']  =   $authorID;
             if( $tabType == 'reviews' )
             {
@@ -3266,16 +3402,8 @@ if (!function_exists('lsitingpro_pagination_author')) {
 
 }
 
-
-
-
-
-
-
 add_action('wp_ajax_author_archive_listings_cb', 'author_archive_listings_cb');
-
 add_action('wp_ajax_nopriv_author_archive_listings_cb', 'author_archive_listings_cb');
-
 if( !function_exists( 'author_archive_listings_cb' ) )
 
 {
@@ -3283,8 +3411,13 @@ if( !function_exists( 'author_archive_listings_cb' ) )
     function author_archive_listings_cb()
 
     {
-
-        $paged        =   $_POST['pageNum'];
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+        $paged        =   sanitize_text_field($_POST['pageNum']);
 
 
 
@@ -3382,8 +3515,6 @@ if( !function_exists( 'author_archive_listings_cb' ) )
 
 }
 
-
-
 /* ============== Listingpro compaigns ============ */
 
 if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
@@ -3393,8 +3524,6 @@ if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
     function listingpro_get_campaigns_listing_v2( $ad_style, $campaign_type, $IDSonly, $taxQuery=array(), $searchQuery=array(),$priceQuery=array(),$s=null, $noOfListings = null, $posts_in = null )
 
     {
-
-
         $adsType = array(
 
             'lp_random_ads',
@@ -3404,8 +3533,6 @@ if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
             'lp_top_in_search_page_ads'
 
         );
-
-
 
         global $listingpro_options;
 
@@ -3429,8 +3556,6 @@ if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
 
             }
 
-
-
         }else{
 
             if(empty($noOfListings)){
@@ -3446,10 +3571,6 @@ if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
             }
 
         }
-
-
-
-
 
         if( !empty($campaign_type) ){
 
@@ -3468,7 +3589,6 @@ if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
                     $TxQuery = $searchQuery;
 
                 }
-
                 $args = array(
 
                     'orderby' => 'rand',
@@ -3671,12 +3791,7 @@ if( !function_exists('listingpro_get_campaigns_listing_v2' ) )
 
 }
 
-
-
 /* ============== ListingPro category menu ============ */
-
-
-
 if (!function_exists('listingpro_categoies_menu')) {
 
 
@@ -3720,13 +3835,15 @@ if( !function_exists( 'select2_ajax_dashbaord_listing_booking' ) )
         if( is_user_logged_in() )
         {
             $user_id        =   get_current_user_id();
-	        $targetPlanMetaKey  =   'menu';
-	        if( isset($_GET['targetPlanMetaKey']) )
+	        $targetPlanMetaKey  =   'listingproc_plan_reservera';
+	        if( isset($_GET['target']) )
 	        {
-		        $targetPlanMetaKey  =   $_GET['targetPlanMetaKey'];
+				if( !empty($_GET['target']) && $_GET['target'] !='false' ){
+					$targetPlanMetaKey  =   'listingproc_plan_timekit';
+				}
 	        }
             $search_results = new WP_Query( array(
-                's'=> $_GET['q'],
+                's'=> esc_html($_GET['q']),
                 'post_status' => 'publish',
                 'ignore_sticky_posts' => 1,
                 'posts_per_page' => 50,
@@ -3736,16 +3853,27 @@ if( !function_exists( 'select2_ajax_dashbaord_listing_booking' ) )
 
             if( $search_results->have_posts() ) :
                 while( $search_results->have_posts() ) : $search_results->the_post();
-	                $checkStatus = lp_validate_listing_action($search_results->post->ID, $targetPlanMetaKey);
-	                $disabled   =   'no';
-	                if( empty( $checkStatus ) )
+	                //$checkStatus = lp_validate_listing_action($search_results->post->ID, $targetPlanMetaKey);
+					 $pLan_Id = listing_get_metabox_by_ID( 'Plan_id', $search_results->post->ID );
+					 $checkStatus = false;
+					 $disabled = 'no';
+					 if(!empty($pLan_Id)){
+						 $plans_meta = get_post_meta($pLan_Id, $targetPlanMetaKey, true);
+						 if(empty($plans_meta) || $plans_meta=="false"){
+							 $checkStatus = false;
+							 $disabled = 'yes';
+						 }elseif(!empty($plans_meta)){
+							 $checkStatus = true;
+						 }
+					 }
+	                if( !empty( $checkStatus ) )
 	                {
-		                $disabled   =   'yes';
+		                $title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
+						$return[] = array( $search_results->post->ID, $title, $disabled ); // array( Post ID, Post Title )
 	                }
                     // shorten the title a little
 
-                    $title = ( mb_strlen( $search_results->post->post_title ) > 50 ) ? mb_substr( $search_results->post->post_title, 0, 49 ) . '...' : $search_results->post->post_title;
-	                $return[] = array( $search_results->post->ID, $title, $disabled ); // array( Post ID, Post Title )
+                    
                 endwhile;
             endif;
         }
@@ -3771,10 +3899,10 @@ if( !function_exists( 'select2_ajax_dashbaord_listing' ) )
 	        $targetPlanMetaKey  =   'menu';
 	        if( isset($_GET['targetPlanMetaKey']) )
 	        {
-		        $targetPlanMetaKey  =   $_GET['targetPlanMetaKey'];
+		        $targetPlanMetaKey  =   esc_html($_GET['targetPlanMetaKey']);
 	        }
             $search_results = new WP_Query( array(
-                's'=> $_GET['q'],
+                's'=> esc_html($_GET['q']),
                 'post_status' => 'publish',
                 'ignore_sticky_posts' => 1,
                 'posts_per_page' => 50,
@@ -3803,6 +3931,7 @@ if( !function_exists( 'select2_ajax_dashbaord_listing' ) )
 
     }
 }
+
 add_action('wp_ajax_select2_ajax_dashbaord_listing_unique', 'select2_ajax_dashbaord_listing_unique');
 add_action('wp_ajax_nopriv_select2_ajax_dashbaord_listing_unique', 'select2_ajax_dashbaord_listing_unique');
 if( !function_exists( 'select2_ajax_dashbaord_listing_unique' ) )
@@ -3818,14 +3947,14 @@ if( !function_exists( 'select2_ajax_dashbaord_listing_unique' ) )
 			$planmetakey  =   'events';
 			if( isset( $_GET ) )
 			{
-				$uniqueMetaKey  =   $_GET['uniqueMetaKey'];
-				$planmetakey    =   $_GET['planmetakey'];
+				$uniqueMetaKey  =   esc_html($_GET['uniqueMetaKey']);
+				$planmetakey    =   esc_html($_GET['planmetakey']);
 			}
 
 			if( $uniqueMetaKey == 'event_id' )
 			{
                 $search_results = new WP_Query( array(
-                    's'=> $_GET['q'],
+                    's'=> esc_html($_GET['q']),
                     'post_status' => 'publish',
                     'ignore_sticky_posts' => 1,
                     'posts_per_page' => 50,
@@ -3873,7 +4002,7 @@ if( !function_exists( 'select2_ajax_dashbaord_listing_unique' ) )
             else
             {
                 $search_results = new WP_Query( array(
-                    's'=> $_GET['q'],
+                    's'=> esc_html($_GET['q']),
                     'post_status' => 'publish',
                     'ignore_sticky_posts' => 1,
                     'posts_per_page' => 50,
@@ -3912,117 +4041,122 @@ add_action('wp_ajax_add_events_cb', 'add_events_cb');
 add_action('wp_ajax_nopriv_add_events_cb', 'add_events_cb');
 if( !function_exists( 'add_events_cb' ) )
 {
-	function add_events_cb()
-	{
-		$user_id        =   get_current_user_id();
-		$user_idd       =   $_POST['eUID'];
+    function add_events_cb()
+    {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+        $user_id        =   get_current_user_id();
+        $user_idd       =   sanitize_text_field($_POST['eUID']);
+        if( $user_id != $user_idd )
+        {
+            $return['status']   =   'error';
+            $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
+            die( json_encode( $return ) );
+        }
+        else
+        {
+            if( sanitize_text_field($_POST['eUp']) == 'yes' )
+            {
+                $eTitle =   sanitize_text_field($_POST['eTitle']);
+                $eDesc =   htmlentities( sanitize_text_field($_POST['eDesc'] ));
+                $eDate =   sanitize_text_field($_POST['eDate']);
+                $eDateE =   sanitize_text_field($_POST['eDateE']);
+                $eTime =   sanitize_text_field($_POST['eTime']);
+                $eTimeE =   sanitize_text_field($_POST['eTimeE']);
+                $eLoc =   sanitize_text_field($_POST['eLoc']);
+                $eLat =   sanitize_text_field($_POST['eLat']);
+                $eLon =   sanitize_text_field($_POST['eLon']);
+                $eTUrl =   sanitize_text_field($_POST['eTUrl']);
+                $eID =   sanitize_text_field($_POST['eID']);
+                $eImg =   sanitize_text_field($_POST['eImg']);
+                $event_data = array(
+                    'ID'           => $eID,
+                    'post_title'   => $eTitle,
+                    'post_content' => $eDesc,
+                );
+                $event_id   =   wp_update_post( $event_data );
+                if( !is_wp_error( $event_id ) )
+                {
+                    $attachment_id  =   attachment_url_to_postid($eImg);
+                    set_post_thumbnail( $event_id, $attachment_id );
 
-		if( $user_id != $user_idd )
-		{
-			$return['status']   =   'error';
-			$return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
-			die( json_encode( $return ) );
-		}
-		else
-		{
-			if( $_POST['eUp'] == 'yes' )
-			{
-				$eTitle =   $_POST['eTitle'];
-				$eDesc =   htmlentities( $_POST['eDesc'] );
-				$eDate =   $_POST['eDate'];
-				$eTime =   $_POST['eTime'];
-				$eLoc =   $_POST['eLoc'];
-				$eLat =   $_POST['eLat'];
-				$eLon =   $_POST['eLon'];
-				$eTUrl =   $_POST['eTUrl'];
-				$eID =   $_POST['eID'];
-				$eImg =   $_POST['eImg'];
-
-				$event_data = array(
-					'ID'           => $eID,
-					'post_title'   => $eTitle,
-					'post_content' => $eDesc,
-				);
-
-				$event_id   =   wp_update_post( $event_data );
-
-				if( !is_wp_error( $event_id ) )
-				{
-					update_post_meta( $event_id, 'event-date', strtotime( $eDate ) );
-					update_post_meta( $event_id, 'event-time', $eTime );
-					update_post_meta( $event_id, 'event-loc', $eLoc );
-					update_post_meta( $event_id, 'event-lat', $eLat );
-					update_post_meta( $event_id, 'event-lon', $eLon );
-					update_post_meta( $event_id, 'ticket-url', $eTUrl );
-					update_post_meta( $event_id, 'event-img', $eImg );
-
-					$return['status']   =   'success';
-					$return['msg']      =   esc_html__('event updated successfully', 'listingpro');
-					die( json_encode( $return ) );
-				}
-				else
-				{
-					$return['status']   =   'error';
-					$return['msg']      =   esc_html__('Error while updating event', 'listingpro');
-					die( json_encode( $return ) );
-				}
-
-			}
-			else
-			{
-				$eTitle =   $_POST['eTitle'];
-				$eDesc =   htmlentities( $_POST['eDesc'] );
-				$eDate =   $_POST['eDate'];
-				$eTime =   $_POST['eTime'];
-				$eLoc =   $_POST['eLoc'];
-				$eLat =   $_POST['eLat'];
-				$eLon =   $_POST['eLon'];
-				$eTUrl =   $_POST['eTUrl'];
-				$eLID =   $_POST['eLID'];
-				$eUtils =   stripslashes( $_POST['eUtils'] );
-				$eImg =   $_POST['eImg'];
-				$eImgID =   $_POST['eImgID'];
-
-				$eUtils_array   =   explode( '*', $eUtils );
-				$eUtils_array   =   array_filter( $eUtils_array );
-				$eUtils_ar      =   array();
-				foreach ( $eUtils_array as $item )
+                    update_post_meta( $event_id, 'event-date', strtotime( $eDate ) );
+                    update_post_meta( $event_id, 'event-date-e', strtotime( $eDateE ) );
+                    update_post_meta( $event_id, 'event-time', $eTime );
+                    update_post_meta( $event_id, 'event-time-e', $eTimeE );
+                    update_post_meta( $event_id, 'event-loc', $eLoc );
+                    update_post_meta( $event_id, 'event-lat', $eLat );
+                    update_post_meta( $event_id, 'event-lon', $eLon );
+                    update_post_meta( $event_id, 'ticket-url', $eTUrl );
+                    update_post_meta( $event_id, 'event-img', $eImg );
+                    $return['status']   =   'success';
+                    $return['msg']      =   esc_html__('event updated successfully', 'listingpro');
+                    die( json_encode( $return ) );
+                }
+                else
+                {
+                    $return['status']   =   'error';
+                    $return['msg']      =   esc_html__('Error while updating event', 'listingpro');
+                    die( json_encode( $return ) );
+                }
+            }
+            else
+            {
+                $eTitle =   sanitize_text_field($_POST['eTitle']);
+                $eDesc =   htmlentities( sanitize_text_field($_POST['eDesc']) );
+                $eDate =   sanitize_text_field($_POST['eDate']);
+                $eDateE =   sanitize_text_field($_POST['eDateE']);
+                $eTime =   sanitize_text_field($_POST['eTime']);
+                $eTimeE =   sanitize_text_field($_POST['eTimeE']);
+                $eLoc =   sanitize_text_field($_POST['eLoc']);
+                $eLat =   sanitize_text_field($_POST['eLat']);
+                $eLon =   sanitize_text_field($_POST['eLon']);
+                $eTUrl =   sanitize_text_field($_POST['eTUrl']);
+                $eLID =   sanitize_text_field($_POST['eLID']);
+                $eUtils =   sanitize_text_field(stripslashes( $_POST['eUtils'] ));
+                $eImg =   sanitize_text_field($_POST['eImg']);
+                $eImgID =   sanitize_text_field($_POST['eImgID']);
+                $eUtils_array   =   explode( '*', $eUtils );
+                $eUtils_array   =   array_filter( $eUtils_array );
+                $eUtils_ar      =   array();
+                foreach ( $eUtils_array as $item )
                 {
                     $item_arr   =   explode( '|', $item );
                     $eUtils_ar[$item_arr[0]] =   $item_arr[1];
                 }
-
-				$event_data =   array(
-					'post_title'    => $eTitle,
-					'post_content'  =>  $eDesc,
-					'post_author' =>    $user_id,
-					'post_status' =>    'publish',
-					'post_type' => 'events'
-				);
-				$checkStatus = lp_validate_listing_action($eLID, 'events');
-				if(empty($checkStatus)){
-					$return['status']   =   'error';
-					$return['msg']      =   'Event not allowed with this listing';
-					die( json_encode( $return ) );
-				}
-
-
-
-				$event_id   =   wp_insert_post( $event_data );
-				if( !is_wp_error( $event_id ) )
-				{
-					set_post_thumbnail( $event_id, $eImgID );
-
-					update_post_meta( $event_id, 'event-date', strtotime( $eDate ) );
-					update_post_meta( $event_id, 'event-time', $eTime );
-					update_post_meta( $event_id, 'event-loc', $eLoc );
-					update_post_meta( $event_id, 'event-lat', $eLat );
-					update_post_meta( $event_id, 'event-lon', $eLon );
-					update_post_meta( $event_id, 'ticket-url', $eTUrl );
-					update_post_meta( $event_id, 'event-utilities', $eUtils_ar );
-					update_post_meta( $event_id, 'event-lsiting-id', $eLID );
-					update_post_meta( $event_id, 'event-img', $eImg );
-
+                $event_data =   array(
+                    'post_title'    => $eTitle,
+                    'post_content'  =>  $eDesc,
+                    'post_author' =>    $user_id,
+                    'post_status' =>    'publish',
+                    'post_type' => 'events'
+                );
+                $checkStatus = lp_validate_listing_action($eLID, 'events');
+                if(empty($checkStatus)){
+                    $return['status']   =   'error';
+                    $return['msg']      =   'Event not allowed with this listing';
+                    die( json_encode( $return ) );
+                }
+                $event_id   =   wp_insert_post( $event_data );
+                if( !is_wp_error( $event_id ) )
+                {
+                    $attachment_id  =   attachment_url_to_postid($eImg);
+                    set_post_thumbnail( $event_id, $attachment_id );
+                    update_post_meta( $event_id, 'event-date', strtotime( $eDate ) );
+                    update_post_meta( $event_id, 'event-date-e', strtotime( $eDateE ) );
+                    update_post_meta( $event_id, 'event-time', $eTime );
+                    update_post_meta( $event_id, 'event-time-e', $eTimeE );
+                    update_post_meta( $event_id, 'event-loc', $eLoc );
+                    update_post_meta( $event_id, 'event-lat', $eLat );
+                    update_post_meta( $event_id, 'event-lon', $eLon );
+                    update_post_meta( $event_id, 'ticket-url', $eTUrl );
+                    update_post_meta( $event_id, 'event-utilities', $eUtils_ar );
+                    update_post_meta( $event_id, 'event-lsiting-id', $eLID );
+                    update_post_meta( $event_id, 'event-img', $eImg );
                     $attached_events    =   get_post_meta( $eLID, 'event_id', true );
                     if( $attached_events && !is_array( $attached_events ) )
                     {
@@ -4037,23 +4171,20 @@ if( !function_exists( 'add_events_cb' ) )
                     {
                         $attached_events    =   (array) $event_id;
                     }
-
-
-					update_post_meta( $eLID, 'event_id', $attached_events );
-
-					$return['status']   =   'success';
-					$return['msg']      =   esc_html__('event created successfully', 'listingpro');
-					die( json_encode( $return ) );
-				}
-				else
-				{
-					$return['status']   =   'error';
-					$return['msg']      =   esc_html__('Error while creating event', 'listingpro');
-					die( json_encode( $return ) );
-				}
-			}
-		}
-	}
+                    update_post_meta( $eLID, 'event_id', $attached_events );
+                    $return['status']   =   'success';
+                    $return['msg']      =   esc_html__('event created successfully', 'listingpro');
+                    die( json_encode( $return ) );
+                }
+                else
+                {
+                    $return['status']   =   'error';
+                    $return['msg']      =   esc_html__('Error while creating event', 'listingpro');
+                    die( json_encode( $return ) );
+                }
+            }
+        }
+    }
 }
 
 add_action('wp_ajax_event_attending_cb', 'event_attending_cb');
@@ -4062,28 +4193,60 @@ if( !function_exists( 'event_attending_cb' ) )
 {
     function event_attending_cb()
     {
-        $eID    =   $_POST['eID'];
-        $eUID   =   $_POST['eUID'];
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+        $eID        =   sanitize_text_field($_POST['eID']);
+        $eUID       =   sanitize_text_field($_POST['eUID']);
+        $notGoing   =   sanitize_text_field($_POST['notGoing']);
 
         $get_event_attending_user_ids  =   get_post_meta( $eID, 'attending-users', true );
         $get_user_events                =   get_user_meta( $eUID, 'user-events', true );
+        if( $notGoing == 'yes' )
+        {
+            if (($key = array_search($eUID, $get_event_attending_user_ids)) !== false) {
+                unset($get_event_attending_user_ids[$key]);
+            }
+            if (($key = array_search($eUID, $get_user_events)) !== false) {
+                unset($get_user_events[$key]);
+            }
+        }
+        else
+        {
+            if( empty( $get_event_attending_user_ids ) )
+            {
+                $get_event_attending_user_ids   =   array( $eUID );
+            }
+            else
+            {
+                $get_event_attending_user_ids[] =   $eUID;
+            }
+            if( empty( $get_user_events ) )
+            {
+                $get_user_events    =   array( $eID );
+            }
+            else
+            {
+                $get_user_events[]  =   $eID;
+            }
+        }
 
-        if( empty( $get_event_attending_user_ids ) )
+
+        $attendee_data  =   get_userdata( $eUID );
+        $author_avatar_url = get_user_meta( $eUID, "listingpro_author_img_url", true);
+        if( !empty( $author_avatar_url ) )
         {
-            $get_event_attending_user_ids   =   array( $eUID );
+            $avatar =  $author_avatar_url;
         }
         else
         {
-            $get_event_attending_user_ids[] =   $eUID;
+            $avatar_url = listingpro_get_avatar_url ( $eUID, $size = '90' );
+            $avatar =  $avatar_url;
         }
-        if( empty( $get_user_events ) )
-        {
-            $get_user_events    =   array( $eID );
-        }
-        else
-        {
-            $get_user_events[]  =   $eID;
-        }
+        $attendee_avatar_html   =   '<li id="lpec-attendee-avatar-'.$eUID.'-'. $eID .'"><img src="'.$avatar.'" alt="'.$attendee_data->user_nicename.'"></li>';
 
         update_post_meta( $eID, 'attending-users', $get_event_attending_user_ids );
         update_user_meta( $eUID, 'user-events', $get_user_events );
@@ -4095,194 +4258,48 @@ if( !function_exists( 'event_attending_cb' ) )
         $return['total_attending'] = $going_count;
         $return['user_ids_arr'] = $get_event_attending_user_ids;
         $return['user_events_arr'] = $get_user_events;
+        $return['attendee_avatar'] = $attendee_avatar_html;
 
         die(json_encode($return));
     }
 }
 
-
-function post_type_events() {
-	global $listingpro_options;
-	$eventsSLUG = '';
-	if(class_exists('Redux') && isset($listingpro_options) && !empty($listingpro_options)){
-		$eventsSLUG = lp_theme_option('events_slug');
-		$eventsSLUG = trim($eventsSLUG);
-	}
-	if(empty($eventsSLUG)){
-		$eventsSLUG = 'events';
-	}
-    $labels = array(
-        'name' => _x('Events', 'post type general name', 'listingpro-plugin'),
-        'singular_name' => _x('Events', 'post type singular name', 'listingpro-plugin'),
-        'add_new' => _x('Add New Event', 'book', 'listingpro-plugin'),
-        'add_new_item' => __('Add New Event', 'listingpro-plugin'),
-        'edit_item' => __('Edit Event', 'listingpro-plugin'),
-        'new_item' => __('New Event', 'listingpro-plugin'),
-        'view_item' => __('View Event', 'listingpro-plugin'),
-        'search_items' => __('Search Events', 'listingpro-plugin'),
-        'not_found' =>  __('No Event found', 'listingpro-plugin'),
-        'not_found_in_trash' => __('No Event found in Trash', 'listingpro-plugin'),
-        'parent_item_colon' => ''
-    );
-    $args = array(
-        'labels' => $labels,
-        'public' => true,
-        'publicly_queryable' => true,
-        'show_ui' => true,
-        'query_var' => true,
-        'rewrite'   => array( 'slug' => $eventsSLUG ),
-        'capability_type' => 'post',
-        'hierarchical' => false,
-        'menu_position' => null,
-        'supports' => array('title', 'editor', 'thumbnail'),
-    );
-
-    register_post_type( 'events', $args );
-}
-
-add_action('init', 'post_type_events');
-
-
-add_action( 'add_meta_boxes', 'event_details_meta' );
-add_action( 'save_post', 'save_event_metas' );
-function event_details_meta()
-{
-    add_meta_box( 'event_meta_box', __( 'Event Details', 'listingpro' ), 'event_meta_box', 'events' );
-}
-function event_meta_box( $post )
-{
-	wp_nonce_field( basename( __FILE__ ), 'event_meta_box_nonce' );
-	$event_id   =   $post->ID;
-
-	$event_date         =   get_post_meta( $event_id, 'event-date', true );
-	$event_time         =   get_post_meta( $event_id, 'event-time', true );
-	$event_lon          =   get_post_meta( $event_id, 'event-lat', true );
-	$event_lat         	=   get_post_meta( $event_id, 'event-lon', true );
-	$event_loc			=   get_post_meta( $event_id, 'event-loc', true );
-	$event_ticket_url   =   get_post_meta( $event_id, 'ticket-url', true );
-	$lsiting_id   =   get_post_meta( $event_id, 'event-lsiting-id', true );
-
-	?>
-    <div class="inside">
-        <table class="form-table lp-metaboxes">
-            <tbody>
-            <tr id="lp_field_event_listing">
-                <th>
-                    <label for="tagline_text">
-                        <strong>Listing</strong>
-                    </label>
-                </th>
-                <td>
-                    <div class="type_listing add_item_medium">
-                        <input value="<?php echo get_the_title($lsiting_id); ?>" type="text" name="s" class="unique-for-events form-control search-autocomplete lpautocomplete" placeholder="Search">
-                        <input type="hidden" name="event-lsiting-id" id="lpautocompletSelec" value="<?php echo $lsiting_id; ?>">
-                        <i class="lp-listing-sping fa-li fa fa-spinner fa-spin"></i>
-                        <div class="lpsuggesstion-box"></div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="lp_field_event_date">
-                <th>
-                    <label for="tagline_text">
-                        <strong>Date</strong>
-                    </label>
-                </th>
-                <td>
-                    <input <?php if( !empty( $event_date ) ): ?> value="<?php echo date( 'M d, Y', $event_date ); ?>" <?php endif; ?> type="text" name="event_date" id="event_date">
-                </td>
-            </tr>
-            <tr id="lp_field_event_time">
-                <th>
-                    <label for="tagline_text">
-                        <strong>Time</strong>
-                    </label>
-                </th>
-                <td>
-                    <input value="<?php echo $event_time; ?>" type="text" name="event_time" id="event_time">
-                </td>
-            </tr>
-            <tr id="lp_field_event_loc">
-                <th>
-                    <label for="tagline_text">
-                        <strong>Location</strong>
-                    </label>
-                </th>
-                <td>
-                    <input value="<?php echo $event_loc; ?>" type="text" name="event_loc" id="event_loc">
-                    <input value="<?php echo $event_lat; ?>" type="hidden" name="event_lat" id="event_lat">
-                    <input value="<?php echo $event_lon; ?>" type="hidden" name="event_lon" id="event_lon">
-                </td>
-            </tr>
-            <tr id="lp_field_event_ticket_url">
-                <th>
-                    <label for="tagline_text">
-                        <strong>Ticket URL</strong>
-                    </label>
-                </th>
-                <td>
-                    <input value="<?php echo $event_ticket_url; ?>" type="text" name="event_ticket_url" id="event_ticket_url">
-                </td>
-            </tr>
-			<?php wp_nonce_field( '', 'events_meta_nonce' ); ?>
-            </tbody>
-        </table>
-    </div>
-	<?php
-
-}
-function save_event_metas( $post_id  ){
-    if (  ! isset( $_POST['events_meta_nonce'] ) && empty( $_POST['events_meta_nonce'] )) {
-        return;
-    }
-    $post_type = get_post_type($post_id);
-    if ( "events" != $post_type ) return;
-    if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
-        $event_date = strtotime( $_POST['event_date'] );
-        $event_time = $_POST['event_time'];
-        $event_loc = $_POST['event_loc'] ;
-        $event_lat = $_POST['event_lat'] ;
-        $event_lon = $_POST['event_lon'] ;
-        $event_ticket_url = $_POST['event_ticket_url'];
-        $eLID   =   $_POST['event-lsiting-id'];
-        $get_current_event_ids  =   get_post_meta( $eLID, 'event_id', true );
-        if( isset( $get_current_event_ids ) && is_array( $get_current_event_ids ) )
-        {
-            $get_current_event_ids[]    =   $post_id;
-       }
-       if( isset( $get_current_event_ids ) && !is_array( $get_current_event_ids ) )
-       {
-           $get_current_event_ids = (array)$get_current_event_ids;
-           $get_current_event_ids[]    =   $post_id;
-       }
-        update_post_meta( $eLID, 'event_id', $get_current_event_ids );
-        update_post_meta( $post_id, 'event-lsiting-id', $eLID );
-        update_post_meta( $post_id, 'event-date', $event_date );
-        update_post_meta( $post_id, 'event-time', $event_time );
-        update_post_meta( $post_id, 'event-loc', $event_loc );
-        update_post_meta( $post_id, 'event-lat', $event_lat );
-        update_post_meta( $post_id, 'event-lon', $event_lon );
-        update_post_meta( $post_id, 'ticket-url', $event_ticket_url );
-    }
-}
-
-
-
-
 if(!function_exists('show_map_pop_cb')){
     function show_map_pop_cb() {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_REQUEST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         if ( isset($_REQUEST) ) {
-            $LPpostID    =   $_REQUEST['LPpostID'];
+            $LPpostID    =   sanitize_text_field($_REQUEST['LPpostID']);
+
+            $cats   =   get_the_terms( $LPpostID, 'listing-category' );
+            $lp_cat_map_pin = get_template_directory_uri() . '/assets/images/pins/lp-logo.png';
+            if($cats) {
+                $counter    =   1;
+                foreach ( $cats as $cat ) {
+                    if( $counter == 1 ) {
+                        $cat_img = listing_get_tax_meta($cat->term_id,'category','image');
+
+                        if( !empty( $cat_img ) )
+                        {
+                            $lp_cat_map_pin =   $cat_img;
+                        }
+                    }
+                }
+            }
             ?>
-            <div id="quickmap<?php echo $LPpostID; ?>" class="quickmap"></div>
+            <div id="quickmap<?php echo $LPpostID; ?>" data-marker-src="<?php echo $lp_cat_map_pin; ?>" class="quickmap"></div>
             <?php
         }
         die();
     }
 }
+
 add_action( 'wp_ajax_show_map_pop_cb', 'show_map_pop_cb' );
 add_action( 'wp_ajax_nopriv_show_map_pop_cb', 'show_map_pop_cb' );
-
-
 if( !function_exists( 'ajax_response_markup' ) ){
     function ajax_response_markup($returnData = false){
 		
@@ -4340,7 +4357,7 @@ if( !function_exists( 'select2_ajax_dashbaord_listing_camp' ) )
         {
             $user_id        =   get_current_user_id();
             $search_results = new WP_Query( array(
-                's'=> $_GET['q'],
+                's'=> esc_html($_GET['q']),
                 'post_status' => 'publish',
                 'ignore_sticky_posts' => 1,
                 'posts_per_page' => 50,
@@ -4398,7 +4415,8 @@ if( !function_exists('listing_time_format' ) )
 	}
 }
 
-function del_menu_data_by_user( $user_id, $del_type, $key )
+if( !function_exists('del_menu_data_by_user')){
+    function del_menu_data_by_user( $user_id, $del_type, $key )
 {
 	$m_args =   array(
 		'post_type' => 'listing',
@@ -4450,6 +4468,7 @@ function del_menu_data_by_user( $user_id, $del_type, $key )
 		}
 	}
 }
+}
 
 add_action('wp_ajax_ajax_search_child_cats', 'ajax_search_child_cats');
 add_action('wp_ajax_nopriv_ajax_search_child_cats', 'ajax_search_child_cats');
@@ -4457,6 +4476,12 @@ if( !function_exists( 'ajax_search_child_cats' ) )
 {
 	function ajax_search_child_cats()
 	{
+	    check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 		global $listingpro_options;
 		$sub_cats_loc   =   $listingpro_options['lp_listing_sub_cats_lcation'];
 		$col_grid_class =   'col-grid-5';
@@ -4467,7 +4492,7 @@ if( !function_exists( 'ajax_search_child_cats' ) )
 
 
 		$return =   array();
-		$parent_id = $_POST['parent_id'];
+		$parent_id = sanitize_text_field($_POST['parent_id']);
 		$output =   '';
 		$parent_term    =   get_term( $parent_id, 'listing-category' );
 
@@ -4558,5 +4583,1525 @@ if( !function_exists( 'review_rating_color_class' ) )
         }
 
         return $rating_color_class;
+    }
+}
+
+if( !function_exists('attendees_to_csv_download')){
+    function attendees_to_csv_download($array, $filename = "attendees.csv", $delimiter=",") {
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachment; filename="'.$filename.'";');
+
+        ob_end_clean();
+        $f = fopen('php://output', 'w');
+
+        foreach ($array as $line) {
+            fputcsv($f, $line, $delimiter);
+        }
+        fclose($f);
+        exit();
+    }
+}
+
+add_action('wp_ajax_send_attendees_msg', 'send_attendees_msg');
+add_action('wp_ajax_nopriv_send_attendees_msg', 'send_attendees_msg');
+if( !function_exists( 'send_attendees_msg' ) )
+{
+    function send_attendees_msg()
+    {
+        if( isset( $_REQUEST ) )
+        {
+            $uid    =   sanitize_text_field($_POST['uid']);
+            $msg    =   sanitize_text_field($_POST['msgContent']);
+            $ids    =   sanitize_text_field($_POST['attendees']);
+            $return =   array();
+
+            if( is_user_logged_in() )
+            {
+                if( $uid == get_current_user_id() )
+                {
+                    $mail_headers   =   array();
+                    $mail_headers[] = 'Content-Type: text/html; charset=UTF-8';
+                    foreach ( $ids as $attendee_id )
+                    {
+                        $attendee_data  =   get_userdata( $attendee_id );
+                        $user_email =   $attendee_data->user_email;
+                        $username   =   $attendee_data->user_login;
+                        $emails_arr[$username]   =   $user_email;
+
+                        $subject        =   esc_html__( 'Event Message', 'listingpro' );
+                        $to             =   $user_email;
+
+                        LP_send_mail( $to, $subject, $msg, $mail_headers );
+
+                    }
+                    die(json_encode($return));
+                }
+            }
+        }
+    }
+}
+
+add_action( 'wp_ajax_get_event_calender_data', 'get_event_calender_data' );
+add_action( 'wp_ajax_nopriv_get_event_calender_data', 'get_event_calender_data' );
+if( !function_exists( 'get_event_calender_data' ) )
+{
+    function get_event_calender_data()
+    {
+
+        if( isset( $_POST ) )
+        {
+            $return =   array();
+
+            $targetDateM    =   sanitize_text_field($_POST['targetDateM']);
+            $targetDateY    =   sanitize_text_field($_POST['targetDateY']);
+            $targetAction   =   sanitize_text_field($_POST['targetAction']);
+            $currentMN      =   sanitize_text_field($_POST['currentMN']);
+            $currentYN      =   sanitize_text_field($_POST['currentYN']);
+            $cTypee         =   sanitize_text_field($_POST['cTypee']);
+            $per_page       =   sanitize_text_field($_POST['per_page']);
+
+            if( $targetAction == 'nm' )
+            {
+                $currentCY      =   date_i18n( "Y", strtotime( $currentYN.'-'.$currentMN."-01"." +1 month " ) );
+            }
+            else
+            {
+                $currentCY      =   date_i18n( "Y", strtotime( $currentYN.'-'.$currentMN."-01"." -1 month " ) );
+            }
+
+            $disabled_prev  =   '';
+
+            $next_month_n       =   date_i18n( "m", strtotime( $targetDateY.'-'.$targetDateM."-01"." +1 month " ) );
+            $next_month_na      =   get_month_name( $next_month_n );
+            $next_month_na_i    =   date_i18n( "F", strtotime( $targetDateY.'-'.$targetDateM."-01"." +1 month " ) );
+
+            $prev_month_str     =   strtotime( $targetDateY.'-'.$targetDateM."-01"." -1 month " );
+            $prev_month_n       =   date_i18n( "m", strtotime( $targetDateY.'-'.$targetDateM."-01"." -1 month " ) );
+            $prev_month_na      =   get_month_name( $prev_month_n );
+            $prev_month_na_i    =   date_i18n( "F", strtotime( $targetDateY.'-'.$targetDateM."-01"." -1 month " ) );;
+
+            $prev_month_y   =   date_i18n( "Y", strtotime( $targetDateY.'-'.$targetDateM."-01"." -1 month " ) );
+            $new_year       =   date_i18n( "Y", strtotime( $targetDateY.'-'.$targetDateM."-01"." +1 month " ) );
+
+            if( $prev_month_str < strtotime("now") )
+            {
+                //$disabled_prev  =   'disabled';
+                $disabled_prev  =   '';
+            }
+
+            $next_month_markup  =   '<span class="get-npm btn-nm" data-npmnum="'. $next_month_n.','. $new_year .'">'. $next_month_na_i .'</span><i class="fa fa-angle-right" aria-hidden="true"></i>';
+            $prev_month_markup  =   '<i class="fa fa-angle-left" aria-hidden="true"></i> <span class="get-npm btn-pm '. $disabled_prev .'" data-npmnum="'. $prev_month_n .','. $prev_month_y .'">'. $prev_month_na_i .'</span>';
+            $curr_month_markup  =   '<span class="cc-month" data-cmn="'. $targetDateM .','. $currentCY .'">'. date_i18n( "F", strtotime( $targetDateY.'-'.$targetDateM."-01" ) ) .' '. $currentCY .'</span>';
+
+
+            $date_for_caldener  =   strtotime(sprintf('%s-%s-01', $targetDateY, $targetDateM));
+            if( $cTypee == 'weekly' )
+            {
+                $calender_markup    =   render_event_calender_weekly( $date_for_caldener );
+            }
+            else
+            {
+                $calender_markup    =   render_event_calender_monthly( $date_for_caldener, $cTypee, $per_page );
+            }
+
+
+            $return['status']               =   'success';
+            $return['next_mon_markup']      =   $next_month_markup;
+            $return['prev_mon_markup']      =   $prev_month_markup;
+            $return['curr_mon_markup']      =   $curr_month_markup;
+            $return['calender_markup']      =   $calender_markup;
+
+            die( json_encode( $return ) );
+        }
+    }
+}
+
+if( !function_exists( 'get_month_name' ) )
+{
+    function get_month_name( $number )
+    {
+        $dateObj   = DateTime::createFromFormat('!m', $number);
+        $monthName = $dateObj->format('F');
+
+        return $monthName;
+    }
+}
+
+if( !function_exists( 'has_event_on_day' ) )
+{
+    function has_event_on_day( $timeStr, $check_arr )
+    {
+        $return =   'has-no-events';
+        if( !empty( $timeStr ) && in_array( $timeStr, $check_arr ) )
+        {
+            $return =   'has-events';
+        }
+        return $return;
+    }
+}
+
+if( !function_exists( 'render_event_calender_monthly' ) )
+{
+    function render_event_calender_monthly( $date, $calender_type, $per_page ) {
+
+        $month = date_i18n('m', $date);
+        $year = date_i18n('Y', $date);
+
+        $first_day_timestapm    =   strtotime( 'first day of ' . date( "$year-$month") );
+        $last_day_timestapm     =   strtotime( 'last day of ' . date( "$year-$month") );
+        $today_timestamp        =   strtotime( "-1 day" );
+
+        $daysInMonth = cal_days_in_month(0, $month, $year);
+
+        $timestamp = strtotime('next Sunday');
+
+        $weekDays = array();
+        for ($i = 0; $i < 7; $i++) {
+            $weekDays[] = date_i18n('D', $timestamp);
+            $timestamp = strtotime('+1 day', $timestamp);
+        }
+
+        $blank = date('w', strtotime("{$year}-{$month}-01"));
+        $today_day  =   date_i18n( 'd' );
+
+        if( $per_page == 'all' )
+        {
+            $per_page   =   -1;
+        }
+
+        $events_args    =   array(
+            'post_type' => 'events',
+            'post_status' => 'publish',
+
+        );
+        if( $calender_type == 'list' )
+        {
+            $events_args['orderby'] =   'meta_value_num';
+            $events_args['order']   =   'ASC';
+        }
+        if( $date > strtotime( 'first day of ' . date( 'F Y')) )
+        {
+            $events_args['meta_query']  =   array(
+                'relation' => 'OR',
+                array(
+                    'key'     => 'event-date',
+                    'value'   => array( $first_day_timestapm, $last_day_timestapm ),
+                    'type'    => 'numeric',
+                    'compare' => 'BETWEEN',
+                ),
+                array(
+                    'key'     => 'event-date-e',
+                    'value'   => $last_day_timestapm,
+                    'type'    => 'numeric',
+                    'compare' => '<=',
+                ),
+            );
+        }
+        else
+        {
+            $events_args['meta_query']  =   array(
+                'relation' => 'OR',
+                array(
+                    'key'     => 'event-date',
+                    'value'   => array( $today_timestamp, $last_day_timestapm ),
+                    'type'    => 'numeric',
+                    'compare' => 'BETWEEN',
+                ),
+                array(
+                    'key'     => 'event-date-e',
+                    'value'   => $last_day_timestapm,
+                    'type'    => 'numeric',
+                    'compare' => '<=',
+                ),
+            );
+        }
+        $events_array       =   array();
+        $event_check_arr    =   array();
+
+        $get_events =   new WP_Query( $events_args );
+
+        if( $get_events->have_posts() ): while ( $get_events->have_posts() ): $get_events->the_post();
+            global $post;
+            $event_id   =   $post->ID;
+            $eDate      =   get_post_meta( $event_id, 'event-date', true );
+            $event_check_arr[]  =   $eDate;
+
+
+            $listing_id = get_post_meta($event_id, 'event-lsiting-id', true);
+            $event_time =   get_post_meta( $event_id, 'event-time', true );
+            $event_loc =   get_post_meta( $event_id, 'event-loc', true );
+            $event_lat =   get_post_meta( $event_id, 'event-lat', true );
+            $event_lon =   get_post_meta( $event_id, 'event-lon', true );
+            $event_ticket_url =   get_post_meta( $event_id, 'ticket-url', true );
+            $event_img =   get_post_meta( $event_id, 'event-img', true );
+            $event_utilities =   get_post_meta( $event_id, 'event-utilities', true );
+            $attending_users    =   get_post_meta( $event_id, 'attending-users', true );
+
+            $lp_map_pin = lp_theme_option_url('lp_map_pin');
+
+            if( empty( $event_img ) )
+            {
+                if( has_post_thumbnail( $event_id ) )
+                {
+                    $event_img  =   get_the_post_thumbnail_url( $event_id, 'thumbnail' );
+                }
+                else
+                {
+                    $event_img  =   'https://via.placeholder.com/140';
+                }
+            }
+            else
+            {
+                $event_img_id   =   get_image_id_by_url($event_img);
+                $event_img_arr = wp_get_attachment_image_src($event_img_id, 'thumbnail');
+                $event_img  =   $event_img_arr[0];
+            }
+
+            $events_array[$eDate.'-'.$post->ID]   =   array(
+                'map_pin'    =>  $lp_map_pin,
+                'listing_id' => $listing_id,
+                'event_ticket_url' => $event_ticket_url,
+                'event_lon' => $event_lon,
+                'event_lat' => $event_lat,
+                'event_loc' => $event_loc,
+                'event_time' => $event_time,
+                'event_img' => $event_img,
+                'event_title' => get_the_title(),
+                'event_content' => $post->post_content,
+                'event_url' => get_permalink(),
+                'event_attendees' => $attending_users,
+                'event_id' => $event_id,
+                'event_utilities' => $event_utilities
+            );
+
+        endwhile; wp_reset_postdata(); endif;
+        ob_start();
+        ?>
+        <?php
+        if( $calender_type == 'modern' )
+        {
+            ?>
+            <div class="col-md-6 ">
+                <div class="modern-calender-inner-right">
+                    <div class="row">
+                        <div class="calender-header-moderen-date2 col-md-6">
+                            <div class="today-event-date-container">
+                                <span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                <p><?php echo date_i18n('F d' ); ?> <span><?php echo date_i18n('l'); ?></span></p>
+                            </div>
+                        </div>
+<!--                        <div class="calender-header-switcher2 col-md-6 text-right">-->
+<!--                            <ul class="clearfix">-->
+<!--                                <li><i class="fa fa-map-marker" aria-hidden="true"></i></li>-->
+<!--                                <li class="active"><i class="fa fa-list-ul" aria-hidden="true"></i></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                    </div>
+                    <?php
+                    foreach ($events_array as $k => $event_data)
+                    {
+                        $keyArr     =   explode( '-', $k );
+                        $month_day  =   date( 'j', $keyArr[0] );
+
+                        ?>
+
+                        <div <?php event_calender_map_atts($event_data); ?> class="events-by-day-wrap" data-ebdt="ebdt-<?php echo $month_day; ?>">
+                            <div class="event-by-day-wrap clearfix">
+                                <?php
+                                if (!empty($event_data['event_img'])) {
+                                    ?>
+                                    <div class="event-img">
+                                        <img src="<?php echo $event_data['event_img']; ?>">
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                                <div class="event-by-day-content-wrap">
+                                    <p class="event-by-day-content-wrap-time"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $event_data['event_time']; ?></p>
+                                    <a href="<?php echo $event_data['event_url']; ?>" class="event-by-day-content-wrap-time-title"><?php echo $event_data['event_title']; ?></a>
+                                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo $event_data['event_loc']; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <div class="event-calander-moder-map">
+                        <div id="map" class="event-calander-map"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 background-white ">
+            <div class="modern-calender-inner-left">
+            <?php
+        }
+        ?>
+        <?php
+        if( $calender_type != 'list' )
+        {
+            ?>
+            <div class="week-days-wrap">
+                <?php foreach ($weekDays as $key => $weekDay) : ?>
+                    <div class="week-day-box"><?php echo $weekDay ?></div>
+                <?php endforeach ?>
+                <div class="clearfix"></div>
+            </div>
+            <div class="month-dates-wrap" style="margin: 20px 0;">
+                <div class="week-days-dates-row">
+                    <?php
+                    $row_counter = 0;
+                    ?>
+                    <?php for ($i = 0; $i < $blank; $i++): ?>
+                        <div class="week-day-date-box"></div>
+                    <?php endfor; ?>
+                    <?php
+                    for ($i = 1;
+                    $i <= $daysInMonth;
+                    $i++):
+                    $dataStr = strtotime($year . '-' . $month . '-' . $i);
+                    $has_event_class = has_event_on_day($dataStr, $event_check_arr);
+
+                    ?>
+                    <?php if ($today_day == $i): ?>
+                        <div class="week-day-date-box <?php echo $has_event_class; ?>"
+                             data-todaytime="<?php echo date_i18n( 'd-F-l', $dataStr ); ?>" data-timestr="<?php echo $dataStr; ?>" data-ewt="ebdt-<?php echo $i; ?>">
+
+                            <span><?php echo $i ?></span></div>
+                    <?php else: ?>
+                        <div class="week-day-date-box <?php echo $has_event_class; ?>"
+                             data-todaytime="<?php echo date_i18n( 'd-F-l', $dataStr ); ?>" data-timestr="<?php echo $dataStr; ?>" data-ewt="ebdt-<?php echo $i; ?>"><span><?php echo $i ?></span></div>
+                    <?php endif; ?>
+                    <?php if (($i + $blank) % 7 == 0):
+                    $row_counter++; ?>
+                    <div class="clearfix"></div>
+                    <?php
+                    if ($calender_type == 'classic') {
+                        ?>
+                        <div class="week-days-dates-events-row">
+                            <?php
+                            $week_end_date = $row_counter * 7 - $blank;
+                            $week_start_date = 1;
+                            if ($row_counter != 1) {
+                                $week_start_date = $week_end_date + 1 - 7;
+                            }
+                            for ($ed = $week_start_date; $ed <= $week_end_date; $ed++) {
+                                $dataStr2 = strtotime($year . '-' . $month . '-' . $ed);
+                                ?>
+
+                                <div class="events-by-day-wrap" data-ebdt="ebdt-<?php echo $ed; ?>">
+                                    <div class="clearfix events-by-day-wrap-classic-con">
+                                        <div class="today-event-date-container col-md-6 padding-left-0">
+                                            
+                                            <p class="margin-bottom-0 margin-top-10">Events For <span><?php echo date_i18n('F', $date) . ' ' . $ed ; ?></span><?php //echo $dataStr2; ?> </p>
+                                        </div>
+                                        <div class="calender-header-switcher col-md-5 padding-right-0 pull-left">
+                                            <ul>
+                                                <li class="col-md-6 text-center show-calander-map show-calander-map-ebdt-<?php echo $ed; ?>" data-targetdate="<?php echo $ed; ?>"><i class="fa fa-map-marker" aria-hidden="true"></i> Map View</li>
+                                                <li class="col-md-6 text-center active show-calader-list show-calader-list-ebdt-<?php echo $ed; ?>" data-targetdate="<?php echo $ed; ?>"><i class="fa fa-list-ul" aria-hidden="true"></i> List View</li>
+												
+												
+                                            </ul>
+											
+                                        </div>
+										<div class="col-md-1 text-center lp-close-active-box-inner pull-right  padding-right-0"><span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i> Close</span></div>
+                                    </div>
+                                    <?php
+                                    foreach ($events_array as $k => $event_data) {
+                                        if (strpos($k, $dataStr2 . '-') !== false) {
+                                            ?>
+                                            <div <?php event_calender_map_atts($event_data); ?> class="event-by-day-wrap clearfix">
+                                                <?php
+                                                if (!empty($event_data['event_img'])) {
+                                                    ?>
+                                                    <div class="event-img">
+                                                        <img  src="<?php echo $event_data['event_img']; ?>">
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <div class="event-by-going-wrap pull-right text-right">
+                                                    <?php
+                                                    if( !isset( $event_data['event_utilities']['guests'] ) || $event_data['event_utilities']['guests'] == 'yes' )
+                                                    {
+                                                        display_event_calender_attendees( $event_data['event_attendees'], $event_data['event_id'] );
+                                                    }
+                                                    ?>
+                                                </div>
+                                                <div class="event-by-day-content-wrap pull-right">
+                                                    <p class="event-by-day-content-wrap-time"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $event_data['event_time']; ?></p>
+                                                    <a href="<?php echo $event_data['event_url']; ?>" class="event-by-day-content-wrap-time-title margin-bottom-10 margin-top-0"><?php echo $event_data['event_title']; ?></a>
+
+
+                                                    <p class="classic-event-by-day-content-wrap-time margin-bottom-10"><?php echo mb_substr( $event_data['event_content'], 0, 150 ); ?></p>
+
+                                                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo $event_data['event_loc']; ?></p>
+
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                    <div class="event-calender-classic-map classic-map-<?php echo $ed; ?>"></div>
+                                </div>
+
+                                <?php
+                            }
+
+                            ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <div class="week-days-dates-row">
+                    <?php endif; ?>
+                    <?php endfor; ?>
+                    <?php for ($i = 0; ($i + $blank + $daysInMonth) % 7 != 0; $i++): ?>
+                        <div class="week-day-date-box"></div>
+                    <?php endfor; ?>
+                    <div class="clearfix"></div>
+                    <?php
+                    if ($calender_type == 'classic') {
+                        $days_processed = $row_counter * 7 - $blank;
+                        $days_remaining = $daysInMonth - $days_processed;
+                        if ($days_remaining > 0):
+                            ?>
+                            <div class="week-days-dates-events-row">
+                                <?php
+                                for ($xd = $days_processed + 1; $xd <= $daysInMonth; $xd++) {
+                                    $dataStr3 = strtotime($year . '-' . $month . '-' . $xd);
+                                    ?>
+                                    <div class="events-by-day-wrap" data-ebdt="ebdt-<?php echo $xd; ?>">
+                                        <div class="clearfix events-by-day-wrap-classic-con">
+                                            <div class="today-event-date-container col-md-6 padding-left-0">
+                                                <span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                <p class="margin-bottom-0 margin-top-10"><?php echo esc_html__('Events For', 'listingpro'); ?> <span><?php echo date_i18n('F', $date) . ' ' . $xd ; ?></span><?php //echo $dataStr2; ?> </p>
+                                            </div>
+                                            <div class="calender-header-switcher col-md-6 padding-right-0">
+                                                <ul>
+                                                    <li class="col-md-6 text-center show-calander-map show-calander-map-ebdt-<?php echo $ed; ?>" data-targetdate="<?php echo $ed; ?>"><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo esc_html__('Map View', 'listingpro'); ?></li>
+                                                    <li class="col-md-6 text-center active show-calader-list show-calader-list-ebdt-<?php echo $ed; ?>" data-targetdate="<?php echo $ed; ?>"><i class="fa fa-list-ul" aria-hidden="true"></i> <?php echo esc_html__('List View', 'listingpro'); ?></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <?php
+                                        foreach ($events_array as $k => $event_data) {
+                                            if (strpos($k, $dataStr3 . '-') !== false) {
+                                                ?>
+                                                <div <?php event_calender_map_atts($event_data); ?> class="event-by-day-wrap clearfix">
+                                                    <?php
+                                                    if (!empty($event_data['event_img'])) {
+                                                        ?>
+                                                        <div class="event-img">
+                                                            <img  src="<?php echo $event_data['event_img']; ?>">
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>                                                    
+                                                    <div class="event-by-going-wrap pull-right text-right">
+                                                        <?php
+                                                        if( !isset( $event_data['event_utilities']['guests'] ) || $event_data['event_utilities']['guests'] == 'yes' )
+                                                        {
+                                                            display_event_calender_attendees( $event_data['event_attendees'], $event_data['event_id'] );
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                    <div class="event-by-day-content-wrap pull-right">
+                                                        <p class="event-by-day-content-wrap-time"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $event_data['event_time']; ?></p>
+                                                        <a href="<?php echo $event_data['event_url']; ?>" class="event-by-day-content-wrap-time-title margin-bottom-10 margin-top-0"><?php echo $event_data['event_title']; ?></a>
+
+
+                                                        <p class="classic-event-by-day-content-wrap-time margin-bottom-10"><?php echo mb_substr( $event_data['event_content'], 0, 150  ); ?>...</p>
+
+                                                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo $event_data['event_loc']; ?></p>
+
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        <div class="event-calender-classic-map classic-map-<?php echo $xd; ?>"></div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <?php
+                if( $calender_type == 'classic2' )
+                {
+                    ?>
+                    <div class="event-calander-classic2">
+                        <div class="clearfix events-by-day-wrap-classic-con">
+                            <div class="today-event-date-container col-md-6 padding-left-0">
+                                
+                                <p class="margin-bottom-0 margin-top-10"><?php echo esc_html__('Events For', 'listingpro'); ?> <span><?php echo date_i18n('F d') ; ?></span> </p>
+                            </div>
+                            <div class="calender-header-switcher col-md-5 padding-right-0" style="background-color: #e1e1e1;">
+                                <ul>
+                                    <li class="col-md-6 text-center show-calander-map"><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo esc_html__('Map View', 'listingpro'); ?></li>
+                                    <li class="col-md-6 text-center active show-calader-list"><i class="fa fa-list-ul" aria-hidden="true"></i> <?php echo esc_html__('List View', 'listingpro'); ?></li>
+									
+                                </ul>
+                            </div>
+							<div class="col-md-1 text-center lp-close-active-box-inner pull-right  padding-right-0"><span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i> Close</span></div>
+                        </div>
+                        <?php
+                        foreach ( $events_array as $k => $event_data )
+                        {
+                            $keyArr     =   explode( '-', $k );
+                            $month_day  =   date( 'j', $keyArr[0] );
+                            ?>
+                            <div <?php event_calender_map_atts($event_data); ?> data-ebdt="ebdt-<?php echo $month_day; ?>" class="event-by-day-wrap clearfix">
+                                <?php
+                                if (!empty($event_data['event_img'])) {
+                                    ?>
+                                    <div class="event-img">
+                                        <img src="<?php echo $event_data['event_img']; ?>">
+                                    </div>
+                                    <?php
+                                }
+                                ?>                                
+                                <div class="event-by-going-wrap pull-right text-right">
+                                    <?php
+                                    if( !isset( $event_data['event_utilities']['guests'] ) || $event_data['event_utilities']['guests'] == 'yes' )
+                                    {
+                                        display_event_calender_attendees( $event_data['event_attendees'], $event_data['event_id'] );
+                                    }
+                                    ?>
+                                </div>
+                                <div class="event-by-day-content-wrap pull-right">
+                                    <p class="event-by-day-content-wrap-time"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $event_data['event_time']; ?></p>
+                                    <a href="<?php echo $event_data['event_url']; ?>" class="event-by-day-content-wrap-time-title margin-bottom-10 margin-top-0"><?php echo $event_data['event_title']; ?></a>
+
+
+                                    <p class="classic-event-by-day-content-wrap-time margin-bottom-10"><?php echo mb_substr( $event_data['event_content'], 0, 150  ); ?>...</p>
+
+                                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo $event_data['event_loc']; ?></p>
+
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                        <div class="event-calender-classic-map">
+                            <div id="map" class="event-calander-map"></div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <?php
+        }
+        ?>
+        <?php
+        if( $calender_type == 'modern' )
+        {
+            ?>
+            </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <?php
+        }
+        ?>
+        <?php
+        if( $calender_type == 'list' )
+        {
+            ?>
+            <div class="list-calendar-inner-wrap">
+                <div class="clearfix events-by-day-wrap-classic-con">
+                    <div class="today-event-date-container col-md-6 padding-left-0">
+
+                        <p class="margin-bottom-0 margin-top-10"><?php echo esc_html__('Events For', 'listingpro'); ?> <span><?php echo date_i18n('F', $date); ?></span><?php //echo $dataStr2; ?> </p>
+                    </div>
+                    <div class="calender-header-switcher col-md-6 padding-right-0">
+                        <ul>
+                            <li class="col-md-6 text-center show-calander-map"><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo esc_html__('Map View', 'listingpro'); ?></li>
+                            <li class="col-md-6 text-center active show-calader-list"><i class="fa fa-list-ul" aria-hidden="true"></i> <?php echo esc_html__('List View', 'listingpro'); ?></li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="list-calendar-pager-wrap current-event-page-active">
+                    <?php
+                    $pager_counter  =   0;
+                    foreach ($events_array as $k => $event_data)
+                    {
+                        $active_event_for_map   =   '';
+                        if( $pager_counter < $per_page )
+                        {
+                            $active_event_for_map   =   'active-event-for-map';
+                        }
+                        $keyArr     =   explode( '-', $k );
+                        $month_day  =   date( 'd', $keyArr[0] );
+                        ?>
+                        <div <?php event_calender_map_atts($event_data); ?> class="events-by-day-wrap <?php echo $active_event_for_map; ?>" data-ebdt="ebdt-<?php echo $month_day; ?>">
+                            <div class="event-by-day-wrap clearfix">
+
+                                <?php
+                                if (!empty($event_data['event_img'])) {
+                                    ?>
+                                    <div class="event-img">
+                                        <img  src="<?php echo $event_data['event_img']; ?>">
+                                    </div>
+                                    <?php
+                                }
+                                ?>                                
+                                <div class="event-by-going-wrap pull-right text-right">
+                                    <?php
+                                    if( !isset( $event_data['event_utilities']['guests'] ) || $event_data['event_utilities']['guests'] == 'yes' )
+                                    {
+                                        display_event_calender_attendees( $event_data['event_attendees'], $event_data['event_id'] );
+                                    }
+                                    ?>
+                                </div>
+                                <div class="event-by-day-content-wrap pull-right">
+                                    <p class="event-by-day-content-wrap-time"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $event_data['event_time']; ?></p>
+                                    <a href="<?php echo $event_data['event_url']; ?>" class="event-by-day-content-wrap-time-title margin-bottom-10 margin-top-0"><?php echo $event_data['event_title']; ?></a>
+
+
+                                    <p class="classic-event-by-day-content-wrap-time margin-bottom-10"><?php echo mb_substr( $event_data['event_content'], 0, 150  ); ?>...</p>
+
+                                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo $event_data['event_loc']; ?></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        $pager_counter++;
+                        if( $pager_counter%$per_page == 0 )
+                        {
+                            echo '</div><div class="list-calendar-pager-wrap">';
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="event-calander-list-map">
+                    <div id="map" class="event-calander-map"></div>
+                </div>
+                <?php
+                $num_pages  =   ceil($get_events->found_posts/$per_page);
+                if( $num_pages && $num_pages > 1 )
+                {
+                    $pager_counter  =   0;
+                    ?>
+                    <div class="lp-pagination event-pager">
+                        <ul class="page-numbers">
+                            <?php
+                            for( $i = 1; $i <= $num_pages; $i++  )
+                            {
+                                $pager_counter++;
+                                $active_class   =   '';
+                                if( $pager_counter == 1 )
+                                {
+                                    $active_class   =   'current';
+                                }
+                                echo '<li><span data-pageno="'. ( $i-1 ) .'" class="page-numbers '. $active_class .'">'. $i .'</span></li>';
+                            }
+                            ?>
+
+                        </ul>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+
+            <?php
+        }
+        ?>
+        <?php
+        return ob_get_clean();
+    }
+}
+
+if( !function_exists( 'render_event_calender_weekly' ) )
+{
+    function render_event_calender_weekly( $date )
+    {
+        $month = date_i18n('m', $date);
+        $year = date_i18n('Y', $date);
+
+        $first_day_timestapm    =   strtotime( 'first day of ' . date( "$year-$month") );
+        $last_day_timestapm     =   strtotime( 'last day of ' . date( "$year-$month") );
+        $today_timestamp        =   strtotime( "-1 day" );
+
+        $daysInMonth = cal_days_in_month(0, $month, $year);
+
+        $timestamp = strtotime('next Sunday');
+
+        $weekDays = array();
+        for ($i = 1; $i <= 7; $i++) {
+            $weekDays[$i] = date_i18n('D', $timestamp);
+            $timestamp = strtotime('+1 day', $timestamp);
+        }
+
+        $blank = date('w', strtotime("{$year}-{$month}-01"));
+        $today_day  =   date_i18n( 'd' );
+
+        $events_args    =   array(
+            'post_type' => 'events',
+            'post_status' => 'publish',
+            'orderby' =>   'meta_value_num',
+            'order'  =>   'ASC'
+
+        );
+        if( $date > strtotime( 'first day of ' . date( 'F Y')) )
+        {
+            $events_args['meta_query']  =   array(
+                'relation' => 'OR',
+                array(
+                    'key'     => 'event-date',
+                    'value'   => array( $first_day_timestapm, $last_day_timestapm ),
+                    'type'    => 'numeric',
+                    'compare' => 'BETWEEN',
+                ),
+                array(
+                    'key'     => 'event-date-e',
+                    'value'   => $last_day_timestapm,
+                    'type'    => 'numeric',
+                    'compare' => '<=',
+                ),
+            );
+        }
+        else
+        {
+            $events_args['meta_query']  =   array(
+                'relation' => 'OR',
+                array(
+                    'key'     => 'event-date',
+                    'value'   => array( $today_timestamp, $last_day_timestapm ),
+                    'type'    => 'numeric',
+                    'compare' => 'BETWEEN',
+                ),
+                array(
+                    'key'     => 'event-date-e',
+                    'value'   => $last_day_timestapm,
+                    'type'    => 'numeric',
+                    'compare' => '<=',
+                ),
+            );
+        }
+        $events_array       =   array();
+        $event_check_arr    =   array();
+
+        $get_events =   new WP_Query( $events_args );
+        if( $get_events->have_posts() ): while ( $get_events->have_posts() ): $get_events->the_post();
+            global $post;
+            $event_id   =   $post->ID;
+            $eDate      =   get_post_meta( $event_id, 'event-date', true );
+            $event_check_arr[]  =   $eDate;
+
+            $listing_id = get_post_meta($event_id, 'event-lsiting-id', true);
+            $event_time =   get_post_meta( $event_id, 'event-time', true );
+            $event_loc =   get_post_meta( $event_id, 'event-loc', true );
+            $event_lat =   get_post_meta( $event_id, 'event-lat', true );
+            $event_lon =   get_post_meta( $event_id, 'event-lon', true );
+            $event_ticket_url =   get_post_meta( $event_id, 'ticket-url', true );
+            $event_img =   get_post_meta( $event_id, 'event-img', true );
+            $event_utilities =   get_post_meta( $event_id, 'event-utilities', true );
+            $attending_users    =   get_post_meta( $event_id, 'attending-users', true );
+
+
+            $lp_map_pin = lp_theme_option_url('lp_map_pin');
+
+            if( empty( $event_img ) )
+            {
+                if( has_post_thumbnail( $event_id ) )
+                {
+                    $event_img  =   get_the_post_thumbnail_url( $event_id, 'thumbnail' );
+                }
+                else
+                {
+                    $event_img  =   'https://via.placeholder.com/100';
+                }
+            }
+            else
+            {
+                $event_img_id   =   get_image_id_by_url($event_img);
+                $event_img_arr = wp_get_attachment_image_src($event_img_id, 'thumbnail');
+                $event_img  =   $event_img_arr[0];
+            }
+
+            $events_array[$eDate.'-'.$post->ID]   =   array(
+                'map_pin'    =>  $lp_map_pin,
+                'listing_id' => $listing_id,
+                'event_ticket_url' => $event_ticket_url,
+                'event_lon' => $event_lon,
+                'event_lat' => $event_lat,
+                'event_loc' => $event_loc,
+                'event_time' => $event_time,
+                'event_img' => $event_img,
+                'event_title' => get_the_title(),
+                'event_content' => $post->post_content,
+                'event_date' => $eDate,
+                'event_url' => get_the_permalink(),
+                'event_attendees' => $attending_users,
+                'event_id' => $event_id,
+                'event_utilities' => $event_utilities
+            );
+
+        endwhile; wp_reset_postdata(); endif;
+
+        ob_start();
+        $weeksNum =   ceil( ($blank+$daysInMonth)/7 );
+        ?>
+
+
+        <?php
+        for ( $i = 1; $i <= $weeksNum; $i++ )
+        {
+            $next_week_end_date =   ( ($i+1)*7 )-$blank;
+            $next_week_sta_date =   ( ($i+1)*7 )-$blank-7+1;
+
+            $prev_week_end_date =   $next_week_sta_date-8;
+            $prev_week_sta_date =   $prev_week_end_date-6;
+
+            $prev_week_num      =   $i-1;
+            if( $prev_week_num == 1 )
+            {
+                $prev_week_sta_date =   1;
+            }
+
+            if( $i == $weeksNum-1 )
+            {
+                $next_week_end_date  =   $daysInMonth;
+            }
+            $next_week_end_timestamp =   strtotime( $year.'-'.$month.'-'.$next_week_end_date );
+            $next_week_sta_timestamp =   strtotime( $year.'-'.$month.'-'.$next_week_sta_date );
+
+            $prev_week_end_timestamp =   strtotime( $year.'-'.$month.'-'.$prev_week_end_date );
+            $prev_week_sta_timestamp =   strtotime( $year.'-'.$month.'-'.$prev_week_sta_date );
+
+            $active_week    =   '';
+            if( $i == 1 )
+            {
+                $active_week    =   'active-week';
+            }
+            ?>
+            <div class="week-days-wrap event-week-<?php echo $i; ?> <?php echo $active_week; ?>">
+
+                <h4 class="week-days-wrap-next-prv text-center">
+                    <span class="event-npw" data-weeksta="<?php echo $prev_week_sta_timestamp; ?>" data-weekend="<?php echo $prev_week_end_timestamp; ?>" data-targetweek="<?php echo $i-1; ?>"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                    Week <?php echo $i; ?>
+                    <span class="event-npw" data-weeksta="<?php echo $next_week_sta_timestamp; ?>" data-weekend="<?php echo $next_week_end_timestamp; ?>" data-targetweek="<?php echo $i+1; ?>"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                </h4>
+                <div class="clearfix lp-week-days-wrape-inner-container">
+                    <?php
+                    foreach ($weekDays as $key => $weekDay) :
+                        $week_day_date  =   $key+(7*($i-1))-$blank;
+                        $data_timestamp =   '';
+                        if( $key > $blank && $i == 1 )
+                        {
+                            $week_day_date  =  $key-$blank;
+                        }
+                        if( $week_day_date > $daysInMonth || $week_day_date == 0 || $week_day_date < 0 )
+                        {
+                            $week_day_date  =   '';
+                        }
+                        if( !empty( $week_day_date ) )
+                        {
+                            $data_timestamp =   strtotime( $year.'-'.$month.'-'.$week_day_date );
+                        }
+                        $has_event_class = has_event_on_day($data_timestamp, $event_check_arr);
+                        ?>
+                        <div class="week-day-box <?php echo $has_event_class; ?>" data-timestamp="<?php echo $data_timestamp; ?>" data-ewt="ebdt-<?php echo $week_day_date; ?>">
+                            <span class="week-day-name"><?php echo $weekDay; ?></span>
+                            <span class="week-day-date"><?php echo $week_day_date; ?></span>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <?php
+        }
+        ?>
+        <div class="week-day-events-wrap">
+            <div class="clearfix events-by-day-wrap-classic-con">
+                <div class="today-event-date-container col-md-6 padding-left-0">
+                    <p class="margin-bottom-0 margin-top-10"><?php echo esc_html__('Events For', 'listingpro'); ?> <span><?php echo date_i18n('F', $date); ?></span><?php //echo $dataStr2; ?> </p>
+                </div>
+                <div class="calender-header-switcher col-md-6 padding-right-0">
+                    <ul>
+                        <li class="col-md-6 text-center show-calander-map"><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo esc_html__('Map View', 'listingpro'); ?></li>
+                        <li class="col-md-6 text-center active show-calader-list"><i class="fa fa-list-ul" aria-hidden="true"></i> <?php echo esc_html__('List View', 'listingpro'); ?></li>
+
+                    </ul>
+                </div>
+            </div>
+            <?php
+            foreach ( $events_array as $key => $event_data )
+            {
+                $event_day  =   date_i18n( 'j', $event_data['event_date'] );
+                ?>
+
+                <div <?php event_calender_map_atts( $event_data ); ?> class="event-by-day-wrap-inner clearfix events-for-day ebdt-<?php echo $event_day; ?>" data-targetdate="<?php echo $event_day; ?>">
+
+                    <?php
+                    if (!empty($event_data['event_img'])) {
+                        ?>
+                        <div class="event-img">
+                            <img src="<?php echo $event_data['event_img']; ?>">
+
+                            <div class="events-for-day-date ebdt-<?php echo $event_day; ?>" data-timestamp="<?php echo $event_data['event_date']; ?>">
+                                <?php echo date_i18n('d', $event_data['event_date']); ?>
+                                <span><?php echo date_i18n('F', $date); ?></span>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>                    
+                    <div class="event-by-going-wrap pull-right text-right">
+                        <?php
+                        if( !isset( $event_data['event_utilities']['guests'] ) || $event_data['event_utilities']['guests'] == 'yes' )
+                        {
+                            display_event_calender_attendees( $event_data['event_attendees'], $event_data['event_id'] );
+                        }
+                        ?>
+                    </div>
+                    <div class="event-by-day-content-wrap pull-right">
+                        <p class="event-by-day-content-wrap-time"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $event_data['event_time']; ?></p>
+                        <a href="<?php echo $event_data['event_url']; ?>" class="event-by-day-content-wrap-time-title margin-bottom-10 margin-top-0"><?php echo $event_data['event_title']; ?></a>
+                        <p class="classic-event-by-day-content-wrap-time margin-bottom-10"><?php echo mb_substr( $event_data['event_content'], 0, 150 ); ?></p>
+                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo $event_data['event_loc']; ?></p>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <div class="event-calender-weekly-map">
+                <div id="map" class="event-calander-map"></div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+}
+
+if( !function_exists( 'display_event_calender_attendees' ) )
+{
+    function display_event_calender_attendees( $attendees, $event_id )
+    {
+        $attendees_count    =   0;
+        if( !empty( $attendees ) && is_array( $attendees ) )
+        {
+            $attendees_count    =   count( $attendees );
+        }
+        ?>
+        <p><?php echo esc_attr__( 'Who is going?', 'listingpro' ); ?></p>
+        <p><span class="" id="lpec-attendee-count-<?php echo $event_id; ?>"><?php echo $attendees_count; ?></span> <?php echo esc_html__( 'people are going', 'listingpro' ); ?> </p>
+    <ul class="margin-top-10" id="lpec-attendees-avatar-<?php echo $event_id; ?>">
+        <?php
+        if( $attendees_count > 0 )
+        {
+            foreach ( $attendees as $attendee )
+            {
+                $attendee_data  =   get_userdata( $attendee );
+                $author_avatar_url = get_user_meta( $attendee, "listingpro_author_img_url", true);
+                if( !empty( $author_avatar_url ) )
+                {
+                    $avatar =  $author_avatar_url;
+                }
+                else
+                {
+                    $avatar_url = listingpro_get_avatar_url ( $attendee, $size = '90' );
+                    $avatar =  $avatar_url;
+                }
+                ?>
+                <li id="lpec-attendee-avatar-<?php echo $attendee; ?>-<?php echo $event_id; ?>">
+                    <img src="<?php echo $avatar; ?>" alt="<?php echo $attendee_data->user_nicename; ?>">
+                </li>
+                <?php
+            }
+        }
+        if( !is_user_logged_in() )
+        {
+            global $listingpro_options;
+            $popup_style   =   $listingpro_options['login_popup_style'];
+            if( !isset( $popup_style ) || empty( $popup_style ) || !$popup_style || $popup_style == 'style1' ) {
+                ?>
+                <li class="md-trigger" data-modal="modal-3"><button><i class="fa fa-plus" aria-hidden="true"></i></button></li>
+                <?php
+            } else {
+                ?>
+                <li class="header-login-btn md-trigger app-view-popup-style" data-target="#app-view-login-popup"><button><i class="fa fa-plus" aria-hidden="true"></i></button></li>
+                <?php
+            }
+            ?>
+
+            <?php
+        }
+        else
+        {
+            $current_uid    =   get_current_user_id();
+            if( is_array( $attendees ) && in_array( $current_uid, $attendees ) )
+            {
+                ?>
+                <li class="attend-event not-going from-lpec" data-uid="<?php echo $current_uid; ?>" data-event="<?php echo $event_id; ?>"><button><i class="fa fa-times" aria-hidden="true"></i></button></li>
+                <?php
+            }
+            else
+            {
+                ?>
+                <li class="attend-event from-lpec" data-uid="<?php echo $current_uid; ?>" data-event="<?php echo $event_id; ?>"><button><i class="fa fa-plus" aria-hidden="true"></i></button></li>
+                <?php
+            }
+        }
+        ?>
+    <ul>
+        <?php
+    }
+}
+
+if( !function_exists( 'event_calender_map_atts' ) )
+{
+    function event_calender_map_atts( $event_data )
+    {
+        echo 'data-address="'.$event_data['event_loc'].'" data-posturl="'.$event_data['event_url'].'" data-title="'.$event_data['event_title'].'" data-postid="'.$event_data['event_id'].'" data-lattitue="'.$event_data['event_lat'].'" data-longitute="'.$event_data['event_lon'].'"';
+    }
+}
+
+if( !function_exists('get_image_id_by_url' ) ) {
+    function get_image_id_by_url($image_url) {
+
+        global $wpdb;
+        $attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
+        if($attachment && isset($attachment[0])) {
+            return $attachment[0];
+        } else {
+            return '';
+        }
+    }
+}
+
+
+add_action('wp_ajax_listingpro_dashboard_menu_of_listing',        'listingpro_dashboard_menu_of_listing');
+add_action('wp_ajax_nopriv_listingpro_dashboard_menu_of_listing', 'listingpro_dashboard_menu_of_listing');
+if( !function_exists('listingpro_dashboard_menu_of_listing' ) ) {
+    function listingpro_dashboard_menu_of_listing()
+    {
+        if(isset($_REQUEST)){
+            $selectedListingID = sanitize_text_field($_REQUEST['selectedListingID']);
+            $current_user = wp_get_current_user();
+            $user_id = $current_user->ID;
+
+            $menu_types_data        =   get_user_meta( $user_id, 'user_menu_types' );
+            $menu_types_data        =   @$menu_types_data[0];
+
+            global $listingpro_options;
+            $image_gallery   =   '';
+            $image_gallery_opt  =   $listingpro_options['menu_gallery_dashoard'];
+            if( $image_gallery_opt == 1 )
+            {
+                $image_gallery  =   'data-multiple="true"';
+            }
+            ?>
+            <div class="tab-content lp-tab-content-outer clearfix">
+            <?php
+            $menu_type_counter  =   1;
+
+                foreach ( $menu_types_data as $k => $item )
+                {
+                    $menu_type_active   =   '';
+                    if( $menu_type_counter == 1 )
+                    {
+                        $menu_type_active   =   'in active';
+                    }
+                    ?>
+                    <div class="tab-pane fade <?php echo $menu_type_active; ?>" id="type-<?php echo str_replace(' ', '-', $item['type']); ?>">
+                    <?php
+
+                    $lp_listing_menus   =   get_post_meta( $selectedListingID, 'lp-listing-menu', true );
+                    foreach ( $lp_listing_menus as $type => $type_menus )
+                    {
+                        if( isset( $lp_listing_menus[$item['type']] ) )
+                        {
+                            if( $type == $item['type'] )
+                            {
+
+                                foreach ( $type_menus as $group => $lp_menuee )
+                                {
+                                    $lp_menu_k  =   0;
+                                    foreach ( $lp_menuee as $lp_menu )
+                                    {
+                                        $menu_id = str_replace(' ', '-', $type) . '_' . str_replace(' ', '-', $group) . '_' . $lp_menu_k . '_' . get_the_ID();
+                                        $lp_menu_k++;
+                                        $menu_price =   '';
+                                        if( isset( $lp_menu['mNewPrice'] ) && !empty( $lp_menu['mNewPrice'] ) )
+                                        {
+                                            $menu_price =   $lp_menu['mNewPrice'];
+                                        }
+                                        if( !empty( $menu_price ) && isset( $lp_menu['mOldPrice'] ) && !empty( $lp_menu['mOldPrice'] ) )
+                                        {
+                                            $menu_price =   $lp_menu['mOldPrice'];
+                                        }
+                                        ?>
+                                        <div class="lp-menu-close-outer">
+                                            <div class="lp-menu-closed clearfix ">
+                                                <div class="row">
+                                                    <div class="col-md-6"><i class="fa fa-check-circle fa-check-circle2" aria-hidden="true"></i><h4 class="lp-right-side-title"><span><?php echo esc_html__('Item Name', 'listingpro'); ?></span><br><?php echo $lp_menu['mTitle']; ?></h4></div>
+                                                    <div class="col-md-2"><span><?php echo esc_html__( 'Group', 'listingpro' ); ?></span><br><?php echo $group; ?></div>
+                                                    <div class="col-md-2 price"><span><?php echo esc_html__( 'Price', 'listingpro' ); ?></span><br><?php echo $menu_price; ?></div>
+                                                    <div class="col-md-2"><span class="lp-dot-extra-buttons"><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                    <ul class="lp-user-menu list-style-none">
+                                                        <li><a class="edit-menu-item"
+                                                               data-menuID="<?php echo $menu_id; ?>"
+                                                               data-uid="<?php echo $user_id; ?>"
+                                                               href=""><i class="fa fa-pencil"
+                                                                          aria-hidden="true"></i><span><?php echo esc_html__('Edit', 'listingpro'); ?></span></a></li>
+                                                        <li><a href="" class="menu-del del-this"
+                                                               data-LID="<?php echo $lp_menu['mListing']; ?>"
+                                                               data-targetid="<?php echo $menu_id; ?>"
+                                                               data-uid="<?php echo $user_id; ?>"><i
+                                                                        class="fa fa-trash"
+                                                                        aria-hidden="true"></i><span><?php echo esc_html__('Delete', 'listingpro'); ?></span></a></li>
+                                                    </ul>
+                                                </span></div>
+                                                </div>
+                                            </div>
+                                            <div id="menu-update-<?php echo $menu_id; ?>"
+                                                 class="lp-menu-form-outer background-white"
+                                                 style="display: none">
+                                                <div class="lp-menu-form-inner">
+                                                    <form class="row">
+                                                        <input value="<?php echo $type; ?>" type="hidden" id="menu-type-<?php echo $menu_id; ?>" name="menu-type-<?php echo $menu_id; ?>">
+                                                        <input type="hidden" value="<?php echo $group; ?>" id="menu-group-<?php echo $menu_id; ?>" name="menu-group-<?php echo $menu_id; ?>">
+                                                        <div class="col-sm-12 margin-top-10">
+                                                            <div class="lp-menu-form-feilds">
+                                                                <div class="row clearfix">
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="row">
+                                                                            <div class="margin-bottom-20 col-md-8">
+                                                                                <label class="lp-dashboard-top-label" for="menu-title-<?php echo $menu_id; ?>"><?php echo esc_html__('Menu Item', 'listingpro'); ?></label>
+                                                                                <input name="menu-title-<?php echo $menu_id; ?>"
+                                                                                       id="menu-title-<?php echo $menu_id; ?>"
+                                                                                       type="text"
+                                                                                       class="form-control lp-dashboard-text-field"
+                                                                                       placeholder="<?php echo esc_html__('Ex: Roasted Chicken', 'listingpro'); ?>"
+                                                                                       value="<?php echo $lp_menu['mTitle']; ?>">
+                                                                            </div>
+                                                                            <?php
+                                                                            if (empty($lp_menu['mQuoteT'])):
+                                                                                ?>
+                                                                                <div class="menu-price-wrap">
+                                                                                    <div class="col-sm-2 padding-left-0">
+                                                                                        <label class="lp-dashboard-top-label" for="menu-old-price-<?php echo $menu_id; ?>"><?php echo esc_html__('Reg. Price', 'listingpro'); ?></label>
+                                                                                        <input name="menu-old-price-<?php echo $menu_id; ?>"
+                                                                                               id="menu-old-price-<?php echo $menu_id; ?>"
+                                                                                               type="text"
+                                                                                               class="form-control lp-dashboard-text-field"
+                                                                                               placeholder="<?php echo esc_html__('Ex: $10', 'listingpro'); ?>"
+                                                                                               value="<?php echo $lp_menu['mOldPrice']; ?>">
+                                                                                    </div>
+                                                                                    <div class="col-sm-2 padding-left-0">
+                                                                                        <label class="lp-dashboard-top-label" for="menu-new-price-<?php echo $menu_id; ?>"><?php echo esc_html__('Sale Price', 'listingpro'); ?></label>
+                                                                                        <input id="menu-new-price-<?php echo $menu_id; ?>"
+                                                                                               name="menu-new-price-<?php echo $menu_id; ?>"
+                                                                                               type="text"
+                                                                                               class="form-control lp-dashboard-text-field"
+                                                                                               placeholder="<?php echo esc_html__('Ex: $10', 'listingpro'); ?>"
+                                                                                               value="<?php echo $lp_menu['mNewPrice']; ?>">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <?php
+                                                                            else:
+                                                                                ?>
+                                                                                <div class="menu-quote-wrap">
+                                                                                    <div class="col-sm-6">
+                                                                                        <label class="lp-dashboard-top-label" for="menu-quote-text-<?php echo $menu_id; ?>"><?php esc_html_e('Quote Text', 'listingpro'); ?></label>
+                                                                                        <input id="menu-quote-text-<?php echo $menu_id; ?>"
+                                                                                               type="text"
+                                                                                               class="form-control lp-dashboard-text-field"
+                                                                                               value="<?php echo $lp_menu['mQuoteT']; ?>"
+                                                                                               placeholder="<?php echo esc_html__('Ex: Quote', 'listingpro'); ?>">
+                                                                                    </div>
+                                                                                    <div class="col-sm-6">
+                                                                                        <label class="lp-dashboard-top-label" for="menu-quote-link-<?php echo $menu_id; ?>"><?php esc_html_e('Quote Link', 'listingpro'); ?></label>
+                                                                                        <input id="menu-quote-link-<?php echo $menu_id; ?>"
+                                                                                               type="text"
+                                                                                               class="form-control lp-dashboard-text-field"
+                                                                                               value="<?php echo $lp_menu['mQuoteL']; ?>"
+                                                                                               placeholder="<?php echo esc_html__('Ex: hht://yourweb.com/page', 'listingpro'); ?>">
+                                                                                    </div>
+                                                                                </div>
+                                                                            <?php endif; ?>
+                                                                        </div>
+                                                                        <div class="margin-bottom-20">
+                                                                            <label class="lp-dashboard-top-label" for="menu-detail-<?php echo $menu_id; ?>"><?php echo esc_html__('Short Description', 'listingpro'); ?></label>
+                                                                            <textarea
+                                                                                    name="menu-detail-<?php echo $menu_id; ?>"
+                                                                                    id="menu-detail-<?php echo $menu_id; ?>"
+                                                                                    type="text"
+                                                                                    class="form-control lp-dashboard-des-field"
+                                                                                    rows="3"
+                                                                                    placeholder="<?php echo esc_html__('Ex: Roasted Chicken', 'listingpro'); ?>"><?php echo $lp_menu['mDetail']; ?></textarea>
+                                                                        </div>
+                                                                        <div class="lp-invoices-all-stats-on-off clearfix margin-bottom-10 Popular_item_container">
+                                                                            <label class="switch">
+                                                                            <?php
+                                                                            $is_popular = $lp_menu['popularItem'];
+                                                                            if ($is_popular == 'mItemPopularTrue'){$is_popular = 'checked';}
+                                                                            ?>
+                                                                                <input value="Yes" <?php echo $is_popular; ?> class="form-control switch-checkbox menu_Popular_Item-<?php echo $menu_id; ?>" type="checkbox" name="lp_form_fields_inn[235]">
+                                                                                <div class="slider round"></div>
+                                                                            </label>
+                                                                            <span class="margin-left-10" style="font-size: 16px!important;font-weight: normal!important;"><?php esc_html_e('Popular Item','listingpro'); ?></span>
+                                                                        </div>
+                                                                        <div class="clearfix margin-bottom-10 menuSpice-control_containter">
+                                                                            <select style="width: 100%!important;margin-left: 0;" id="menuSpice-control" class="form-control menuSpice-control-<?php echo $menu_id; ?>">
+                                                                            <?php
+                                                                                $selected_spicelvl1 = '';
+                                                                                $selected_spicelvl2 = '';
+                                                                                $selected_spicelvl3 = '';
+                                                                                $selected_spicelvl4 = '';
+                                                                                $spiceLVL   =  $lp_menu['spiceLVL'];
+                                                                                 if ($spiceLVL == 'spicelvl1') {
+                                                                                    $selected_spicelvl1 = 'selected';
+                                                                                } elseif ($spiceLVL == 'spicelvl2') {
+                                                                                    $selected_spicelvl2 = 'selected';
+                                                                                } elseif ($spiceLVL == 'spicelvl3') {
+                                                                                    $selected_spicelvl3 = 'selected';
+                                                                                } elseif ($spiceLVL == 'spicelvl4') {
+                                                                                    $selected_spicelvl4 = 'selected';
+                                                                                }
+                                                                             ?>
+                                                                                <option>Spice Level</option>
+                                                                                <option <?php echo $selected_spicelvl1; ?> data-level="1">🌶</option>
+                                                                                <option <?php echo $selected_spicelvl2; ?> data-level="2">🌶🌶</option>
+                                                                                <option <?php echo $selected_spicelvl3; ?> data-level="3">🌶🌶🌶</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="jFiler-input-dragDrop pos-relative event-featured-image-wrap-dash">
+
+                                                                            <div <?php echo $image_gallery; ?>
+                                                                                    class="upload-field dashboard-upload-field edit-upload-<?php echo $menu_id; ?>">
+
+                                                                                <input class="frontend-input-multiple"
+                                                                                       type="hidden"
+                                                                                       id="dis-old-img-<?php echo $menu_id; ?>"
+                                                                                       value="<?php echo $lp_menu['mImage']; ?>">
+                                                                                <?php echo do_shortcode('[frontend-button]'); ?>
+                                                                                <div class="menu-edit-imgs-wrap">
+                                                                                    <?php
+                                                                                    if (!empty($lp_menu['mImage'])):
+
+                                                                                        if (strpos($lp_menu['mImage'], ',')) {
+                                                                                            $gallery_arr = explode(',', $lp_menu['mImage']);
+                                                                                            $gallery_arr = array_filter($gallery_arr);
+                                                                                            $gal_img_count = 0;
+                                                                                            foreach ($gallery_arr as $img_url) {
+                                                                                                ?>
+                                                                                                <div class="menu-edit-img-wrap gal-img-count-<?php echo $gal_img_count; ?>">
+                                                                                                        <span data-src="<?php echo $img_url; ?>"
+                                                                                                              data-target="dis-old-img-<?php echo $menu_id; ?>"
+                                                                                                              class="remove-menu-img"><i
+                                                                                                                    class="fa fa-close"></i></span>
+                                                                                                    <img class="gal-img-count-<?php echo $gal_img_count; ?> lp-uploaded-img event-old-img-<?php echo $menu_id; ?>"
+                                                                                                         src="<?php echo $img_url; ?>"
+                                                                                                         alt="">
+                                                                                                </div>
+                                                                                                <?php
+                                                                                                $gal_img_count++;
+                                                                                            }
+                                                                                        } else {
+                                                                                            ?>
+                                                                                            <div class="menu-edit-img-wrap gal-img-count-single">
+                                                                                                <span data-src="<?php echo $lp_menu['mImage']; ?>"
+                                                                                                      data-target="dis-old-img-<?php echo $menu_id; ?>"
+                                                                                                      class="remove-menu-img"><i
+                                                                                                            class="fa fa-close"></i></span>
+                                                                                                <img class="gal-img-count-single lp-uploaded-img event-old-img-<?php echo $menu_id; ?>"
+                                                                                                     src="<?php echo $lp_menu['mImage']; ?>"
+                                                                                                     alt="">
+                                                                                            </div>
+                                                                                            <?php
+                                                                                        }
+                                                                                        ?>
+                                                                                    <?php endif; ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="lp-menu-save-btns clearfix col-md-12 margin-bottom-20">
+                                                            <button class="lp-cancle-btn cancel-update-menu"><?php echo esc_html__('Cancel', 'listingpro'); ?></button>
+                                                            <button data-LID="<?php echo $lp_menu['mListing']; ?>"
+                                                                    data-menuID="<?php echo $menu_id; ?>"
+                                                                    data-uid="<?php echo $user_id; ?>"
+                                                                    class="lp-save-btn lp-edit-menu"><?php echo esc_html__('save', 'listingpro'); ?></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    ?>
+                    </div>
+                    <?php
+                    $menu_type_counter++;
+
+
+                }
+                ?>
+            </div>
+
+                <?php
+                }
+        die();
+
+    }
+}
+
+
+add_action('wp_ajax_add_image_menu',        'add_image_menu');
+add_action('wp_ajax_nopriv_add_image_menu', 'add_image_menu');
+if( !function_exists('add_image_menu' ) ){
+    function add_image_menu(){
+
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+        $user_id        =   get_current_user_id();
+        $userID       =   sanitize_text_field($_POST['userID']);
+
+
+	$listID 				= sanitize_text_field($_POST['selected_list_Id']);
+	$menu_img 				= sanitize_text_field($_POST['img_Url']);
+	$menuArray = array('menulist_ID'=>$listID,'menu-img'=>$menu_img);
+	if( !empty($menu_img) && !empty($listID)){
+		update_post_meta( $listID, 'menu_listing', $menuArray);
+	}
+
+            $return['userID']   =   $user_id;
+            $return['img_Url']   =   $menu_img;
+            $return['selected_list_Id']   =   $listID;
+            $return['selected_list_Title']   =   get_the_title($listID);
+            $return['selected_list_Link']   =   get_permalink($listID);
+            die( json_encode( $return ) );
+    }
+}
+
+add_action('wp_ajax_del_add_image_menu',        'del_add_image_menu');
+add_action('wp_ajax_nopriv_del_add_image_menu', 'del_add_image_menu');
+if( !function_exists('del_add_image_menu' ) ){
+    function del_add_image_menu(){
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
+	$menu_remove_id = sanitize_text_field($_POST['target']);
+	if(!empty($menu_remove_id)){
+		delete_post_meta($menu_remove_id, 'menu_listing');
+	}
+
+    }
+}
+
+add_action('wp_ajax_del_assigned_menu_to_listing',        'del_assigned_menu_to_listing');
+add_action('wp_ajax_nopriv_del_assigned_menu_to_listing', 'del_assigned_menu_to_listing');
+if( !function_exists('del_assigned_menu_to_listing' ) ){
+    function del_assigned_menu_to_listing(){
+        $user_id        =   get_current_user_id();
+        $user_idd       =   sanitize_text_field($_POST['user_id']);
+        $lid            =   sanitize_text_field($_POST['lid']);
+
+        if( $user_id != $user_idd )
+        {
+            $return['status']   =   'error';
+            $return['msg']      =   esc_html__('Invalid User Session', 'listingpro');
+            die( json_encode( $return ) );
+        }
+        else
+        {
+            delete_post_meta( $lid, 'lp-listing-menu' );
+            $return['status']   =   'success';
+            $return['msg']      =   esc_html__('Menu Items deleted successfully', 'listingpro');
+            die( json_encode( $return ) );
+        }
+    }
+}
+
+add_action('wp_ajax_delete_own_review',        'delete_own_review');
+add_action('wp_ajax_nopriv_delete_own_review', 'delete_own_review');
+if( !function_exists('delete_own_review' ) ){
+    function delete_own_review(){
+        $return =   array();
+        if(isset($_REQUEST)) {
+
+            $user_id        =   get_current_user_id();
+            $reviewID       =   sanitize_text_field($_POST['reviewID']);
+            $review_author  =   get_post_field('post_author', $reviewID);
+            if($user_id == $review_author){
+                $listing_id             =   listing_get_metabox_by_ID('listing_id', $reviewID);
+                $review_rating          =   listing_get_metabox_by_ID('rating', $reviewID);
+                $listing_reviews_num    =   get_post_meta($listing_id, 'listing_reviewed', true);
+
+                if($listing_reviews_num != 0) {
+                    $listing_reviews_num    =   $listing_reviews_num-1;
+                }
+
+                $reviews_ids        =   listing_get_metabox_by_ID('reviews_ids', $listing_id);
+                $reviews_ids_arr    =   explode(',', $reviews_ids);
+
+                if (($key = array_search($reviewID, $reviews_ids_arr)) !== false) {
+                    unset($reviews_ids_arr[$key]);
+                }
+
+                $new_listing_rating_sum =   '';
+                $new_rating_avg         =   '';
+                if(is_array($reviews_ids_arr) && count($reviews_ids_arr) > 0) {
+                    foreach ($reviews_ids_arr as $item) {
+                        $review_rating  =   get_post_meta($item, 'rating', true);
+                        $new_listing_rating_sum +=  $review_rating;
+                    }
+
+                    $new_rating_avg =   number_format($new_listing_rating_sum/count($reviews_ids_arr), 1);
+                }
+
+
+                $reviews_ids    =   implode(',',$reviews_ids_arr);
+                listing_set_metabox('reviews_ids', $reviews_ids, $listing_id);
+                update_post_meta($listing_id, 'listing_rate', $new_rating_avg);
+
+                wp_delete_post($reviewID, true);
+
+                $return['id']                   =   $reviewID;
+                $return['listing_id']           =   $listing_id;
+                $return['new_num']              =   $listing_reviews_num;
+                $return['reviews_ids']          =   $reviews_ids;
+                $return['new_sum']              =   $new_listing_rating_sum;
+                $return['new_rating_avg']       =   $new_rating_avg;
+
+
+            }
+        }
+
+        die(json_encode($return));
     }
 }

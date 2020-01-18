@@ -25,7 +25,7 @@
 <div class="absolute vertical-view">
 	<div class="container">
 		<div class="lp-search-bar-all-demo <?php echo esc_attr($layoutClass); ?> <?php echo esc_attr($searchViewClass); ?>">
-			<span class="lp-search-title">Brwose Anything!</span>
+			<span class="lp-search-title"><?php esc_html_e('Brwose Anything!', 'listingpro'); ?></span>
 			<div class="lp-search-bar">	
 				<form action="" method="get" accept-charset="UTF-8">
 					<div class="lp-interest-bar">
@@ -41,8 +41,8 @@
 							<span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
 							<div class="ui-widget border-dropdown">
 							  <select class="chosen-select chosen-select5" name="searchlocation" id="searchlocation">
-								<option value="">Location</option>
-								<option value="">All Locations</option>
+								<option value=""><?php esc_html_e('Location', 'listingpro'); ?></option>
+								<option value=""><?php esc_html_e('All Locations', 'listingpro'); ?></option>
 							  </select>
 							</div>
 						</div>
@@ -54,8 +54,8 @@
 							</span>
 							<div class="ui-widget border-dropdown">
 							  <select class="chosen-select chosen-select5" name="searchlocation" id="searchlocation">
-								<option value="">Catagory</option>
-								<option value="">All Locations</option>
+								<option value=""><?php esc_html_e('Catagory', 'listingpro'); ?></option>
+								<option value=""><?php esc_html_e('All Locations', 'listingpro'); ?></option>
 							  </select>
 							</div>
 						</div>
@@ -76,41 +76,41 @@
 								<input type="range" value="10,80" />
 								<!--Range slider end-->
 							</div>
-							<div class="lp-feature-title">Features:</div>
+							<div class="lp-feature-title"><?php esc_html_e('Features', 'listingpro'); ?>:</div>
 							<div class="form-group">
 								<div class="checkbox pad-bottom-10">
 									<input id="chk2" type="checkbox" name="remember" value="price-on-call">
-									<label for="chk2">Wifi</label>
+									<label for="chk2"><?php esc_html_e('Wifi', 'listingpro'); ?></label>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="checkbox pad-bottom-10">
 									<input id="chk3" type="checkbox" name="remember" value="price-on-call">
-									<label for="chk3">Event</label>
+									<label for="chk3"><?php esc_html_e('Event', 'listingpro'); ?></label>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="checkbox pad-bottom-10">
 									<input id="chk4" type="checkbox" name="remember" value="price-on-call">
-									<label for="chk4">Hotel</label>
+									<label for="chk4"><?php esc_html_e('Hotel', 'listingpro'); ?></label>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="checkbox pad-bottom-10">
 									<input id="chk5" type="checkbox" name="remember" value="price-on-call">
-									<label for="chk5">Trip</label>
+									<label for="chk5"><?php esc_html_e('Trip', 'listingpro'); ?></label>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="checkbox pad-bottom-10">
 									<input id="chk6" type="checkbox" name="remember" value="price-on-call">
-									<label for="chk6">Bar</label>
+									<label for="chk6"><?php esc_html_e('Bar', 'listingpro'); ?></label>
 								</div>
 							</div>
 							<div class="clearfix"></div>
 						</div>
 						<a class="add-more" id="flip">
-							<span>Advance</span>
+							<span><?php esc_html_e('Advance', 'listingpro'); ?></span>
 							<i class="fa fa-plus-square-o" aria-hidden="true"></i>
 						</a>
 						<div class="lp-search-bar-right">

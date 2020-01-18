@@ -27,6 +27,12 @@ add_action('wp_ajax_nopriv_ajax_search_term', 'ajax_search_term');
 if (!function_exists('ajax_search_term')) {
 	function ajax_search_term()
 	{
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 		$term_id     = sanitize_text_field($_POST['term_id']);
 		$count       = 1;
 		$tagsHTML    = '';
@@ -111,10 +117,10 @@ if (!function_exists('ajax_search_term')) {
 			}
 
 		}
-		if(lp_theme_option('listing_style')=="4"){
+		if(lp_theme_option('listing_style')=="4" && !wp_is_mobile()){
 			/* style 4 */
 			$htmlFilter = '<div class="lp-features-filter lp-head-withfilter4 row display-flex">';
-			$htmlFilter .= lp_gett_extrafield_in_filterAjax($term_id);
+			$htmlFilter .= lp_get_extrafield_in_filterAjax($term_id);
 			$htmlFilter .= '</div>';
 
 		}else{
@@ -135,15 +141,21 @@ add_action('wp_ajax_nopriv_ajax_search_tags', 'ajax_search_tags');
 if (!function_exists('ajax_search_tags')) {
     function ajax_search_tags()
     {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         global $listingpro_options;
 				$info   = array('');
-		$lporderby = 'date';
+		$metakeyOrderBy = 'date';
 		$lporders = 'DESC';
 		if( isset($listingpro_options['lp_archivepage_listingorder']) ){
 			$lporders = $listingpro_options['lp_archivepage_listingorder'];
 		}
 		if( isset($listingpro_options['lp_archivepage_listingorderby']) ){
-			$lporderby = $listingpro_options['lp_archivepage_listingorderby'];
+			$metakeyOrderBy = $listingpro_options['lp_archivepage_listingorderby'];
 		}
 		
 		$includeChildren = true;
@@ -153,9 +165,8 @@ if (!function_exists('ajax_search_tags')) {
 			}
 		}
 		
-		if($lporderby=="rand"){
-			$lporders = '';
-		}
+		
+		
 		
 		$defSquery = '';
 		$lpDefaultSearchBy = 'title';
@@ -204,7 +215,45 @@ if (!function_exists('ajax_search_tags')) {
 
         $info['tag_name']         = $_POST['tag_name'];
         $info['cat_id']           = sanitize_text_field($_POST['cat_id']);
+        
+        /* for dynamic search result title */
 
+        $searchtitles = array();
+        if(isset($_POST['cat_id'])){
+            if(!empty($_POST['cat_id'])){
+                $categoryID = $_POST['cat_id'];
+                if(is_numeric($categoryID)){
+                    $categoryTerm = get_term_by('id', $categoryID, 'listing-category');
+                    $term_Name = $categoryTerm->name;
+                    $searchtitles['category'] = $term_Name;
+                }else{
+                    $searchtitles['category'] = $categoryID;
+                }
+            }
+        }
+
+        if(isset($_POST['loc_id'])){
+            if(!empty($_POST['loc_id'])){
+                $locationID = $_POST['loc_id'];
+                if(is_numeric($locationID)){
+                    $locationTerm = get_term_by('id', $locationID, 'location');
+                    $term_Name = $locationTerm->name;
+                    $searchtitles['location'] = $term_Name;
+                }else{
+                    $searchtitles['location'] = $locationID;
+                }
+            }
+        }
+
+        if(!empty($searchtitles)){
+            $searchtitles['website'] = get_option('blogname');
+            if( count($searchtitles) > 2){
+                $searchtitles['in'] = esc_html__('in', 'listingpro');
+            }
+            $searchtitles['for'] = esc_html__('for', 'listingpro');
+        }
+		
+		/* end for dynamic search result title */
 	    if(isset($_POST['loc_id'])){
 
 		    if( is_numeric($_POST['loc_id'] ) ){
@@ -243,6 +292,7 @@ if (!function_exists('ajax_search_tags')) {
         $info['listing_openTime'] = sanitize_text_field($_POST['listing_openTime']);
         $info['mostviewed'] 	  = sanitize_text_field($_POST['mostviewed']);
         $info['lp_s_tag'] 	  	  = sanitize_text_field($_POST['lpstag']);
+        $info['coupons']             = sanitize_text_field($_POST['coupons']);
         $tagQuery                 = '';
         $catQuery                 = '';
         $searchtagQuery                 = '';
@@ -330,43 +380,50 @@ if (!function_exists('ajax_search_tags')) {
 				}
 			}
 		}
-        /* added by zaheer on 13 march */
-        $orderBy        = $lporderby;
-		
-        $rateArray      = '';
-        $reviewedArray  = '';
+       		
+        $rateArray      = array();
+        $reviewedArray  = array();
         $viewedArray    = array();
+		$orderBy = '';
+		$sortBy = '';
+		if(!empty($info['averageRate'])){
+			$sortBy = array(
+                'key' => 'listing_rate',
+                'compare' => 'IN'
+            );
+            $orderBy = 'meta_value_num';
+        }elseif(!empty($info['mostRewvied'])){
+            $sortBy = array(
+                'key' => 'listing_reviewed',
+                'compare' => 'IN'
+            );
+            $orderBy = 'meta_value_num';
+		}elseif(!empty($info['mostviewed'])){
+            $sortBy = array(
+                'key' => 'post_views_count',
+                'compare' => 'IN'
+            );
+            $orderBy = 'meta_value_num';
+		}elseif($metakeyOrderBy=="post_views_count" || $metakeyOrderBy=="listing_reviewed" || $metakeyOrderBy=="listing_rate" || $metakeyOrderBy=="claimed" ){
+            $sortBy = array(
+                'key' => $metakeyOrderBy,
+                'compare' => 'IN'
+            );
+            $orderBy = 'meta_value_num';			
+        }elseif($metakeyOrderBy=="rand"){
+            $lporders = '';
+        }
+            
+    
+		
+		
+		
         $statusArray    = array();
         $optenTimeArray = array();
+        $couponsArray   =   array();
         $lpcountwhile = 1;
         $relation       = 'OR';
-        if (!empty($info['averageRate'])) {
-            $orderBy   = 'meta_value_num';
-            $rateArray = array(
-                'key' => $info['averageRate'],
-                'compare' => 'EXIST'
-            );
-			
-			$lporders = '';
-			
-        }
-		if (!empty($info['mostviewed'])) {
-            $orderBy       = 'meta_value_num';
-            $viewedArray = array(
-                'key' => 'post_views_count',
-				'value'   => '1',
-                'compare' => '>='
-            );
-			$lporders = '';
-        }
-        if (!empty($info['mostRewvied'])) {
-            $orderBy       = 'meta_value_num';
-            $reviewedArray = array(
-                'key' => $info['mostRewvied'],
-                'compare' => 'EXIST'
-            );
-			$lporders = '';
-        }
+        
         if (!empty($info['inexpensive'])) {
             $inexArray = array(
                 'key' => 'lp_listingpro_options',
@@ -395,6 +452,59 @@ if (!function_exists('ajax_search_tags')) {
                 'compare' => 'LIKE'
             );
         }
+        if( !empty( $info['coupons'] ) )
+        {
+            $couponsArray   =   array(
+                'key' => 'listing_discount_data',
+                'compare' => 'EXISTS'
+            );
+        }
+		
+		
+		$formFieldsMetaArray = array();
+		$fieldsArry = array();
+		
+		$lp_formFIelds = array();
+		if (isset($_POST['formfields'])) {
+			$lp_formFIelds = $_POST['formfields'];
+		}
+		$fieldsArryy = array();
+		if (!empty($lp_formFIelds)) {
+            foreach($lp_formFIelds as $lp_singleField) {
+				foreach($lp_singleField as $k=>$v){
+					
+					$kn =$k.'-mfilter';
+					$v =$k.'-'.$v;
+					
+					if (!empty($v) && !empty($k)) {
+						$fieldsArryy[]= array('key' => 'lp_listingpro_options_fields', 'value' => $kn, 'compare' => 'LIKE');                
+						$fieldsArryy2[]= array('key' => 'lp_listingpro_options_fields', 'value' =>$v, 'compare' => 'LIKE'); 
+						
+					}
+					
+				}
+                 	
+                
+			}
+		}
+		
+		$fieldsArry['relation'] = 'OR'; 
+		$fieldsArry2['relation'] = 'OR'; 
+		$n = 0;
+		$n2 = 0;
+		if(!empty($fieldsArryy)){
+			foreach($fieldsArryy as $val){
+				$fieldsArry[$n] = $val;
+				$n++;
+			}
+            foreach($fieldsArryy2 as $val2){
+				$fieldsArry2[$n2] = $val2;
+				$n2++;
+			}
+            $relation    = "AND";
+		}
+		
+		
         if (!empty($info['inexpensive']) || !empty($info['moderate']) || !empty($info['pricey']) || !empty($info['ultra'])) {
             $statusArray = array(
                 'key' => 'lp_listingpro_options',
@@ -403,7 +513,7 @@ if (!function_exists('ajax_search_tags')) {
             );
             $relation    = "AND";
         }
-        if (!empty($info['inexpensive']) || !empty($info['moderate']) || !empty($info['pricey']) || !empty($info['ultra']) || !empty($info['averageRate']) || !empty($info['mostRewvied']) || !empty($info['mostviewed']) || !empty($info['formfields']) ) {
+        if (!empty($info['inexpensive']) || !empty($info['moderate']) || !empty($info['pricey']) || !empty($info['ultra']) || !empty($info['averageRate']) || !empty($info['mostRewvied']) || !empty($info['mostviewed']) || !empty($_POST['formfields']) || !empty( $info['coupons']) || !empty( $sortBy ) ) {
             $priceQuery = array(
                 'relation' => $relation, // Optional, defaults to "AND"
                 $statusArray,
@@ -414,12 +524,10 @@ if (!function_exists('ajax_search_tags')) {
                     $pricyArray,
                     $ultrArray
                 ),
-                array(
-                    'relation' => 'OR',
-                    $rateArray,
-                    $reviewedArray,
-					$viewedArray
-                ),
+                $sortBy,
+                $couponsArray,
+				$fieldsArry,
+                $fieldsArry2,
             );
         }
 		
@@ -433,7 +541,7 @@ if (!function_exists('ajax_search_tags')) {
 		
 		/* if nearme is on */
 		$listingperpageMain = '';
-		if( (!empty($clat) && !empty($clong)) || ($listing_time=="open" || !empty($lp_formFIelds)) ){
+		if( (!empty($clat) && !empty($clong)) || $listing_time=="open"  ){
 			
 			$listingperpageMain = -1;
 			
@@ -456,26 +564,21 @@ if (!function_exists('ajax_search_tags')) {
         $ad_campaignsIDS = listingpro_get_campaigns_listing('lp_top_in_search_page_ads', true, $TxQuery, $searchQuery, $priceQuery, null, null, null);
         $type            = 'listing';
 		
-        $args            = array(
+        $args = array(
             'post_type' => $type,
             'post_status' => 'publish',
             'posts_per_page' => $listingperpageMain,
             'paged' => $paged,
             's' => $squery,
-            'post__not_in' => $ad_campaignsIDS,
-            'orderby' => $orderBy,
+            'post__not_in' => $ad_campaignsIDS,            
+            'tax_query' => $TxQuery,
+			'meta_query' => $priceQuery,
+			'orderby' => $orderBy,
 			'order'   => $lporders,
-            /* 'meta_key'  => $metaKey, */
-            'meta_query' => $priceQuery,
-            'tax_query' => array(
-				$searchtagQuery,
-                $tagQuery,
-                $catQuery,
-                $locQuery
-            )
         );
 		
 		
+		//die(json_encode($_POST['formfields']));
 		
 		$lp_lat = '';
 		$lp_lng = '';
@@ -487,11 +590,20 @@ if (!function_exists('ajax_search_tags')) {
         $my_query        = new WP_Query($args);
         $found           = $my_query->found_posts;
         $output .= '<div class="promoted-listings">';
+        $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
+        if( $listing_mobile_view == 'app_view2' && wp_is_mobile() )
+        {
+            $output .=  '<div class="app-view-new-ads-slider">';
+        }
         ob_start();
         $output .= listingpro_get_campaigns_listing('lp_top_in_search_page_ads', false, $TxQuery, $searchQuery, false, $s=null, $noOFListing=null, $ad_campaignsIDS);
         $output .= ob_get_contents();
         ob_end_clean();
 		ob_flush();
+        if( $listing_mobile_view == 'app_view2' && wp_is_mobile() )
+        {
+            $output .=  '</div>';
+        }
         $output .= '</div>';
         if ($my_query->have_posts()) {
 			
@@ -499,66 +611,7 @@ if (!function_exists('ajax_search_tags')) {
                 $my_query->the_post();
 				
 				$proceeditnow = true;
-				if (!empty($lp_formFIelds)) {
-					$proceeditnow = false;
-					$extrasaveField = get_post_meta(get_the_ID(), 'lp_listingpro_options_fields', true);
-					if(!empty($extrasaveField)){
-						
-						foreach($lp_formFIelds as $lp_singleField) {
-							$lp_singleField = trim($lp_singleField);
-							foreach($extrasaveField as $keyv=>$valv){
-								
-								
-								$thisisarray = false;
-								if(!empty($valv)){
-									if(is_array($valv)){
-										$thisisarray = true;
-										foreach($valv as $sVal){
-											$sVal = trim($sVal);
-											if($sVal==$lp_singleField){
-												$proceeditnow = true;
-											}
-										}
-									}
-								}
-								
-								
-								
-								if(empty($thisisarray)){
-									$valv = trim($valv);
-									$lp_singleField = str_replace(" ","-","$lp_singleField");
-									$lp_singleField = strtolower($lp_singleField);
-									$lp_singleField = trim($lp_singleField);
-									$lpmatchistrue = false;
-									if( strcasecmp($lp_singleField,$keyv)==0 && empty($thisisarray)){
-										$lpmatchistrue = true;
-									}
-									
-									if(empty($lpmatchistrue)){
-										$lp_singleField = str_replace("-"," ","$lp_singleField");
-										$lp_singleField = strtolower($lp_singleField);
-										$lp_singleField = trim($lp_singleField);
-										if( strcasecmp($lp_singleField,$valv)==0 && empty($thisisarray) ){
-											$lpmatchistrue = true;
-										}
-									}
-									
-									if(!empty($lpmatchistrue)){	
-										
-										
-										if( empty($valv) ){
-											$proceeditnow = false;
-										}else{
-											$proceeditnow = true;
-										}
-									}
-								}
-								
-							}
-						}
-					}
-					
-				}
+
 				
 				
 				
@@ -646,6 +699,10 @@ if (!function_exists('ajax_search_tags')) {
 						{
 							get_template_part('mobile/listing-loop-app-view');
 						}
+                        elseif ($listing_mobile_view == 'app_view2' && wp_is_mobile() && !empty($proceeditnow) )
+                        {
+                            get_template_part('mobile/listing-loop-app-view-new');
+                        }
 						else
 						{
 							if(!empty($proceeditnow)){
@@ -685,13 +742,17 @@ if (!function_exists('ajax_search_tags')) {
 					$found           = $my_query->found_posts;
 					 if ($my_query->have_posts()) {
 						$listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
-						if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
+                         if( ($listing_mobile_view == 'app_view' || $listing_mobile_view == 'app_view2') && wp_is_mobile() )
 						{ 
 							$htmlOutput .=  '<div class="map-view-list-container">';
 						   while ($my_query->have_posts()):
 							   $my_query->the_post();
 							   ob_start();
-							   get_template_part('mobile/listing-loop-app-view2');
+                               if($listing_mobile_view == 'app_view2') {
+                                   get_template_part('mobile/listing-loop-app-view-new');
+                               } else {
+                                   get_template_part('mobile/listing-loop-app-view');
+                               }
 							   $htmlOutput .= ob_get_contents();
 							   ob_end_clean();
 						   endwhile;
@@ -721,6 +782,10 @@ if (!function_exists('ajax_search_tags')) {
 							{
 								get_template_part('mobile/listing-loop-app-view');
 							}
+                            elseif ($listing_mobile_view == 'app_view2' && wp_is_mobile())
+                            {
+                                get_template_part( 'mobile/listing-loop-app-view2' );
+                            }
 							else
 							{
 								get_template_part('listing-loop');
@@ -760,14 +825,27 @@ if (!function_exists('ajax_search_tags')) {
 					$found           = $my_query->found_posts;
 					 if ($my_query->have_posts()) {
 						$listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
-						if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
+						if( ($listing_mobile_view == 'app_view' || $listing_mobile_view == 'app_view2') && wp_is_mobile() )
 						{ 
 							$htmlOutput .=  '<div class="map-view-list-container">';
 						   while ($my_query->have_posts()):
 							   $my_query->the_post();
 							   ob_start();
-							   get_template_part('mobile/listing-loop-app-view2');
-							   $htmlOutput .= ob_get_contents();
+                               global $listingpro_options;
+                               $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
+                               if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
+                               {
+                                   get_template_part('mobile/listing-loop-app-view');
+                               }
+                               elseif ($listing_mobile_view == 'app_view2' && wp_is_mobile())
+                               {
+                                   get_template_part('mobile/listing-loop-app-view-new');
+                               }
+                               else
+                               {
+                                   get_template_part('listing-loop');
+                               }
+                               $htmlOutput .= ob_get_contents();
 							   ob_end_clean();
 						   endwhile;
 						   wp_reset_query();
@@ -782,9 +860,13 @@ if (!function_exists('ajax_search_tags')) {
 							global $listingpro_options;
 							$listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 							if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
-							{
-								get_template_part('mobile/listing-loop-app-view');
-							}
+                            {
+                                get_template_part('mobile/listing-loop-app-view');
+                            }
+                            elseif ($listing_mobile_view == 'app_view2' && wp_is_mobile())
+                            {
+                                get_template_part('mobile/listing-loop-app-view-new');
+                            }
 							else
 							{
 								get_template_part('listing-loop');
@@ -850,14 +932,6 @@ if (!function_exists('ajax_search_tags')) {
         }
 		if (!empty($htmlOutput)) {
 			$output .= listingpro_load_more_filter($my_query, $pageno, $defSquery);
-			/* if ($opentimeswitch==true) {
-				if($opentimefilter==true){
-					$output .= listingpro_load_more_filter($my_query, $pageno, $defSquery);
-				}
-			}
-			else{
-				$output .= listingpro_load_more_filter($my_query, $pageno, $defSquery);
-			} */
 		}
         $output            = utf8_encode($output);
         $term_group_result = json_encode(array(
@@ -871,6 +945,7 @@ if (!function_exists('ajax_search_tags')) {
             "dfdfdfdf" => $latlongArray,
 			"latlongfilter" => $latlongfilter,
 			"opentimefilter" => $opentimefilter,
+            "searchtitles" => $searchtitles,
         ));
         die($term_group_result);
     }
@@ -882,6 +957,12 @@ add_action('wp_ajax_nopriv_listingpro_suggested_search', 'listingpro_suggested_s
 if (!function_exists('listingpro_suggested_search')) {
     function listingpro_suggested_search()
     {
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
         global $listingpro_options;
         $qString      = '';
         $qString      = sanitize_text_field($_POST['tagID']);
@@ -1024,6 +1105,8 @@ if (!function_exists('listingpro_suggested_search')) {
                     'post_status' => 'publish',
                     's'	=>	$qString,
                 );
+
+
                 $my_query = new wp_query($args);
                 if ($my_query->have_posts()) {
                     while ($my_query->have_posts()):
@@ -1284,6 +1367,12 @@ if (!function_exists('listingpro_suggested_cats')) {
 	
 	if (!function_exists('listingpro_website_visit')) {
 		function listingpro_website_visit(){
+            check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+            // Nonce is checked, get the POST data and sign user on
+            if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+                $res = json_encode(array('nonceerror'=>'yes'));
+                die($res);
+            }
 			$lpCountry = '';
 			$lpCity = '';
 			$lpZip = '';
@@ -1379,6 +1468,13 @@ if (!function_exists('listingpro_suggested_cats')) {
 	
 	if (!function_exists('listingpro_phone_clicked')) {
 		function listingpro_phone_clicked(){
+
+            check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+            // Nonce is checked, get the POST data and sign user on
+            if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+                $res = json_encode(array('nonceerror'=>'yes'));
+                die($res);
+            }
 			$lpCountry = '';
 			$lpCity = '';
 			$lpZip = '';
@@ -1501,483 +1597,5 @@ if(!function_exists('haversineGreatCircleDistance')){
 	  $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
 	  cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
 	  return $angle * $earthRadius;
-	}
-}
-
-/* ============= Listingpro filter extra fields====== */
-
-if(!function_exists('lp_get_extrafield_in_filterAjax')){
-	function lp_get_extrafield_in_filterAjax($term_id){
-		$output = null;
-		$dataNeedle = false;
-		ob_start();
-		?>
-
-		<div class="lp_all_page_overflow">
-			<div class="col-md-12">
-
-				<?php
-
-				echo '<h2>'.esc_html__("More Option", "listingpro").'</h2>';
-				/* multicheck on off */
-				$getSwithButtonFieldsFilter = lp_get_extrafields_filter('checkbox', $term_id, false);
-				if(!empty($getSwithButtonFieldsFilter)){
-					$dataNeedle = true;
-					?>
-					<div class="lp_more_filter_data_section lp_extrafields_select">
-
-						<?php
-						echo '<ul class="filter_data_switch_on_off">';
-						foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-							echo '
-									<li>
-										<label class="filter_checkbox_container">'.$fieldVal.'
-											<input type="checkbox" value="'.$fieldVal.'" name="lp_extrafields_select[]">
-											<span class="filter_checkbox_checkmark"></span>
-										</label>
-									</li>
-								';
-						}
-						echo '</ul>';
-						?>
-
-					</div>
-					<?php
-				}
-				/* checkbox */
-				$getSwithButtonFieldsFilter = lp_get_extrafields_filter('check', $term_id, false);
-				if(!empty($getSwithButtonFieldsFilter)){
-					$dataNeedle = true;
-					?>
-					<div class="lp_more_filter_data_section lp_extrafields_select">
-
-						<?php
-
-						foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-                            echo '<div class="lp-more-filters-outer">';
-							echo '<h3>' . $fieldVal . '</h3>';
-							echo '<ul class="lp_filter_checkbox">';
-							echo '
-									<li>
-										
-										<label class="filter_checkbox_container">'.$fieldVal.'
-											<input type="checkbox" value="'.$fieldVal.'" name="lp_extrafields_select[]">
-											<span class="filter_checkbox_checkmark"></span>
-										</label>
-									</li>
-								';
-							echo '</ul>';
-							echo '</div>';
-						}
-
-						?>
-
-					</div>
-					<?php
-				}
-
-				?>
-				<!-- for multicheck -->
-				<?php
-				$getExtraFieldsFilter = lp_get_extrafields_filter('checkboxes', $term_id, false);
-				if(!empty($getExtraFieldsFilter)){
-					$dataNeedle = true;
-
-					?>
-					<div class="lp_more_filter_data_section lp_extrafields_select">
-
-						<?php
-						foreach ($getExtraFieldsFilter as $fieldPostID => $fieldVal) {
-							 echo '<div class="lp-more-filters-outer">';
-							echo '<h3>' . $fieldVal . '</h3>';
-							echo '<ul class="lp_filter_checkbox">';
-							$getFieldsValue = listing_get_metabox_by_ID('multicheck-options', $fieldPostID);
-							if (!empty($getFieldsValue)) {
-								$getFieldsArray = explode(",", $getFieldsValue);
-								if (!empty($getFieldsArray)) {
-									foreach ($getFieldsArray as $optionVal) {
-										$optionVal = trim($optionVal);
-										echo '
-														<li>
-															<label class="filter_checkbox_container">'.$optionVal.'
-																<input type="checkbox" value="'.$optionVal.'" name="lp_extrafields_select[]">
-																<span class="filter_checkbox_checkmark"></span>
-															</label>
-														</li>
-													';
-									}
-								}
-							}
-							echo '</ul>';
-							echo '</div>';
-						}
-						?>
-
-					</div>
-				<?php } ?>
-
-				<!-- for radio -->
-				<?php
-				$getRadioFieldsFilter = lp_get_extrafields_filter('radio', $term_id, false);
-				if(!empty($getRadioFieldsFilter)){
-					$dataNeedle = true;
-
-					?>
-
-					<div class="lp_more_filter_data_section lp_extrafields_select">
-						<?php
-						foreach ($getRadioFieldsFilter as $fieldPostID => $fieldVal) {
-							 echo '<div class="lp-more-filters-outer">';
-							echo '<h3>' . $fieldVal . '</h3>';
-							echo '<ul class="lp_filter_checkbox">';
-
-							$getFieldsValue = listing_get_metabox_by_ID('radio-options', $fieldPostID);
-							if (!empty($getFieldsValue)) {
-								$getFieldsArray = explode(",", $getFieldsValue);
-								if (!empty($getFieldsArray)) {
-									foreach ($getFieldsArray as $optionVal) {
-										$optionVal = trim($optionVal);
-
-										echo '
-														<li>
-															<label class="filter_radiobox_container">'.$optionVal.'
-															  <input type="radio" name="radio" value="'.$optionVal.'" name="lp_extrafields_select[]">
-															  <span class="filter_radio_select"></span>
-															</label>
-														</li>
-													';
-									}
-								}
-							}
-
-							echo '</ul>';
-							echo '</div>';
-						}
-						?>
-
-					</div>
-					<?php
-				}
-				?>
-
-
-				<!-- for Dropdown -->
-				<?php
-				$getRadioFieldsFilter = lp_get_extrafields_filter('select', $term_id, false);
-				if(!empty($getRadioFieldsFilter)){
-					$dataNeedle = true;
-					?>
-
-					<div class="lp_more_filter_data_section lp_extrafields_select">
-						<?php
-						foreach ($getRadioFieldsFilter as $fieldPostID => $fieldVal) {
-							 echo '<div class="lp-more-filters-outer">';
-							echo '<h3>' . $fieldVal . '</h3>';
-							echo '<ul class="lp_filter_checkbox">';
-
-							$getFieldsValue = listing_get_metabox_by_ID('select-options', $fieldPostID);
-							if (!empty($getFieldsValue)) {
-								$getFieldsArray = explode(",", $getFieldsValue);
-								if (!empty($getFieldsArray)) {
-									foreach ($getFieldsArray as $optionVal) {
-										$optionVal = trim($optionVal);
-
-										echo '
-														<li>
-															<label class="filter_radiobox_container">'.$optionVal.'
-															  <input type="radio" name="radio" value="'.$optionVal.'" name="lp_extrafields_select[]">
-															  <span class="filter_radio_select"></span>
-															</label>
-														</li>
-													';
-									}
-								}
-							}
-
-							echo '</ul>';
-							echo '</div>';
-						}
-						?>
-
-					</div>
-					<?php
-				}
-				
-				if(empty($dataNeedle)){
-					?>
-						<div class="lp_more_filter_data_section lp_extrafields_select">
-								<p><?php echo esc_html__('Sorry! No more filter found for current selections', 'listingpro'); ?></p>
-						</div>
-					<?php
-				}
-				
-				?>
-
-
-				<div class="outer_filter_show_result_cancel">
-					<div class="filter_show_result_cancel">
-						<span id="filter_cancel_all"><?php echo esc_html__('Cancel', 'listingpro'); ?></span>
-
-						<input id="filter_result" type="submit" value="<?php echo esc_html__('Show Results', 'listingpro'); ?>">
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-		<?php
-
-		$output .= ob_get_contents();
-		ob_end_clean();
-		ob_flush();
-		return $output;
-	}
-}
-
-
-/* ==============Listingpro filter2 extraflds======= */
-if(!function_exists('lp_gett_extrafield_in_filterAjax')){
-	function lp_gett_extrafield_in_filterAjax($term_ID){
-		$output = null;
-		$dataNeedle = false;
-		ob_start();
-		?>
-
-		<strong class="col-sm-2"><?php echo esc_html__( 'Other Filters', 'listingpro' ); ?></strong>
-		<?php
-		/* multicheck */
-		$getExtraFieldsFilter = lp_get_extrafields_filter('checkboxes', $term_ID, false);
-		if(!empty($getExtraFieldsFilter)){
-			$dataNeedle = true;
-			foreach ($getExtraFieldsFilter as $fieldPostID => $fieldVal) {
-				?>
-				<div class="col-md-2">
-					<div class="input-group margin-right-0">
-						<strong><?php echo $fieldVal; ?></strong>
-						<ul>
-							<?php
-							$getFieldsValue = listing_get_metabox_by_ID('multicheck-options', $fieldPostID);
-							if (!empty($getFieldsValue)) {
-								$getFieldsArray = explode(",", $getFieldsValue);
-								if (!empty($getFieldsArray)) {
-									foreach ($getFieldsArray as $optionVal) {
-										$optionVal = trim($optionVal);
-										?>
-										<li>
-											<div class="pad-bottom-10 checkbox ">
-												<input type="checkbox" name="lp_extrafields_select[]" class="searchtags" value="<?php echo $optionVal; ?>">
-												<label><?php echo $optionVal; ?></label>
-											</div>
-										</li>
-										<?php
-									}
-								}
-							}
-							?>
-						</ul>
-						<!--<a href="#" data-toggle="modal" data-target="#modal-extrafields"><?php //echo esc_html__( 'More..', 'listingpro' ); ?></a>-->
-
-					</div>
-				</div>
-				<?php
-			}
-		}
-		?>
-
-		<?php
-		/* check */
-		$getSwithButtonFieldsFilter = lp_get_extrafields_filter('check', $term_ID, false);
-		if(!empty($getSwithButtonFieldsFilter)){
-			$dataNeedle = true;
-			foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-				?>
-				<div class="col-md-2">
-					<div class="input-group margin-right-0">
-						<strong><?php echo $fieldVal; ?></strong>
-						<ul>
-
-							<li>
-								<div class="pad-bottom-10 checkbox ">
-									<input type="checkbox" name="lp_extrafields_select[]" class="searchtags" value="<?php echo $fieldVal; ?>">
-									<label><?php echo $fieldVal; ?></label>
-								</div>
-							</li>
-
-						</ul>
-						<!--<a href="#" data-toggle="modal" data-target="#modal-extrafields"><?php //echo esc_html__( 'More..', 'listingpro' ); ?></a>-->
-
-					</div>
-				</div>
-				<?php
-			}
-		}
-		?>
-
-
-		<?php
-		/* checkbox */
-		$getSwithButtonFieldsFilter = lp_get_extrafields_filter('checkbox', $term_ID, false);
-		if(!empty($getSwithButtonFieldsFilter)){
-			$dataNeedle = true;
-			foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-				?>
-				<div class="col-md-2">
-					<div class="input-group margin-right-0">
-						<strong><?php echo $fieldVal; ?></strong>
-						<ul>
-
-							<li>
-								<div class="pad-bottom-10 checkbox ">
-									<input type="checkbox" name="lp_extrafields_select[]" class="searchtags" value="<?php echo $fieldVal; ?>">
-									<label><?php echo $fieldVal; ?></label>
-								</div>
-							</li>
-
-						</ul>
-						<!--<a href="#" data-toggle="modal" data-target="#modal-extrafields"><?php //echo esc_html__( 'More..', 'listingpro' ); ?></a>-->
-
-					</div>
-				</div>
-				<?php
-			}
-		}
-		?>
-
-
-
-		<?php
-		/* dropdown */
-		$getSwithButtonFieldsFilter = lp_get_extrafields_filter('select', $term_ID, false);
-		if(!empty($getSwithButtonFieldsFilter)){
-			$dataNeedle = true;
-			foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-				?>
-				<div class="col-md-2">
-					<div class="input-group margin-right-0">
-						<strong><?php echo $fieldVal; ?></strong>
-						<ul>
-
-							<li>
-								<div class="pad-bottom-10 checkbox ">
-									<input type="checkbox" name="lp_extrafields_select[]" class="searchtags" value="<?php echo $fieldVal; ?>">
-									<label><?php echo $fieldVal; ?></label>
-								</div>
-							</li>
-
-						</ul>
-						<!--<a href="#" data-toggle="modal" data-target="#modal-extrafields"><?php //echo esc_html__( 'More..', 'listingpro' ); ?></a>-->
-
-					</div>
-				</div>
-				<?php
-			}
-		}
-		?>
-
-
-		<?php
-		/* radio */
-		$getRadioFieldsFilter = lp_get_extrafields_filter('radio', $term_ID, false);
-		if(!empty($getRadioFieldsFilter)){
-			$dataNeedle = true;
-			foreach ($getRadioFieldsFilter as $fieldPostID => $fieldVal) {
-				?>
-				<div class="col-md-2">
-					<div class="input-group margin-right-0">
-						<strong><?php echo $fieldVal; ?></strong>
-						<ul>
-							<?php
-							$getFieldsValue = listing_get_metabox_by_ID('radio-options', $fieldPostID);
-							if (!empty($getFieldsValue)) {
-								$getFieldsArray = explode(",", $getFieldsValue);
-								if (!empty($getFieldsArray)) {
-									foreach ($getFieldsArray as $optionVal) {
-										$optionVal = trim($optionVal);
-										?>
-										<li>
-											<div class="pad-bottom-10 checkbox ">
-												<input type="checkbox" name="lp_extrafields_select[]" class="searchtags" value="<?php echo $optionVal; ?>">
-												<label><?php echo $optionVal; ?></label>
-											</div>
-										</li>
-										<?php
-									}
-								}
-							}
-							?>
-						</ul>
-						<!--<a href="#" data-toggle="modal" data-target="#modal-extrafields"><?php //echo esc_html__( 'More..', 'listingpro' ); ?></a>-->
-
-					</div>
-				</div>
-				<?php
-			}
-		}
-		?>
-
-
-
-		<?php
-		/* dropdown */
-		$getRadioFieldsFilter = lp_get_extrafields_filter('select', $term_ID, false);
-		if(!empty($getRadioFieldsFilter)){
-			$dataNeedle = true;
-			foreach ($getRadioFieldsFilter as $fieldPostID => $fieldVal) {
-				?>
-				<div class="col-md-2">
-					<div class="input-group margin-right-0">
-						<strong><?php echo $fieldVal; ?></strong>
-						<ul>
-							<?php
-							$getFieldsValue = listing_get_metabox_by_ID('select-options', $fieldPostID);
-							if (!empty($getFieldsValue)) {
-								$getFieldsArray = explode(",", $getFieldsValue);
-								if (!empty($getFieldsArray)) {
-									foreach ($getFieldsArray as $optionVal) {
-										$optionVal = trim($optionVal);
-										?>
-										<li>
-											<div class="pad-bottom-10 checkbox ">
-												<input type="checkbox" name="lp_extrafields_select[]" class="searchtags" value="<?php echo $optionVal; ?>">
-												<label><?php echo $optionVal; ?></label>
-											</div>
-										</li>
-										<?php
-									}
-								}
-							}
-							?>
-						</ul>
-						<!--<a href="#" data-toggle="modal" data-target="#modal-extrafields"><?php //echo esc_html__( 'More..', 'listingpro' ); ?></a>-->
-
-					</div>
-				</div>
-				<?php
-			}
-		}
-		
-		if(empty($dataNeedle)){
-			?>
-				<div class="col-md-12">
-					<div class="input-group">
-						<p><?php echo esc_html__('Sorry! No more filter found', 'listingpro'); ?></p>
-					</div>
-				</div>
-			<?php
-		}
-		?>
-
-
-
-
-
-		<div class="clearfix"></div>
-
-		<?php
-		$output .=ob_get_contents();
-		ob_end_clean();
-		ob_flush();
-		return $output;
 	}
 }

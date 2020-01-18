@@ -124,11 +124,11 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 				add_filter( 'tgmpa_load', array( $this, 'tgmpa_load' ), 10, 1 );
 				add_action( 'wp_ajax_envato_setup_plugins', array( $this, 'ajax_plugins' ) );
 				add_action( 'wp_ajax_envato_setup_content', array( $this, 'ajax_content' ) );
-				/* by zaheer */
+                
+                add_action( 'wp_ajax_listingpro_theme_options', array( $this, 'listingpro_theme_options' ) );
 				add_action( 'wp_ajax_setup_content', array( $this, 'setup_content' ) );
 				add_action( 'wp_ajax_listingpro_menu', array( $this, 'listingpro_menu' ) );
-				add_action( 'wp_ajax_listingpro_homepage', array( $this, 'listingpro_homepage' ) );
-				add_action( 'wp_ajax_listingpro_theme_options', array( $this, 'listingpro_theme_options' ) );
+				add_action( 'wp_ajax_listingpro_homepage', array( $this, 'listingpro_homepage' ) );				
 				add_action( 'wp_ajax_listingpro_save_logo', array( $this, 'listingpro_save_logo' ) );
 			}
 			
@@ -247,6 +247,11 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 					'handler' => array( $this, '' ),
 				),
 			);
+            $this->steps['editor_platform'] = array(
+                'name'    => esc_html__( 'Editor', 'listingpro' ),
+                'view'    => array( $this, 'editor_plateform' ),
+                'handler' => array( $this, '' ),
+			);
 			if ( class_exists( 'TGM_Plugin_Activation' ) && isset( $GLOBALS['tgmpa'] ) ) {
 				$this->steps['default_plugins'] = array(
 					'name'    => esc_html__( 'Plugins', 'listingpro' ),
@@ -301,7 +306,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 				'tgm_bulk_url'     => admin_url( $this->tgmpa_url ),
 				'ajaxurl'          => admin_url( 'admin-ajax.php' ),
 				'wpnonce'          => wp_create_nonce( 'envato_setup_nonce' ),
-				'verify_text'      => esc_html__( '' , 'listingpro'),
+				'verify_text'      => '',
 			) );
 
 			//wp_enqueue_style( 'envato_wizard_admin_styles', $this->plugin_url . '/css/admin.css', array(), $this->version );
@@ -484,7 +489,26 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 			}
 		}
 
-		public function filter_options( $options ) {
+		public function editor_plateform(  ) {
+            update_option('lp_update_compatible', true);
+			?>
+                <img style="width:100%;"src="<?php echo get_template_directory_uri().'/assets/images/setup/editor.jpg' ?>"/>
+                <p class="first-step-platform">
+                    <select id="setup_platform">
+                        <option>WP Bakery</option>
+                        <option>Elementor</option>
+                    </select>
+                </p>
+				<p class="envato-setup-actions step text-center step-editor-platform">
+					<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>"
+					   class="button-primary button button-large button-next"><?php esc_html_e( 'NEXT', 'listingpro' ); ?>
+                    </a>
+					
+				</p>
+            <?php
+		}
+        
+        public function filter_options( $options ) {
 			return $options;
 		}
 
@@ -501,7 +525,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 			);
 
 			foreach ( $instance->plugins as $slug => $plugin ) {
-				if ( $instance->is_plugin_active( $slug ) && false === $instance->does_plugin_have_update( $slug ) ) {
+				if ( class_exists('Redux') && false === $instance->does_plugin_have_update( $slug ) ) {
 					// No need to display plugins if they are installed, up-to-date and active.
 					continue;
 				} else {
@@ -643,7 +667,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 						'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 						'action'        => 'tgmpa-bulk-activate',
 						'action2'       => - 1,
-						'message'       => esc_html__( '', 'listingpro' ),
+						'message'       => '',
 					);
 					break;
 				}
@@ -658,7 +682,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 						'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 						'action'        => 'tgmpa-bulk-update',
 						'action2'       => - 1,
-						'message'       => esc_html__( '', 'listingpro' ),
+						'message'       => '',
 					);
 					break;
 				}
@@ -673,7 +697,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 						'_wpnonce'      => wp_create_nonce( 'bulk-plugins' ),
 						'action'        => 'tgmpa-bulk-install',
 						'action2'       => - 1,
-						'message'       => esc_html__( '' , 'listingpro'),
+						'message'       => '',
 					);
 					break;
 				}
@@ -683,7 +707,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 				$json['hash'] = md5( serialize( $json ) ); // used for checking if duplicates happen, move to next plugin
 				wp_send_json( $json );
 			} else {
-				wp_send_json( array( 'done' => 1, 'message' => esc_html__( '', 'listingpro' ) ) );
+				wp_send_json( array( 'done' => 1, 'message' => '' ) );
 			}
 			exit;
 
@@ -748,11 +772,40 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 			<?php
 		}
 		
-		public function setup_content() {
-
+        public function listingpro_theme_options() {
+			
 			$themeSelectedStyle = get_theme_mod('dtbwp_site_style',$this->get_default_theme_style());
-			$file = get_template_directory().'/include/setup/content/'.$themeSelectedStyle.'/content.xml';
-	  if ( !defined('WP_LOAD_IMPORTERS') ) define('WP_LOAD_IMPORTERS', true);
+			$file = get_template_directory().'/include/setup/content/'.$themeSelectedStyle.'/themeOptions.json';
+			$data = file_get_contents( $file );
+			$data = json_decode( $data, true );
+            
+			$theme_option_name       =  'listingpro_options';
+			 
+			if ( is_array( $data ) && !empty( $data ) ) {
+			  $data = apply_filters( 'solitaire_theme_import_theme_options', $data );
+			  update_option($theme_option_name, $data);
+			  die('Theme Options imported');
+			} else {
+				die('Error in theme option');
+			}
+
+		}
+        
+        
+		public function setup_content() {
+            
+        $themeSelectedStyle = get_theme_mod('dtbwp_site_style',$this->get_default_theme_style());
+        $file = get_template_directory().'/include/setup/content/'.$themeSelectedStyle.'/content.xml';
+        $lp_editor_platform =   'WP Bakery';
+        if(isset($_COOKIE['lp_editor_platform'])) {
+            $lp_editor_platform =   $_COOKIE['lp_editor_platform'];
+        }
+        if($lp_editor_platform == 'WP Bakery'){
+            $file = get_template_directory().'/include/setup/content/'.$themeSelectedStyle.'/wp-bakery-content.xml';
+        }else{
+            $file = get_template_directory().'/include/setup/content/'.$themeSelectedStyle.'/elementor-content.xml';
+        }
+      if ( !defined('WP_LOAD_IMPORTERS') ) define('WP_LOAD_IMPORTERS', true);
 
 		require_once ABSPATH . 'wp-admin/includes/import.php';
 
@@ -867,37 +920,16 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 			
 			
 			update_term_meta( 14, 'lp_category_image', $automotiveIcon );
-			update_term_meta( 23, 'lp_category_image', $hotelIcon );
-			update_term_meta( 27, 'lp_category_image', $realestateIcon );
-			update_term_meta( 29, 'lp_category_image', $restaurantIcon );
-			update_term_meta( 31, 'lp_category_image', $servicesIcon );
-
-
-
-			
+			update_term_meta( 12, 'lp_category_image', $hotelIcon );
+			update_term_meta( 16, 'lp_category_image', $realestateIcon );
+			update_term_meta( 37, 'lp_category_image', $restaurantIcon );
+			update_term_meta( 40, 'lp_category_image', $servicesIcon );			
 			
 			
 			die('Home page setup successfully');
 		}
 		
-		public function listingpro_theme_options() {
-			
-			$themeSelectedStyle = get_theme_mod('dtbwp_site_style',$this->get_default_theme_style());
-			$file = get_template_directory().'/include/setup/content/'.$themeSelectedStyle.'/themeOptions.json';
-			$data = file_get_contents( $file );
-			$data = json_decode( $data, true );
-            
-			$theme_option_name       =  'listingpro_options';
-			 
-			if ( is_array( $data ) && !empty( $data ) ) {
-			  $data = apply_filters( 'solitaire_theme_import_theme_options', $data );
-			  update_option($theme_option_name, $data);
-			  die('Theme Options imported');
-			} else {
-				die('Error in theme option');
-			}
-
-		}
+		
 		
 		
 		public $logs = array();
@@ -1018,6 +1050,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 		public function envato_setup_ready() {
 
 			update_option( 'envato_setup_complete', time() );
+            
 			update_option( 'dtbwp_update_notice', strtotime('-4 days') );
 			?>
 			
@@ -1028,7 +1061,7 @@ if ( ! class_exists( 'Envato_Theme_Setup_Wizard' ) ) {
 			
 
 			<?php
-			$welcomePargeURL = admin_url().'themes.php?page=listingpro';
+			$welcomePargeURL = admin_url('admin.php?page=lp-cc-license');
 			header("refresh:3;url=$welcomePargeURL");
 			
 		}

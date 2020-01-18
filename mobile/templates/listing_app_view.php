@@ -23,11 +23,12 @@ if ( have_posts() ) {
 		$location_show = get_post_meta( $plan_id, 'listingproc_location', true );
 		$website_show = get_post_meta( $plan_id, 'listingproc_website', true );
 		$social_show = get_post_meta( $plan_id, 'listingproc_social', true );
+        $menu_show = get_post_meta( $plan_id, 'listingproc_plan_menu', true );
 		$faqs_show = get_post_meta( $plan_id, 'listingproc_faq', true );
 		$price_show = get_post_meta( $plan_id, 'listingproc_price', true );
 		$tags_show = get_post_meta( $plan_id, 'listingproc_tag_key', true );
 		$hours_show = get_post_meta( $plan_id, 'listingproc_bhours', true );
-		
+		$discounts_show = get_post_meta( $plan_id, 'listingproc_plan_deals', true );
 		if($plan_id=="none"){
 			$contact_show = 'true';
 			$map_show = 'true';
@@ -41,6 +42,8 @@ if ( have_posts() ) {
 			$price_show = 'true';
 			$tags_show = 'true';
 			$hours_show = 'true';
+			$menu_show = 'true';
+			$discounts_show = 'true';
 		}
 
 		$claim = '';
@@ -90,7 +93,6 @@ if ( have_posts() ) {
 		$user_cpinterest = '';
 
 		$user_facebook = get_the_author_meta('facebook', $user_id);
-		$user_google = get_the_author_meta('google', $user_id);
 		$user_linkedin = get_the_author_meta('linkedin', $user_id);
 		$user_instagram = get_the_author_meta('instagram', $user_id);
 		$user_twitter = get_the_author_meta('twitter', $user_id);
@@ -105,6 +107,7 @@ if ( have_posts() ) {
 		}
 		$whatsappStatus = $listingpro_options['lp_detail_page_whatsapp_button'];
 		$whatsappMsg = esc_html__('Hi, Contacting for you listing', 'listingpro');
+		$listing_discount_data =   get_post_meta( get_the_ID(), 'listing_discount_data', true );
 		?>
       
         <script>
@@ -457,11 +460,10 @@ if ( have_posts() ) {
                                     $facebook = listing_get_metabox('facebook');
                                     $twitter = listing_get_metabox('twitter');
                                     $linkedin = listing_get_metabox('linkedin');
-                                    $google_plus = listing_get_metabox('google_plus');
                                     $youtube = listing_get_metabox('youtube');
                                     $instagram = listing_get_metabox('instagram');
                                     if($social_show=="true"){
-                                        if(empty($facebook) && empty($twitter) && empty($linkedin) && empty($google_plus) && empty($youtube) && empty($instagram)){}else{
+                                        if(empty($facebook) && empty($twitter) && empty($linkedin) && empty($youtube) && empty($instagram)){}else{
                                             ?>
                                             <div class="widget-box widget-social">
                                                 <div class="widget-content clearfix">
@@ -487,14 +489,6 @@ if ( have_posts() ) {
                                                                 <a href="<?php echo esc_url($linkedin); ?>" class="padding-left-0" target="_blank">
                                                                     <!-- <i class="fa fa-linkedin"></i> -->
                                                                     <?php echo listingpro_icons('lnk'); ?>
-                                                                </a>
-                                                            </li>
-                                                        <?php } ?>
-                                                        <?php if(!empty($google_plus)){ ?>
-                                                            <li  class="lp-li">
-                                                                <a href="<?php echo esc_url($google_plus); ?>#" class="padding-left-0" target="_blank">
-                                                                    <!-- <i class="fa fa-linkedin"></i> -->
-                                                                    <?php echo listingpro_icons('gp'); ?>
                                                                 </a>
                                                             </li>
                                                         <?php } ?>
@@ -538,9 +532,20 @@ if ( have_posts() ) {
                                 $showClaim = false;
                             }
                             $listingpricestatus = listing_get_metabox_by_ID('price_status', get_the_ID());
-
+                            $lp_leadForm = $listingpro_options['lp_lead_form_switch'];
+                            $claimed_section = listing_get_metabox('claimed_section');
+                            $show_leadform_only_claimed = $listingpro_options['lp_lead_form_switch_claim'];
+                            $showleadform = true;
+                            if($show_leadform_only_claimed== true){
+                                if($claimed_section == 'claimed') {
+                                    $showleadform = true;
+                                }
+                                else{
+                                    $showleadform = false;
+                                }
+                            }
                             ?>
-                            <?php if( (!empty($menuMeta) && $menuOption == true ) || !empty($listingpTo) || !empty($listingprice) ||  ($showClaim==true && $claimed_section == 'not_claimed') || $listingpricestatus!="notsay" ) { ?>
+                            <?php if( $showleadform == true || ( $showReport==true && is_user_logged_in() ) || (!empty($menuMeta) && $menuOption == true ) || !empty($listingpTo) || !empty($listingprice) ||  ($showClaim==true && $claimed_section == 'not_claimed') || $listingpricestatus!="notsay" ) { ?>
                                 <div class="widget-box listing-price">
                                     <?php
                                     if(!empty($menuMeta) && $menuOption == true){
@@ -571,19 +576,9 @@ if ( have_posts() ) {
                                         <?php get_template_part('templates/single-list/claimed' ); ?>
 										
 										<?php
-                                        $lp_leadForm = $listingpro_options['lp_lead_form_switch'];
+                                        
                                         if($lp_leadForm=="1"){
-                                            $claimed_section = listing_get_metabox('claimed_section');
-                                            $show_leadform_only_claimed = $listingpro_options['lp_lead_form_switch_claim'];
-                                            $showleadform = true;
-                                            if($show_leadform_only_claimed== true){
-                                                if($claimed_section == 'claimed') {
-                                                    $showleadform = true;
-                                                }
-                                                else{
-                                                    $showleadform = false;
-                                                }
-                                            }
+                                            
                                             if($showleadform == true) {
                                                 ?>
                                                 <div class="claim-area app-view-lead-form-row">
@@ -591,7 +586,7 @@ if ( have_posts() ) {
                                                         <img class="icon icons8-Message" width="20" height="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPnSURBVGhD7ZhZbA1RHMZbSy2xVD1YQvGECCnxIuJFaJAQRONBiFgqQiWVNG1vNxHCK03sEsuLiHijJJZYniSIaPCApGh5sNQWFK3fN/1P3cm9vb295fZOM1/y9T/3fP9zzv+bmXNmpmkBAgQI4C+UlJQM8zurqqoGpvGnpQfwQLiR935jZWXlV6LXiN1pvgJGNvdcIzDHdN8AIwejGfkEF1hOSiM/P78vJo6H1e4x0oL4E663/JREUVHRYGq8HF439BiphM12vIs+6a1dUwfUNQYTD1QjsR4etnq9i524BvGHtZ2CGc4IKQBqmUZtL1Ub8SExm9j+rsXxXBI+qI14lZhpUreBGnKh1rBqvVJcXDxU7TGNCOXl5VNIqjOtFmablHQw9zrYZLWcgG13SYdGhFAoNIrEu9KI9ZibblKykM7cO60+rd0damuVWhGXEYH2QSRfkE78TEzK9sw8Gcx3UvNCXY21JnkQtxEhLy+vN/oh5dBR2/NGk/4LmCeTObQ2VVcjnGdSBDplxAWdisn7r9sz42ZDrUnN8YLbeapJUZGQEYGOK8n9rnyOTxP/2fbMWDNgg419nzjapHaRsBGhoqJiDgO8s37X9GFjUsJgnEWMqTUoEzV6epsUE10yInDJJzLIM+tbW1ZWNs6kToNxNjHGLxvrCOxjUofoshGBK7PM7cuAr4kzTYoX2l73umPA53CIaXGhy0YYYAt93IfUG4tf4BJLiYmCgoJ+5J6xfhrnrY4Z9zFxkqV1iISNkNefzu7+3szxHmIG3G9tukW2WnpUoGfBm5bfyJWdz605luM7amPMj8Tllh4TCRkhZzwdnSc91HuPZzJ+b0f/LZ1YTexvUhv06kP7E8upC99elQ+PSYM6Sbv1DDM5KsjpnBH0ebDt8lPAZJM8QF+B/k158CkMccYX07YKHuW3u3XrhETdXtG0+J08eIldcbhJESA3biNakCXQ3VXOw5gLUmeZCfQccMYNJ+16M9jHccTVCgfmZ5HzyvppE4j6GR6XEdoGwXOmy0iI5nif5ukUs5CJqmENfc8TWQrxb9OlpaUj6HND8xO/wtUmtYG22Eb0nKDtkWm6pXJNSirs21xX0KlRx2ozObYRjpeQoJ1D7fc4ixNM6jZQj9aY88844i3iSGuPNAJ7wV3QeTEk6WRhYeEAZ6QUADXlQK0X1fpK66g9IxctNpGwxfqnFKgti9q05nSif8DrVrPHiNiA09nWLyWhZwsGdlOr+0kRYeS2Pm8tP+VBvUsx5K7lv0bCdwO/gLq3RRgxzVfgikQudhrzfEi99niN+JyOkbM9gBvsbgsQIECAAMlEWtoffgVJFTkMC6UAAAAASUVORK5CYII=">
                                                         <strong><?php echo esc_html__('Contact Listing Owner', 'listingpro'); ?></strong>
                                                     </span>
-                                                    <a class="phone-number leadformtrigger md-trigger">
+                                                    <a class="phone-number leadformtrigger">
                                                         <?php echo esc_html__('Contact Now!', 'listingpro'); ?></a>
                                                 </div>
                                                 <div style="display: none;" class="widget-box business-contact app-view-lead-form">
@@ -644,8 +639,8 @@ if ( have_posts() ) {
                                     <li role="presentation"><a href="#listing-des" aria-controls="listing-des" role="tab" data-toggle="tab"><?php echo esc_html__('Details', 'listingpro'); ?></a></li>
                                     <?php endif; ?>
                                     <?php if( !empty( $video ) && $video_show == 'true' ): ?> <li role="presentation"><a href="#listing-video" aria-controls="listing-video" role="tab" data-toggle="tab"><?php echo esc_html__('Video', 'listingpro'); ?></a></li><?php endif; ?>
-									 <?php if( $faqs_show== "true" && $faq_count > 0 ): ?><li role="presentation"><a href="#listing-faq" aria-controls="listing-faq" role="tab" data-toggle="tab"><?php echo esc_html__("FAQ's", 'listingpro'); ?></a></li> <?php endif; ?>
-									 <?php if( is_array( $lp_listing_menus ) && !empty( $lp_listing_menus ) ){ ?>
+                                    <?php if( $faqs_show== "true" && $faq_count > 0 ): ?><li role="presentation"><a href="#listing-faq" aria-controls="listing-faq" role="tab" data-toggle="tab"><?php echo esc_html__("FAQ's", 'listingpro'); ?></a></li> <?php endif; ?>
+									 <?php if( is_array( $lp_listing_menus ) && !empty( $lp_listing_menus ) && $menu_show == "true" ){ ?>
                                      <li><a href="#listing-menu" aria-controls="listing-menu" role="tab" data-toggle="tab"><?php echo esc_html__('Menu', 'listingpro'); ?></a></li>
                                     <?php } ?>
 									
@@ -745,7 +740,7 @@ if ( have_posts() ) {
 										<?php echo listing_all_extra_fields($post->ID); ?>
 									</div>
                                     <?php endif; ?>
-								<?php if( is_array( $lp_listing_menus ) && !empty( $lp_listing_menus ) ){ 
+								<?php if( is_array( $lp_listing_menus ) && !empty( $lp_listing_menus ) && $menu_show == "true" ){
 
 										require_once (THEME_PATH . "/include/aq_resizer.php");
 									?>
@@ -846,7 +841,7 @@ if ( have_posts() ) {
 
 						                                                ?>
 
-						                                                <span class="lp-menu-item-tags"><?php echo $lp_menu['mDetail']; ?></span>
+                                                                        <span class="lp-menu-item-tags"><?php echo html_entity_decode($lp_menu['mDetail']); ?></span>
 
 						                                            <?php endif; ?>
 
@@ -902,8 +897,100 @@ if ( have_posts() ) {
                                 </div>
                             </div>
 
-							<?php get_template_part( 'templates/single-list/listing-details-style1/content/list-announcements' ); ?>
-							<?php  get_template_part( 'templates/single-list/listing-details-style1/content/list-deals' ); ?>
+							<div class="app-view-new-ann-dis">
+                <?php
+                if( $discounts_show == 'true' && !empty( $listing_discount_data ) )
+                {
+                    ?>
+                    <div class="app-view-dis-wrap">
+                        <?php
+                        foreach ( $listing_discount_data as $listing_discount_datum )
+                        {
+                            ?>
+
+							<?php
+
+
+
+
+                        $btn_href   =   '';
+                        $btn_class  =   'lp-copy-code';
+                        if( $listing_discount_datum['disBL'] && !empty( $listing_discount_datum['disBL'] ) )
+                        {
+                            $btn_href   =   'href="'. $listing_discount_datum['disBL'] .'"';
+                            $btn_class  =   '';
+                        }
+                        ?>
+                        <div class="code-overlay"></div>
+                        <div id="coup-<?php echo get_the_ID(); ?>" class="lp-listing-bottom-right">
+                            <?php
+                            if( !empty( $listing_discount_datum['disOff'] ) || !empty( $listing_discount_datum['disHea'] ) ):
+                                $hea_off    =   $listing_discount_datum['disOff'].' '.$listing_discount_datum['disHea'];
+                                $off_    =   $listing_discount_datum['disOff'] ;
+                                if( strlen( $listing_discount_datum['disOff'] ) > 18 )
+                                {
+                                    $off_   =   mb_substr( $listing_discount_datum['disOff'], 0, 20 ).'...';
+                                }
+
+                                ?>
+                            <div class="discount-bar">
+                                <i class="fa fa-tags pull-left"></i>
+                                    <?php if( $listing_discount_datum['disOff'] ) echo $listing_discount_datum['disOff']; ?>
+                                    <?php
+                                    if( strlen( $listing_discount_datum['disOff'] ) < 18 )
+                                    {
+                                        $new_len    =   15-strlen( $listing_discount_datum['disOff'] );
+                                        if( strlen( $listing_discount_datum['disHea'] ) > $new_len )
+                                        {
+                                            echo mb_substr( $listing_discount_datum['disHea'] ,0 ,$new_len ).'...';
+                                        }
+                                        else
+                                        {
+                                            $listing_discount_datum['disHea'];
+                                        }
+                                    }
+                                    ?>
+                                <i class="fa fa-chevron-down pull-right"></i>
+                            </div>
+
+                            <div class="coupons-bottom-content-wrap">
+                                <div class="archive-countdown-wrap">
+                                    <div id="lp-deals-countdown<?php echo get_the_ID(); ?>" class="lp-countdown lp-deals-countdown<?php echo get_the_ID(); ?>"
+                                         data-label-hours="hours"
+                                         data-label-mins="min"
+                                         data-label-secs="sec"
+                                         data-day="<?php echo date( 'd', $listing_discount_datum['disExpE'] ); ?>"
+                                         data-month="<?php echo date( 'm', $listing_discount_datum['disExpE'] )-1; ?>"
+                                         data-year="<?php echo date( 'Y', $listing_discount_datum['disExpE'] ); ?>"></div>
+                                </div>
+
+                                <a target="_blank" data-target-code="deal-copy-<?php echo get_the_ID(); ?>" <?php echo $btn_href; ?> class="deal-button <?php echo $btn_class; ?>"><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $listing_discount_datum['disBT']; ?></a>
+
+                                <div class="dis-code-copy-pop deal-copy-<?php echo get_the_ID(); ?>" id="dicount-copy-<?php echo get_the_ID(); ?>">
+                                    <span class="close-right-icon" data-target="deal-copy-<?php echo get_the_ID(); ?>"><i class="fa fa-times"></i></span>
+                                    <div class="dis-code-copy-pop-inner">
+                                        <div class="dis-code-copy-pop-inner-cell">
+                                            <p><?php echo esc_html__( 'Copy to clipboard', 'listingpro' ); ?></p>
+                                            <p class="dis-code-copy-wrap"><input class="code-top-copy-<?php echo get_the_ID(); ?>" type="text" value="<?php echo $listing_discount_datum['disCod']; ?>"> <a data-target-code="dicount-copy-<?php echo get_the_ID(); ?>" href="#" class="copy-now" data-coppied-label="<?php echo esc_html__( 'Copied', 'listingpro' ); ?>"><?php echo esc_html__( 'Copy', 'listingpro' ); ?></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+
+                            <?php
+                        }
+                        ?>
+
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php get_template_part( 'templates/single-list/listing-details-style3/content/list-announcements' ); ?>
+                <?php //get_template_part( 'templates/single-list/listing-details-style1/content/list-deals' ); ?>
+            </div>
 
                             <!--Start Event app view-->
 
@@ -932,6 +1019,10 @@ if ( have_posts() ) {
 								}
 								
 							?>
+                            <?php
+                            if(class_exists('Listingpro_bookings')){
+                                include( ABSPATH . 'wp-content/plugins/listingpro-bookings/templates/bookings.php' );
+                            }?>
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-12">
 							<div class="sidebar-post">

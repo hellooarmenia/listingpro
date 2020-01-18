@@ -78,12 +78,19 @@
 									<?php echo listingpro_icons('whiteMapMarkerFill'); ?>
 									<a class="md-trigger mobilelink all-list-map" data-modal="modal-listing"><?php echo esc_html_e('View on map', 'listingpro'); ?></a>
 								</p>
-								<div class="listing-view-layout">
-									<ul>
-										<li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
-										<li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
-									</ul>
-								</div>
+								<?php
+                                    $grid_list_switch   =   $listingpro_options['hide_grid_switcher'];
+                                    if( $grid_list_switch == 'no' ) {
+                                        ?>
+                                        <div class="listing-view-layout">
+                                            <ul>
+                                                <li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
+                                                <li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <?php
+                                    }
+                                ?>
 							</div>
 						</div>
 					</div>
@@ -438,12 +445,20 @@
 							<?php echo listingpro_icons('whiteMapMarkerFill'); ?>
 							<a class="md-trigger mobilelink all-list-map" data-modal="modal-listing"><?php echo esc_html_e('View on map', 'listingpro'); ?></a>
 						</p>
-						<div class="listing-view-layout">
-							<ul>
-								<li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
-								<li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
-							</ul>
-						</div>
+						<?php
+                        $grid_list_switch   =   $listingpro_options['hide_grid_switcher'];
+                        if( $grid_list_switch == 'no' )
+                        {
+                        ?>
+                                    <div class="listing-view-layout">
+                                        <ul>
+                                            <li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
+                                            <li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
+                                        </ul>
+                                    </div>
+                            <?php
+                        }
+                        ?>
 					</div>
 				</div>
 			</div>

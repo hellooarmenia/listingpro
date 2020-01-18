@@ -57,6 +57,26 @@ jQuery('.recipt-download-print i.fa-download').click(function (e) {
 });
 
 
+/* for backend */
+jQuery(document).on('click', 'button.lp-download-invoice', function (e) {
+	
+	var source = document.getElementById("lpinvoiceforpdf");
+	margins = {
+	  top: 10,
+	  bottom: 10,
+	  left: 10,
+	  width: 750
+	};
+	
+	doc.fromHTML(source, margins.left, margins.top, {
+            'width': margins.width,
+            'elementHandlers': specialElementHandlers
+        },function(bla){doc.save('listing-invoice.pdf');}
+    );
+    e.preventDefault();
+});
+
+
 
 
 

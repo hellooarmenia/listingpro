@@ -27,7 +27,9 @@
 				$listing_url = get_the_permalink($postid);
 				$subject = $listingpro_options['listingpro_subject_listing_approved'];
 				$mail_content = $listingpro_options['listingpro_listing_approved'];
-				
+
+
+
 				$formated_mail_content = lp_sprintf2("$mail_content", array(
 					'website_url' => "$website_url",
 					'listing_title' => "$listing_title",
@@ -39,9 +41,11 @@
 				$from = get_option('admin_email');
 				$headers[] = 'Content-Type: text/html; charset=UTF-8';
 				$headers[]= 'From: '.$from . "\r\n";
-				
+
+
+
 				lp_mail_headers_append();
-				wp_mail( $user_email, $subject, $formated_mail_content, $headers);
+                LP_send_mail( $user_email, $subject, $formated_mail_content, $headers);
 				lp_mail_headers_remove();
 				wp_redirect($listing_url);
 			}	
@@ -100,6 +104,7 @@
 											$checkIfpurchasedandpending = lp_if_listing_in_purchased_package($planID, $post->ID);
 											$paybuttonText = '';
 											$paybuttonText = esc_html__('Pay & Publish', 'listingpro');
+                                            $discounted = get_post_meta($postID, 'discounted', true);
 										?>
 										<?php
 											if( !empty($paidmode) && $paidmode=="yes" ){
@@ -139,16 +144,16 @@
 																if($wpdb->get_var("SHOW TABLES LIKE '$ftablename'") == $ftablename) {
 																	$listing_payment_status = lp_get_data_from_db($table, $data, $condition);
 																}
-																if(empty($listing_payment_status)){
+																if(empty($listing_payment_status) && $discounted ==''){
 															?>
 																<a href="<?php echo esc_url($checkout_url);  ?>" class="lp-review-btn btn-second-hover text-center lp-pay-publish-btn" data-lpthisid="<?php echo  $postID; ?>" title="pay"><i class="fa fa-credit-card" aria-hidden="true"></i><?php echo $paybuttonText; ?></a>
-																
+
 															<?php
 																}
 															}
 														}
 														
-														/* if expired */
+														/* if expired
 													
 														if(get_post_status ( $post->ID ) == 'expired'){
 														?>
@@ -160,10 +165,10 @@
 														<?php																
 														}
 														
-														/* end if expired */
+														 end if expired */
 														 
 													}
-													else if( empty($planPrice) ){
+													if( empty($planPrice) ){
 													?>
 														<?php if($listingpro_options['listings_admin_approved']=="no"){ ?> 
 																<form id="lp_recheck" method="post">
@@ -175,16 +180,17 @@
 														<?php } ?>
 													<?php
 													}
-													
+													/*
 													else if( !empty($plan_type) && $plan_type=="Pay Per Listing" &&  !empty($planPrice) ){ ?>
 														<a href="<?php echo esc_url($checkout_url);  ?>" class="lp-review-btn btn-second-hover text-center lp-pay-publish-btn" data-lpthisid="<?php echo  $postID; ?>" title="pay"><?php echo esc_html__('Pay','listingpro'); ?></a>
 													<?php	
-													}
+													}*/
 													
 													?>
 										<?php }else{ ?>
 													<?php if($listingpro_options['listings_admin_approved']=="no"){ ?> 
 															<form id="lp_recheck" method="post">
+                                                                <span><i class="fa fa-credit-card" aria-hidden="true"></i></span>
 																<input class="lp-review-btn btn-second-hover" type="submit" value="<?php echo esc_html__('Publish','listingpro'); ?>" name="publish">
 																<input type="hidden" value="<?php echo esc_attr($postID); ?>" name="publish_post">
 															</form>

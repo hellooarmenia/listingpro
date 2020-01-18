@@ -108,11 +108,13 @@ if( isset( $GLOBALS['my_listing_views'] ) && $GLOBALS['my_listing_views'] != '' 
 $listing_col_class  =   'col-md-12';
 $listing_style = $listingpro_options['listing_style'];
 if( $listing_layout == 'grid_view_v2' )
-{
-	
+{	
 	if($listing_style == '1'){
 		$listing_col_class = 'col-md-4 col-sm-12';
-	}else{
+	}elseif($listing_style == '5'){
+        $listing_style = 'col-md-12 col-sm-12';
+        $postGridnumber = 2;
+    }else{
 		$listing_col_class  =   'col-md-6';
 	}
 }
@@ -161,15 +163,13 @@ if( !empty( $gAddress ) )
     $is_gAddress    =   'ok';
 }
 ?>
-<div class="<?php echo $listing_col_class; ?> <?php echo $adClass; ?> <?php echo 'listing-style-'.$listing_style; ?> <?php echo $listing_layout; ?> loop-switch-class lp-grid-box-contianer" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>">
+<div class="<?php echo $listing_col_class; ?> <?php echo $adClass; ?> <?php echo 'listing-style-'.$listing_style; ?> <?php echo $listing_layout; ?> loop-switch-class grid_view_s4 lp-grid-box-contianer" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>">
     <div class="lp-listing">
         <div class="grid-style-container">
             <div class="lp-listing-top">
                 <a href="#" data-post-id="<?php echo get_the_ID(); ?>" data-post-type="list" class="lp-listing-favrt <?php if($favrt == 'yes'){echo 'remove-fav-v2';}else{echo 'add-to-fav-v2';} ?>">
                     <i class="fa fa-heart<?php if($favrt != 'yes'){echo '-o';} ?>" aria-hidden="true"></i>
                 </a>
-
-               
                 <div class="clearfix lp-listing-discount-outer">
 
                    <?php echo listingpro_price_dynesty($post->ID); ?>
@@ -296,7 +296,7 @@ if( !empty( $gAddress ) )
                         <?php
                         if( $is_phone == 'ok' ):
                             ?>
-                            <li class="show-number-wrap" style="<?php //if( $is_menu == '' ){ echo 'width:100%;'; } ?>">
+                            <li onclick="myFuction(this)" class="show-number-wrap" style="<?php //if( $is_menu == '' ){ echo 'width:100%;'; } ?>">
                                 <p><i class="fa fa-phone" aria-hidden="true"></i> <span class="show-number"><?php esc_html_e('call','listingpro'); ?></span><a href="tel:<?php echo $phone; ?>" class="grind-number"><?php echo $phone; ?></a></p>
                             </li>
                         <?php endif; ?>
@@ -487,11 +487,6 @@ if( !empty( $gAddress ) )
                         ?>
                         <div class="code-overlay"></div>
                         <div id="coup-<?php echo get_the_ID(); ?>" class="lp-listing-bottom-right <?php echo $coupon_mobile; ?>">
-                            <?php if(wp_is_mobile()): ?>
-                                <div class="popup-header">
-                                    <strong><?php echo esc_html__( 'Coupon Code', 'listingpro' ); ?><span class="close-coupon"><i class="fa fa-times" aria-hidden="true"></i></span></strong>
-                                </div>
-                            <?php endif; ?>
                             <?php
                             if( !empty( $listing_discount['disOff'] ) || !empty( $listing_discount['disHea'] ) ):
                                 $hea_off    =   $listing_discount['disOff'].' '.$listing_discount['disHea'];
@@ -502,13 +497,13 @@ if( !empty( $gAddress ) )
                                 }
 
                                 ?>
-                                <p class="lp-listing-bottom-right-title">
-
-                                    <?php if( $listing_discount['disOff'] ) echo '<span class="percent-off">'. $off_ .'</span>'; ?>
+                            <div class="discount-bar">
+                                <i class="fa fa-tags pull-left"></i>
+                                    <?php if( $listing_discount['disOff'] ) echo $listing_discount['disOff']; ; ?>
                                     <?php
                                     if( strlen( $listing_discount['disOff'] ) < 18 )
                                     {
-                                        $new_len    =   22-strlen( $listing_discount['disOff'] );
+                                        $new_len    =   15-strlen( $listing_discount['disOff'] );
                                         if( strlen( $listing_discount['disHea'] ) > $new_len )
                                         {
                                             echo mb_substr( $listing_discount['disHea'] ,0 ,$new_len ).'...';
@@ -519,28 +514,32 @@ if( !empty( $gAddress ) )
                                         }
                                     }
                                     ?>
-                                </p>
-                            <?php endif; ?>
-                            <div class="archive-countdown-wrap">
-                                <div id="lp-deals-countdown<?php echo get_the_ID(); ?>" class="lp-countdown lp-deals-countdown<?php echo get_the_ID(); ?>"
-                                     data-label-hours="hours"
-                                     data-label-mins="min"
-                                     data-label-secs="sec"
-                                     data-day="<?php echo date( 'd', $listing_discount['disExpE'] ); ?>"
-                                     data-month="<?php echo date( 'm', $listing_discount['disExpE'] )-1; ?>"
-                                     data-year="<?php echo date( 'Y', $listing_discount['disExpE'] ); ?>"></div>
+                                <i class="fa fa-chevron-down pull-right"></i>
                             </div>
-                            
-                            <a target="_blank" data-target-code="deal-copy-<?php echo get_the_ID(); ?>" <?php echo $btn_href; ?> class="deal-button <?php echo $btn_class; ?>"><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $listing_discount['disBT']; ?></a>
-							<div class="dis-code-copy-pop deal-copy-<?php echo get_the_ID(); ?>" id="dicount-copy-<?php echo get_the_ID(); ?>">
-                                <span class="close-right-icon" data-target="deal-copy-<?php echo get_the_ID(); ?>"><i class="fa fa-times"></i></span>
-                                <div class="dis-code-copy-pop-inner">
-                                    <div class="dis-code-copy-pop-inner-cell">
-                                        <p><?php echo esc_html__( 'Copy to clipboard', 'listingpro' ); ?></p>
-                                        <p class="dis-code-copy-wrap"><input class="code-top-copy-<?php echo get_the_ID(); ?>" type="text" value="<?php echo $listing_discount['disCod']; ?>"> <a data-target-code="dicount-copy-<?php echo get_the_ID(); ?>" href="#" class="copy-now" data-coppied-label="<?php echo esc_html__( 'Copied', 'listingpro' ); ?>"><?php echo esc_html__( 'Copy', 'listingpro' ); ?></a></p>
+                            <div class="coupons-bottom-content-wrap">
+                                <div class="archive-countdown-wrap">
+                                    <div id="lp-deals-countdown<?php echo get_the_ID(); ?>" class="lp-countdown lp-deals-countdown<?php echo get_the_ID(); ?>"
+                                         data-label-hours="hours"
+                                         data-label-mins="min"
+                                         data-label-secs="sec"
+                                         data-day="<?php echo date( 'd', $listing_discount['disExpE'] ); ?>"
+                                         data-month="<?php echo date( 'm', $listing_discount['disExpE'] )-1; ?>"
+                                         data-year="<?php echo date( 'Y', $listing_discount['disExpE'] ); ?>"></div>
+                                </div>
+
+                                <a target="_blank" data-target-code="deal-copy-<?php echo get_the_ID(); ?>" <?php echo $btn_href; ?> class="deal-button <?php echo $btn_class; ?>"><i class="fa fa-gavel" aria-hidden="true"></i> <?php echo $listing_discount['disBT']; ?></a>
+
+                                <div class="dis-code-copy-pop deal-copy-<?php echo get_the_ID(); ?>" id="dicount-copy-<?php echo get_the_ID(); ?>">
+                                    <span class="close-right-icon" data-target="deal-copy-<?php echo get_the_ID(); ?>"><i class="fa fa-times"></i></span>
+                                    <div class="dis-code-copy-pop-inner">
+                                        <div class="dis-code-copy-pop-inner-cell">
+                                            <p><?php echo esc_html__( 'Copy to clipboard', 'listingpro' ); ?></p>
+                                            <p class="dis-code-copy-wrap"><input class="code-top-copy-<?php echo get_the_ID(); ?>" type="text" value="<?php echo $listing_discount['disCod']; ?>"> <a data-target-code="dicount-copy-<?php echo get_the_ID(); ?>" href="#" class="copy-now" data-coppied-label="<?php echo esc_html__( 'Copied', 'listingpro' ); ?>"><?php echo esc_html__( 'Copy', 'listingpro' ); ?></a></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
                         <?php
                     endif;
@@ -560,7 +559,7 @@ if( !empty( $gAddress ) )
                         <?php
                         if( $is_phone == 'ok' ):
                             ?>
-                            <li class="show-number-wrap" style="<?php //if( $is_menu == '' ){ echo 'width:100%;'; } ?>">
+                            <li onclick="myFuction(this)" class="show-number-wrap" style="<?php //if( $is_menu == '' ){ echo 'width:100%;'; } ?>">
                                 <p><i class="fa fa-phone" aria-hidden="true"></i> <span class="show-number"><?php esc_html_e('call','listingpro'); ?></span><a href="tel:<?php echo $phone; ?>" class="grind-number"><?php echo $phone; ?></a></p>
                             </li>
                         <?php endif; ?>

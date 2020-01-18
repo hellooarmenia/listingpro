@@ -157,7 +157,24 @@ var EnvatoWizard = (function($){
 
     function window_loaded(){
         // init button clicks:
+        $('.step-editor-platform').on( 'click', function(e) {
+            var editor_platform =   'WP Bakery';
+            var cookie_key      =   'lp_editor_platform';
+            if(jQuery('#setup_platform').length) {
+                editor_platform =   jQuery('#setup_platform').val();
+            } else {
+                var current_platform        =   document.cookie.match('(^|;) ?' + cookie_key + '=([^;]*)(;|$)');
+                var current_platform_arr    =   current_platform.toString().split("=");
+                editor_platform =   current_platform_arr[1];
+            }
+
+            var cookie_expires = new Date();
+            cookie_expires.setTime(cookie_expires.getTime() + 31536000000);
+            document.cookie = cookie_key + '=' + editor_platform + ';expires=' + cookie_expires.toUTCString();           
+            
+        });   
         $('.button-next').on( 'click', function(e) {
+            
             var loading_button = dtbaker_loading_button(this);
             if(!loading_button){
                 return false;

@@ -32,6 +32,10 @@
 					}elseif($listing_style == '3' && !is_page()){
 						$listing_style = 'col-md-6 col-sm-12';
 						$postGridnumber = 2;
+					}elseif($listing_style == '5'){
+						$listing_style = 'col-md-12 col-sm-12';
+						$postGridnumber = 2;
+						
 					}else{
 						$listing_style = 'col-md-6 col-sm-6';
 						$postGridnumber =2;
@@ -100,9 +104,69 @@
                 }
 				if( $listing_layout == 'grid_view' && $grid_view_element != 'grid_view4' ) {
                     $listing_stylee = $listingpro_options['listing_style'];
+                    $featureImg = '';
 
-					?>							
-					<div class="<?php echo esc_attr($listing_style); ?> <?php echo esc_attr($adClass); ?> lp-grid-box-contianer grid_view2 card1 lp-grid-box-contianer1" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>" data-lppinurl="<?php echo esc_attr($lp_default_map_pin); ?>">
+                    if (has_post_thumbnail()) {
+
+                        $image = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'listingpro-blog-grid');
+
+                        if(!empty($image[0])){
+                            $featureImg = $image[0];
+                        }
+                        elseif (!empty($deafaultFeatImg)) {
+
+                            $featureImg = $deafaultFeatImg;
+                        }
+
+                        else {
+                            $featureImg = 'https://via.placeholder.com/372x240';
+                        }
+
+                        //$featureImg = $image[0];
+                    }
+
+                    else if ($listingpro_options['lp_def_featured_image_from_gallery'] == 'enable') {
+
+                        //  echo "yes";
+                        $IDs = get_post_meta(get_the_ID(), 'gallery_image_ids', true);
+
+                        $IDs = explode(',', $IDs);
+
+                        if (is_array($IDs)) {
+                            shuffle($IDs);
+
+                            $img_url = wp_get_attachment_image_src($IDs[0], 'listingpro-blog-grid');
+
+                            $imgurl = $img_url[0];
+                            if(!empty($imgurl)){
+                                $featureImg = $imgurl;
+                            }
+                            elseif (!empty($deafaultFeatImg)) {
+
+                                $featureImg = $deafaultFeatImg;
+                            }
+
+                            else {
+                                $featureImg = 'https://via.placeholder.com/372x240';
+                            }
+
+
+                        }
+                    }
+                    elseif (!empty($deafaultFeatImg)) {
+
+                        $featureImg=$deafaultFeatImg;
+
+
+                    } else {
+
+                        $featureImg = 'https://via.placeholder.com/372x240';
+                    }
+
+
+
+                    ?>
+					<div data-feaimg="<?php echo $featureImg; ?>" class="<?php echo esc_attr($listing_style); ?> <?php echo esc_attr($adClass); ?> lp-grid-box-contianer grid_view_s1 grid_view2 card1 lp-grid-box-contianer1" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>" data-lppinurl="<?php echo esc_attr($lp_default_map_pin); ?>">
 						<?php if(is_page_template('template-favourites.php')){ ?>
 							<div class="remove-fav md-close" data-post-id="<?php echo get_the_ID(); ?>">
 								<i class="fa fa-close"></i>
@@ -111,32 +175,16 @@
 						<div class="lp-grid-box">
 							<div class="lp-grid-box-thumb-container" >
 								<div class="lp-grid-box-thumb">
-									<div class="show-img">
-										<?php
-											if ( has_post_thumbnail()) {
-												$image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID()), 'listingpro-blog-grid' );
-													if(!empty($image[0])){
-														echo "<a href='".get_the_permalink()."' >
-																<img src='" . $image[0] . "' />
-															</a>";
-													}else {
-														echo '
-														<a href="'.get_the_permalink().'" >
-															<img src="'.esc_html__('https://via.placeholder.com/372x240', 'listingpro').'" alt="">
-														</a>';
-													}	
-											}elseif(!empty($deafaultFeatImg)){
-												echo "<a href='".get_the_permalink()."' >
-													<img src='" . $deafaultFeatImg . "' />
-												</a>";
-											}else {
-												echo '
-												<a href="'.get_the_permalink().'" >
-													<img src="'.esc_html__('https://via.placeholder.com/372x240', 'listingpro').'" alt="">
-												</a>';
-											}
-										?>
-									</div>
+                                    <div class="show-img">
+                                        <?php
+
+                                        echo '
+                                            <a href="' . get_the_permalink() . '" >
+                                                <img src="' .$featureImg. '" alt="">
+                                            </a>';
+
+                                        ?>
+                                    </div>
 									<div class="hide-img listingpro-list-thumb">
 										<?php
 											if ( has_post_thumbnail()) {
@@ -145,7 +193,11 @@
 														echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-													}else {
+													}elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
 														echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/372x240', 'listingpro').'" alt="">
@@ -183,7 +235,7 @@
 										<h4 class="lp-h4">
 											<a href="<?php echo get_the_permalink(); ?>">
 												<?php echo $CHeckAd; ?>
-												<?php echo substr(get_the_title(), 0, 40); ?>
+												<?php echo substr(get_the_title(), 0, 40) ?>
 												<?php echo $claim; ?>
 											</a>
 										</h4>
@@ -319,7 +371,11 @@
 														echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-													}else {
+													}elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
 														echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/372x400', 'listingpro').'" alt="">
@@ -345,7 +401,11 @@
 														echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-													}else {
+													}elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
 														echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/372x240', 'listingpro').'" alt="">
@@ -500,7 +560,7 @@
 				<?php
                 }elseif( $listing_layout == 'grid_view3' || $grid_view_element == 'grid_view4' ) {
                     ?>
-                    <div class="<?php echo esc_attr($listing_style); ?> <?php echo esc_attr($adClass); ?> lp-grid-box-contianer grid_view2 card1 lp-grid-box-contianer1" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>">
+                    <div class="<?php echo esc_attr($listing_style); ?> <?php echo esc_attr($adClass); ?> lp-grid-box-contianer grid_view2 card1 grid_view_s3 lp-grid-box-contianer1" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>">
                         <?php if(is_page_template('template-favourites.php')){ ?>
                             <div class="remove-fav md-close" data-post-id="<?php echo get_the_ID(); ?>">
                                 <i class="fa fa-close"></i>
@@ -518,11 +578,15 @@
                                                 echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
+                                            }elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
                                             }else {
                                                 echo '
-														<a href="'.get_the_permalink().'" >
-															<img src="'.esc_html__('https://via.placeholder.com/372x400', 'listingpro').'" alt="">
-														</a>';
+                                                <a href="'.get_the_permalink().'" >
+                                                    <img src="'.esc_html__('https://via.placeholder.com/372x400', 'listingpro').'" alt="">
+                                                </a>';
                                             }
                                         }elseif(!empty($deafaultFeatImg)){
                                             echo "<a href='".get_the_permalink()."' >
@@ -544,7 +608,11 @@
                                                 echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-                                            }else {
+                                            }elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
                                                 echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/181x172', 'listingpro').'" alt="">
@@ -822,6 +890,9 @@
 				}elseif ($listing_layout == 'grid_view_v2' || $listing_layout == 'list_view_v2' )
                 {
                     get_template_part( 'templates/loop-list-view' );
+				}elseif ($listing_layout == 'grid_view_v3' ){
+                   get_template_part('templates/loop/loop3');
+				
 				}elseif( $listing_layout == 'list_view' ) {
 					?>
 					<div class="col-md-12 lp-grid-box-contianer list_view card1 lp-grid-box-contianer1 <?php echo esc_attr($adClass); ?>" data-title="<?php echo get_the_title(); ?>" data-postid="<?php echo get_the_ID(); ?>"   data-lattitue="<?php echo esc_attr($latitude); ?>" data-longitute="<?php echo esc_attr($longitude); ?>" data-posturl="<?php echo get_the_permalink(); ?>" data-lppinurl="<?php echo esc_attr($lp_default_map_pin); ?>">
@@ -841,7 +912,11 @@
 														echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-													}else {
+													}elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
 														echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/372x240', 'listingpro').'" alt="">
@@ -867,7 +942,11 @@
 														echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-													}else {
+													}elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
 														echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/372x240', 'listingpro').'" alt="">
@@ -1042,7 +1121,11 @@
                                                 echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-                                            }else {
+                                            }elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
                                                 echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/372x400', 'listingpro').'" alt="">
@@ -1068,7 +1151,11 @@
                                                 echo "<a href='".get_the_permalink()."' >
 																<img src='" . $image[0] . "' />
 															</a>";
-                                            }else {
+                                            }elseif (!empty($deafaultFeatImg)) {
+                                                        echo "<a href='" . get_the_permalink() . "' >
+                                                               <img src='" . $deafaultFeatImg . "' />
+                                                            </a>";
+                                                    }else {
                                                 echo '
 														<a href="'.get_the_permalink().'" >
 															<img src="'.esc_html__('https://via.placeholder.com/181x172', 'listingpro').'" alt="">
@@ -1340,6 +1427,8 @@
                         </div>
                     </div>
                     <?php
+                } elseif ( $listing_layout == 'lp-list-view-compact' ) {
+                    get_template_part( 'templates/lp-list-view-compact' );
                 }
     ?>
 
@@ -1347,6 +1436,6 @@
 								 
 				<?php
                    if($postGridCount%$postGridnumber == 0 ) {
-                       echo '<div class="clearfix"></div>';
+                       echo '<div class="clearfix lp-archive-clearfix"></div>';
                    }
                 ?>

@@ -1,4 +1,4 @@
-	<?php
+<?php
 	
 			$output = null;
 			global $listingpro_options;

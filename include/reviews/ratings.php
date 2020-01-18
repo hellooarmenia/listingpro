@@ -135,11 +135,15 @@ if (!function_exists('listingpro_set_listing_ratings')) {
 				}
 			}
 			if($totalRating != 0 && $totalReviews != 0){
-				$sub = $totalRating/$totalReviews;
-				$afterRound = $sub;
-				$afterRound = number_format($sub, 1);
-			
+				$afterRound = null;
+				if(!empty($totalRating)){
+					$sub = $totalRating/$totalReviews;
+					$afterRound = $sub;
+					$afterRound = number_format($sub, 1);
+				}
+				
 				update_post_meta( $listing_id, 'listing_rate', $afterRound );
+				
 			}
 		}
 		
@@ -179,11 +183,18 @@ if (!function_exists('listingpro_set_listing_ratings')) {
 				
 			}
 			
-			$sub = $totalRating/$totalReviews;
-			$afterRound = $sub;
-			$afterRound = number_format($sub, 1);
+			$afterRound = null;
+			if(!empty($totalRating)){
+				$sub = $totalRating/$totalReviews;
+				$afterRound = $sub;
+				$afterRound = number_format($sub, 1);
+			}
 			
-			update_post_meta( $listing_id, 'listing_rate', $afterRound );
+			if(empty($afterRound)){
+				delete_post_meta( $listing_id, 'listing_rate' );
+			}else{
+				update_post_meta( $listing_id, 'listing_rate', $afterRound );
+			}
 			
 		}
 		

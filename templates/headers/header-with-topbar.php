@@ -71,17 +71,31 @@
 					if($showAddListing==true) {
 							$addURL = listingpro_url('add_listing_url_mode');
 							if(!empty($addURL)) {
+                                $lpl_add_listing    =   'lpl-add-listing-loggedout';
+                                if(is_user_logged_in()) {
+                                    $lpl_add_listing = 'lpl-add-listing-logedin';
+                                }
 							?>
-							<a href="<?php echo listingpro_url('add_listing_url_mode'); ?>" class="lpl-button"><?php esc_html_e('Add Listing', 'listingpro');?></a>
+							<a href="<?php echo listingpro_url('add_listing_url_mode'); ?>" class="lpl-button <?php echo $lpl_add_listing; ?>"><?php esc_html_e('Add Listing', 'listingpro');?></a>
 							<?php 
 						}
 					}
 				?>
 				<?php
 					if (!is_user_logged_in()) {
+                        $login_popup_style  =   $listingpro_options['login_popup_style'];
+                        if($login_popup_style == 'style2') {
+                            ?>
+                            <a class="lpl-button lp-right-15 app-view-popup-style" data-target="#app-view-login-popup"><?php esc_html_e('Sign In', 'listingpro');?></a>
+                            <?php
+                        } else {
+                            ?>
+                            <a class="lpl-button md-trigger" data-modal="modal-3"><?php esc_html_e('Sign In', 'listingpro');?></a>
+                            <?php
+                        }
 						?>
-					<a class="lpl-button md-trigger" data-modal="modal-3"><?php esc_html_e('Join Now', 'listingpro');?></a>
-					<?php }  else { ?>					<a href="<?php echo wp_logout_url( esc_url(home_url('/')) ); ?>" class="lpl-button" style="right: 10px;"><?php esc_html_e('Sign out ','listingpro'); ?></a>					<?php } ?>
+
+					<?php }  else { ?>					<a href="<?php echo wp_logout_url( esc_url(home_url('/')) ); ?>" class="lpl-button lpl-signout" style="right: 10px;"><?php esc_html_e('Sign out ','listingpro'); ?></a>					<?php } ?>
 				<?php
 					echo listingpro_mobile_menu();
 				?>
@@ -127,7 +141,7 @@
 										<?php esc_html_e('Add Listing', 'listingpro'); ?>
 									</a>
 									<a href="#" class="lpl-button md-trigger" data-modal="modal-3">
-										<?php esc_html_e('Join Now', 'listingpro'); ?>
+										<?php esc_html_e('Sign In', 'listingpro'); ?>
 									</a>
 								</div>
 								<?php echo listingpro_mobile_menu(); ?>    

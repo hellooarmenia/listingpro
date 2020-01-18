@@ -7,7 +7,6 @@ global $listingpro_options;
     $author_info = $listingpro_options['author_info'];
     $fb = $listingpro_options['fb'];
     $tw = $listingpro_options['tw'];
-    $gog = $listingpro_options['gog'];
     $insta = $listingpro_options['insta'];
     $tumb = $listingpro_options['tumb'];
     $fyout = $listingpro_options['f-yout'];
@@ -30,25 +29,18 @@ global $listingpro_options;
                                 <?php
                                 if( isset( $footer_logo ) && !empty( $footer_logo ) ):
                                 ?>
-                                <img src="<?php echo $footer_logo['url']; ?>" alt="">
+                                <img src="<?php echo esc_url($footer_logo['url']); ?>" alt="">
                                 <?php endif; ?>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <?php if(!empty($tw) || !empty($gog) || !empty($fb) || !empty($insta) || !empty($tumb) || !empty($fpintereset) || !empty($flinked) || !empty($fyout) || !empty($fvk)){ ?>
+                        <?php if(!empty($tw) || !empty($fb) || !empty($insta) || !empty($tumb) || !empty($fpintereset) || !empty($flinked) || !empty($fyout) || !empty($fvk)){ ?>
                                     <ul class="social-icons footer-social-icons">
                                         <?php if(!empty($fb)){ ?>
                                             <li>
                                                 <a href="<?php echo esc_url($fb); ?>" target="_blank">
                                                     <?php echo listingpro_icons('facebook'); ?>
-                                                </a>
-                                            </li>
-                                        <?php } ?>
-                                        <?php if(!empty($gog)){ ?>
-                                            <li>
-                                                <a href="<?php echo esc_url($gog); ?>" target="_blank">
-                                                    <?php echo listingpro_icons('google'); ?>
                                                 </a>
                                             </li>
                                         <?php } ?>

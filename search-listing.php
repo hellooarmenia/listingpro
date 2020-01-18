@@ -11,6 +11,10 @@ if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
 {
     get_template_part( 'mobile/templates/listing-with-map-app' );
 }
+elseif ( $listing_mobile_view == 'app_view2' && wp_is_mobile() )
+{
+    get_template_part( 'mobile/templates/listing-with-map-app-new' );
+}
 else
 {
     switch($listing_style) {
@@ -25,6 +29,8 @@ else
             break;
 
         case '4': get_template_part( 'templates/listing-with-header-filters' );
+            break;
+        case '5': get_template_part( 'templates/listing-with-sidebar-filters' );
             break;
 
     }

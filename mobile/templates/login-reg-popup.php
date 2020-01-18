@@ -1,5 +1,5 @@
 <?php
-if( !is_user_logged_in() && wp_is_mobile() ){ 
+if( !is_user_logged_in() ){
 	global $listingpro_options;
 				
 				$gSiteKey = '';
@@ -41,27 +41,27 @@ if( !is_user_logged_in() && wp_is_mobile() ){
 						
 						
 						<div class="siginincontainer2">
-							<?php if ( is_plugin_active( "nextend-facebook-connect/nextend-facebook-connect.php" ) ) { ?>
+							<?php if ( class_exists( 'NextendSocialLogin' ) ) { ?>
 							<ul class="social-login list-style-none">
 								
 									<li>
 									<a id="logingoogle" class="google flaticon-googleplus" href="<?php echo get_site_url(); ?>/wp-login.php?loginGoogle=1" onclick="window.location = '<?php echo get_site_url(); ?>/wp-login.php?loginGoogle=1&redirect='+window.location.href; return false;">
                                         <span class="lp-pop-icon-img"><img src="<?php echo listingpro_icons_url('google_login'); ?>"></span>
-                                        <span><?php esc_html_e('sign in With Google','listingpro'); ?></span>
+                                        <span><?php esc_html_e('Google Login','listingpro'); ?></span>
 									</a>
 								</li>
 							
 								<li>
 									<a id="loginfacebook" class="facebook flaticon-facebook" href="<?php echo get_site_url(); ?>/wp-login.php?loginFacebook=1" onclick="window.location = '<?php echo get_site_url(); ?>/wp-login.php?loginFacebook=1&redirect='+window.location.href; return false;">
                                         <span class="lp-pop-icon-img"><img src="<?php echo listingpro_icons_url('facebook_login'); ?>"></span>
-                                        <span><?php esc_html_e('sign in With Facebook','listingpro'); ?></span>
+                                        <span><?php esc_html_e('Facebook Login','listingpro'); ?></span>
 									</a>
 								</li>
 							
 								<li>
 									<a id="logintwitter" class="twitter flaticon-twitter" href="<?php echo get_site_url(); ?>/wp-login.php?loginSocial=twitter" onclick="window.location = '<?php echo get_site_url(); ?>/wp-login.php?loginSocial=twitter&redirect='+window.location.href; return false;">
                                         <span class="lp-pop-icon-img"><img src="<?php echo listingpro_icons_url('twitter_login'); ?>"></span>
-                                        <span><?php esc_html_e('sign in With Twitter','listingpro'); ?></span>
+                                        <span><?php esc_html_e('Twitter Login','listingpro'); ?></span>
 									</a>
 								</li>
 								
@@ -71,7 +71,7 @@ if( !is_user_logged_in() && wp_is_mobile() ){
 							<div class="alterna text-center">
 								<p><?php esc_html_e('Or','listingpro'); ?></p>
 							</div>
-							<form id="login" class="form-horizontal margin-top-30"  method="post">
+							<form id="login" class="form-horizontal margin-top-30"  method="post" data-lp-recaptcha="<?php echo $enableCaptchaLogin; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>">
 								<p class="status"></p>
 								<div class="form-group">
 									<input type="text" class="form-control" id="lpusername" name="lpusername" placeholder="<?php esc_html_e('UserName/Email','listingpro'); ?>"/>
@@ -80,18 +80,6 @@ if( !is_user_logged_in() && wp_is_mobile() ){
 									<input type="password" class="form-control" id="lppassword" name="lppassword" placeholder="<?php esc_html_e('Password','listingpro'); ?>"/>
 								</div>
 							   
-									<?php
-									if($enableCaptchaLogin==true){ ?>
-										 <div class="form-group">
-										<?php if ( class_exists( 'cridio_Recaptcha' ) ){
-											if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) {
-												echo  '<div id="recaptcha-'.get_the_ID().'" class="g-recaptcha" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;" data-sitekey="'.$gSiteKey.'"></div>';
-											}
-										}?>
-										</div>
-								   <?php  }
-
-									?>
 								
 								<div class="form-group">
 									<div class="checkbox clearfix">
@@ -109,27 +97,27 @@ if( !is_user_logged_in() && wp_is_mobile() ){
 
 						</div>
 						<div class="siginupcontainer2">
-							<?php if ( is_plugin_active( "nextend-facebook-connect/nextend-facebook-connect.php" ) ) { ?>
+							<?php if ( class_exists( 'NextendSocialLogin' ) ) { ?>
 							<ul class="social-login list-style-none">
 								
 								<li>
 									<a id="logingoogle" class="google flaticon-googleplus" href="<?php echo get_site_url(); ?>/wp-login.php?loginGoogle=1" onclick="window.location = '<?php echo get_site_url(); ?>/wp-login.php?loginGoogle=1&redirect='+window.location.href; return false;">
                                         <span class="lp-pop-icon-img"><img src="<?php echo listingpro_icons_url('google_login'); ?>"></span>
-                                        <span><?php esc_html_e('sign in With Google','listingpro'); ?></span>
+                                        <span><?php esc_html_e('Google Login','listingpro'); ?></span>
 									</a>
 								</li>
 							
 							<li>
 								<a id="loginfacebook" class="facebook flaticon-facebook" href="<?php echo get_site_url(); ?>/wp-login.php?loginFacebook=1" onclick="window.location = '<?php echo get_site_url(); ?>/wp-login.php?loginFacebook=1&redirect='+window.location.href; return false;">
                                     <span class="lp-pop-icon-img"><img src="<?php echo listingpro_icons_url('facebook_login'); ?>"></span>
-                                    <span><?php esc_html_e('sign in With Facebook','listingpro'); ?></span>
+                                    <span><?php esc_html_e('Facebook Login','listingpro'); ?></span>
 								</a>
 							</li>
 							
 								<li>
 									<a id="logintwitter" class="twitter flaticon-twitter" href="<?php echo get_site_url(); ?>/wp-login.php?loginSocial=twitter" onclick="window.location = '<?php echo get_site_url(); ?>/wp-login.php?loginSocial=twitter&redirect='+window.location.href; return false;">
                                         <span class="lp-pop-icon-img"><img src="<?php echo listingpro_icons_url('twitter_login'); ?>"></span>
-                                        <span><?php esc_html_e('sign in With Twitter','listingpro'); ?></span>
+                                        <span><?php esc_html_e('Twitter Login','listingpro'); ?></span>
 									</a>
 								</li>
 								
@@ -139,7 +127,7 @@ if( !is_user_logged_in() && wp_is_mobile() ){
 							<div class="alterna text-center">
 								<p><?php esc_html_e('Or','listingpro'); ?></p>
 							</div>
-							<form id="register" class="form-horizontal margin-top-30"  method="post">
+							<form id="register" class="form-horizontal margin-top-30"  method="post" data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>">
 								<p class="status"></p>
 								<div class="form-group">
 								   
@@ -177,18 +165,6 @@ if( !is_user_logged_in() && wp_is_mobile() ){
 									}
 								?>
 								
-									<?php
-									if($enableCaptcha==true){?>
-										<div class="form-group">
-									   <?php if ( class_exists( 'cridio_Recaptcha' ) ){
-											if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) {
-												echo  '<div id="recaptcha-'.get_the_ID().'" class="g-recaptcha" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0;" data-sitekey="'.$gSiteKey.'"></div>';
-											}
-										}?>
-										 </div>
-								   <?php }
-
-									?>
 							   
 								<div class="form-group">
 									<input id="lp_usr_reg_btn" type="submit" value="<?php esc_html_e('Register','listingpro'); ?>" class="lp-secondary-btn width-full btn-first-hover" />

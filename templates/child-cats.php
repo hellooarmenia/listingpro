@@ -5,12 +5,14 @@ if( ( is_tax( 'listing-category' ) || ( is_search() && !empty( $_GET['lp_s_cat']
 
     $sub_cats_loc   =   $listingpro_options['lp_listing_sub_cats_lcation'];
 
-    $queried_object = get_queried_object();
-    $parent_id = $queried_object->term_id;
-	if( is_search() && !empty( $_GET['lp_s_cat'] ) )
-	{
-	   $parent_id  =   $_GET['lp_s_cat'];
-	}
+    $parent_id = '';
+    if( is_search() && !empty( $_GET['lp_s_cat'] ) )
+    {
+        $parent_id  =   wp_kses_post($_GET['lp_s_cat']);
+    }
+    if(is_tax('listing-category')) {
+        $parent_id  =   get_queried_object()->term_id;
+    }
     $child_cats =   get_terms(
         'listing-category',
         array(

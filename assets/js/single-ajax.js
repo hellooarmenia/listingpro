@@ -1,29 +1,76 @@
  jQuery(document).ready(function($){
+
+
+	/* for claim slider */
+	if( jQuery('div.claim_slider').length > 0 ){
+		$wol_claim = jQuery(".lp-form-planclaim-st .rightside").width();
+		console.log($wol_claim);
+		jQuery('.lp-form-planclaim-st .claim-detailstext').css('width', $wol_claim+'px');
+		jQuery('.claim_slider').slick({
+			dots: true,
+			infinite: true,
+			arrows:false,
+			slidesToShow: 1,
+			slidesToScroll: 1
+		});
+		
+	}
+	
+	jQuery('.singincheckboxx input').on('click', function(){
+		var checked = jQuery(".singincheckboxx input").is(":checked");
+		
+		if(checked){
+			jQuery('.lp-form-planclaim-st .claim_signup').hide();
+			jQuery('.lp-form-planclaim-st .claim_signin').show();
+		}else{
+			jQuery('.lp-form-planclaim-st .claim_signin').hide();
+			jQuery('.lp-form-planclaim-st .claim_signup').show();
+		}
+	});
+	
+	
+	 
+	 
 	 jQuery('#claimform').on('submit', function(e){
+		
 		$this = jQuery(this);
-		$this.find('.statuss').html('');
+		jQuery('.planclaim-page-popup-st .statuss').hide();
+		jQuery('.planclaim-page-popup-st .statuss .lp-claim-cuccess').html('');
 		jQuery(this).find('.formsubmitting').css('visibility','visible');
 		e.preventDefault();
-		var formData = $(this).serialize();
 		
+		
+		var data = new FormData(this);
+		data.append('action', 'listingpro_claim_list');
+		data.append('lpNonce', jQuery('#lpNonce').val());
+
 		jQuery.ajax({
             type: 'POST',
-            dataType: 'json',
             url: single_ajax_object.ajaxurl,
-            data: { 
-                'action': 'listingpro_claim_list', 
-                'formData': formData, 
-			},   
-            success: function(res){
-				if (jQuery("form#claimform .g-recaptcha-response").length){
-					lp_reset_grecaptcha();
-				}
-				$this.find('.formsubmitting').css('visibility','hidden');
-                //alert(res.state);
-				$this.find('.statuss').html(res.state);
+            data: data,   
+            success: function(resp){
+				var res = jQuery.parseJSON(resp);
+				console.log(res.result);
+                if(res.result > '0'){
+                    $this.find('.formsubmitting').css('visibility','hidden');
+                    jQuery('.planclaim-page-popup-st .statuss .lp-claim-cuccess').html(res.state);
+                    jQuery('.planclaim-page-popup-st .statuss').show();
+                    jQuery('.planclaim-page-popup-st .claim-details.insidewrp').hide();
+                    jQuery('.rightside').css("height","");
+                }else{
+                    $this.find('.formsubmitting').css('visibility','hidden');
+                    jQuery('.planclaim-page-popup-st .lp-claim-cuccess-return').hide();
+                    jQuery('.planclaim-page-popup-st .statuss .lp-claim-cuccess').html(res.state);
+                    jQuery('.planclaim-page-popup-st .statuss').show();
+                    jQuery('.planclaim-page-popup-st .claim-details.insidewrp').hide();
+                    jQuery('.rightside').css("height","");
+
+                }
 				
 				$this[0].reset();
-            }
+            },
+			processData: false,
+			contentType: false,
         });
 		//return false;
 		 //alert(formData);
@@ -34,26 +81,24 @@
 		$this.find('.statuss').html('');
 		jQuery(this).find('.formsubmitting').css('visibility','visible');
 		e.preventDefault();
-		var formData = $(this).serialize();
-		
+		var data = new FormData(this);
+		data.append('action', 'listingpro_claim_list');
+		data.append('lpNonce', jQuery('#lpNonce').val());
+
 		jQuery.ajax({
             type: 'POST',
-            dataType: 'json',
             url: single_ajax_object.ajaxurl,
-            data: { 
-                'action': 'listingpro_claim_list', 
-                'formData': formData, 
-			},   
-            success: function(res){
-				if (jQuery("form#claimformmobile .g-recaptcha-response").length){
-					lp_reset_grecaptcha();
-				}
+            data: data,   
+            success: function(resp){
+				var res = jQuery.parseJSON(resp);
 				$this.find('.formsubmitting').css('visibility','hidden');
                 //alert(res.state);
 				$this.find('.statuss').html(res.state);
 				
 				$this[0].reset();
-            }
+            },
+			processData: false,
+			contentType: false,
         });
 		//return false;
 		 //alert(formData);
@@ -61,7 +106,7 @@
 
 
 
-     jQuery('#contactOwner').on('submit', function(e){
+jQuery('#contactOwner').on('submit', function(e){
 
          $this = jQuery(this);
 
@@ -154,7 +199,6 @@
                      {
                          proceedIt  =   false;
                          $this.addClass('error-msg');
-                         alert('5');
                      }
                      else
                      {
@@ -174,63 +218,122 @@
          var formData = $(this).serialize();
          $this.find('.lp-search-icon').removeClass('fa-send');
          $this.find('.lp-search-icon').addClass('fa-spinner fa-spin');
+		 
+		isCaptcha = jQuery(this).data('lp-recaptcha');
+		siteKey = jQuery(this).data('lp-recaptcha-sitekey');
+		token = '';
+		if ( (isCaptcha == '' || isCaptcha === null) || (siteKey == '' || siteKey === null) ) {
 
-         jQuery.ajax({
-             type: 'POST',
-             dataType: 'json',
-             url: single_ajax_object.ajaxurl,
-             data: {
-                 'action': 'listingpro_contactowner',
-                 'formData': formData,
-             },
-             success: function(res){
-                 if (jQuery("form#contactOwner .g-recaptcha-response").length){
-                     lp_reset_grecaptcha();
-                 }
-                 if(res.result==="fail"){
-                     jQuery.each(res.errors, function (k, v) {
-                         if(k==="email"){
-                             jQuery("input[name='email7']").addClass('error-msg');
-                         }
-                         if(k==="message"){
-                             jQuery("textarea[name='message7']").addClass('error-msg');
-                         }
-                         if(k==="name7"){
-                             jQuery("input[name='name7']").addClass('error-msg');
-                         }
-                         $this.find('.lp-search-icon').removeClass('fa-spinner fa-spin');
-                         $this.find('.lp-search-icon').addClass('fa-cross');
-                         //$this.append(res.state);
-                     });
-                 }
-                 else{
-                     $this.find('.lp-search-icon').removeClass('fa-spinner fa-spin');
-                     $this.find('.lp-search-icon').addClass('fa-check');
-                     // success msg.
-                     jQuery('.lp-lead-success-msg-outer').fadeIn('700');
-                     //$this.append(res.state);
-                     $this[0].reset();
-                 }
-             }
-         });
-         //return false;
-         //alert(formData);
+				 jQuery.ajax({
+					 type: 'POST',
+					 dataType: 'json',
+					 url: single_ajax_object.ajaxurl,
+					 data: {
+						 'action': 'listingpro_contactowner',
+						 'formData': formData,
+                         'lpNonce' : jQuery('#lpNonce').val()
+					 },
+					 success: function(res){
+						 
+						 if(res.result==="fail"){
+							 jQuery.each(res.errors, function (k, v) {
+								 if(k==="email"){
+									 jQuery("input[name='email7']").addClass('error-msg');
+								 }
+								 if(k==="message"){
+									 jQuery("textarea[name='message7']").addClass('error-msg');
+								 }
+								 if(k==="name7"){
+									 jQuery("input[name='name7']").addClass('error-msg');
+								 }
+								 $this.find('.lp-search-icon').removeClass('fa-spinner fa-spin');
+								 $this.find('.lp-search-icon').addClass('fa-cross');
+								 //$this.append(res.state);
+							 });
+						 }
+						 else{
+							 $this.find('.lp-search-icon').removeClass('fa-spinner fa-spin');
+							 $this.find('.lp-search-icon').addClass('fa-check');
+							 // success msg.
+							 jQuery('.lp-lead-success-msg-outer').fadeIn('700');
+							 //$this.append(res.state);
+							 $this[0].reset();
+						 }
+					 }
+				 });
+		}else{
+			
+			grecaptcha.ready(function() {
+				grecaptcha.execute(siteKey, {action: 'lp_lead'}).then(function(token) {
+					
+						jQuery.ajax({
+							 type: 'POST',
+							 dataType: 'json',
+							 url: single_ajax_object.ajaxurl,
+							 data: {
+								 'action': 'listingpro_contactowner',
+								 'formData': formData,
+								 'recaptha-action' : 'lp_lead',
+								 'token' : token,
+                                 'lpNonce' : jQuery('#lpNonce').val()
+							 },
+							 success: function(res){
+								 
+								 if(res.result==="fail"){
+									 jQuery.each(res.errors, function (k, v) {
+										 if(k==="email"){
+											 jQuery("input[name='email7']").addClass('error-msg');
+										 }
+										 if(k==="message"){
+											 jQuery("textarea[name='message7']").addClass('error-msg');
+										 }
+										 if(k==="name7"){
+											 jQuery("input[name='name7']").addClass('error-msg');
+										 }
+										 $this.find('.lp-search-icon').removeClass('fa-spinner fa-spin');
+										 $this.find('.lp-search-icon').addClass('fa-cross');
+										 //$this.append(res.state);
+									 });
+								 }
+								 else{
+									 $this.find('.lp-search-icon').removeClass('fa-spinner fa-spin');
+									 $this.find('.lp-search-icon').addClass('fa-check');
+									 // success msg.
+									 jQuery('.lp-lead-success-msg-outer').fadeIn('700');
+									 //$this.append(res.state);
+									 $this[0].reset();
+								 }
+							 }
+						 });
+					
+				});
+			})
+			
+		}
+         
 
      });
 	 
 	 
 /* jquery ajax code for expired listing plan change */
-	jQuery('.lp-change-proceed-link').on('click', function(e){
+	
+	jQuery(document).on('click','.lp-change-proceed-link', function(e){
 		jQuery('div.lp-existing-plane-container').slideToggle(700);
 		jQuery('div.lp-new-plane-container').slideToggle(700);
 		e.preventDefault();
 	})
 	
-	jQuery('.lp-role-back-to-current-plan').on('click', function(e){
+	jQuery(document).on('click','.lp-role-back-to-current-plan', function(e){
 		jQuery('div.lp-existing-plane-container').slideToggle(700);
 		jQuery('div.lp-new-plane-container').slideToggle(700);
 		e.preventDefault();
 	})
+	
+	/* for recurring stripe */
+	jQuery(document).on('click','#select-plan-form .select-plan-form input[name=plans-posts]', function(){
+		jQuery("a.lp_change_plan_action").hide('');
+		jQuery("div.lp-action-div form").hide('');
+	});
 	
 	
 	jQuery('.lp-change-plan-btn').on('click', function(e){
@@ -239,6 +342,7 @@
 		var plan_title = '';
 		var plan_price = '';
 		var haveplan = '';
+		jQuery('div.lp-loadingPlans').html(jQuery('div.lp-loadingPlans').data('default'));
 		listing_id = jQuery(this).data('listingid');
 		plan_title = jQuery(this).data('plantitle');
 		plan_price = jQuery(this).data('planprice');
@@ -250,11 +354,27 @@
 		jQuery('.lp-selected-plan-price h4' ).html(plan_price);
 		jQuery('#select-plan-form input#listing_id' ).val(listing_id);
 		jQuery('#select-plan-form input#listing_statuss' ).val(listing_status);
-		//jQuery('.pay-again-button').removeClass('lp-new-button-added');
-		//jQuery(this).closest('li').next('.pay-again-button').addClass('lp-new-button-added');
-		e.preventDefault();
+			jQuery.ajax({
+				type: 'POST',
+				dataType: 'json',
+				url: single_ajax_object.ajaxurl,
+				data: { 
+					'action': 'listingpro_change_plan_data', 
+					'listing_id': listing_id, 
+					'plan_title': plan_title, 
+					'plan_price': plan_price, 
+					'haveplan': haveplan, 
+					'listing_status': listing_status,
+                    'lpNonce' : jQuery('#lpNonce').val()
+				},   
+				success: function(data){
+					jQuery('div.lp-loadingPlans').html(data);
+				}
+			});		
+			
+			e.preventDefault();
 	});
-	jQuery('#select-plan-form').submit(function(event){
+	jQuery(document).on('submit', '#select-plan-form',function(event){
 		var plan_id = '';
 		$this = jQuery(this);
 		listing_idd = '';
@@ -273,7 +393,8 @@
 					'action': 'listingpro_change_plan', 
 					'ch_plan_id': listing_idd, 
 					'ch_listing_id': listing_id, 
-					'ch_listing_status': listing_status, 
+					'ch_listing_status': listing_status,
+                    'lpNonce' : jQuery('#lpNonce').val()
 				},   
 				success: function(data){
 					//jQuery('#select-plan-form')[0].reset();
@@ -309,7 +430,8 @@
 				data: { 
 					'action': 'listingpro_change_plan_proceeding', 
 					'plan_iddd': planid, 
-					'listing_iddd': listingid, 
+					'listing_iddd': listingid,
+                    'lpNonce' : jQuery('#lpNonce').val()
 				},   
 				success: function(data){
 					//jQuery('#select-plan-form')[0].reset();
@@ -342,6 +464,7 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
              data: {
                  'action': 'listingpro_cancel_subscription_proceeding',
                  'subscript_id': subscript_id,
+                 'lpNonce' : jQuery('#lpNonce').val()
              },
              success: function(data){
                  jQuery('body').removeClass('listingpro-loading');
@@ -376,7 +499,8 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
 					'action': 'listingpro_report_this_post', 
 					'posttype': $posttype, 
 					'postid': $postid, 
-					'reportedby': $reportedby 
+					'reportedby': $reportedby,
+                    'lpNonce' : jQuery('#lpNonce').val()
 				},   
 				success: function(data){
 					jQuery('body').removeClass('listingpro-loading');
@@ -423,6 +547,7 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
                  'action': 'listingpro_show_bar_chart',
                  'type': $type,
                  'duration': $duration,
+                 'lpNonce' : jQuery('#lpNonce').val()
              },
              success: function(data){
                  jQuery('body').removeClass('listingpro-loading');
@@ -444,7 +569,6 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
  });
 
 function showthischart($datarray, $type){
-	// Use Morris.Bar
 	Morris.Bar({
 	  element: 'lpgraph',
 	  data : $datarray,
@@ -483,19 +607,26 @@ jQuery(document).on('click', 'button.coupon-apply-bt', function(){
                  'listingid': $listingID,
                  'taxrate': $taxRate,
                  'price': $price,
+                 'lpNonce' : jQuery('#lpNonce').val()
              },
              success: function(data){
                  jQuery('body').removeClass('listingpro-loading');
                  if(data.status=="success"){
                      $discount = data.discount;
-                     $newprice = $discount/100;
-                     $newprice = $newprice*$price;
-                     $newprice = $price-$newprice;
+                     $discounttype = data.coupontype;
+					 $discountIn = '%';
+					 if($discounttype=='on'){
+						 /* means it is fixed price coupon */
+						 $discountIn = '';
+					 }
+					 $newprice = data.price;
                      $newprice = parseFloat($newprice).toFixed(2);
                      lp_add_checkout_data_fields_in_form($listingID, $post_title, $planID, $newprice, $tax, $taxRate);
 					  if(jQuery('li').hasClass('checkout_discount_val')){}else{
-					 jQuery('span.lp-subtotal-p-price').parent().after('<li class="checkout_discount_val"><span class="item-price-total-left lp-subtotal-plan">Discounted</span><span class="item-price-total-right lp-subtotal-p-prasaice">'+$discount+'%</span></li>');
+					 jQuery('span.lp-subtotal-p-price').parent().after('<li class="checkout_discount_val"><span class="item-price-total-left lp-subtotal-plan">Discounted</span><span class="item-price-total-right lp-subtotal-p-prasaice">'+$discount+$discountIn+'</span></li>');
 					  }
+                 }else{
+                     ajax_success_popup( data, '' )
                  }
 
              },
@@ -508,11 +639,11 @@ jQuery(document).on('click', 'button.coupon-apply-bt', function(){
 
  });
  
- /* reset tax in database while switching offto discound */
+/* reset tax in database while switching offto discound */
 jQuery(document).on('click', 'input[name="lp_checkbox_coupon"]', function(){
 	if(jQuery(this).hasClass('active')){}else{
 		
-		 var couponcode = '';
+		 var couponcode = jQuery('input[name=coupon-text-field]').val();
 		 var $price = jQuery('input[name=listing_id]:checked').data('planprice');
 		 var $listingID = jQuery('input[name=listing_id]:checked').val();
 		 var $post_title = jQuery('input[name=listing_id]:checked').data('title');
@@ -527,21 +658,27 @@ jQuery(document).on('click', 'input[name="lp_checkbox_coupon"]', function(){
              data: {
                  'action': 'listingpro_apply_coupon_code',
                  'coupon': couponcode,
+                 'notusing': 'true',
                  'listingid': $listingID,
                  'taxrate': $taxRate,
                  'price': $price,
+                 'lpNonce' : jQuery('#lpNonce').val()
              },
              success: function(data){
                  jQuery('body').removeClass('listingpro-loading');
                  if(data.status=="success"){
                      $discount = data.discount;
-                     $newprice = $discount/100;
-                     $newprice = $newprice*$price;
-                     $newprice = $price-$newprice;
+                     $discounttype = data.coupontype;
+					 $discountIn = '%';
+					 if($discounttype=='on'){
+						 /* means it is fixed price coupon */
+						 $discountIn = '';
+					 }
+					 $newprice = data.price;
                      $newprice = parseFloat($newprice).toFixed(2);
                      lp_add_checkout_data_fields_in_form($listingID, $post_title, $planID, $newprice, $tax, $taxRate);
 					  if(jQuery('li').hasClass('checkout_discount_val')){}else{
-					 jQuery('span.lp-subtotal-p-price').parent().after('<li class="checkout_discount_val"><span class="item-price-total-left lp-subtotal-plan">Discounted</span><span class="item-price-total-right lp-subtotal-p-prasaice">'+$discount+'%</span></li>');
+					 jQuery('span.lp-subtotal-p-price').parent().after('<li class="checkout_discount_val"><span class="item-price-total-left lp-subtotal-plan">Discounted</span><span class="item-price-total-right lp-subtotal-p-prasaice">'+$discount+$discountIn+'</span></li>');
 					  }
                  }
 
@@ -558,6 +695,7 @@ jQuery(document).on('click', 'input[name="lp_checkbox_coupon"]', function(){
  });
  
  
+ 
 /* ajax call to reply to leads message */
 jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
 	
@@ -565,6 +703,7 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
 	$this.find('.lpthisloading').show();
 	var fd = new FormData(this);
 	fd.append('action', 'lp_reply_to_lead_msg');
+	fd.append('lpNonce', jQuery('#lpNonce').val());
 	jQuery.ajax({
             type: 'POST',
             url: single_ajax_object.ajaxurl,
@@ -589,12 +728,15 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
 });
 
 /* ajax call read message thread on click */
- /* ajax call read message thread on click */
  jQuery(document).on('click', '.lp-read-messages .lp-read-message-inner', function(e){
      $this = jQuery(this);
      $loaderImg = $this.data('loader');
      $listingid = $this.data('listingid');
      $useremail = $this.data('email');
+	 jQuery('.lp-read-messages .lp-read-message-inner').removeClass('active');
+	 jQuery('.lp-read-messages .lp-read-message-inner').removeClass('unread');
+	 $this.addClass('active');
+	 $this.addClass('read');
      if($listingid){
          jQuery('.lpinboxmiddlepart').html('');
          jQuery('.lpinboxrightpart').html('');
@@ -608,6 +750,7 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
                  'action': 'lp_preview_this_message_thread',
                  'listindid': $listingid,
                  'useremail': $useremail,
+                 'lpNonce' : jQuery('#lpNonce').val()
              },
              success: function(data){
                  jQuery('.lpinboxmiddlepart').html('');
@@ -629,60 +772,7 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
 
  });
 
- /* function for Campaigns per click counter */
 
- jQuery(document).on('click', 'body.home .listingcampaings .lp-grid-box-contianer .lp-grid-box .lp-h4 a, body.home .listingcampaings .lp-grid-box .lp-grid-box-thumb-container .lp-grid-box-thumb a, body.search .promoted-listings .lp-grid-box .lp-grid-box-thumb-container .lp-grid-box-thumb a, body.search .promoted-listings .lp-grid-box-contianer .lp-grid-box .lp-h4 a, body.archive .promoted-listings .lp-grid-box .lp-grid-box-thumb-container .lp-grid-box-thumb a, body.archive .promoted-listings .lp-grid-box-contianer .lp-grid-box .lp-h4 a, .promoted-listings .lp-grid-app-view .lp-grid-box .lp-grid-box-thumb .show-img a, .promoted-listings .lp-grid-app-view .lp-grid-box .lp-h4 a, .listingcampaings .lp-grid-app-view .lp-grid-box .lp-grid-box-thumb .show-img a, .single-listing .widget_listingpro_ads_widget .listing-post article figure a, .single-listing .widget_listingpro_ads_widget .listing-post article figure figcaption a.overlay-link, .single-listing .widget_listingpro_ads_widget .listing-post article figure figcaption h4 a,.single .widget_listingpro_ads_widget .listing-post article figure figcaption a.overlay-link,.single .widget_listingpro_ads_widget .listing-post article figure figcaption h4 a, body.home .listingcampaings .lp-listing .lp-listing-bottom h4 a,  body.home .listingcampaings .lp-listing .lp-listing-top-thumb a', function(){
-
-     $listingURL = jQuery(this).attr('href');
-     //search
-     $type = '';
-
-     if(jQuery('body').hasClass('search') || jQuery('body').hasClass('archive')){
-         $type = 'lp_top_in_search_page_ads_pc';
-     }
-     //home
-
-     if(jQuery('body').hasClass('home')){
-         $type = 'lp_random_ads_pc';
-     }
-     //detail
-     if(jQuery('body').hasClass('single-listing')){
-         $type = 'lp_detail_page_ads_pc';
-     }
-
-     jQuery.ajax({
-         type: 'POST',
-
-         dataType: 'json',
-
-         async:false,
-
-         url: single_ajax_object.ajaxurl,
-
-         data: {
-             'action': 'lp_count_clicks_for_campaigns',
-
-             'listingURL': $listingURL,
-
-             'type': $type,
-         },
-
-         success: function(data){
-
-             console.log(data);
-             window.location.href = $listingURL;
-
-         },
-
-         error: function(jqXHR, textStatus, errorThrown) {
-
-             console.log(errorThrown);
-
-         }
-
-     });
-
- });
 /* ==================for saving id in session for checkout============= */
  
  jQuery(document).on('click', 'a.lp-pay-publish-btn, a.lp-listing-pay-button, input.lp-listing-pay-button', function(){
@@ -694,6 +784,7 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
          data: {
              'action': 'lp_save_thisid_in_session',
              'listing_id': $listingID,
+             'lpNonce' : jQuery('#lpNonce').val()
          },
          success: function(data){
              console.log(data);
@@ -719,6 +810,7 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
              'action': 'lp_delete_this_conversation',
              'listingid': $listingid,
              'emailid': $emailid,
+             'lpNonce' : jQuery('#lpNonce').val()
          },
          success: function(data){
             $this.closest('#lp-ad-click-inner').find('.lpthisloading').removeClass('fa-spinner fa-spin');
@@ -729,4 +821,347 @@ jQuery(document).on('submit', 'form[name=lp_leadReply]', function(e){
              console.log(errorThrown);
          }
      });
+ });
+
+
+/* ==================submit contact us form============= */
+jQuery(document).ready(function($){
+    jQuery( '#contactMSGForm' ).on('submit', function(e){
+		jQuery('#contactMSGForm #error').hide();
+		jQuery('#contactMSGForm #success').hide();
+		jQuery('#contactMSGForm .statuss').show();
+		e.preventDefault();
+		$this = jQuery(this);
+		isCaptcha = jQuery(this).data('lp-recaptcha');
+		siteKey = jQuery(this).data('lp-recaptcha-sitekey');
+		token = '';
+		var fd = new FormData(this);
+		fd.append('action', 'lp_ajax_contact_submit');
+		fd.append('lpNonce', jQuery('#lpNonce').val());
+			if ( (isCaptcha == '' || isCaptcha === null) || (siteKey == '' || siteKey === null) ) {
+					
+						jQuery.ajax({
+							type: 'POST',
+							url: single_ajax_object.ajaxurl,
+							data:fd,
+							contentType: false,
+							processData: false,
+							
+							success: function(res){
+								jQuery('#contactMSGForm .statuss').hide();
+								var res = jQuery.parseJSON(res);
+								if(res.status=="error"){
+									jQuery('#contactMSGForm #error span p').html('');
+									jQuery('#contactMSGForm #error span p').html(res.msg);
+									jQuery('#contactMSGForm #error').show();
+								}
+								else if(res.status=="success"){
+									jQuery('#contactMSGForm #success span p').html('');
+									jQuery('#contactMSGForm #success span p').html(res.msg);
+									jQuery('#contactMSGForm #success').show();
+								}
+								
+							},
+							error: function(request, error){
+								jQuery('#contactMSGForm .statuss').hide();
+								alert(error);
+							}
+						});
+			}else{
+						//for recpatcha
+						
+						grecaptcha.ready(function() {
+							grecaptcha.execute(siteKey, {action: 'lp_contact'}).then(function(token) {
+								
+								fd.append('recaptha-action', 'lp_contact');
+								fd.append('token', token);
+								
+								jQuery.ajax({
+									type: 'POST',
+									url: single_ajax_object.ajaxurl,
+									data:fd,
+									contentType: false,
+									processData: false,
+									
+									success: function(res){
+										jQuery('#contactMSGForm .statuss').hide();
+										var res = jQuery.parseJSON(res);
+										if(res.status=="error"){
+											jQuery('#contactMSGForm #error span p').html('');
+											jQuery('#contactMSGForm #error span p').html(res.msg);
+											jQuery('#contactMSGForm #error').show();
+										}
+										else if(res.status=="success"){
+											jQuery('#contactMSGForm #success span p').html('');
+											jQuery('#contactMSGForm #success span p').html(res.msg);
+											jQuery('#contactMSGForm #success').show();
+										}
+										
+									},
+									error: function(request, error){
+										jQuery('#contactMSGForm .statuss').hide();
+										alert(error);
+									}
+								});
+								
+							});
+						})
+			}
+		
+	 });
+});
+
+/* ===============lp review filter=============== */
+ jQuery(document).ready(function($){
+	jQuery('#lp_reivew_drop_filter').on('change', function(e){
+		e.preventDefault();
+		jQuery('.reviews-section').html('');
+		jQuery('.review-filter-loader').show();
+		jQuery('.lp-listing-reviews .lp-listing-review').remove();
+		$this = jQuery(this);
+					jQuery.ajax({
+						 type: 'POST',
+						 dataType: 'json',
+						 url: single_ajax_object.ajaxurl,
+						 data: {
+							 'action': 'lp_show_sorted_reivews',
+							 'order_by': $this.val(),
+							 'listing_id': jQuery('input[name=post_id]').val(),
+                             'lpNonce' : jQuery('#lpNonce').val()
+						 },
+						 success: function(data){
+							jQuery('.review-filter-loader').hide();
+							jQuery('.reviews-section').html(data);
+							jQuery('.lp-listing-reviews').append(data);
+						 },
+						 error: function(jqXHR, textStatus, errorThrown) {
+							 jQuery('.review-filter-loader').hide();
+							 console.log(errorThrown);
+						 }
+					});
+	}); 
+ });
+
+/* ===============lp make listing publish with 100% discount=============== */
+ function lp_make_this_listing_publish_withdiscount($listing_id){
+	 
+	 jQuery('body').addClass('listingpro-loading');
+					jQuery.ajax({
+						 type: 'POST',
+						 dataType: 'json',
+						 url: single_ajax_object.ajaxurl,
+						 data: {
+							 'action': 'lp_make_listing_published',
+							 'listing_id': $listing_id,
+                             'plan_price': jQuery("#listings_checkout_form input[name=plan_price]").val(),
+				             'taxrate': jQuery("#listings_checkout_form input[name=listings_tax_price]").val(),
+                              'coupon' : jQuery("#listings_checkout_form input[name=coupon-text-field]").val(),
+                             'lpNonce' : jQuery('#lpNonce').val()
+						 },
+						 success: function(data){
+							jQuery('body').removeClass('listingpro-loading');
+							if(data.status=="success"){
+								/* redirect to the listing page */
+								document.location.href = data.url;
+							}else{
+								alert(data.url);
+							}
+						 },
+						 error: function(jqXHR, textStatus, errorThrown) {
+							 jQuery('body').removeClass('listingpro-loading');
+							 alert(errorThrown);
+							 console.log(errorThrown);
+						 }
+					});
+ }
+ 
+ 
+ /* =================lp save user analytics===================== */
+ jQuery(document).on('submit','#lp-user-g-analytics form', function(e){
+		e.preventDefault();
+		formData = jQuery(this);
+		jQuery('#lp-user-g-analytics .analyticsspin').show();
+		
+		jQuery.ajax({
+						 type: 'POST',
+						 dataType: 'json',
+						 url: single_ajax_object.ajaxurl,
+						 data: {
+							 'action': 'lp_save_user_analytics',
+							 'data': formData.serialize(),
+                             'lpNonce' : jQuery('#lpNonce').val()
+						 },
+						 success: function(data){
+							if(data=="success"){
+							}else{
+								
+							}
+							jQuery('#lp-user-g-analytics .analyticsspin').hide();
+						 },
+						 error: function(jqXHR, textStatus, errorThrown) {
+							 alert(errorThrown);
+							 jQuery('#lp-user-g-analytics .analyticsspin').hide();
+						 }
+					});
+	});
+
+
+
+ /* =================claim form enable disbale button and fields validation===================== */
+ jQuery(document).ready(function () {
+     var kldf = jQuery("#claim_new_user_email").attr('placeholder');
+     if (kldf != undefined) {
+         jQuery('#lp-signin-on-claim').click(function () {
+             jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+
+             jQuery('#claim_username').val("");
+             jQuery('#claim_userpass').val("");
+             jQuery('#claim_new_user_email').val("");
+         });
+         jQuery("#claimform #fullname, #lastname, #phoneClaim, #bemail, #message, #claim_username, #claim_userpass, #claim_new_user_email").keyup(function(){
+             if (jQuery('#lp-signin-on-claim').prop('checked')) {
+                 var name = jQuery('#fullname').val(),
+                     lname = jQuery('#lastname').val(),
+                     phone = jQuery('#phoneClaim').val(),
+                     email = jQuery('#bemail').val();
+                 comment = jQuery('#message').val();
+                 newusername = jQuery('#claim_username').val();
+                 newuserpass = jQuery('#claim_userpass').val();
+                 if( name.length > 0 && lname.length > 0 && phone.length > 0 && email.length > 0 && comment.length > 0 && newusername.length > 0 && newuserpass.length > 0 ){
+                     var checkpandp = jQuery('#textforjq').val();
+                     if (checkpandp == 'true') {
+                         var checkpandpcheck = jQuery('#claimform .lpprivacycheckboxopt').is(':checked');
+                         if (checkpandpcheck == 'false') {
+                             jQuery('#claimform').find('input[type=submit]').attr("disabled", "disabled");
+                         }else if (checkpandpcheck == 'true') {
+                             jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                         }
+                     }else if (checkpandp == 'false') {
+                         jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                     }
+                 }else{
+                     jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+                 }
+             }else{
+                 var name = jQuery('#fullname').val(),
+                     lname = jQuery('#lastname').val(),
+                     phone = jQuery('#phoneClaim').val(),
+                     email = jQuery('#bemail').val();
+                 comment = jQuery('#message').val();
+                 newuser = jQuery('#claim_new_user_email').val();
+                 if( name.length > 0 && lname.length > 0 && phone.length > 0 && email.length > 0 && comment.length > 0 && newuser.length > 0 ){
+                     var checkpandp = jQuery('#textforjq').val();
+                     if (checkpandp == 'true') {
+                         var checkpandpcheck = jQuery('#claimform .lpprivacycheckboxopt').is(':checked');
+                         if (checkpandpcheck == 'false') {
+                             jQuery('#claimform').find('input[type=submit]').attr("disabled", "disabled");
+                         }else if (checkpandpcheck == 'true') {
+                             jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                         }
+                     }else if (checkpandp == 'false') {
+                         jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                     }
+                 }else{
+                     jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+                 }
+             }
+         });
+         jQuery("#claimform #fullname, #lastname, #phoneClaim, #bemail, #message, #claim_username, #claim_userpass, #claim_new_user_email, #claimform .lpprivacycheckboxopt").click(function(){
+             if (jQuery('#lp-signin-on-claim').prop('checked')) {
+                 var name = jQuery('#fullname').val(),
+                     lname = jQuery('#lastname').val(),
+                     phone = jQuery('#phoneClaim').val(),
+                     email = jQuery('#bemail').val();
+                 comment = jQuery('#message').val();
+                 newusername = jQuery('#claim_username').val();
+                 newuserpass = jQuery('#claim_userpass').val();
+                 if( name.length > 0 && lname.length > 0 && phone.length > 0 && email.length > 0 && comment.length > 0 && newusername.length > 0 && newuserpass.length > 0 ){
+                     var checkpandp = jQuery('#textforjq').val();
+                     if (checkpandp == 'true') {
+                         var checkpandpcheck = jQuery('#claimform .lpprivacycheckboxopt').is(':checked');
+                         if (checkpandpcheck == 'false') {
+                             jQuery('#claimform').find('input[type=submit]').attr("disabled", "disabled");
+                         }else if (checkpandpcheck == 'true') {
+                             jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                         }
+                     }else if (checkpandp == 'false') {
+                         jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                     }
+                 }else{
+                     jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+                 }
+             }else{
+                 var name = jQuery('#fullname').val(),
+                     lname = jQuery('#lastname').val(),
+                     phone = jQuery('#phoneClaim').val(),
+                     email = jQuery('#bemail').val();
+                 comment = jQuery('#message').val();
+                 newuser = jQuery('#claim_new_user_email').val();
+                 if( name.length > 0 && lname.length > 0 && phone.length > 0 && email.length > 0 && comment.length > 0 && newuser.length > 0 ){
+                     var checkpandp = jQuery('#textforjq').val();
+                     if (checkpandp == 'true') {
+                         var checkpandpcheck = jQuery('#claimform .lpprivacycheckboxopt').is(':checked');
+                         if (checkpandpcheck == 'false') {
+                             jQuery('#claimform').find('input[type=submit]').attr("disabled", "disabled");
+                         }else if (checkpandpcheck == 'true') {
+                             jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                         }
+                     }else if (checkpandp == 'false') {
+                         jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                     }
+                 }else{
+                     jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+                 }
+             }
+         });
+     }else{
+         jQuery("#claimform #fullname, #lastname, #phoneClaim, #bemail, #message, #claim_new_user_email").keyup(function(){
+
+             var name = jQuery('#fullname').val(),
+                 lname = jQuery('#lastname').val(),
+                 phone = jQuery('#phoneClaim').val(),
+                 email = jQuery('#bemail').val();
+             comment = jQuery('#message').val();
+             if( name.length > 0 && lname.length > 0 && phone.length > 0 && email.length > 0 && comment.length > 0 ){
+                 var checkpandp = jQuery('#textforjq').val();
+                 if (checkpandp == 'true') {
+                     var checkpandpcheck = jQuery('#claimform .lpprivacycheckboxopt').is(':checked');
+                     if (checkpandpcheck == 'false') {
+                         jQuery('#claimform').find('input[type=submit]').attr("disabled", "disabled");
+                     }else if (checkpandpcheck == 'true') {
+                         jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                     }
+                 }else if (checkpandp == 'false') {
+                     jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                 }
+             }else{
+                 jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+             }
+         });
+
+         jQuery("#claimform #fullname, #lastname, #phoneClaim, #bemail, #message, #claim_new_user_email, #claimform .lpprivacycheckboxopt").click(function(){
+
+             var name = jQuery('#fullname').val(),
+                 lname = jQuery('#lastname').val(),
+                 phone = jQuery('#phoneClaim').val(),
+                 email = jQuery('#bemail').val();
+             comment = jQuery('#message').val();
+
+             if( name.length > 0 && lname.length > 0 && phone.length > 0 && email.length > 0 && comment.length > 0 ){
+                 var checkpandp = jQuery('#textforjq').val();
+                 if (checkpandp == 'true') {
+                     var checkpandpcheck = jQuery('#claimform .lpprivacycheckboxopt').is(':checked');
+                     if (checkpandpcheck == 'false') {
+                         jQuery('#claimform').find('input[type=submit]').attr("disabled", "disabled");
+                     }else if (checkpandpcheck == 'true') {
+                         jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                     }
+                 }else if (checkpandp == 'false') {
+                     jQuery('#claimform').find('input[type=submit]').removeAttr('disabled');
+                 }
+             }else{
+                 jQuery(this).closest('form').find('input[type=submit]').attr("disabled", "disabled");
+             }
+         });
+     }
  });

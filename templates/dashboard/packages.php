@@ -33,9 +33,10 @@ if(!empty($results)){
     ?>
     <div class="tab-pane fade in active lp-packages" id="lp-listings">
 
-        <div class="panel with-nav-tabs panel-default lp-dashboard-tabs col-md-12 lp-left-panel-height">
+        <div class="panel with-nav-tabs panel-default lp-dashboard-tabs col-md-11 align-center">
 
             <div class="panel-heading">
+				<h5 class="margin-bottom-20"><?php esc_html_e('All Packages', 'listingpro'); ?></h5>
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab1default" data-toggle="tab"><?php esc_html_e('all','listingpro'); ?></a></li>
                     <li><a href="#tab2default" data-toggle="tab"><?php esc_html_e('active','listingpro'); ?></a></li>
@@ -48,11 +49,11 @@ if(!empty($results)){
                 ?>
                 <div class="panel-body lp-new-packages" id="lp-new-invoices">
                     <div class="lp-main-title clearfix">
-                        <div class="col-md-3"><p><?php esc_html_e('type','listingpro'); ?></p></div>
+                        <div class="col-md-2"><p><?php esc_html_e('type','listingpro'); ?></p></div>
                         <div class="col-md-2"><p><?php esc_html_e('trans id','listingpro'); ?></p></div>
-                        <div class="col-md-2"><p><?php esc_html_e('trans date','listingpro'); ?></p></div>
-                        <div class="col-md-2"><p><?php esc_html_e('expire on','listingpro'); ?></p></div>
-                        <div class="col-md-3 text-center"><p><?php esc_html_e('status','listingpro'); ?></p></div>
+                        <div class="col-md-3"><p><?php esc_html_e('trans date','listingpro'); ?></p></div>
+                        <div class="col-md-3"><p><?php esc_html_e('expire on','listingpro'); ?></p></div>
+                        <div class="col-md-2 text-center"><p><?php esc_html_e('status','listingpro'); ?></p></div>
                     </div>
                     <div class="tab-content clearfix">
                         <div class="tab-pane fade in active" id="tab1default">
@@ -124,16 +125,12 @@ if(!empty($results)){
 
                                     ?>
                                     <div class="lp-listing-outer-container clearfix">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="lp-invoice-number lp-listing-form">
 
                                                 <label>
                                                     <p><?php echo $plainName; ?></p>
-                                                    <div class="radio radio-danger">
-                                                        <input class="radio_checked" type="radio" value="">
-                                                        <label for="rd1">
-                                                        </label>
-                                                    </div>
+
                                                 </label>
 
                                             </div>
@@ -143,21 +140,21 @@ if(!empty($results)){
                                                 <p><?php echo $plainTID; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-date">
                                                 <p><?php echo $plainDate; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-price clerarfix">
                                                 <p><?php echo $plainExpiry; ?></p>
 
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="lp-invoice-price clerarfix lp-active-plan-btn lp-plane-btn">
+                                        <div class="col-md-2 text-center">
+                                            <div class="lp-invoice-price clerarfix lp-active-plan-btn lp-plane-btn lp-plane-btn-front">
 
-                                                <a> <?php esc_html_e('Active','listingpro'); ?></a>
+                                                <a> <i class="fa fa-circle" aria-hidden="true"></i> <?php esc_html_e('Active','listingpro'); ?></a>
                                             </div>
                                         </div>
                                     </div>
@@ -234,16 +231,12 @@ if(!empty($results)){
 
                                     ?>
                                     <div class="lp-listing-outer-container clearfix">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="lp-invoice-number lp-listing-form">
 
                                                 <label>
                                                     <p><?php echo $plainName; ?></p>
-                                                    <div class="radio radio-danger">
-                                                        <input class="radio_checked" type="radio" value="">
-                                                        <label for="rd1">
-                                                        </label>
-                                                    </div>
+                                                    
                                                 </label>
 
                                             </div>
@@ -253,21 +246,21 @@ if(!empty($results)){
                                                 <p><?php echo $plainTID; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-date">
                                                 <p><?php echo $plainDate; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-price clerarfix">
                                                 <p><?php echo $plainExpiry; ?></p>
 
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="lp-invoice-price clerarfix lp-plane-btn">
+                                        <div class="col-md-2 text-center">
+                                            <div class="lp-invoice-price clerarfix lp-plane-btn lp-plane-btn-front lp-plane-btn-front-inactive">
 
-                                                <a> <?php esc_html_e('Inactive','listingpro'); ?></a>
+                                                <a> <i class="fa fa-circle" aria-hidden="true"></i> <?php esc_html_e('Inactive','listingpro'); ?></a>
                                             </div>
                                         </div>
                                     </div>
@@ -347,16 +340,12 @@ if(!empty($results)){
 
                                     ?>
                                     <div class="lp-listing-outer-container clearfix">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="lp-invoice-number lp-listing-form">
 
                                                 <label>
                                                     <p><?php echo $plainName; ?></p>
-                                                    <div class="radio radio-danger">
-                                                        <input class="radio_checked" type="radio" value="">
-                                                        <label for="rd1">
-                                                        </label>
-                                                    </div>
+                                                    
                                                 </label>
 
                                             </div>
@@ -366,21 +355,21 @@ if(!empty($results)){
                                                 <p><?php echo $plainTID; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-date">
                                                 <p><?php echo $plainDate; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-price clerarfix">
                                                 <p><?php echo $plainExpiry; ?></p>
 
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="lp-invoice-price clerarfix lp-active-plan-btn lp-plane-btn">
+                                        <div class="col-md-2 text-center">
+                                            <div class="lp-invoice-price clerarfix lp-active-plan-btn lp-plane-btn lp-plane-btn-front">
 
-                                                <a> <?php esc_html_e('Active','listingpro'); ?></a>
+                                                <a>  <i class="fa fa-circle" aria-hidden="true"></i>  <?php esc_html_e('Active','listingpro'); ?></a>
                                             </div>
                                         </div>
                                     </div>
@@ -459,16 +448,12 @@ if(!empty($results)){
 
                                     ?>
                                     <div class="lp-listing-outer-container clearfix">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="lp-invoice-number lp-listing-form">
 
                                                 <label>
                                                     <p><?php echo $plainName; ?></p>
-                                                    <div class="radio radio-danger">
-                                                        <input class="radio_checked" type="radio" value="">
-                                                        <label for="rd1">
-                                                        </label>
-                                                    </div>
+                                                   
                                                 </label>
 
                                             </div>
@@ -478,19 +463,19 @@ if(!empty($results)){
                                                 <p><?php echo $plainTID; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-date">
                                                 <p><?php echo $plainDate; ?></p>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="lp-invoice-price clerarfix">
                                                 <p><?php echo $plainExpiry; ?></p>
 
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="lp-invoice-price clerarfix lp-plane-btn">
+                                        <div class="col-md-2 text-center">
+                                            <div class="lp-invoice-price clerarfix lp-plane-btn lp-plane-btn-front lp-plane-btn-front-inactive">
 
                                                 <a> <?php esc_html_e('Inactive','listingpro'); ?></a>
                                             </div>
@@ -516,15 +501,11 @@ if(!empty($results)){
 }else{
     ?>
     <div class="lp-blank-section">
-        <div class="col-md-9 blank-left-side">
+        <div class="col-md-12 blank-left-side">
             <img src="<?php echo listingpro_icons_url('lp_blank_trophy'); ?>">
-             <h1><?php echo esc_html__('Nothing but this golden trophy!', 'listingpro'); ?></h1>
-					<p><?php echo esc_html__('You must be here for the first time. If you like to add some thing, click the button below.', 'listingpro'); ?></p>
+            <h1><?php echo esc_html__('Nothing but this golden trophy!', 'listingpro'); ?></h1>
         </div>
-        <div class="col-md-3 blank-right-side">
-            <img src="<?php echo listingpro_icons_url('lp_blank_right_quote'); ?>">
-            <p><?php echo esc_html__('"Your time is limited, so dont waste it living someone elses life."', 'listingpro'); ?><strong><?php echo esc_html__('-Steve Jobs-', 'listingpro'); ?></strong></p>
-        </div>
+
     </div>
     <?php
 }

@@ -1,8 +1,16 @@
  jQuery(document).ready(function($){
-     if(jQuery('body').hasClass('logged-in')){}else{
-         jQuery('.reviewformwithnotice input, .reviewformwithnotice textarea').keyup(function (e) {
-             jQuery('#modal-3').modal();
-             jQuery('#modal-3').addClass('md-show');
+     if(jQuery('body').hasClass('logged-in')){
+
+
+	 }else{
+         jQuery('.reviewformwithnotice input[type=text], .reviewformwithnotice textarea').keyup(function (e) {
+             if(jQuery('body').hasClass('listing-app-view')){
+                 jQuery('#app-view-login-popup').modal();
+                 jQuery('#app-view-login-popup').addClass('md-show');
+             }else{
+                 jQuery('#modal-3').modal();
+                 jQuery('#modal-3').addClass('md-show');
+             }
          });
      }
 	 jQuery('#rewies_formm').on('submit', function(e){
@@ -10,6 +18,10 @@
 	 });
 	 jQuery( '#rewies_form' ).on('submit', function(e){
 		$this = jQuery(this);
+
+
+         var isCaptcha = $this.data('lp-recaptcha'),
+             siteKey = $this.data('lp-recaptcha-sitekey');
 
          var multiState	=	$this.data('multi-rating');
 
@@ -55,13 +67,13 @@
 		var $umail = '';
 		$umail = $this.find(":input[type=email]").val();
 		if ($umail !== undefined){
-			$this.find('.loadinerSearch').css('display', 'block');
+			$this.find('.loadinerSearch').addClass('loadinerSearchblock');
 			e.preventDefault();
 			if( $title == '' || ratingCheck == '' || ratingCheck == 0 ||  $description == '' ||  $umail == '' ){
 				$this.find('.review_status').text(errorMSG);
 				$this.find('.review_status').addClass('error-msg');
 				$this.find(':input[type=submit]').prop('disabled', false);
-				$this.find('.loadinerSearch').css('display', 'none');
+				$this.find('.loadinerSearch').removeClass('loadinerSearchblock');
 			}
 			else{
 					
@@ -78,47 +90,96 @@
                 {
                     fd.append('multirating', $rating);
                 }
-					jQuery.ajax({
-						type: 'POST',
-						url: ajax_review_object.ajaxurl,
-						data:fd,
-						contentType: false,
-						processData: false,
-						
-						success: function(res){
-							if (jQuery("form#rewies_form .g-recaptcha-response").length){
-								lp_reset_grecaptcha();
-							}
-							var res = jQuery.parseJSON(res);
-							$this.find('.loadinerSearch').css('display', 'none');
-							$this.find(':input[type=submit]').prop('disabled', false);
-							if(res.error){
-								$this.find('.review_status').addClass('error-msg');
-								$this.find('.review_status').text(res.status);
-							}
-							else{
-								
-								$this.find('.review_status').text(res.status);
-								$this.find('.review_status').removeClass('error-msg');
-								$this.find('.review_status').addClass('success-msg');
-								$this[0].reset();
-								var timer = '';
-								 function redirectPageNow(){
-									location.reload(true);
-									clearTimeout(timer);
-								}
-								timer = setTimeout(redirectPageNow, 100);
-									
-							}
+
+                fd.append('lpNonce' , jQuery('#lpNonce').val());
+                if ( (isCaptcha == '' || isCaptcha === null) || (siteKey == '' || siteKey === null) ) {
+						jQuery.ajax({
+							type: 'POST',
+							url: ajax_review_object.ajaxurl,
+							data:fd,
+							contentType: false,
+							processData: false,
 							
-						},
-						error: function(request, error){
-							if (jQuery("form#rewies_form .g-recaptcha-response").length){
-								lp_reset_grecaptcha();
+							success: function(res){
+								
+								var res = jQuery.parseJSON(res);
+								$this.find('.loadinerSearch').removeClass('loadinerSearchblock');
+								$this.find(':input[type=submit]').prop('disabled', false);
+								if(res.error){
+									$this.find('.review_status').addClass('error-msg');
+									$this.find('.review_status').text(res.status);
+								}
+								else{
+									
+									$this.find('.review_status').text(res.status);
+									$this.find('.review_status').removeClass('error-msg');
+									$this.find('.review_status').addClass('success-msg');
+									$this[0].reset();
+									var timer = '';
+									 function redirectPageNow(){
+										location.reload(true);
+										clearTimeout(timer);
+									}
+									timer = setTimeout(redirectPageNow, 100);
+										
+								}
+								
+							},
+							error: function(request, error){
+								
+								alert(error);
 							}
-							alert(error);
-						}
-					});
+						});
+					}else{
+						//for recpatcha
+						grecaptcha.ready(function() {
+							grecaptcha.execute(siteKey, {action: 'lp_review'}).then(function(token) {
+								
+								fd.append('recaptha-action', 'lp_review');
+								fd.append('token', token);
+								
+								jQuery.ajax({
+									type: 'POST',
+									url: ajax_review_object.ajaxurl,
+									data:fd,
+									contentType: false,
+									processData: false,
+									
+									success: function(res){
+										
+										var res = jQuery.parseJSON(res);
+										$this.find('.loadinerSearch').removeClass('loadinerSearchblock');
+										$this.find(':input[type=submit]').prop('disabled', false);
+										if(res.error){
+											$this.find('.review_status').addClass('error-msg');
+											$this.find('.review_status').text(res.status);
+										}
+										else{
+											
+											$this.find('.review_status').text(res.status);
+											$this.find('.review_status').removeClass('error-msg');
+											$this.find('.review_status').addClass('success-msg');
+											$this[0].reset();
+											var timer = '';
+											 function redirectPageNow(){
+												location.reload(true);
+												clearTimeout(timer);
+											}
+											timer = setTimeout(redirectPageNow, 100);
+												
+										}
+										
+									},
+									error: function(request, error){
+										
+										alert(error);
+									}
+								});
+								
+							});
+						})
+						
+					}
 					
 				}
 		}
@@ -129,7 +190,7 @@
 			$this.find(':input[type=submit]').prop('disabled', false);
 		}
 		else{
-			$this.find('.loadinerSearch').css('display', 'block');
+			$this.find('.loadinerSearch').addClass('loadinerSearchblock');
 			e.preventDefault();
 			
 			var fd = new FormData(this);
@@ -144,7 +205,8 @@
                fd.append('multirating', $rating);
            }
 			fd.append('action', 'ajax_review_submit');
-			
+			fd.append('lpNonce', jQuery('#lpNonce').val());
+
 			jQuery.ajax({
 				type: 'POST',
 				url: ajax_review_object.ajaxurl,
@@ -153,11 +215,9 @@
 				processData: false,
 				
 				success: function(res){
-					if (jQuery("form#rewies_form .g-recaptcha-response").length){
-						lp_reset_grecaptcha();
-					}
+					
 							
-					$this.find('.loadinerSearch').css('display', 'none');
+					$this.find('.loadinerSearch').removeClass('loadinerSearchblock');
 					$this.find(':input[type=submit]').prop('disabled', false);
 					var res = jQuery.parseJSON(res);
 					if(res.error){
@@ -180,9 +240,7 @@
 				},
 				error: function(request, error){
 					alert(error);
-					if (jQuery("form#rewies_form .g-recaptcha-response").length){
-						lp_reset_grecaptcha();
-					}
+					
 				}
 			});
 			
@@ -224,6 +282,7 @@
 						interest : currentVal,
 						restype : restype,
 						id : reviewID,
+                        'lpNonce' : jQuery('#lpNonce').val()
 					},
 					
 					
@@ -300,7 +359,7 @@
 
 
 	/* for update 2.0 */
-$("body").on('change', '#filer_input2', function(event) {
+$("body").on('change', '#rewies_form #filer_input2', function(event) {
 
 		var $this	=	jQuery(this);
 		if( $this.hasClass('dashboard-edit-filter-input2') )
@@ -348,11 +407,10 @@ $("body").on('change', '#filer_input2', function(event) {
             var outputt = document.getElementsByClassName('filediv');
             var output = outputt[0];
 
-            var allowedimgz = $('#rewies_form').data('imgcount');
-            var allowedsize = $('#rewies_form').data('imgsize');
-            var noticecount = $('#rewies_form').data('countnotice');
-            var noticesize = $('#rewies_form').data('sizenotice');
-
+            var allowedimgz = $('#rewies_form').attr('data-imgcount');
+            var allowedsize = $('#rewies_form').attr('data-imgsize');
+            var noticecount = $('#rewies_form').attr('data-countnotice');
+            var noticesize = $('#rewies_form').attr('data-sizenotice');
             var fp = $("#filer_input2");
             var lg = fp[0].files.length; // get length
             var items = fp[0].files;

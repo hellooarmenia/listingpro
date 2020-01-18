@@ -71,8 +71,8 @@
 			$keyResponse = '';
 			
 			if($enableCaptchaLogin == true){
-				if ( class_exists( 'cridio_Recaptcha' ) ){ 
-									$keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid($_POST['g-recaptcha-response']);
+				if ( class_exists( 'cridio_Recaptcha' ) ){
+                                    $keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid(sanitize_text_field($_POST['g-recaptcha-response']));
 									if($keyResponse == false){
 										$processLogin = false;
 									}
@@ -90,7 +90,7 @@
 				// Nonce is checked, get the POST data and sign user on
 				$info = array();
 				$info['user_login'] = sanitize_text_field($_POST['username']);
-				$info['user_password'] = $_POST['password'];
+				$info['user_password'] = sanitize_text_field($_POST['password']);
 				$info['remember'] = true;
 				if (is_ssl()) {
 					$user_signon = wp_signon( $info, true );
@@ -145,8 +145,8 @@
 			
 			
 			if($enableCaptcha == true){
-				if ( class_exists( 'cridio_Recaptcha' ) ){ 
-									$keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid($_POST['g-recaptcha-response']);
+				if ( class_exists( 'cridio_Recaptcha' ) ){
+                                    $keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid(sanitize_text_field($_POST['g-recaptcha-response']));
 									if($keyResponse == false){
 										$processRegister = false;
 									}
@@ -170,7 +170,7 @@
 				$user_name = sanitize_text_field($_POST['username']);
 				$user_pass = '';
 				if($enablepassword==true){
-					$user_pass = $_POST['upassword'];
+                    $user_pass = sanitize_text_field($_POST['upassword']);
 				}
 				
 				$error = false;
@@ -189,6 +189,20 @@
 					
 					
 					$user_id = wp_create_user( $user_name, $random_password, $user_email );
+					
+					if($enablepassword==true){
+						//signing in
+						$info = array();
+						$info['user_login'] = $user_name;
+						$info['user_password'] = $random_password;
+						$info['remember'] = true;
+						if (is_ssl()) {
+							$user_signon = wp_signon( $info, true );
+						}else{
+							$user_signon = wp_signon( $info, false );
+						}
+					}
+						
 					
 					/* for user */
 					$subject = $listingpro_options['listingpro_subject_new_user_register'];
@@ -226,20 +240,20 @@
 					$headers[] = 'Content-Type: text/html; charset=UTF-8';
 					$headers2[] = 'Content-Type: text/html; charset=UTF-8';
 					lp_mail_headers_append();
-					wp_mail( $user_email, $formated_subject, $formated_mail_content, $headers );
+                    LP_send_mail( $user_email, $formated_subject, $formated_mail_content, $headers );
 					/*if(empty($user_pass) && $enablepassword==false){
 					}*/
-					wp_mail( $from, $subject2, $formated_mail_content2, $headers2 );
+                    LP_send_mail( $from, $subject2, $formated_mail_content2, $headers2 );
 					lp_mail_headers_remove();
 					 
 					
-				$note = '';
-				if(empty($user_pass) && $enablepassword==false){
-					$note = '<span class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> '.esc_html__('Go to your inbox or spam/junk and get your password','listingpro').'</span>';
-				}
-				else{
-					$note = '<span class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> '.esc_html__('Registration successfull, Please signin now','listingpro').'</span>';
-				}
+					$note = '';
+					if(empty($user_pass) && $enablepassword==false){
+						$note = '<span class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> '.esc_html__('Go to your inbox or spam/junk and get your password','listingpro').'</span>';
+					}
+					else{
+						$note = '<span class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> '.esc_html__('Registration and login successfull, redirecting soon...','listingpro').'</span>';
+					}
 						
 				}elseif(email_exists($user_email) == true){
 					$error = true;
@@ -261,7 +275,7 @@
 				if ( $error == true ){
 					$final = json_encode(array('register'=>false, 'message'=> $note, 'receptcha'=>$keyResponse, 'gString'=>$gCaptcha ));
 				} else {
-					$final = json_encode(array('register'=>true, 'message'=>$note,'pass'=>$user_pass, 'receptcha'=>$keyResponse, 'gString'=>$gCaptcha ));
+					$final = json_encode(array('register'=>true, 'message'=>$note,'pass'=>$user_pass, 'receptcha'=>$keyResponse, 'gString'=>$gCaptcha, 'password'=>$enablepassword ));
 				}
 			}
 			else{
@@ -285,7 +299,7 @@
 			$error = false;
 			$final = '';
 			
-			$securityCheck = $_POST['security'];
+			$securityCheck = sanitize_text_field($_POST['security']);
 			$user_email = sanitize_email($_POST['email']);
 			if( isset($securityCheck)&&!empty($securityCheck) ){
 				if ( email_exists($user_email) != false && !empty($user_email) && is_email($user_email) ) {
@@ -301,7 +315,7 @@
 					$content .= esc_html__('Kindly update your password from your dashboard profile', 'listingpro');
 					lp_mail_headers_append();
 					$headers[] = 'Content-Type: text/html; charset=UTF-8';
-					wp_mail( $user_email ,  $subject , $content , $headers );
+                    LP_send_mail( $user_email ,  $subject , $content , $headers );
 					lp_mail_headers_remove();
 					$note = '<span class="alert alert-success"><i class="fa fa-check" aria-hidden="true"></i> '.esc_html__('Go to your inbox or spam/junk and get your password','listingpro').'</span>';
 					

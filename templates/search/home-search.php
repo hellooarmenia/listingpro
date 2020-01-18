@@ -1,4 +1,4 @@
-		<?php
+<?php
 								
 			$listCats=array();
 			$catIcon = '';
@@ -39,7 +39,7 @@
 			}
 
 			$locOption = '';
-			if ($search_loc_option == 'yes') {
+			if ($search_loc_option == 'yes' && is_front_page()) {
 				$locOption = 'yes';
 			}elseif ($search_loc_option == 'no') {
 				$locOption = 'no';
@@ -51,9 +51,8 @@
 				$locArea = $listingpro_options['lp_listing_search_locations_range'];
 			}
 		?>
-		<div class="lp-search-bar">
-			<form autocomplete="off" class="form-inline" action="<?php echo home_url(); ?>" method="get" accept-charset="UTF-8">
-				
+		<div class="lp-search-bar clearfix">
+			<form autocomplete="off" class="form-inline" action="<?php echo home_url(); ?>" method="get" accept-charset="UTF-8">			
 				
 					<?php 
 						if( isset($lp_what_field_switcher) && $lp_what_field_switcher==0 ){
@@ -135,7 +134,7 @@
 							</div>
 				<?php
 						}
-						elseif( !empty($locations_search_type) && $locations_search_type=="manual_loc" ){ ?>
+                        elseif( !empty($locations_search_type) && $locations_search_type=="manual_loc" ){ ?>
 						
 							<div class="form-group lp-location-search <?php echo esc_attr($hideWhatClass); ?>">
 								<div class="input-group-addon lp-border lp-where"><?php esc_html_e('Where','listingpro'); ?></div>
@@ -182,6 +181,30 @@
 																
 																echo '<option '.$selected.' value="'.$childLocof->term_id.'">--&nbsp;'.$childLocof->name.'</option>';
 																
+																//3rd
+																$argsChildof3 = array(
+																	'order' => 'ASC',
+																	'hide_empty' => false,
+																	'hierarchical' => false,
+																	'parent' => $childLocof->term_id,
+																);
+																$childLocsof3 = get_terms('location', $argsChildof3);
+																if(!empty($childLocsof3)){
+																	foreach($childLocsof3 as $childLocof3) {
+																		
+																		echo '<option '.$selected.' value="'.$childLocof3->term_id.'">---&nbsp;'.$childLocof3->name.'</option>';
+																		
+																		
+																		
+																		
+																		
+																	}
+																	
+																}
+																
+																
+																
+																
 																
 															}
 															
@@ -200,7 +223,8 @@
 								</div>
 							</div>
 							
-				<?php	}
+				<?php
+                     }
 					}
 					
 					if( (isset($lp_what_field_switcher) && $lp_what_field_switcher==0) ||(isset($search_loc_field_hide) && $search_loc_field_hide==0) ){

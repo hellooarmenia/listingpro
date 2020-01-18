@@ -195,7 +195,7 @@ if(!function_exists('listingpro_2checkout_save_date')){
 		));
 		lp_mail_headers_append();
 		$headers1[] = 'Content-Type: text/html; charset=UTF-8';
-		wp_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers1);
+        LP_send_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers1);
 		
 		$mail_subject2 = $listingpro_options['listingpro_subject_purchase_activated'];
 		$website_url = site_url();
@@ -220,7 +220,7 @@ if(!function_exists('listingpro_2checkout_save_date')){
 			'user_name' => "$user_name",
 		));
 		$headers[] = 'Content-Type: text/html; charset=UTF-8';
-		wp_mail( $useremail, $formated_mail_subject2, $formated_mail_content2, $headers);
+        LP_send_mail( $useremail, $formated_mail_subject2, $formated_mail_content2, $headers);
 		lp_mail_headers_remove();
 		
 	}

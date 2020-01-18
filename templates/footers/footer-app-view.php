@@ -30,14 +30,14 @@ if(empty($phone)){
 					<?php
 					if( !empty($phone)){
 					   ?>
-						<div class="col-sm-4 col-xs-4"><a href="tel:<?php echo $phone; ?>"><?php echo listingpro_icons('app_phone'); ?></a></div>
+						<div class="col-sm-4 col-xs-4"><a href="tel:<?php echo esc_attr($phone); ?>"><?php echo listingpro_icons('app_phone'); ?></a></div>
 						<?php
 					}
 					?>
 					
-					<div class="col-sm-<?php echo $col_class; ?> col-xs-<?php echo $col_class; ?>"><a class="open-lead-form-app-view"><?php echo listingpro_icons('app_form'); ?></a></div>
+					<div class="col-sm-<?php echo esc_attr($col_class); ?> col-xs-<?php echo esc_attr($col_class); ?>"><a class="open-lead-form-app-view"><?php echo listingpro_icons('app_form'); ?></a></div>
 					
-					<div class="col-sm-<?php echo $col_class; ?> col-xs-<?php echo $col_class; ?>"><a target="_blank" href="https://www.google.com/maps?daddr=<?php echo esc_attr($latitude); ?>,<?php echo esc_attr($longitude); ?>"><?php echo listingpro_icons('app_gaddress'); ?></a></div>
+					<div class="col-sm-<?php echo esc_attr($col_class); ?> col-xs-<?php echo esc_attr($col_class); ?>"><a target="_blank" href="https://www.google.com/maps?daddr=<?php echo esc_attr($latitude); ?>,<?php echo esc_attr($longitude); ?>"><?php echo listingpro_icons('app_gaddress'); ?></a></div>
 				</div>
 			</div>
 		</div>

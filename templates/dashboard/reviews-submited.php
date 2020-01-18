@@ -48,7 +48,7 @@
 												$from = get_option('admin_email');
 												$headers[] = 'Content-Type: text/html; charset=UTF-8';
 												$headers[]= 'From: '.$from . "\r\n";
-												wp_mail( $userEmail, esc_html__('Review Response', 'listingpro'), $body, $headers );
+                                                LP_send_mail( $userEmail, esc_html__('Review Response', 'listingpro'), $body, $headers );
 												
 												
 											}

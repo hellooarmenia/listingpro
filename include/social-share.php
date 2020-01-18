@@ -12,7 +12,6 @@ if(!function_exists('listingpro_social_sharing_buttons')){
 			$listingThumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 			$twitterURL = 'https://twitter.com/intent/tweet?text='.$listingTitle.'&amp;url='.$listingURL.'';
 			$facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$listingURL;
-			$googleURL = 'https://plus.google.com/share?url='.$listingURL;
 			$pinterest = 'https://pinterest.com/pin/create/button/?url='.$listingURL;
 			$linkedin = 'http://www.linkedin.com/shareArticle?mini=true&url='.$listingURL;
 			$reddit = 'https://www.reddit.com/login?dest=https%3A%2F%2Fwww.reddit.com%2Fsubmit%3Ftitle%3D'.$listingTitle.'%26url%3D'.$listingURL;
@@ -23,9 +22,6 @@ if(!function_exists('listingpro_social_sharing_buttons')){
 			}
 			if($name =='twitter'){
 				return $twitterURL;
-			}
-			if($name =='gplus'){
-				return $googleURL;
 			}
 			if($name =='pinterest'){
 				return $pinterest;

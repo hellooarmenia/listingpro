@@ -2,7 +2,21 @@
 global $listingpro_options;
 $lp_detail_page_styles = $listingpro_options['lp_detail_page_styles'];
 $header_viewss  =   $listingpro_options['header_views'];
-
+$popup_style   =   $listingpro_options['login_popup_style'];
+if( !isset( $popup_style ) || empty( $popup_style ) || !$popup_style )
+{
+    $popup_style    =   'style1';
+}
+if( $popup_style == 'style2' && !wp_is_mobile() )
+{
+    ?>
+    <div class="modal fade style2-popup-login" id="app-view-login-popup" role="dialog" style="overflow: visible !important; opacity: 1;">
+        <?php
+        get_template_part('mobile/templates/login-reg-popup');
+        ?>
+    </div>
+    <?php
+}
 if( $header_viewss == 'header_with_topbar_menu' )
 {
     ?>
@@ -10,11 +24,24 @@ if( $header_viewss == 'header_with_topbar_menu' )
         <?php
         if ( !is_user_logged_in() )
         {
-            ?>
-            <a class="header-login-btn md-trigger" data-modal="modal-3">
-                <i class="fa fa-user" aria-hidden="true"></i>
-            </a>
-            <?php
+
+            if( $popup_style == 'style2' )
+            {
+                ?>
+                <a class="header-login-btn app-view-popup-style" data-target="#app-view-login-popup">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </a>
+                <?php
+            }
+            else
+            {
+                ?>
+                <a class="header-login-btn md-trigger" data-modal="modal-3">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </a>
+                <?php
+            }
+
         }
         else
         {
@@ -31,7 +58,7 @@ if( $header_viewss == 'header_with_topbar_menu' )
                 <ul>
                     <li class="juname">
                         <?php
-                        if ( is_plugin_active( 'listingpro-plugin/plugin.php' ) ) {
+                        if (class_exists('ListingproPlugin')) {
                             ?>
                             <a href="<?php echo esc_url($authorURL); ?>" class="juname">
                                 <img src="<?php echo listingpro_author_image(); ?>" alt="userimg" height="34" width="34" />
@@ -71,11 +98,24 @@ else
     if (!is_user_logged_in()) {
         ?>
         <div class="lp-join-now">
-                                <span>
-                                    <!-- Contacts icon by Icons8 -->
-                                    <?php echo listingpro_icons('contacts'); ?>
-                                </span>
-            <a class=" md-trigger" data-modal="modal-3"><?php esc_html_e('Join Now', 'listingpro'); ?></a>
+            <span>
+                <!-- Contacts icon by Icons8 -->
+                <?php echo listingpro_icons('contacts'); ?>
+            </span>
+            <?php
+            if( $popup_style == 'style2' )
+            {
+                ?>
+                <a class="app-view-popup-style" data-target="#app-view-login-popup"><?php esc_html_e('Sign In', 'listingpro'); ?></a>
+                <?php
+            }
+            else
+            {
+                ?>
+                <a class="md-trigger" data-modal="modal-3"><?php esc_html_e('Sign In', 'listingpro'); ?></a>
+                <?php
+            }
+            ?>
         </div>
     <?php }else{
         $current_user = wp_get_current_user();
@@ -94,7 +134,7 @@ else
                                         </span>
                     <?php
 
-                    if ( is_plugin_active( 'listingpro-plugin/plugin.php' ) ) {
+                    if (class_exists('ListingproPlugin')) {
                         ?>
                         <a href="<?php echo esc_url($authorURL); ?>">
                             <?php

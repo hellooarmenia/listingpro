@@ -212,7 +212,6 @@
                         <?php endif; ?>
                         <?php
                         $app_view_home  =   $listingpro_options['app_view_home'];
-                        $app_view_home  =   url_to_postid( $app_view_home );
                         if( is_front_page() || (is_page($app_view_home) && !empty($app_view_home) ) ): ?>
                             <a href="#" class="home-filter-close"><i class="fa fa-close" aria-hidden="true"></i></a>
                             <a href="#" class="home-filter-open"><i class="fa fa-search" aria-hidden="true"></i></a>
@@ -236,46 +235,13 @@
 						<?php
 
                        $app_view_home  =   $listingpro_options['app_view_home'];
-                       $app_view_home  =   url_to_postid( $app_view_home );
 
 					   if( ( !is_page( $app_view_home ) || empty( $app_view_home) ) && !is_front_page() && !is_page_template('template-dashboard.php')  ){
 							  get_template_part('templates/search/top_search');
 						  }
 
                         ?>
-<!--<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="slide-nav">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-toggle"> 
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-		</div>
-		<div id="slidemenu">   
-			<?php echo listingpro_primary_logo(); ?> 
-			<div class="lp-listing-adlisting">
-				<a href="<?php echo listingpro_url('add_listing_url_mode'); ?>" class="lpl-button">
-					<?php esc_html_e('Add Listing', 'listingpro'); ?>
-				</a>
-				<a href="#" class="lpl-button md-trigger" data-modal="modal-3">
-					<?php esc_html_e('Join Now', 'listingpro'); ?>
-				</a>
-			</div>
-			<?php echo listingpro_mobile_menu(); ?>    
-		</div>
-	</div>
-</div>-->
-<!--						<div class="col-xs-6 mobile-nav-icon">-->
-<!---->
-<!---->
-<!--							--><?php ////echo listingpro_mobile_menu(); ?>
-<!--							<a href="#menu" class="nav-icon">-->
-<!--								<span class="icon-bar"></span>-->
-<!--								<span class="icon-bar"></span>-->
-<!--								<span class="icon-bar"></span>-->
-<!--							</a>-->
-<!--						</div>-->
+
 						<div class="<?php echo esc_attr($menuClass); ?> col-xs-12 lp-menu-container clearfix pull-right">
 							<div class="pull-right">
 								<div class="lp-joinus-icon">
@@ -329,7 +295,6 @@
 		<?php
 
 	   $app_view_home  =   $listingpro_options['app_view_home'];
-	   $app_view_home  =   url_to_postid( $app_view_home );
 		 if( is_home() || is_front_page() || is_page() || is_search('post')|| is_archive('post') || is_author() || is_category() || is_tag() || ( !empty( $app_view_home ) && is_page( $app_view_home ) )){
 		  get_template_part( 'mobile/templates/headers/banner-app-view');
 		 }

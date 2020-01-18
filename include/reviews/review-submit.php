@@ -2,9 +2,9 @@
 
 	if (!function_exists('Listingpro_review_submit_init')) {
 		function Listingpro_review_submit_init(){
-			
+
 			global $listingpro_options;
-			
+
 			$dashURL = $listingpro_options['listing-author'];
 			if($dashURL){
 				$dashURL = $dashURL;
@@ -13,13 +13,13 @@
 				$dashURL = home_url();
 			}
 
-			wp_register_script('review-submit-ajax', get_template_directory_uri() . '/assets/js/review-submit.js', array('jquery') ); 
+			wp_register_script('review-submit-ajax', get_template_directory_uri() . '/assets/js/review-submit.js', array('jquery') );
 			wp_enqueue_script('review-submit-ajax');
 
 			wp_localize_script( 'review-submit-ajax', 'ajax_review_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' )));
 
-			
-			
+
+
 		}
 		if(!is_admin()){
 			if(!is_singular('listing')){
@@ -29,13 +29,20 @@
 	}
 
 
-	
-	
+
+
 	add_action('wp_ajax_ajax_review_submit',        'ajax_review_submit');
 	add_action('wp_ajax_nopriv_ajax_review_submit', 'ajax_review_submit');
 
 if(!function_exists('ajax_review_submit')){
 	function ajax_review_submit(){
+
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 		global $listingpro_options;
 		$enableCaptcha = false;
 		$description = '';
@@ -53,8 +60,8 @@ if(!function_exists('ajax_review_submit')){
 
 
 		$listing_author_email = '';
-		if(isset($_POST['g-recaptcha-response'])){
-			if(!empty($_POST['g-recaptcha-response'])){
+		if(isset($_POST['token'])){
+			if(!empty($_POST['token'])){
 				$enableCaptcha = true;
 			}
 			else{
@@ -74,7 +81,7 @@ if(!function_exists('ajax_review_submit')){
 
 		if($enableCaptcha == true){
 			if ( class_exists( 'cridio_Recaptcha' ) ){
-				$keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid($_POST['g-recaptcha-response']);
+				$keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid(sanitize_text_field($_POST['token']), sanitize_text_field($_POST['recaptha-action']));
 				if($keyResponse == false){
 					$processReview = false;
 				}
@@ -206,8 +213,8 @@ if(!function_exists('ajax_review_submit')){
 
 					$admin_email = get_option( 'admin_email' );
 					lp_mail_headers_append();
-					wp_mail( $user_email, $formated_subject, $formated_mail_content, $headers );
-					wp_mail( $admin_email, $subject2, $formated_mail_content2, $headers2 );
+                    LP_send_mail( $user_email, $formated_subject, $formated_mail_content, $headers );
+                    LP_send_mail( $admin_email, $subject2, $formated_mail_content2, $headers2 );
 					lp_mail_headers_remove();
 
 				}
@@ -218,9 +225,9 @@ if(!function_exists('ajax_review_submit')){
 			listing_set_metabox('listing_id', $listing_id, $postID);
 			global $current_user;
 			$user_name = $current_user->user_login;
-			if( $_POST['multiState'] == '1' )
+			if( sanitize_text_field($_POST['multiState']) == '1' )
 			{
-				$multirating	=	$_POST['multirating'];
+				$multirating	=	sanitize_text_field($_POST['multirating']);
 				$rating_meta_arr	=	explode( ',', $multirating );
 				if( is_array( $rating_meta_arr ) )
 				{
@@ -307,7 +314,7 @@ if(!function_exists('ajax_review_submit')){
 				'user_name' => "$listing_author_name",
 			));
 			lp_mail_headers_append();
-			wp_mail( $listing_author_email, $authorEmailSubject, $authorEmailContent, $headers );
+            LP_send_mail( $listing_author_email, $authorEmailSubject, $authorEmailContent, $headers );
 
 			/* email for reviewer */
 			$reviewerEmailSubject = $listingpro_options['listingpro_subject_reviewer'];
@@ -323,7 +330,7 @@ if(!function_exists('ajax_review_submit')){
 				'user_name' => "$user_name",
 			));
 			lp_mail_headers_append();
-			wp_mail( $user_email, $reviewerEmailSubject, $reviewerEmailContent, $headers );
+            LP_send_mail( $user_email, $reviewerEmailSubject, $reviewerEmailContent, $headers );
 			lp_mail_headers_remove();
 			/* saving activity in wp_options */
 
@@ -335,7 +342,7 @@ if(!function_exists('ajax_review_submit')){
 			//$currentdate = date("Y-m-d h:i:a");
 			//$currentdate = date("d-m-Y h:i:a");
 			if( isset($_POST['multiState']) ){
-				if( $_POST['multiState'] == '1' ){
+				if( sanitize_text_field($_POST['multiState']) == '1' ){
 				   $rating =   $total_multi_rating;
 				}
 			}
@@ -389,20 +396,26 @@ if(!function_exists('ajax_review_submit')){
 		die($res);
 	}
 }
-	
-	
+
+
 	/* by zaheer on 16 march */
 	add_action('wp_ajax_lp_reviews_interests',        'lp_reviews_interests');
 	add_action('wp_ajax_nopriv_lp_reviews_interests', 'lp_reviews_interests');
-	
+
 	if(!function_exists('lp_reviews_interests')){
 		function lp_reviews_interests(){
+            check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+            // Nonce is checked, get the POST data and sign user on
+            if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+                $res = json_encode(array('nonceerror'=>'yes'));
+                die($res);
+            }
 			$newScore = '';
 			$currentScore = '';
 			$reviewID = '';
-			$reviewID = $_POST['id'];
-			$currentScore = $_POST['interest'];
-			$restype = $_POST['restype'];
+			$reviewID = sanitize_text_field($_POST['id']);
+			$currentScore = sanitize_text_field($_POST['interest']);
+			$restype = sanitize_text_field($_POST['restype']);
 			$oldScore = $currentScore;
 			if(!empty($currentScore)){
 				$currentScore++;
@@ -410,23 +423,23 @@ if(!function_exists('ajax_review_submit')){
 			else{
 				$currentScore = 1;
 			}
-			
+
 			$cookie_name = $restype.$reviewID;
 			$cookie_value = true;
 			$reactionCookie = (isset($_COOKIE[$cookie_name])) ? $_COOKIE[$cookie_name] : array();
 			$response ='';
-			
+
 			if(empty($reactionCookie)){
 				//setcookie($cookie_name , $cookie_value , time() + (3600 * 24 * 30), "/");
 				setcookie($cookie_name , $cookie_value , time() + (3600 * 24 * 30));
 				$key = 'review_'.$restype;
 				listing_set_metabox($key, $currentScore, $reviewID);
 				$newScore = listing_get_metabox_by_ID($key, $reviewID);
-				
+
 				/* saving activity in wp_options */
 				$reviewData = get_post($reviewID);
 				$reviewerID = $reviewData->post_author;
-				
+
 				$listing_id = listing_get_metabox_by_ID('listing_id', $reviewID);
 				$listingData = get_post($listing_id);
 				$authID = $listingData->post_author;
@@ -442,12 +455,12 @@ if(!function_exists('ajax_review_submit')){
 					'rating'	=>	$restype,
 					'time'	=>	$currentdate
 				));
-				
+
 				$updatedActivitiesData = array();
-				
+
 				$lp_recent_activities = get_option( 'lp_recent_activities' );
 				if( $lp_recent_activities!=false ){
-					
+
 					$existingActivitiesData = get_option( 'lp_recent_activities' );
 					if (array_key_exists($authID, $existingActivitiesData)) {
 						$currenctActivityData = $existingActivitiesData[$authID];
@@ -471,9 +484,9 @@ if(!function_exists('ajax_review_submit')){
 					$updatedActivitiesData[$authID] = $activityData;
 				}
 				update_option( 'lp_recent_activities', $updatedActivitiesData );
-				
+
 				$status = esc_html__('Thanks for reacting', 'listingpro');
-				
+
 				$response = json_encode(array('id'=>$reviewID , 'newScore'=>$newScore, 'errors'=> 'no', 'cookieArray'=>$reactionCookie, 'statuss'=> $status, 'recttype'=>$restype));
 			}
 			else{
@@ -484,7 +497,7 @@ if(!function_exists('ajax_review_submit')){
 		}
 	}
 	/* end by zaheer on 16 march */
-	
+
 	if(!function_exists('lp_has_review_reaction')){
 		function lp_has_review_reaction($reactionQuery){
 			$reactionCookie = (isset($_COOKIE[$reactionQuery])) ? $_COOKIE[$reactionQuery] : array();
@@ -496,5 +509,5 @@ if(!function_exists('ajax_review_submit')){
 			}
 		}
 	}
-		
+
 ?>

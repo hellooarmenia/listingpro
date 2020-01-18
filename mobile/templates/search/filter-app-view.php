@@ -1,4 +1,4 @@
-		<?php 
+<?php 
 			global $listingpro_options;
 			$type = 'listing';
 			$term_id = '';
@@ -44,20 +44,20 @@
 			}elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s_loc'])){
 				
 				if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat'])){
-					$sterm = $_GET['lp_s_cat'];
-					$term_ID = $_GET['lp_s_cat'];
+					$sterm = wp_kses_post($_GET['lp_s_cat']);
+					$term_ID = wp_kses_post($_GET['lp_s_cat']);
 					$termo = get_term_by('id', $sterm, 'listing-category');
 					$termName = esc_html__('Results For','listingpro').' <span class="font-bold term-name">'.$termo->name.'</span>';
 					$parent = $termo->parent;
 				}	
 				if(isset($_GET['lp_s_cat']) && empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
-					$sterm = $_GET['lp_s_tag'];
+					$sterm = wp_kses_post($_GET['lp_s_tag']);
 					$lpstag = $sterm;
 					$termo = get_term_by('id', $sterm, 'list-tags');
 					$termName = esc_html__('Results For','listingpro').' <span class="font-bold">'.$termo->name.'</span>';
 				}
 				if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
-					$sterm = $_GET['lp_s_tag'];
+					$sterm = wp_kses_post($_GET['lp_s_tag']);
 					$lpstag = $sterm;
 					
 					$termo = get_term_by('id', $sterm, 'list-tags');
@@ -65,8 +65,8 @@
 				}
 				
 				if(isset($_GET['lp_s_loc']) && !empty($_GET['lp_s_loc'])){
-					$sloc = $_GET['lp_s_loc'];
-					$loc_ID = $_GET['lp_s_loc'];
+					$sloc = wp_kses_post($_GET['lp_s_loc']);
+					$loc_ID = wp_kses_post($_GET['lp_s_loc']);
 					if(is_numeric($sloc)){
 						$sloc = $sloc;
 						$termo = get_term_by('id', $sloc, 'location');
@@ -133,10 +133,10 @@
                                         <div class="currency-signs clearfix search-filter-attr text-center">
 											
                                             <ul class="clearfix">
-                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Inexpensive', 'listingpro' );?>" id="one"><a href="#" data-price="inexpensive"><?php echo $lp_priceSymbol; ?></a></li>
-                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Moderate', 'listingpro' );?>" id="two"><a href="#" data-price="moderate"><?php echo $lp_priceSymbol2; ?></a></li>
-                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Pricey', 'listingpro' );?>" id="three"><a href="#" data-price="pricey"><?php echo $lp_priceSymbol3; ?></a></li>
-                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Ultra High End', 'listingpro' );?>" id="four"><a href="#" data-price="ultra_high_end"><?php echo $lp_priceSymbol4; ?></a></li>
+                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Inexpensive', 'listingpro' );?>"><a href="#" id="one" data-price="inexpensive"><?php echo $lp_priceSymbol; ?></a></li>
+                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Moderate', 'listingpro' );?>"><a href="#" id="two" data-price="moderate"><?php echo $lp_priceSymbol2; ?></a></li>
+                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Pricey', 'listingpro' );?>"><a id="three" href="#" data-price="pricey"><?php echo $lp_priceSymbol3; ?></a></li>
+                                                <li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Ultra High End', 'listingpro' );?>"><a id="four" href="#" data-price="ultra_high_end"><?php echo $lp_priceSymbol4; ?></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -175,6 +175,22 @@
 										</div>
 									</div>
 								<?php } ?>
+                                <?php
+                                $enable_coupons_search_filter   =   $listingpro_options['enable_coupons_search_filter'];
+                                if(!empty($enable_coupons_search_filter) && $enable_coupons_search_filter=='1'){
+                                    ?>
+                                    <div class="search-filter-attr">
+                                        <div class="lp-filter-wrap-app text-right clearfix">
+                                            <span><?php echo esc_html__( 'Coupons', 'listingpro' );?></span>
+                                            <input value="" class="form-control switch-checkbox-hidden" type="hidden">
+                                            <label class="switch">
+                                                <span class="app-filter-loader"><i class="fa fa-cog" aria-hidden="true"></i></span>
+                                                <input value="coupons" id="listingCoupons" class="form-control switch-checkbox" type="checkbox">
+                                                <div class="slider round"></div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <?php
                                 $openTimeOPT = $listingpro_options['enable_opentime_search_filter'];
                                 if(!empty($openTimeOPT) && $openTimeOPT=='1'){
@@ -407,7 +423,7 @@
 							if(!empty($lpstag)){
 								echo '<input type="hidden" id="lpstag" value="'.$lpstag.'">';
 							}
-							echo '<input type="hidden" id="lp_current_query" value="'.$_GET['select'].'">';
+							echo '<input type="hidden" id="lp_current_query" value="'.sanitize_text_field($_GET['select']).'">';
 							if( empty($features) && !empty($feature_ID) ){
 										echo '<input type="checkbox" name="searchtags[]" id="check_featuretax" class="searchtags" value="'.$feature_ID.'" checked>';
 							}
@@ -421,189 +437,11 @@
 				</div>
 
                 <div class="col-md-12 lp-additional-appview-filter-new">
-
-					<?php
-					$term_id = '';
-					if( !isset($_GET['s'])){
-						$queried_object = get_queried_object();
-						$term_id = $queried_object->term_id;
-					}elseif( isset($_GET['lp_s_cat']) ){
-						$term_id = $_GET['lp_s_cat'];
-					}
-
-					echo '<h3>'.esc_html__("More Option", "listingpro").'</h3>';
-					/* multicheck on off */
-					$getSwithButtonFieldsFilter = lp_get_extrafields_filter('checkbox', $term_id, false);
-					if(!empty($getSwithButtonFieldsFilter)){
-						?>
-                        <div class="lp_more_filter_data_section lp_extrafields_select">
-
-							<?php
-							echo '<ul class="filter_data_switch_on_off">';
-							foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-								echo '
-								<li>
-									<label class="filter_checkbox_container">'.$fieldVal.'
-										<input type="checkbox" value="'.$fieldVal.'" name="lp_extrafields_select[]">
-										<span class="filter_checkbox_checkmark"></span>
-									</label>
-								</li>
-							';
-							}
-							echo '</ul>';
-							?>
-
-                        </div>
-						<?php
-					}
-					/* checkbox */
-					$getSwithButtonFieldsFilter = lp_get_extrafields_filter('check', $term_id, false);
-					if(!empty($getSwithButtonFieldsFilter)){
-						?>
-                        <div class="lp_more_filter_data_section lp_extrafields_select">
-
-							<?php
-
-							foreach ($getSwithButtonFieldsFilter as $fieldPostID => $fieldVal) {
-								echo '<h3>' . $fieldVal . '</h3>';
-								echo '<ul class="lp_filter_checkbox">';
-								echo '
-								<li>
-									
-									<label class="filter_checkbox_container">'.$fieldVal.'
-										<input type="checkbox" value="'.$fieldVal.'" name="lp_extrafields_select[]">
-										<span class="filter_checkbox_checkmark"></span>
-									</label>
-								</li>
-							';
-								echo '</ul>';
-							}
-
-							?>
-
-                        </div>
-						<?php
-					}
-
-					?>
-                    <!-- for multicheck -->
-					<?php
-					$getExtraFieldsFilter = lp_get_extrafields_filter('checkboxes', $term_id, false);
-					if(!empty($getExtraFieldsFilter)){
-
-						?>
-                        <div class="lp_more_filter_data_section lp_extrafields_select">
-
-							<?php
-							foreach ($getExtraFieldsFilter as $fieldPostID => $fieldVal) {
-								echo '<h3>' . $fieldVal . '</h3>';
-								echo '<ul class="lp_filter_checkbox">';
-								$getFieldsValue = listing_get_metabox_by_ID('multicheck-options', $fieldPostID);
-								if (!empty($getFieldsValue)) {
-									$getFieldsArray = explode(",", $getFieldsValue);
-									if (!empty($getFieldsArray)) {
-										foreach ($getFieldsArray as $optionVal) {
-											$optionVal = trim($optionVal);
-											echo '
-													<li>
-														<label class="filter_checkbox_container">'.$optionVal.'
-															<input type="checkbox" value="'.$optionVal.'" name="lp_extrafields_select[]">
-															<span class="filter_checkbox_checkmark"></span>
-														</label>
-													</li>
-												';
-										}
-									}
-								}
-								echo '</ul>';
-							}
-							?>
-
-                        </div>
-					<?php } ?>
-
-                    <!-- for radio -->
-					<?php
-					$getRadioFieldsFilter = lp_get_extrafields_filter('radio', $term_id, false);
-					if(!empty($getRadioFieldsFilter)){
-
-						?>
-
-                        <div class="lp_more_filter_data_section lp_extrafields_select">
-							<?php
-							foreach ($getRadioFieldsFilter as $fieldPostID => $fieldVal) {
-								echo '<h3>' . $fieldVal . '</h3>';
-								echo '<ul class="lp_filter_checkbox">';
-
-								$getFieldsValue = listing_get_metabox_by_ID('radio-options', $fieldPostID);
-								if (!empty($getFieldsValue)) {
-									$getFieldsArray = explode(",", $getFieldsValue);
-									if (!empty($getFieldsArray)) {
-										foreach ($getFieldsArray as $optionVal) {
-											$optionVal = trim($optionVal);
-
-											echo '
-													<li>
-														<label class="filter_radiobox_container">'.$optionVal.'
-														  <input type="radio" name="radio" value="'.$optionVal.'" name="lp_extrafields_select[]">
-														  <span class="filter_radio_select"></span>
-														</label>
-													</li>
-												';
-										}
-									}
-								}
-
-								echo '</ul>';
-							}
-							?>
-
-                        </div>
-						<?php
-					}
-					?>
-
-
-                    <!-- for Dropdown -->
-					<?php
-					$getRadioFieldsFilter = lp_get_extrafields_filter('select', $term_id, false);
-					if(!empty($getRadioFieldsFilter)){
-
-						?>
-
-                        <div class="lp_more_filter_data_section lp_extrafields_select">
-							<?php
-							foreach ($getRadioFieldsFilter as $fieldPostID => $fieldVal) {
-								echo '<h3>' . $fieldVal . '</h3>';
-								echo '<ul class="lp_filter_checkbox">';
-
-								$getFieldsValue = listing_get_metabox_by_ID('select-options', $fieldPostID);
-								if (!empty($getFieldsValue)) {
-									$getFieldsArray = explode(",", $getFieldsValue);
-									if (!empty($getFieldsArray)) {
-										foreach ($getFieldsArray as $optionVal) {
-											$optionVal = trim($optionVal);
-
-											echo '
-													<li>
-														<label class="filter_radiobox_container">'.$optionVal.'
-														  <input type="radio" name="radio" value="'.$optionVal.'" name="lp_extrafields_select[]">
-														  <span class="filter_radio_select"></span>
-														</label>
-													</li>
-												';
-										}
-									}
-								}
-
-								echo '</ul>';
-							}
-							?>
-
-                        </div>
-						<?php
-					}
-					?>
-                </div>
-
+                    <?php
+                    $showAdditionalFilter = lp_theme_option('enable_extrafields_filter');
+                    if (!empty($showAdditionalFilter)) {
+                        get_template_part('templates/search/more-filter');
+                    }
+				    ?>	
+			    </div>
 			</div>

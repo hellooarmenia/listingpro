@@ -21,76 +21,7 @@ get_header();
 
 	$errorMSG = '';
 	$successMSG = '';
-	if(isset($_POST['contactMSG'])){
-		
-		$uname = sanitize_text_field($_POST['uname']);
-		$uemail = sanitize_email($_POST['uemail']);
-		$usubject = sanitize_text_field($_POST['usubject']);
-		$umessage = sanitize_text_field($_POST['umessage']);
-		
-		$enableCaptcha = false;
-		$processContact = true;
-		if(isset($_POST['g-recaptcha-response'])){
-			if(!empty($_POST['g-recaptcha-response'])){
-				$enableCaptcha = true;
-			}
-			else{
-				$processContact = false;
-			}
-		}
-		else{
-			$enableCaptcha = false;
-			$processContact = true;
-		}
-		
-		$keyResponse = '';
-		
-		if($enableCaptcha == true){
-			if ( class_exists( 'cridio_Recaptcha' ) ){ 
-								$keyResponse = cridio_Recaptcha_Logic::is_recaptcha_valid($_POST['g-recaptcha-response']);
-								if($keyResponse == false){
-									$processContact = false;
-								}
-								else{
-									$processContact = true;
-								}
-			}
-		}
-		
-		if($processContact==true){
-			
-			if(empty($uname) || empty($uemail) || empty($umessage) ){
-				//$errorMSG = esc_html__('Required : ', 'listingpro');
-				if(empty($uname) || empty($uemail) || empty($umessage)){
-					$errorMSG .= $cpFailedMessage;
-				}			
-			}
-			else{
-				$successMSG = $cpsuccessMessage;
-				
-				$admin_email = '';
-				$admin_email = get_option( 'admin_email' );
-				if(empty($usubject)){
-					$usubject = esc_html__('Contact Us Email', 'listingpro');
-				}
-				$formated_mail_content = '<h3>'.esc_html__("Details : ", "listingpro").'</h3>';
-				$formated_mail_content .= '<p>'.esc_html__("Name : ", "listingpro").$uname.'</p>';
-				$formated_mail_content .= '<p>'.esc_html__("Email : ", "listingpro").$uemail.'</p>';
-				$formated_mail_content .= '<p>'.esc_html__("Message : ", "listingpro").$umessage.'</p>';
-				lp_mail_headers_append();
-				$headers[] = 'Content-Type: text/html; charset=UTF-8';
-				//$headers[] = 'From: '.$uname.' <'.$uemail.'>';
-				wp_mail( $admin_email, $usubject, $formated_mail_content, $headers);
-				lp_mail_headers_remove();
-			}
-			
-		}
-		else{
-			$errorMSG .= esc_html__('Please check captcha.', 'listingpro');
-		}
-		
-		
-	}
+	
 
 
 
@@ -171,7 +102,6 @@ get_header();
                             if($cp_social_links == 1){
                                 $fb = $listingpro_options['fb_co'];
                                 $tw = $listingpro_options['tw_co'];
-                                $gog = $listingpro_options['gog_co'];
                                 $insta = $listingpro_options['insta_co'];
                                 $tumb = $listingpro_options['tumb_co'];
                                 $fyout = $listingpro_options['f_yout_co'];
@@ -186,9 +116,6 @@ get_header();
                                     <?php } ?>
                                     <?php if(!empty($tw)){ ?>
                                         <a href="<?php echo esc_attr($tw); ?>" class="lp-blog-grid-shares-icon icon-tw"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <?php } ?>
-                                    <?php if(!empty($gog)){ ?>
-                                        <a href="<?php echo esc_attr($gog); ?>" class="lp-blog-grid-shares-icon icon-gp"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
                                     <?php } ?>
                                     <?php if(!empty($fpintereset)){ ?>
                                         <a href="<?php echo esc_url($fpintereset); ?>" class="lp-blog-grid-shares-icon icon-pin"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
@@ -239,7 +166,6 @@ get_header();
 						if($cp_social_links == 1){
                             $fb = $listingpro_options['fb_co'];
                             $tw = $listingpro_options['tw_co'];
-                            $gog = $listingpro_options['gog_co'];
                             $insta = $listingpro_options['insta_co'];
                             $tumb = $listingpro_options['tumb_co'];
                             $fyout = $listingpro_options['f_yout_co'];
@@ -253,13 +179,6 @@ get_header();
 								<li>
 									<a href="<?php echo esc_attr($fb); ?>"><!-- Facebook icon by Icons8 -->
 										<?php echo listingpro_icons('fb'); ?>
-									</a>
-								</li>
-							<?php } ?>
-							<?php if(!empty($gog)){ ?>
-								<li>
-									<a href="<?php echo esc_attr($gog); ?>"><!-- Google Plus icon by Icons8 -->
-										<?php echo listingpro_icons('gp'); ?>
 									</a>
 								</li>
 							<?php } ?>
@@ -323,85 +242,98 @@ get_header();
 					</div>
 				<?php }?>
 				<h3 class="margin-top-60 margin-bottom-30 lp-border-bottom padding-bottom-20"><?php echo esc_attr($formTitle); ?></h3>
-					
-				<form class="form-horizontal pos-relative" id="contactMSGForm" name="contactMSGForm" method="post" novalidate="novalidate" action="">
-					<div class="form-group">
-					  <div class="col-sm-6">
-						<input class="form-control nameform" id="nameContacts" name="uname" placeholder="<?php esc_html_e('Name:','listingpro'); ?>" type="text" value="" required="">
-					  </div>
-					  <div class="col-sm-6">          
-						<input class="form-control" id="emailContacts" name="uemail" placeholder="<?php esc_html_e('Email:','listingpro'); ?>" type="email" required="">
-					  </div>
-					</div>
-					<div class="form-group">
-					  <div class="col-sm-12">          
-						<input class="form-control" id="subjectContacts" name="usubject" placeholder="<?php esc_html_e('Subject:','listingpro'); ?>" type="text">
-					  </div>
-					</div>
-					<div class="form-group">
-					  <div class="col-sm-12">          
-					<textarea class="form-control" rows="5" id="messageContacts" name="umessage" placeholder="<?php esc_html_e('Message:','listingpro'); ?>"></textarea>
-					  </div>
-					</div>
-					<div class="form-group mr-bottom-20">
-						<div class="col-sm-12">
-							<?php
-								if($enableCaptchaform==true){
-									if ( class_exists( 'cridio_Recaptcha' ) ){ 
-										if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) { 
-										echo  '<div id="recaptcha-'.get_the_ID().'" class="g-recaptcha" data-sitekey="'.$gSiteKey.'"></div>';
-										}
-									}
-								}
-							?>
-						</div>
-					</div>
-					<?php
-						if(!empty($privacy_policy) && $privacy_contact=="yes"){
-					?>
-						
-						<div class="form-group lp_privacy_policy_Wrap">
-							<input class="lpprivacycheckboxopt" id="reviewpolicycheck" type="checkbox" name="reviewpolicycheck" value="true">
-									<label for="reviewpolicycheck"><a target="_blank" href="<?php echo get_the_permalink($privacy_policy); ?>" class="help" target="_blank"><?php echo esc_html__('I Agree', 'listingpro'); ?></a></label>
-								<div class="help-text">
-									<a class="help" target="_blank"><i class="fa fa-question"></i></a>
-									<div class="help-tooltip">
-										<p><?php echo esc_html__('You agree & accept our Terms & Conditions for posting this information?', 'listingpro'); ?></p>
+				<?php
+                $show_listingpro_form   =   true;
+                if( class_exists('WPForms') )
+                {
+                    $contact_form_platform  =   $listingpro_options['contact_form_settings'];
+                    if( $contact_form_platform == 'wpforms_lite' )
+                    {
+                        $show_listingpro_form   =   false;
+                        $wpforms_lite_shortcod  =   $listingpro_options['wpform_lite_shortcode'];
+                    }
+                }
+                ?>	
+                <?php
+                if( $show_listingpro_form == false && !empty( $wpforms_lite_shortcod ) )
+                {
+                    echo do_shortcode( $wpforms_lite_shortcod );
+                }
+                else
+                {
+                    ?>
+                    <form class="form-horizontal pos-relative" id="contactMSGForm" name="contactMSGForm" method="post" novalidate="novalidate" action="" data-lp-recaptcha="<?php echo $enableCaptchaform; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <input class="form-control nameform" id="nameContacts" name="uname" placeholder="<?php esc_html_e('Name:','listingpro'); ?>" type="text" value="" required="">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="emailContacts" name="uemail" placeholder="<?php esc_html_e('Email:','listingpro'); ?>" type="email" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input class="form-control" id="subjectContacts" name="usubject" placeholder="<?php esc_html_e('Subject:','listingpro'); ?>" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <textarea class="form-control" rows="5" id="messageContacts" name="umessage" placeholder="<?php esc_html_e('Message:','listingpro'); ?>"></textarea>
+                            </div>
+                        </div>
+                        
+                        <?php
+                        if(!empty($privacy_policy) && $privacy_contact=="yes"){
+                            ?>
+
+                            <div class="form-group lp_privacy_policy_Wrap">
+                                <input class="lpprivacycheckboxopt" id="reviewpolicycheck" type="checkbox" name="reviewpolicycheck" value="true">
+                                <label for="reviewpolicycheck"><a target="_blank" href="<?php echo get_the_permalink($privacy_policy); ?>" class="help" target="_blank"><?php echo esc_html__('I Agree', 'listingpro'); ?></a></label>
+                                <div class="help-text">
+                                    <a class="help" target="_blank"><i class="fa fa-question"></i></a>
+                                    <div class="help-tooltip">
+                                        <p><?php echo esc_html__('You agree & accept our Terms & Conditions for posting this information?', 'listingpro'); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="submit" id="contactMSG" name="contactMSG" value="<?php esc_html_e('Send Message','listingpro'); ?>" class="lp-review-btn btn-second-hover" disabled>
+
+                                </div>
+                            </div>
+                        <?php }else{ ?>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="submit" id="contactMSG" name="contactMSG" value="<?php esc_html_e('Send Message','listingpro'); ?>" class="lp-review-btn btn-second-hover">
+									
+									<div class="statuss" style="display:none">
+										<span class="fa-1x">
+											<i class="fa fa-spinner fa-spin"></i>
+										</span>
 									</div>
-								</div>
-						</div>
-						
-						<div class="form-group">        
-						  <div class="col-sm-12">							
-							<input type="submit" id="contactMSG" name="contactMSG" value="<?php esc_html_e('Send Message','listingpro'); ?>" class="lp-review-btn btn-second-hover" disabled>
 
-						  </div>
-						</div>
-					<?php }else{ ?>
-						<div class="form-group">        
-						  <div class="col-sm-12">							
-							<input type="submit" id="contactMSG" name="contactMSG" value="<?php esc_html_e('Send Message','listingpro'); ?>" class="lp-review-btn btn-second-hover">
+                                </div>
+                            </div>
+                        <?php }?>
 
-						  </div>
-						</div>
-					<?php }?>
-				
-				<?php if(!empty($successMSG)){ ?>
-				<div id="success" style="display:block">
-					<span class="green textcenter">
-						<p><?php echo esc_html($successMSG); ?></p>
-					</span>
-				</div>
-				<?php } ?>
-				<?php if(!empty($errorMSG)){ ?>
-				<div id="error"style="display:block">
-					<span>
-						<p><?php echo esc_html($errorMSG); ?></p>
-					</span>
-				</div>
-				<?php } ?>
-				
-				</form>
+                            <div id="success" style="display:none">
+								<span class="green textcenter">
+									<p></p>
+								</span>
+							</div>
+                        
+                            <div id="error"style="display:none">
+								<span>
+									<p></p>
+								</span>
+							</div>
+
+                    </form>
+                    <?php
+                }
+                ?>
 			</div>
 		</div>
 	</section>

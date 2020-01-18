@@ -1,4 +1,4 @@
-	<?php
+<?php
     global $listingpro_options;
     $banner_height = $listingpro_options['banner_height'];
     if( empty( $banner_height ) )
@@ -65,7 +65,7 @@
 			if(isset($_GET['list-style']) && !empty($_GET['list-style'])){
 				$listing_style = esc_html($_GET['list-style']);
 			}
-			
+
 			
 			if($listing_style == '1'){
 		?>
@@ -120,12 +120,22 @@
 									<?php echo listingpro_icons('whiteMapMarkerFill'); ?>
 									<a class="md-trigger mobilelink all-list-map" data-modal="modal-listing"><?php echo esc_html_e('View on map', 'listingpro'); ?></a>
 								</p>
-								<div class="listing-view-layout">
-									<ul>
-										<li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
-										<li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
-									</ul>
-								</div>
+								<?php
+                                $grid_list_switch   =   $listingpro_options['hide_grid_switcher'];
+                                $listing_view = $listingpro_options['listing_views'];
+                                if( $grid_list_switch == 'no' ) {
+                                    if($listing_view != 'lp-list-view-compact'  && $listing_view != 'grid_view_v3') {
+                                        ?>
+                                        <div class="listing-view-layout">
+                                            <ul>
+                                                <li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
+                                                <li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <?php
+                                    }
+                                }
+                                ?>
 							</div>
 						</div>
 					</div>
@@ -165,7 +175,9 @@
 		$topBannerView = $listingpro_options['top_banner_styles'];
 	if( $topBannerView == 'banner_view2'){
 			get_template_part( 'templates/headers/header-home' );
-	}else{
+	}elseif( $topBannerView == 'banner_view3'){
+		get_template_part( 'templates/headers/banner-sidesearch' );
+    }else{
 		// search style
 		$searchstyle = $listingpro_options['search_different_styles'];
 		$top_title = $listingpro_options['top_title'];
@@ -340,7 +352,7 @@
 			  </div>
 			 </div>
 			 <div class="col-md-9 col-xs-12 padding-0">
-			 <div class="video-bottom-search-container">
+			 <div class="video-bottom-search-container clearfix">
 			  <?php if(!empty($top_title)) { ?>
 			 <p class="lp-banner-browse-txt"><?php echo $top_title; ?></p>
 			  <?php } ?>
@@ -464,12 +476,22 @@
 							<?php echo listingpro_icons('whiteMapMarkerFill'); ?>
 							<a class="md-trigger mobilelink all-list-map" data-modal="modal-listing"><?php echo esc_html_e('View on map', 'listingpro'); ?></a>
 						</p>
-						<div class="listing-view-layout">
-							<ul>
-								<li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
-								<li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
-							</ul>
-						</div>
+                        <?php
+                        $grid_list_switch   =   $listingpro_options['hide_grid_switcher'];
+                        $listing_view = $listingpro_options['listing_views'];
+                        if( $grid_list_switch == 'no' ) {
+                            if($listing_view != 'lp-list-view-compact'  && $listing_view != 'grid_view_v3') {
+                                ?>
+                                <div class="listing-view-layout">
+                                    <ul>
+                                        <li><a class="grid" href="#"><i class="fa fa-th"></i></a></li>
+                                        <li><a class="list" href="#"><i class="fa fa-list-ul"></i></a></li>
+                                    </ul>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
 					</div>
 				</div>
 			</div>

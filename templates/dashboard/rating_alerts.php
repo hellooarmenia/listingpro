@@ -40,10 +40,11 @@
 						$content = wp_trim_words( get_the_content(), 15, '...' );
 					$author = get_the_author();
 					$postedtime = get_the_date();
-					$postedtime = date_create("$postedtime");
-					$lptimenow = date(get_option( 'date_format' ));
-					$lptimenow = date_create("$lptimenow");
-					$interval = date_diff($postedtime, $lptimenow);
+                    $postedtime = get_the_date('j-n-Y');
+                    $lptimenow = date('j-n-Y');
+                    $datetime1 = new DateTime($postedtime);
+                    $datetime2 = new DateTime($lptimenow);
+                    $interval = $datetime1->diff($datetime2);
 					$timediff = $interval->format('%R%a');
 					$timediff = (int)$timediff;
 					$timediffString = '';

@@ -18,7 +18,6 @@ $method = '';
 $plan_id = '';
 $user_id = '';
 $payment_desc = '';
-//$plan_price = '';
 $plan_price = '';
 $plan_time = '';
 $date = '';
@@ -33,7 +32,10 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
 	/* for coupons */
 	$discount = null;
 	$ord_num = '';
-	if(isset($_POST['coupon-text-field'])){
+	$coupon = '';
+
+    $couponChek =   $_POST['lp_checkbox_coupon'];
+	if(isset($_POST['coupon-text-field']) && $couponChek == 'couponON'){
 		if(!empty($_POST['coupon-text-field'])){
 			$cCode = $_POST['coupon-text-field'];
 			$exCoupons = lp_get_existing_coupons();
@@ -48,7 +50,7 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
 		}
 	}
 
-    if( isset($_POST['coupon-text-field'])){
+    /*if( isset($_POST['coupon-text-field'])){
         if(!empty($_POST['coupon-text-field'])){
             $couponCode =  $_POST['coupon-text-field'];
             $option_name = 'lp_coupons';
@@ -71,7 +73,7 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
             }
 
         }
-    }
+    }*/
 	
 	$lpRecurring = '';
 	if(isset($_POST['lp-recurring-option'])){
@@ -81,6 +83,7 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
 
     $method = $_POST['method'];
     $post_id = $_POST['post_id'];
+    $coupon = $_POST['coupon-text-field'];
     $plan_price = $_POST['plan_price'];
     $user_id = get_current_user_id();
 
@@ -194,7 +197,8 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
 	$plan_priceformeta = $plan_price;
 	$plan_taxPrice = null;
 	if(!empty($discount)){
-		$discount_price = ($discount/100)*$plan_price;
+		$discount_price = (float)($plan_price/100);
+		$discount_price = (float)($discount_price*$discount);
 		$plan_priceformeta = $plan_price - $discount_price;
 	}
 	
@@ -248,14 +252,14 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
     if( !empty($method) && $method=="wire" ){
         //updating payment method
 		$date = date(get_option('date_format'));
-        $update_data = array('status' => 'pending', 'date' => $date, 'price' => $plan_price);
+        $update_data = array('status' => 'pending', 'date' => $date, 'price' => $plan_price, 'tax' => $plan_taxPrice);
 		if(!empty($new_plan_id)){
 			$where = array('post_id' => $post_id, 'order_id' => $ord_num);
 		}else{
 			$where = array('post_id' => $post_id);
 		}
         
-        $update_format = array('%s', '%s', '%s');
+        $update_format = array('%s', '%s', '%s', '%s');
         $wpdb->update($dbprefix.'listing_orders', $update_data, $where, $update_format);
 
         $_SESSION['post_id'] = $post_id;
@@ -264,7 +268,7 @@ if(!empty($_POST['post_id']) && isset($_POST['post_id']) && !empty($_POST['metho
         $_SESSION['currency'] = $currency;
         $_SESSION['discount'] = $discount;
 
-
+        listingpro_apply_coupon_code_at_payment($coupon,$post_id,$plan_taxPrice,$plan_price);
         $checkout = $listingpro_options['payment-checkout'];
         $checkout_url = get_permalink( $checkout );
         $perma = '';

@@ -8,7 +8,6 @@
  
     $fb = lp_theme_option('fb');
     $tw = lp_theme_option('tw');
-    $gog = lp_theme_option('gog');
     $insta = lp_theme_option('insta');
     $tumb = lp_theme_option('tumb');
     $fyout = lp_theme_option('f-yout');
@@ -17,19 +16,12 @@
     $fvk = lp_theme_option('f-vk');
 ?>
      
-<?php if(!empty($tw) || !empty($gog) || !empty($fb) || !empty($insta) || !empty($tumb) || !empty($fpintereset) || !empty($flinked) || !empty($fyout) || !empty($fvk)){ ?>
+<?php if(!empty($tw) || !empty($fb) || !empty($insta) || !empty($tumb) || !empty($fpintereset) || !empty($flinked) || !empty($fyout) || !empty($fvk)){ ?>
 	<ul class="social-icons footer-social-icons">
 		<?php if(!empty($fb)){ ?>
 			<li>
 				<a href="<?php echo esc_url($fb); ?>" target="_blank">
 					<?php echo listingpro_icons('facebook'); ?>
-				</a>
-			</li>
-		<?php } ?>
-		<?php if(!empty($gog)){ ?>
-			<li>
-				<a href="<?php echo esc_url($gog); ?>" target="_blank">
-					<?php echo listingpro_icons('google'); ?>
 				</a>
 			</li>
 		<?php } ?>

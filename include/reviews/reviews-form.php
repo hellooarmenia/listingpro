@@ -1,13 +1,13 @@
 <?php
 if(!function_exists('listingpro_get_reviews_form')){
-	function listingpro_get_reviews_form($postid){
+    function listingpro_get_reviews_form($postid){
 		if (class_exists('ListingReviews')) {
 
 			global $listingpro_options;
 			$listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			$lp_Reviews_OPT = $listingpro_options['lp_review_submit_options'];
 			$gSiteKey = '';
-			$gSiteKey = $listingpro_options['lp_recaptcha_site_key'];
+			$gSiteKey = lp_theme_option('lp_recaptcha_site_key');
 			$enableCaptcha = lp_check_receptcha('lp_recaptcha_reviews');
             $privacy_policy = $listingpro_options['payment_terms_condition'];
             $privacy_review = $listingpro_options['listingpro_privacy_review'];
@@ -33,22 +33,7 @@ if(!function_exists('listingpro_get_reviews_form')){
             $lp_multi_rating_state    	=   $listingpro_options['lp_multirating_switch'];
             if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
             {
-                $lp_multi_rating_fields_active	=	array();
-                for ($x = 1; $x <= 5; $x++) {
-                    $field_active   =   '';
-                   if( isset($listingpro_options['lp_multi_ratiing'.$x.'_switch']) )
-                   {
-                       $field_active    =    $listingpro_options['lp_multi_ratiing'.$x.'_switch'];
-                   }
-                    if( $field_active == 1 )
-                    {
-                        
-                        $field_active_label			=	$listingpro_options['lp_multi_ratiing'.$x.'_label_switch'];
-
-                        $lp_multi_rating_fields_active['field'.$x]['label']			=	$field_active_label;
-                        
-				    }
-			    }
+                $lp_multi_rating_fields =   get_listing_multi_ratings_fields( $postid );
 
             }
             $lp_detail_page_styles  =   $listingpro_options['lp_detail_page_styles'];
@@ -62,21 +47,25 @@ if(!function_exists('listingpro_get_reviews_form')){
 
 				?>
 					<div class="review-form" id="review-section">
-						<h3 id="reply-title" class="comment-reply-title"><i class="fa fa-star-o"></i> <?php esc_html_e('Rate us and Write a Review','listingpro'); ?> <i class="fa fa-caret-down"></i></h3>
-						<form data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name = "rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
+						<?php  if($listing_mobile_view == 'app_view2'){?>
+                            <h3 id="reply-title" class="comment-reply-title text-center"><i class="fa fa-star" aria-hidden="true"></i> <?php esc_html_e('Add Review','listingpro'); ?> </h3>
+                        <?php }else{ ?>
+                            <h3 id="reply-title" class="comment-reply-title"><i class="fa fa-star-o"></i> <?php esc_html_e('Rate us and Write a Review','listingpro'); ?> <i class="fa fa-caret-down"></i></h3>
+                        <?php }?>
+						<form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name = "rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
 							<?php
-							if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) )
+							if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) )
 							{
 								echo '<div class="col-md-12 padding-left-0 lp-multi-rating-ui-wrap">';
 								$lp_rating_field_counter	=	1;
-								foreach( $lp_multi_rating_fields_active as $k => $lp_multi_rating_field )
+								foreach( $lp_multi_rating_fields as $k => $lp_multi_rating_field )
 								{
 									?>
 									<div class="<?php echo $multi_col_class; ?> padding-left-0">
-										<div class="sfdfdf list-style-none form-review-stars">
-											<p><?php echo $lp_multi_rating_field['label']; ?></p>
+										<div class="list-style-none form-review-stars">
+											<p><?php echo $lp_multi_rating_field; ?></p>
 											<input type="hidden" data-mrf="<?php echo $k; ?>" id="review-rating-<?php echo $k; ?>" name="rating-<?php echo $k; ?>" class="rating-tooltip lp-multi-rating-val" data-filled="fa fa-star fa-2x" data-empty="fa fa-star-o fa-2x" />
-											<span class="label-start"><?php echo $lp_multi_rating_field['label_start']; ?></span><span class="label-end"><?php echo $lp_multi_rating_field['label_end']; ?></span>
+
 										</div>
 									</div>
 
@@ -136,21 +125,11 @@ if(!function_exists('listingpro_get_reviews_form')){
 								<input placeholder="<?php esc_html_e('Example: It was an awesome experience to be there','listingpro'); ?>" type = "text" id = "post_title" class="form-control" name = "post_title" />
 							</div>
 							<div class="form-group">
-								<label for = "post_description"><?php esc_html_e('Review','listingpro'); ?></label>
+								<label for = "post_description"><?php esc_html_e('Review','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 								<textarea placeholder="<?php esc_html_e('Tip: A great review covers food, service, and ambiance. Got recommendations for your favorite dishes and drinks, or something everyone should try here? Include that too!','listingpro'); ?>" id = "post_description" class="form-control" rows="8" name = "post_description" ></textarea>
 								<p><?php esc_html_e('Your review is recommended to be at least 140 characters long :)','listingpro'); ?></p>
 							</div>
-							<div class="form-group">
-								<?php
-									if($enableCaptcha==true){
-										if ( class_exists( 'cridio_Recaptcha' ) ){
-											if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) {
-											echo  '<div style="transform:scale(0.88);-webkit-transform:scale(0.88);transform-origin:0 0;-webkit-transform-origin:0 0;" id="recaptcha-'.get_the_ID().'" class="g-recaptcha" data-sitekey="'.$gSiteKey.'"></div>';
-											}
-										}
-									}
-								?>
-							</div>
+							
 							<?php
 								if(!empty($privacy_policy) && $privacy_review=="yes"){
 							?>
@@ -194,31 +173,35 @@ if(!function_exists('listingpro_get_reviews_form')){
             {
             ?>
 				<div class="review-form">
-					<h3 id="reply-title" class="comment-reply-title"><i class="fa fa-star-o"></i><?php esc_html_e(' Rate us and Write a Review ','listingpro'); ?><i class="fa fa-caret-down"></i></h3>
+					<?php  if($listing_mobile_view == 'app_view2'){?>
+                        <h3 id="reply-title" class="comment-reply-title text-center"><i class="fa fa-star" aria-hidden="true"></i> <?php esc_html_e('Add Review','listingpro'); ?> </h3>
+                    <?php }else{ ?>
+                        <h3 id="reply-title" class="comment-reply-title"><i class="fa fa-star-o"></i> <?php esc_html_e('Rate us and Write a Review','listingpro'); ?> <i class="fa fa-caret-down"></i></h3>
+                    <?php }?>
 					<?php
 						if($lp_Reviews_OPT=="instant_sign_in"){
 					?>
-						<form data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name = "rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
+						<form class="" data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name = "rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
 					<?php
 						}
 						else{
 					?>
-						<form class="reviewformwithnotice" data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_formm" name = "rewies_form" action = "#" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
+						<form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" class="reviewformwithnotice" data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_formm" name = "rewies_form" action = "#" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
 					<?php } ?>
 
 						<?php
-							if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) )
+							if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) )
 							{
 								echo '<div class="col-md-12 padding-left-0 lp-multi-rating-ui-wrap">';
 								$lp_rating_field_counter	=	1;
-								foreach( $lp_multi_rating_fields_active as $k => $lp_multi_rating_field )
+								foreach( $lp_multi_rating_fields as $k => $lp_multi_rating_field )
 								{
 									?>
 									<div class="<?php echo $multi_col_class; ?> padding-left-0">
 										<div class="sfdfdf list-style-none form-review-stars">
-											<p><?php echo $lp_multi_rating_field['label']; ?></p>
+											<p><?php echo $lp_multi_rating_field; ?></p>
 											<input type="hidden" data-mrf="<?php echo $k; ?>" id="review-rating-<?php echo $k; ?>" name="rating-<?php echo $k; ?>" class="rating-tooltip lp-multi-rating-val" data-filled="fa fa-star fa-2x" data-empty="fa fa-star-o fa-2x" />
-											<span class="label-start"><?php echo $lp_multi_rating_field['label_start']; ?></span><span class="label-end"><?php echo $lp_multi_rating_field['label_end']; ?></span>
+
 										</div>
 									</div>
 
@@ -269,45 +252,32 @@ if(!function_exists('listingpro_get_reviews_form')){
                             <?php
                             }
                             ?>
-						<?php if($enableUsernameField==true){ ?>
-							<div class="form-group">
-								<label for = "u_mail"><?php esc_html_e('User Name','listingpro'); ?></label>
-								<input type = "text" placeholder="<?php esc_html_e('john','listingpro'); ?>" id = "lp_custom_username" class="form-control" name = "lp_custom_username" />
-							</div>
-
-						<?php } ?>
-
 						<?php
 							if($lp_Reviews_OPT=="instant_sign_in"){
-						?>
+                            if($enableUsernameField==true){ ?>
+                                <div class="form-group">
+                                    <label for = "u_mail"><?php esc_html_e('User Name','listingpro'); ?><span class="lp-requires-filed">*</span></label>
+                                    <input type = "text" placeholder="<?php esc_html_e('john','listingpro'); ?>" id = "lp_custom_username" class="form-control" name = "lp_custom_username" />
+                                </div>
+
+                            <?php } ?>
 							<div class="form-group">
-								<label for = "u_mail"><?php esc_html_e('Email','listingpro'); ?></label>
+								<label for = "u_mail"><?php esc_html_e('Email','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 								<input type = "email" placeholder="<?php esc_html_e('you@website.com','listingpro'); ?>" id = "u_mail" class="form-control" name = "u_mail" />
 							</div>
 							<?php } ?>
 
 						<div class="form-group">
-							<label for = "post_title"><?php esc_html_e('Title','listingpro'); ?></label>
+							<label for = "post_title"><?php esc_html_e('Title','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 							<input type = "text" placeholder="<?php esc_html_e('Example: It was an awesome experience to be there','listingpro'); ?>" id = "post_title" class="form-control" name = "post_title" />
 						</div>
 						<div class="form-group">
-							<label for = "post_description"><?php esc_html_e('Review','listingpro'); ?></label>
+							<label for = "post_description"><?php esc_html_e('Review','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 							<textarea placeholder="<?php esc_html_e('Tip: A great review covers food, service, and ambiance. Got recommendations for your favorite dishes and drinks, or something everyone should try here? Include that too!','listingpro'); ?>" id = "post_description" class="form-control" rows="8" name = "post_description" ></textarea>
 							<p><?php esc_html_e('Your review is recommended to be at least 140 characters long','listingpro'); ?></p>
 						</div>
-						<div class="form-group">
-								<?php
-									if($lp_Reviews_OPT=="instant_sign_in"){
-										if($enableCaptcha==true){
-											if ( class_exists( 'cridio_Recaptcha' ) ){
-												if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) {
-												echo  '<div style="transform:scale(0.88);-webkit-transform:scale(0.88);transform-origin:0 0;-webkit-transform-origin:0 0;" id="recaptcha-'.get_the_ID().'" class="g-recaptcha" data-sitekey="'.$gSiteKey.'"></div>';
-												}
-											}
-										}
-									}
-								?>
-						</div>
+						
+                            
 						<?php
 
 							if(!empty($privacy_policy) && $privacy_review=="yes"){
@@ -327,7 +297,7 @@ if(!function_exists('listingpro_get_reviews_form')){
 								<p class="form-submit">
 									<?php
 										if($lp_Reviews_OPT=="sign_in"){
-											
+
 											$reviewDataAtts = '';
 											$extraDataatts = 'data-modal="modal-3"';
 									?>
@@ -336,7 +306,7 @@ if(!function_exists('listingpro_get_reviews_form')){
 											$extraDataatts = '';
 									}
 									?>
-                                            
+
 									<input name="submit_review" <?php echo $reviewDataAtts; ?> type="submit" id="submit" class="lp-review-btn btn-second-hover md-trigger" <?php echo $extraDataatts; ?> value="<?php echo esc_html__('Submit Review ', 'listingpro');?>" disabled>
 									<?php
 										}elseif($lp_Reviews_OPT=="instant_sign_in"){
@@ -352,7 +322,7 @@ if(!function_exists('listingpro_get_reviews_form')){
 								<p class="form-submit">
 									<?php
 										if($lp_Reviews_OPT=="sign_in"){
-											
+
 											$reviewDataAtts = '';
 											$extraDataatts = 'data-modal="modal-3"';
 									?>
@@ -361,7 +331,7 @@ if(!function_exists('listingpro_get_reviews_form')){
 											$extraDataatts = '';
 									}
 									?>
-                                            
+
 									<input name="submit_review" <?php echo $reviewDataAtts; ?> type="submit" id="submit" class="lp-review-btn btn-second-hover md-trigger" <?php echo $extraDataatts; ?> value="<?php echo esc_html__('Submit Review ', 'listingpro');?>">
 									<?php
 										}elseif($lp_Reviews_OPT=="instant_sign_in"){
@@ -399,7 +369,6 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
         {
 
             global $listingpro_options;
-
             $lp_Reviews_OPT = $listingpro_options['lp_review_submit_options'];
 
             $gSiteKey = '';
@@ -427,40 +396,11 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
             $enableUsernameField = lp_theme_option('lp_register_username');
 
             $lp_multi_rating_state    	=   $listingpro_options['lp_multirating_switch'];
+
             if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
 
             {
-
-                $lp_multi_rating_fields_active	=	array();
-
-                for ($x = 1; $x <= 4; $x++) {
-
-                    $field_active   =   '';
-                   if( isset($listingpro_options['lp_multi_ratiing'.$x.'_switch']) )
-                   {
-                       $field_active    =    $listingpro_options['lp_multi_ratiing'.$x.'_switch'];
-                   }
-
-                    if( $field_active == 1 )
-
-                    {
-
-                        
-
-                        $field_active_label			=	$listingpro_options['lp_multi_ratiing'.$x.'_label_switch'];
-
-
-
-                        $lp_multi_rating_fields_active['field'.$x]['label']			=	$field_active_label;
-
-                        
-
-                    }
-
-                }
-
-
-
+                $lp_multi_rating_fields =   get_listing_multi_ratings_fields( $postid );
             }
 
             $multi_left_col =   '';
@@ -469,7 +409,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
 
 
-            if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) )
+            if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) )
 
             {
 
@@ -489,17 +429,17 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                 <div class="lp-listing-review-form" id="review-section">
 
-                    
+
 
                     <h2><?php echo esc_html__('Write a review', 'listingpro'); ?> <i class="fa fa-chevron-down"></i></h2>
 
-                    <form data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name="rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
+                    <form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>", data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name="rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
 
                         <div class="lp-review-form-top <?php echo $multi_left_col; ?>">
 
                             <?php
 
-                            if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) )
+                            if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) )
 
                             {
 
@@ -522,13 +462,9 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
                                 </div>
 
                                 <?php
-
                             }
-
                             else
-
                             {
-
                                 ?>
 
                                 <div class="lp-review-stars">
@@ -585,7 +521,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                             <?php
 
-                            if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) )
+                            if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) )
 
                             {
 
@@ -595,7 +531,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                 $lp_rating_field_counter	=	1;
 
-                                foreach( $lp_multi_rating_fields_active as $k => $lp_multi_rating_field )
+                                foreach( $lp_multi_rating_fields as $k => $lp_multi_rating_field )
 
                                 {
 
@@ -605,11 +541,11 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                         <div class="sfdfdf list-style-none form-review-stars">
 
-                                            <p><?php echo $lp_multi_rating_field['label']; ?></p>
+                                            <p><?php echo $lp_multi_rating_field; ?></p>
 
                                             <input type="hidden" data-mrf="<?php echo $k; ?>" id="review-rating-<?php echo $k; ?>" name="rating-<?php echo $k; ?>" class="rating-tooltip lp-multi-rating-val" data-filled="fa fa-star fa-2x" data-empty="fa fa-star-o fa-2x" />
 
-                                            <span class="label-start"><?php echo $lp_multi_rating_field['label_start']; ?></span><span class="label-end"><?php echo $lp_multi_rating_field['label_end']; ?></span>
+
 
                                         </div>
 
@@ -635,7 +571,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                             <div class="form-group">
 
-                                <label for = "post_title"><?php esc_html_e('Title','listingpro'); ?></label>
+                                <label for = "post_title"><?php esc_html_e('Title','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 
                                 <input placeholder="<?php esc_html_e('Example: It was an awesome experience to be there','listingpro'); ?>" type = "text" id = "post_title" class="form-control" name = "post_title" />
 
@@ -643,39 +579,18 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                             <div class="form-group">
 
-                                <label for = "post_description"><?php esc_html_e('Review','listingpro'); ?></label>
+                                <label for = "post_description"><?php esc_html_e('Review','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 
                                 <textarea placeholder="<?php esc_html_e('Tip: A great review covers food, service, and ambiance. Got recommendations for your favorite dishes and drinks, or something everyone should try here? Include that too! And remember.','listingpro'); ?>" id = "post_description" class="form-control" rows="8" name = "post_description" ></textarea>
 
                                 <p><?php esc_html_e('Your review is recommended to be at least 140 characters long :)','listingpro'); ?></p>
 
                             </div>
+                            
 
-                            <div class="form-group">
-
-                                <?php
-
-                                if($enableCaptcha==true){
-
-                                    if ( class_exists( 'cridio_Recaptcha' ) ){
-
-                                        if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) {
-
-                                            echo  '<div style="transform:scale(0.88);-webkit-transform:scale(0.88);transform-origin:0 0;-webkit-transform-origin:0 0;" id="recaptcha-'.get_the_ID().'" class="g-recaptcha" data-sitekey="'.$gSiteKey.'"></div>';
-
-                                        }
-
-                                    }
-
-                                }
-
-                                ?>
-
-                            </div>
-							
                             <?php
-							$privacy_policy = $listingpro_options['payment_terms_condition'];
-							$privacy_review = $listingpro_options['listingpro_privacy_review'];
+                            $privacy_policy = $listingpro_options['payment_terms_condition'];
+                            $privacy_review = $listingpro_options['listingpro_privacy_review'];
                             if( !empty( $privacy_policy ) && $privacy_review == 'yes' )
                             {
                                 ?>
@@ -708,7 +623,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
                                     <span class="review_status"></span>
                                     <img class="loadinerSearch" width="100px" src="<?php echo get_template_directory_uri().'/assets/images/ajax-load.gif' ?>">
                                 </p>
-                            <?php
+                                <?php
                             }
                             ?>
 
@@ -724,9 +639,21 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
             } else  { ?>
 
-                <div class="lp-listing-review-form">
+                <?php
+                if (!is_user_logged_in()) {
+                    $popup_style = $listingpro_options['login_popup_style'];
+                    if ($popup_style == 'style1' && $lp_Reviews_OPT!="instant_sign_in") {
+                        $review_form_popup    =    'class="lp-listing-review-form review-bar-login md-trigger" data-modal="modal-3"';
+                    }elseif($popup_style == 'style2' && $lp_Reviews_OPT!="instant_sign_in"){
+                        $review_form_popup    =    'class="lp-listing-review-form app-view-popup-style" data-target="#app-view-login-popup"';
+                    }elseif($lp_Reviews_OPT=="instant_sign_in"){
+                        $review_form_popup    =    'class="lp-listing-review-form review-bar-login"';
+                    }
+                }
+                ?>
+                <div <?php echo $review_form_popup; ?> >
 
-                    
+
                     <h2><?php echo esc_html__('Write a review', 'listingpro'); ?> <i class="fa fa-chevron-down"></i></h2>
 
                     <?php
@@ -735,7 +662,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                     ?>
 
-                    <form data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name = "rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
+                    <form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" class="" data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_form" name = "rewies_form" action = "" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
 
                         <?php
 
@@ -745,13 +672,13 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                         ?>
 
-                        <form data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_formm" name = "rewies_form" action = "#" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
+                        <form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" class="reviewformwithnotice" data-multi-rating="<?php echo $lp_multi_rating_state; ?>" id = "rewies_formm" name = "rewies_form" action = "#" method = "post" enctype="multipart/form-data" data-imgcount="<?php echo $lp_images_count; ?>" data-imgsize="<?php echo $lp_images_size; ?>" data-countnotice="<?php echo $lp_imagecount_notice;?>" data-sizenotice="<?php echo $lp_imagesize_notice; ?>">
 
 
 
                             <?php } ?>
 
-                            <div class="lp-review-form-top">
+                            <div class="lp-review-form-top <?php echo $multi_left_col; ?>">
 
                                 <div class="lp-review-stars">
 
@@ -759,7 +686,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                     <?php
 
-                                    if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) ) {
+                                    if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) ) {
 
                                         ?>
 
@@ -835,7 +762,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                     <?php
 
-                                    if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields_active ) && !empty( $lp_multi_rating_fields_active ) )
+                                    if( $lp_multi_rating_state == 1 && is_array( $lp_multi_rating_fields ) && !empty( $lp_multi_rating_fields ) )
 
                                     {
 
@@ -843,7 +770,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                         $lp_rating_field_counter	=	1;
 
-                                        foreach( $lp_multi_rating_fields_active as $k => $lp_multi_rating_field )
+                                        foreach( $lp_multi_rating_fields as $k => $lp_multi_rating_field )
 
                                         {
 
@@ -853,11 +780,9 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                                 <div class="sfdfdf list-style-none form-review-stars">
 
-                                                    <p><?php echo $lp_multi_rating_field['label']; ?></p>
+                                                    <p><?php echo $lp_multi_rating_field; ?></p>
 
                                                     <input type="hidden" data-mrf="<?php echo $k; ?>" id="review-rating-<?php echo $k; ?>" name="rating-<?php echo $k; ?>" class="rating-tooltip lp-multi-rating-val" data-filled="fa fa-star fa-2x" data-empty="fa fa-star-o fa-2x" />
-
-                                                    <span class="label-start"><?php echo $lp_multi_rating_field['label_start']; ?></span><span class="label-end"><?php echo $lp_multi_rating_field['label_end']; ?></span>
 
                                                 </div>
 
@@ -879,22 +804,20 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                 </div>
 
-                                
-								<?php if($enableUsernameField==true){ ?>
-                                   <div class="form-group">
-                                       <label for = "u_mail"><?php esc_html_e('User Name','listingpro'); ?></label>
-                                       <input type = "text" placeholder="<?php esc_html_e('john','listingpro'); ?>" id = "lp_custom_username" class="form-control" name = "lp_custom_username" />
-                                   </div>
-
-                               <?php } ?>
-							   <?php
+                                <?php
                                 if($lp_Reviews_OPT=="instant_sign_in"){
-
-                                    ?>
+                                    
+                                    if($enableUsernameField==true){ ?>
+                                        <div class="form-group">
+                                            <label for = "u_mail"><?php esc_html_e('User Name','listingpro'); ?><span class="lp-requires-filed">*</span></label>
+                                            <input type = "text" placeholder="<?php esc_html_e('john','listingpro'); ?>" id = "lp_custom_username" class="form-control" name = "lp_custom_username" />
+                                        </div>
+                                
+                                    <?php } ?>
 
                                     <div class="form-group">
 
-                                        <label for = "u_mail"><?php esc_html_e('Email','listingpro'); ?></label>
+                                        <label for = "u_mail"><?php esc_html_e('Email','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 
                                         <input type = "email" placeholder="<?php esc_html_e('you@website.com','listingpro'); ?>" id = "u_mail" class="form-control" name = "u_mail" />
 
@@ -906,7 +829,7 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                 <div class="form-group">
 
-                                    <label for = "post_title"><?php esc_html_e('Title','listingpro'); ?></label>
+                                    <label for = "post_title"><?php esc_html_e('Title','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 
                                     <input placeholder="<?php esc_html_e('Example: It was an awesome experience to be there','listingpro'); ?>" type = "text" id = "post_title" class="form-control" name = "post_title" />
 
@@ -914,48 +837,19 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
                                 <div class="form-group">
 
-                                    <label for = "post_description"><?php esc_html_e('Review','listingpro'); ?></label>
+                                    <label for = "post_description"><?php esc_html_e('Review','listingpro'); ?><span class="lp-requires-filed">*</span></label>
 
                                     <textarea placeholder="<?php esc_html_e('Tip: A great review covers food, service, and ambiance. Got recommendations for your favorite dishes and drinks, or something everyone should try here? Include that too! And remember.','listingpro'); ?>" id = "post_description" class="form-control" rows="8" name = "post_description" ></textarea>
 
                                     <p><?php esc_html_e('Your review recommended to be at least 140 characters long :)','listingpro'); ?></p>
 
                                 </div>
+                                
 
-                                <div class="form-group">
-
-                                    <div class="form-group">
-
-                                        <?php
-
-                                        if($lp_Reviews_OPT=="instant_sign_in"){
-
-                                            if($enableCaptcha==true){
-
-                                                if ( class_exists( 'cridio_Recaptcha' ) ){
-
-                                                    if ( cridio_Recaptcha_Logic::is_recaptcha_enabled() ) {
-
-                                                        echo  '<div style="transform:scale(0.88);-webkit-transform:scale(0.88);transform-origin:0 0;-webkit-transform-origin:0 0;" id="recaptcha-'.get_the_ID().'" class="g-recaptcha" data-sitekey="'.$gSiteKey.'"></div>';
-
-                                                    }
-
-                                                }
-
-                                            }
-
-                                        }
-
-                                        ?>
-
-                                    </div>
-
-                                </div>
-
-								<?php
+                                <?php
                                 if(!empty($privacy_policy) && $privacy_review=="yes")
                                 {
-                                ?>
+                                    ?>
                                     <div class="form-group lp_privacy_policy_Wrap">
                                         <input class="lpprivacycheckboxopt" id="reviewpolicycheck" type="checkbox" name="reviewpolicycheck" value="true">
                                         <label for="reviewpolicycheck"><a target="_blank" href="<?php echo get_the_permalink($privacy_policy); ?>" class="help" target="_blank"><?php echo esc_html__('I Agree', 'listingpro'); ?></a></label>
@@ -966,21 +860,21 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
                                             </div>
                                         </div>
                                     </div>
-                                <p class="form-submit">
+                                    <p class="form-submit">
+                                        <?php
+                                        if($lp_Reviews_OPT=="sign_in"){
+                                            ?>
+                                            <input name="submit_review" type="submit" id="submit" class="review-submit-btn md-trigger" data-modal="modal-3" value="<?php echo esc_html__('Submit Review ', 'listingpro');?>" disabled>
+                                            <?php
+                                        }elseif($lp_Reviews_OPT=="instant_sign_in"){
+                                            ?>
+                                            <input name="submit_review" type="submit" id="submit" class="review-submit-btn" value="<?php echo esc_html__('Signup & Submit Review ', 'listingpro');?>" disabled>
+                                        <?php } ?>
+                                        <input type="hidden" name="comment_post_ID" value="<?php echo $postid; ?>" id="comment_post_ID">
+                                        <span class="review_status"></span>
+                                        <img class="loadinerSearch" width="100px" src="<?php echo get_template_directory_uri().'/assets/images/ajax-load.gif' ?>">
+                                    </p>
                                     <?php
-                                    if($lp_Reviews_OPT=="sign_in"){
-                                    ?>
-                                        <input name="submit_review" type="submit" id="submit" class="review-submit-btn md-trigger" data-modal="modal-3" value="<?php echo esc_html__('Submit Review ', 'listingpro');?>" disabled>
-                                    <?php
-                                    }elseif($lp_Reviews_OPT=="instant_sign_in"){
-                                        ?>
-                                        <input name="submit_review" type="submit" id="submit" class="review-submit-btn" value="<?php echo esc_html__('Signup & Submit Review ', 'listingpro');?>" disabled>
-                                    <?php } ?>
-                                    <input type="hidden" name="comment_post_ID" value="<?php echo $postid; ?>" id="comment_post_ID">
-                                    <span class="review_status"></span>
-                                    <img class="loadinerSearch" width="100px" src="<?php echo get_template_directory_uri().'/assets/images/ajax-load.gif' ?>">
-                                </p>
-                                <?php
                                 }
                                 else
                                 {
@@ -1018,5 +912,43 @@ if( !function_exists('listingpro_get_reviews_form_v2' ) )
 
     }
 
+}
+
+function get_listing_multi_ratings_fields( $postID )
+{
+    $multi_rating_settings          =   get_option( 'lp-ratings-settings' );
+
+    $listing_terms = wp_get_post_terms( $postID, 'listing-category' );
+
+    $first_term =   '';
+   if( $listing_terms )
+   {
+       $first_term         =   $listing_terms[0]->name;
+   }
+    if( is_array( $multi_rating_settings ) )
+    {
+        if( array_key_exists( $first_term, $multi_rating_settings ) )
+        {
+            $rating_fields_data =   $multi_rating_settings[$first_term];
+        }
+        else
+        {
+            foreach ( $multi_rating_settings as $key => $val )
+            {
+                if( !empty( $first_term ) && strpos( $key, $first_term ) !== false )
+                {
+                    $rating_fields_data =   $val;
+                    break;
+                }
+            }
+        }
+    }
+
+    if( !isset( $rating_fields_data ) )
+    {
+        $rating_fields_data =   get_option( 'lp-ratings-default-settings' );
+        $rating_fields_data =   @$rating_fields_data['default'];
+    }
+    return $rating_fields_data;
 }
 ?>

@@ -41,7 +41,7 @@ if (comments_open ()) { ?>
 
 													$fields[ 'comment_notes_before' ]= '
 													<div class="form-group margin-bottom-40">
-														<p class="padding-bottom-15">Your Rating for this listing</p>
+														<p class="padding-bottom-15">'.__('Your Rating for this listing', 'listingpro').'</p>
 														<div class="list-style-none form-review-stars">
 															<input type="hidden" name="rate" class="rating-tooltip" data-filled="fa fa-star fa-2x" data-empty="fa fa-star-o fa-2x" />
 														</div>

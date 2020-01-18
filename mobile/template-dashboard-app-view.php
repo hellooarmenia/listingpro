@@ -66,7 +66,6 @@ $user_phone = get_the_author_meta('phone', $user_id);
 $user_email = get_the_author_meta('user_email', $user_id);
 // User Social links
 $user_facebook = get_the_author_meta('facebook', $user_id);
-$user_google = get_the_author_meta('google', $user_id);
 $user_linkedin = get_the_author_meta('linkedin', $user_id);
 $user_instagram = get_the_author_meta('instagram', $user_id);
 $user_twitter = get_the_author_meta('twitter', $user_id);
@@ -89,7 +88,6 @@ if ($user_ID) {
         $description = esc_html($_POST['desc']);
 
         $facebook = esc_html($_POST['facebook']);
-        $google = esc_html($_POST['google']);
         $linkedin = esc_html($_POST['linkedin']);
         $instagram = esc_html($_POST['instagram']);
         $twitter = esc_html($_POST['twitter']);
@@ -105,7 +103,6 @@ if ($user_ID) {
         update_user_meta( $user_ID, 'description', $description );
 
         update_user_meta( $user_ID, 'facebook', $facebook );
-        update_user_meta( $user_ID, 'google', $google );
         update_user_meta( $user_ID, 'linkedin', $linkedin );
         update_user_meta( $user_ID, 'instagram', $instagram );
         update_user_meta( $user_ID, 'twitter', $twitter );

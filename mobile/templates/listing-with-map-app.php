@@ -12,8 +12,14 @@
 					if( isset($listingpro_options['lp_archivepage_listingorder']) ){
 						$lporders = $listingpro_options['lp_archivepage_listingorder'];
 					}
-					if( isset($listingpro_options['lp_archivepage_listingorderby']) ){
-						$lporderby = $listingpro_options['lp_archivepage_listingorderby'];
+					$MtKey = '';
+					if( !empty(lp_theme_option('lp_archivepage_listingorderby')) ){
+						$lporderby = lp_theme_option('lp_archivepage_listingorderby');
+					}
+					if($lporderby=="post_views_count" || $lporderby=="listing_reviewed" || $lporderby=="listing_rate" || $lporderby=="claimed" ){
+						$MtKey = $lporderby;
+						$lporderby = 'meta_value_num';
+						
 					}
 					
 					if($lporderby=="rand"){
@@ -159,6 +165,7 @@
 						'paged'  => $paged,
 						'post__not_in' =>$ad_campaignsIDS,
 						'tax_query' => $TxQuery,
+                        'meta_key' => $MtKey,
 						'orderby' => $lporderby,
 						'order'   => $lporders,						
 					);
@@ -292,10 +299,10 @@
 								</div>
 								<div class="currency-signs search-filter-attr " id="search-filter-attr-filter">
 									<ul>
-										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Inexpensive', 'listingpro' );?>" id="one"><a href="#" data-price="inexpensive"><?php echo $lp_priceSymbol; ?></a></li>
-										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Moderate', 'listingpro' );?>" id="two"><a href="#" data-price="moderate"><?php echo $lp_priceSymbol2; ?></a></li>
-										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Pricey', 'listingpro' );?>" id="three"><a href="#" data-price="pricey"><?php echo $lp_priceSymbol3; ?></a></li>
-										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Ultra High End', 'listingpro' );?>" id="four"><a href="#" data-price="ultra_high_end"><?php echo $lp_priceSymbol4; ?></a></li>
+										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Inexpensive', 'listingpro' );?>"><a id="one" href="#" data-price="inexpensive"><?php echo $lp_priceSymbol; ?></a></li>
+										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Moderate', 'listingpro' );?>"><a id="two" href="#" data-price="moderate"><?php echo $lp_priceSymbol2; ?></a></li>
+										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Pricey', 'listingpro' );?>"><a id="three" href="#" data-price="pricey"><?php echo $lp_priceSymbol3; ?></a></li>
+										<li class="simptip-position-top simptip-movable" data-tooltip="<?php echo esc_html__( 'Ultra High End', 'listingpro' );?>"><a id="four" href="#" data-price="ultra_high_end"><?php echo $lp_priceSymbol4; ?></a></li>
 									</ul>
 								</div>
 							</div>

@@ -6,8 +6,9 @@ if(isset($_POST['data'])){
 $layout = $_POST['data'];
 
 if($layout && $layout!=''){
-	
-	function set_demo_menus(){
+
+    if(!function_exists('set_demo_menus')){
+	    function set_demo_menus(){
 
 		$primary_menu = get_term_by('name', 'Main', 'nav_menu');
 		$footer_menu = get_term_by('name', 'Footer', 'nav_menu');
@@ -19,6 +20,7 @@ if($layout && $layout!=''){
 	 echo $res;	
     
 	}
+    }
 	
 	if($layout=="solitaire"){
 					

@@ -1,6 +1,5 @@
 /* js for search by zaheer */
 jQuery(document).ready(function($) {
-	
 	if(jQuery('ul.list-st-img li').hasClass('lp-listing-phone')){
 		var $country = '';
 		var $city = '';
@@ -28,6 +27,7 @@ jQuery(document).ready(function($) {
 					'lp-country':$country,
 					'lp-city':$city,
 					'lp-zip':$zip,
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data){
 					
@@ -63,6 +63,7 @@ jQuery(document).ready(function($) {
 					'lp-country':$country,
 					'lp-city':$city,
 					'lp-zip':$zip,
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data){
 					
@@ -132,7 +133,8 @@ jQuery(document).ready(function($) {
 			url: ajax_search_term_object.ajaxurl,
 			data: { 
 				'action': 'listingpro_suggested_search', 
-				'tagID': qString, 
+				'tagID': qString,
+                'lpNonce' : jQuery('#lpNonce').val()
 				},
 			success: function(data){
 				if(data){
@@ -171,9 +173,15 @@ jQuery(document).ready(function($) {
 		//event.preventDefault();
 		myDropDown.attr('size', length);
 		myDropDown.css('display', 'block');
-		
-
-		
+		if( jQuery('.lp-home-banner-contianer-inner').length )
+        {
+			if( jQuery('.lp-home-banner-contianer-inner').hasClass('app-view2-header-animate') )
+			{
+				jQuery('.listing-app-view.listing-app-view-new .app-view-header .lp-home-banner-contianer').addClass('home-banner-animated');
+                jQuery('.listing-app-view.listing-app-view-new section').hide();
+                jQuery('.listing-app-view.listing-app-view-new .app-view2-banner-cat-slider').hide();
+			}
+		}
 		
 	});
 	
@@ -200,6 +208,22 @@ jQuery(document).ready(function($) {
 			}
 	        jQuery("form i.cross-search-q").css("display","block");
 	        myDropDown.css('display', 'none');
+
+            if( jQuery('.lp-home-banner-contianer-inner').length )
+            {
+                if( jQuery('.lp-home-banner-contianer-inner').hasClass('app-view2-header-animate') )
+                {
+                    if(jQuery('#searchlocation').length){
+                        if(jQuery('#searchlocation').hasClass('select2')) {
+                            jQuery('#searchlocation').select2("open");
+                        } else {
+                            jQuery('#searchlocation').trigger("chosen:open");
+                        }
+                    }
+
+                    event.stopPropagation();
+                }
+            }
 		
 	    });
 
@@ -257,7 +281,7 @@ jQuery(document).ready(function($) {
 		jQuery("#input-dropdown ul li").remove();
 		prevQuery = $this.data('prev-value');
 		$this.data( "prev-value", qString.length );
-		
+
 			//if(count>1){
 					jQuery.ajax({
 					type: "POST",
@@ -265,13 +289,15 @@ jQuery(document).ready(function($) {
 						url: ajax_search_term_object.ajaxurl,
 						data: { 
 							'action': 'listingpro_suggested_search', 
-							'tagID': qString, 
+							'tagID': qString,
+                            'lpNonce' : jQuery('#lpNonce').val()
 							},
 					beforeSend: function(){
 						jQuery("form i.cross-search-q").css("display","none");
 						jQuery("img.loadinerSearch").css("display","block");
 					},
 						success: function(data){
+						console.log(data);
 								//console.log(data.suggestions);
 								/* ajax response start */
 							if(data){
@@ -372,7 +398,9 @@ jQuery(document).on('change', '.lp_extrafields_select', function(event) {
     $this = jQuery(this);
     $selectedFields = [];
     jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-        $selectedFields[i] = jQuery(selectedElement).val();
+		keyValuePair = {};
+		keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+		$selectedFields.push(keyValuePair);
     });
 
 	
@@ -425,7 +453,8 @@ jQuery(document).on('change', '.lp_extrafields_select', function(event) {
 		jQuery('.lp-filter-pagination').hide();
 		jQuery('#content-grids').html(' ');
 		jQuery('.lp-filter-pagination-ajx').remove();
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
+        add_listing_skeletons();
 		jQuery('.map-view-list-container').remove();
 		var inexpensive = '';
 		moderate = '';
@@ -498,6 +527,7 @@ jQuery(document).on('change', '.lp_extrafields_select', function(event) {
             'loc_id': seracLoc,
             'list_style': listStyle,
             'skeyword': skeyword,
+            'lpNonce' : jQuery('#lpNonce').val()
         },
         success: function(data) {
             jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
@@ -535,6 +565,8 @@ jQuery(document).ready(function($){
         jQuery(".lp-head-withfilter4").html('');
         //jQuery(".header-container.4 .lp-features-filter").html('');
         //jQuery(".lp-features-filter").html('');
+        
+        jQuery(".lp_extrafields_select").html('');
 
         jQuery.ajax({
             type: 'POST',
@@ -543,6 +575,7 @@ jQuery(document).ready(function($){
             data: {
                 'action': 'ajax_search_term',
                 'term_id': $thiscat.val(),
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function(data){
                 if(data){
@@ -553,6 +586,8 @@ jQuery(document).ready(function($){
 					
 					jQuery(".lp-head-withfilter4").html(data.htmlfilter);
                     jQuery(".outer_all_page_overflow").html(data.htmlfilter);
+                    
+                    jQuery(".lp-additional-appview-filter-new").html(data.htmlfilter);
 					//alert(data.htmlfilter);
                     //jQuery(".lp-features-filter").eq(1).html(data.htmlfilter);
 					//jQuery(".header-container.4 .lp-features-filter").eq(1).html('1');
@@ -568,7 +603,9 @@ jQuery(document).ready(function($){
     jQuery(".header-container.4 select#searchcategory").change(function() {
         var $this		=	jQuery(this),
             thisVal		=	$this.val(),
-            catsWrap	=	jQuery('.lp-child-cats-tax');
+            catsWrap	=	jQuery('.lp-child-cats-tax'),
+			catsPos		=	jQuery('.lp-section.listing-style4').attr('data-childcat'),
+            catsShow    =   jQuery('.lp-section.listing-style4').attr('data-childcatshow');
 
         catsWrap.html('');
         catsWrap.css('height', '0px');
@@ -579,6 +616,7 @@ jQuery(document).ready(function($){
             data: {
                 'action': 'ajax_search_child_cats',
                 'parent_id': thisVal,
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function(data){
             	if( data.term_name == null )
@@ -586,7 +624,7 @@ jQuery(document).ready(function($){
                     data.term_name	=	'All Categories';
 				}
                 jQuery('.lp-header-search.archive-search h4.lp-title').find('em').text(data.term_name);
-                if( data.status == 'found' )
+                if( data.status == 'found' && catsShow != 'hide' )
                 {
                     catsWrap.css('height', '132px');
                     if( jQuery('.lp-child-cats-tax').length > 0 )
@@ -595,7 +633,12 @@ jQuery(document).ready(function($){
                     }
                     else
                     {
-                        jQuery('.listing-simple').before('<div class="lp-child-cats-tax">'+ data.child_cats +'</div>');
+                    	if(catsPos == 'fullwidth') {
+                            jQuery('.listing-simple').closest('.col-md-8').before('<div class="lp-child-cats-tax">'+ data.child_cats +'</div>');
+						} else {
+                            jQuery('.listing-simple').before('<div class="lp-child-cats-tax">'+ data.child_cats +'</div>');
+						}
+
                     }
 
                     var chilCatsLoc =   jQuery( '.lp-child-cats-tax-slider' ).data('child-loc'),
@@ -616,6 +659,9 @@ jQuery(document).ready(function($){
                             nextArrow:"<i class=\"fa fa-angle-left arrow-right\" aria-hidden=\"true\"></i>"
                         });
                     }
+
+
+
                 }
             }
         });
@@ -626,14 +672,25 @@ jQuery(document).ready(function($){
         if(jQuery('body.home').length ==0 )
         {
             $selectedFields = [];
-            jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-                $selectedFields[i] = jQuery(selectedElement).val();
-            });
+			jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
+				keyValuePair = {};
+				keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+				$selectedFields.push(keyValuePair);
+			});
             var listStyle;
             var $thiscat = jQuery('select#searchcategory');
             var new_design_v2            =    false;
             var new_header_filters        =    false;
             var listStyle	=	'';
+            var inexpensive='';
+                moderate = '';
+                pricey = '';
+                ultra = '';
+                averageRate = '';
+                mostRewvied = '';
+                listing_openTime = '';
+                mostViewed = '';
+                seracLoc	=	'';
 
             if( jQuery('#list-grid-view-v2').length != 0 )
             {
@@ -675,19 +732,10 @@ jQuery(document).ready(function($){
                 jQuery('#full-overlay').css('height',docHeight+'px');
                 jQuery('#content-grids').html(' ');
                 jQuery('.lp-filter-pagination-ajx').remove();
-                jQuery('#content-grids').addClass('content-loading');
+                //jQuery('#content-grids').addClass('content-loading');
+                add_listing_skeletons();
                 jQuery('.map-view-list-container').remove();
-                jQuery('.lp-filter-pagination').hide();
-
-                var inexpensive='';
-                moderate = '';
-                pricey = '';
-                ultra = '';
-                averageRate = '';
-                mostRewvied = '';
-                listing_openTime = '';
-                mostViewed = '';
-                seracLoc	=	'';
+                jQuery('.lp-filter-pagination').hide();               
 
 
                 inexpensive = jQuery('.currency-signs #one').find('.active').data('price');
@@ -756,7 +804,8 @@ jQuery(document).ready(function($){
                     'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
                     'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
                     'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-                    'distance_range' 	: jQuery("#distance_range").val()
+                    'distance_range' 	: jQuery("#distance_range").val(),
+                    'lpNonce' : jQuery('#lpNonce').val()
                 },
                 success: function(data){
                     jQuery('#full-overlay').remove();
@@ -780,7 +829,9 @@ jQuery(document).ready(function($){
 
 		$selectedFields = [];
 		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
 		});
 		var $thiscat = jQuery('select#searchcategory');
 		var new_design_v2            =    false;
@@ -829,7 +880,8 @@ jQuery(document).ready(function($){
 		jQuery('#full-overlay').css('height',docHeight+'px');
 		jQuery('#content-grids').html(' ');
 		jQuery('.lp-filter-pagination-ajx').remove();
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
+            add_listing_skeletons();
 		jQuery('.map-view-list-container').remove();
 		jQuery('.lp-filter-pagination').hide();
 		
@@ -910,7 +962,8 @@ jQuery(document).ready(function($){
 					'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 					'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 					'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-					'distance_range' 	: jQuery("#distance_range").val()
+					'distance_range' 	: jQuery("#distance_range").val(),
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data){
 					jQuery('#full-overlay').remove();
@@ -934,7 +987,9 @@ jQuery(document).ready(function($){
 		
 		$selectedFields = [];
 		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
 		});
         var skeyword    =    '';
         var new_design_v2            =    false;
@@ -991,7 +1046,8 @@ jQuery(document).ready(function($){
 		
 		jQuery('#content-grids').html(' ');
 		jQuery('.lp-filter-pagination-ajx').remove();
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
+        add_listing_skeletons();
 		jQuery('.map-view-list-container').remove();
 		
 		var inexpensive='';
@@ -1060,7 +1116,8 @@ jQuery(document).ready(function($){
 					'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 					'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 					'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-					'distance_range' 	: jQuery("#distance_range").val()
+					'distance_range' 	: jQuery("#distance_range").val(),
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data){
 					jQuery('#full-overlay').remove();
@@ -1075,16 +1132,12 @@ jQuery(document).ready(function($){
 	});
 
 
-	
 	/* =========================================================== */
-	jQuery("ul#select-lp-more-filter li a, .currency-signs ul li a, #filter-in-header .price-filter ul li, .keyword-ajax").on('click', function(event) {
+	jQuery(".sortbyfilter a,ul.priceRangeFilter li a,.listing_openTime a, .keyword-ajax,li.lp-search-best-matches").on('click', function(event) {
         event.preventDefault();
-		$selectedFields = [];
-		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
-		});
+		
+        
 		var $this = jQuery(this);
-		$this.toggleClass('active');
 		var new_design_v2            =    false;
         var new_header_filters        =    false;
 		var listStyle	=	'';
@@ -1105,14 +1158,7 @@ jQuery(document).ready(function($){
         if( new_header_filters == true )
         {
             get_filters_before_send();
-            var averageRate         =   get_filter_RRV( '.filter-in-header .rated-filter.header-filter-wrap' ),
-               mostRewvied         =   get_filter_RRV( '.filter-in-header .reviewed-filter.header-filter-wrap' ),
-               mostViewed          =   get_filter_RRV( '.filter-in-header .viewed-filter.header-filter-wrap' ),
-                inexpensive         =   get_price_range_vals( '#filter-in-header .price-filter ul li#n-one' ),
-                moderate            =   get_price_range_vals( '#filter-in-header .price-filter ul li#n-two' ),
-                pricey              =   get_price_range_vals( '#filter-in-header .price-filter ul li#n-three' ),
-                ultra               =   get_price_range_vals( '#filter-in-header .price-filter ul li#n-four' ),
-                listing_openTime    =   get_open_now_val( '#filter-in-header .open-now-filter' ),
+            var coupons             =   get_filter_RRV( '.filter-in-header .coupons-filter.header-filter-wrap' ),
                 listStyle           =   get_list_style(),
                 skeyword 			= 	jQuery('input#skeyword-filter').val();
 				if( jQuery('#searchlocation').length != 0 )
@@ -1131,32 +1177,15 @@ jQuery(document).ready(function($){
 		jQuery('#full-overlay').css('height',docHeight+'px');
 		event.preventDefault();
 		jQuery('.lp-filter-pagination').hide();
-            jQuery('.lp-filter-pagination-ajx').remove();
+        jQuery('.lp-filter-pagination-ajx').remove();
 		jQuery('#content-grids').html(' ');
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
 		jQuery('.map-view-list-container').remove();
-		var inexpensive='';
-		moderate = '';
-		pricey = '';
-		ultra = '';
-		averageRate = '';
-		mostRewvied = '';
-		listing_openTime = '';
-		mostViewed = '';
-		
-		inexpensive = jQuery('.currency-signs #one').find('.active').data('price');
-		moderate = jQuery('.currency-signs #two').find('.active').data('price');
-		pricey = jQuery('.currency-signs #three').find('.active').data('price');
-		ultra = jQuery('.currency-signs #four').find('.active').data('price');
-		
-		mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
-		averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
-		mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
-		
+        add_listing_skeletons();
+	
             
             skeyword = jQuery('input#lp_current_query').val();
-			seracLoc			=	jQuery("#lp_search_loc").val();
+			seracLoc =	jQuery("#lp_search_loc").val();
         }
 
 		var tags_name = [];
@@ -1189,15 +1218,16 @@ jQuery(document).ready(function($){
 				url: ajax_search_term_object.ajaxurl,
 				data: { 
 					'action': 'ajax_search_tags',
-					'formfields': $selectedFields,
-					'inexpensive':inexpensive,
-					'moderate':moderate,
-					'pricey':pricey,
-					'ultra':ultra,
-					'averageRate':averageRate,
-					'mostRewvied':mostRewvied,
-					'mostviewed':mostViewed,
-					'listing_openTime':listing_openTime,
+					'formfields': get_extra_filter(),
+					'inexpensive':get_filter_RRV2(this,'inexpensive'),
+					'moderate':get_filter_RRV2(this,'moderate'),
+					'pricey':get_filter_RRV2(this,'pricey'),
+					'ultra':get_filter_RRV2(this,'ultra_high_end'),
+					'averageRate':get_filter_RRV2(this,'listing_rate'),
+					'mostRewvied':get_filter_RRV2(this,'listing_reviewed'),
+                    'coupons':coupons,
+					'mostviewed':get_filter_RRV2(this,'mostviewed'),
+					'listing_openTime':get_filter_RRV2(this,'OpenClose'),
 					'lpstag': jQuery("#lpstag").val(),
 					'tag_name':tags_name,
 					'cat_id': jQuery("#searchform select#searchcategory").val(), 
@@ -1211,7 +1241,8 @@ jQuery(document).ready(function($){
 					'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 					'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 					'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-					'distance_range' 	: jQuery("#distance_range").val()
+					'distance_range' 	: jQuery("#distance_range").val(),
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data) {
 					jQuery('#full-overlay').remove();
@@ -1219,22 +1250,129 @@ jQuery(document).ready(function($){
 
 						listing_update(data, new_design_v2, listStyle);
 						lp_append_distance_div();
+                        remove_listing_skeletons();
 							
 					}
 				  } 
 			});
 	});
 	
-	
+    
+    function get_extra_filter()
+    {
+        $selectedFields = [];
+		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
+		});
+        return $selectedFields;
+    }
+    
+    
+	function get_filter_RRV2(selecter,SortType)
+    {
+        activeVal = '';
+        /* Best match filter */
+         var attrBest = jQuery(selecter).attr('data-best');
+        if (typeof attrBest !== typeof undefined && attrBest !== false) {
+            if('OpenClose' == SortType ){       
+               jQuery('.listing_openTime').find('a').toggleClass('active');                                
+                if(jQuery('.listing_openTime a').hasClass("active")){
+                    jQuery('.listing_openTime a').attr('data-time', 'open');
+                    listing_openTime = 'open';
+
+                }
+                else{
+                    jQuery('.listing_openTime a').attr('data-time', 'close');
+                    listing_openTime = 'close';
+                }
+            }
+            if('listing_rate' == SortType){
+                jQuery(selecter).find('a').toggleClass('active');  
+                var bestMatch = jQuery(selecter).find('a');
+                if(bestMatch.hasClass('active')){
+                    jQuery('li.sortbyfilter').find('a').removeClass('active');
+                    jQuery('li#listingRate').find('a').addClass('active');
+                }else{
+                    jQuery('li#listingRate').find('a').removeClass('active');
+                }
+                
+            }
+        }
+        
+        /* SOrting filter */
+        var attrSort = jQuery(selecter).attr('data-value');       
+        if (typeof attrSort !== typeof undefined && attrSort !== false) {
+            if ('listing_rate' == SortType) {
+                jQuery('li.sortbyfilter').find('a').removeClass('active');
+                jQuery(selecter).toggleClass('active');
+            }
+        }
+        var activeSortVal   =   jQuery('li.sortbyfilter').find('.active').data('value');
+        if(activeSortVal == SortType){
+           activeVal = activeSortVal;
+        }
+        
+        /* Pricing range filter */
+         var attrPrice = jQuery(selecter).attr('data-price');
+        if (typeof attrPrice !== typeof undefined && attrPrice !== false) {
+            if ('inexpensive' == SortType ) {
+                jQuery(selecter).toggleClass('active');
+            }
+        }
+        if ('inexpensive' == SortType || 'moderate' == SortType || 'pricey' == SortType || 'ultra_high_end' == SortType ) {
+            inexpensive = jQuery('ul.priceRangeFilter #one').find('.active').data('price');
+            moderate = jQuery('ul.priceRangeFilter #two').find('.active').data('price');
+            pricey = jQuery('ul.priceRangeFilter #three').find('.active').data('price');
+            ultra = jQuery('ul.priceRangeFilter #four').find('.active').data('price');
+            if(inexpensive == SortType){
+               activeVal = inexpensive;
+            }else if(moderate == SortType){
+               activeVal = moderate;      
+            }else if(pricey == SortType){
+               activeVal = pricey;      
+            }else if(ultra == SortType){
+               activeVal = ultra;      
+            }
+        }
+        /* Open CLose filter */
+        listing_openTime = jQuery('.listing_openTime').find('.active').data('time');
+         var attrtime = jQuery(selecter).attr('data-time');
+        if (typeof attrtime !== typeof undefined && attrtime !== false && 'OpenClose' == SortType) {
+            jQuery(selecter).toggleClass('active');           
+            if(jQuery(selecter).hasClass("active")){
+                jQuery(selecter).parent('label').children('.app-filter-loader').addClass('app-filter-loader-active').show().html('<i class="fa fa-spinner" aria-hidden="true"></i>');
+                jQuery(selecter).attr('data-time', 'open');
+                listing_openTime = 'open';
+
+            }
+            else{
+                jQuery(selecter).parent('label').children('.app-filter-loader').hide().html('<i class="fa fa-spinner" aria-hidden="true"></i>');
+                jQuery(selecter).attr('data-time', 'close');
+                listing_openTime = 'close';
+            }
+        }
+        if('OpenClose' == SortType){
+           activeVal = listing_openTime;
+        }      
+
+        return  activeVal;
+        
+    }
+    
+    
 	
 	/* ===============================for best match by  z============================ */
     /* ===============================for best match by  z============================ */
-    jQuery("li.lp-search-best-matches, #filter-in-header .best-match-filter").on('click', function(event) {
+    jQuery("#filter-in-header .best-match-filter").on('click', function(event) {
         var $this = jQuery( this );
-        $selectedFields = [];
-        jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-            $selectedFields[i] = jQuery(selectedElement).val();
-        });
+       $selectedFields = [];
+		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
+		});
 		$this.toggleClass('active');
         var new_design_v2            =    false;
         var new_header_filters        =    false;
@@ -1295,7 +1433,8 @@ jQuery(document).ready(function($){
             jQuery('.lp-filter-pagination').hide();
             jQuery('#content-grids').html(' ');
             jQuery('.lp-filter-pagination-ajx').remove();
-            jQuery('#content-grids').addClass('content-loading');
+            //jQuery('#content-grids').addClass('content-loading');
+            add_listing_skeletons();
             jQuery('.map-view-list-container').remove();
             var inexpensive='';
             moderate = '';
@@ -1399,7 +1538,8 @@ jQuery(document).ready(function($){
                 'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
                 'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
                 'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-                'distance_range' 	: jQuery("#distance_range").val()
+                'distance_range' 	: jQuery("#distance_range").val(),
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function(data) {
                 jQuery('#full-overlay').remove();
@@ -1413,71 +1553,13 @@ jQuery(document).ready(function($){
     });
 	
 	
-	/* =============================by saj br============================== */
-	
-	jQuery(document).on('change', '.search-filter-attr input[type="checkbox"]#bestmatch', function(e){
-		$selectedFields = [];
-		listStyle = '';
-		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
-		});
-        if(jQuery('.search-filter-attr input[type="checkbox"]#bestmatch').is(':checked')){
-            jQuery('input[type="checkbox"].listing_openTime').addClass('active');
-            jQuery('.search-filter-attr input[type="checkbox"]#listingRate').addClass('active');
-            jQuery('.search-filter-attr input[type="checkbox"]#mostviewed').addClass('active');
-            jQuery('.search-filter-attr input[type="checkbox"]#listingReviewed').addClass('active');
-            jQuery('input[type="checkbox"].listing_openTime').prop('checked', true);
-            jQuery('.search-filter-attr input[type="checkbox"]#listingRate').prop('checked', true);
-            jQuery('.search-filter-attr input[type="checkbox"]#mostviewed').prop('checked', true);
-            jQuery('.search-filter-attr input[type="checkbox"]#listingReviewed').prop('checked', true);
-        }else{
-            jQuery('input[type="checkbox"].listing_openTime').removeClass('active');
-            jQuery('.search-filter-attr input[type="checkbox"]#listingRate').removeClass('active');
-            jQuery('.search-filter-attr input[type="checkbox"]#mostviewed').removeClass('active');
-            jQuery('.search-filter-attr input[type="checkbox"]#listingReviewed').removeClass('active');
-            jQuery('input[type="checkbox"].listing_openTime').prop('checked', false);
-            jQuery('.search-filter-attr input[type="checkbox"]#listingRate').prop('checked', false);
-            jQuery('.search-filter-attr input[type="checkbox"]#mostviewed').prop('checked', false);
-            jQuery('.search-filter-attr input[type="checkbox"]#listingReviewed').prop('checked', false);
-        }
-        var docHeight = jQuery( document ).height();
-        jQuery( "body" ).prepend( '<div id="full-overlay"></div>' );
-        jQuery('#full-overlay').css('height',docHeight+'px');
-        e.preventDefault();
+	jQuery(document).on('click', '.app-view-filters .currency-signs.search-filter-attr li a', function(event) {
+        event.preventDefault();
+
+        var $this	=	jQuery(this);
         jQuery(this).toggleClass('active');
-        jQuery('.lp-filter-pagination').hide();
-        jQuery('#content-grids').html(' ');
-        jQuery('.lp-filter-pagination-ajx').remove();
-        jQuery('#content-grids').addClass('content-loading');
-		jQuery('.map-view-list-container').remove();
-        var inexpensive='';
-        moderate = '';
-        pricey = '';
-        ultra = '';
-        averageRate = '';
-        mostRewvied = '';
-        listing_openTime = '';
-        mostViewed = '';
-        inexpensive = jQuery('.currency-signs #one').find('.active').data('price');
-        moderate = jQuery('.currency-signs #two').find('.active').data('price');
-        pricey = jQuery('.currency-signs #three').find('.active').data('price');
-        ultra = jQuery('.currency-signs #four').find('.active').data('price');
-        if( jQuery( '.search-filter-attr input[type="checkbox"]#listingRate' ).hasClass('active') )
-        {
-            averageRate = jQuery( '.search-filter-attr input[type="checkbox"]#listingReviewed' ).val();
-        }
-        if( jQuery( '.search-filter-attr input[type="checkbox"]#listingRate' ).hasClass('active') )
-        {
-            mostRewvied = jQuery( '.search-filter-attr input[type="checkbox"]#listingReviewed' ).val();
-        }
-        if( jQuery( '.search-filter-attr input[type="checkbox"]#mostviewed' ).hasClass('active') )
-        {
-			mostViewed = 'mostviewed';
-        }
-        if( jQuery( '.search-filter-attr input[type="checkbox"].listing_openTime' ).hasClass('active') )
-        {
-			listing_openTime = 'open';
-        }
+		get_app_view_before_send();
+
         if( jQuery(this).hasClass('active') ){
             jQuery(this).parent('label').children('.app-filter-loader').addClass('app-filter-loader-active').show().html('<i class="fa fa-spinner" aria-hidden="true"></i>');
         }
@@ -1489,40 +1571,42 @@ jQuery(document).ready(function($){
         tags_name = jQuery('.tags-area input[type=checkbox]:checked').map(function(){
             return jQuery(this).val();
         }).get();
-		
-		if(tags_name.length > 0){
-		}else{
-		   tags_name.push(jQuery('#check_featuretax').val());
-		}
-		
+
+        if(tags_name.length > 0){
+        }else{
+            tags_name.push(jQuery('#check_featuretax').val());
+        }
+
         skeyword = jQuery('input#lp_current_query').val();
-        
-		seracLoc = jQuery("#lp_search_loc").val();
-		if(check_if_loc_disabled_fornearme()){
-			seracLoc = '';
-		}
-		
+
+        seracLoc = jQuery("#lp_search_loc").val();
+        if(check_if_loc_disabled_fornearme()){
+            seracLoc = '';
+        }
+        listStyle	=	'';
         jQuery.ajax({
             type: 'POST',
             dataType: 'json',
             url: ajax_search_term_object.ajaxurl,
             data: {
                 'action': 'ajax_search_tags',
-				'formfields': $selectedFields,
-                'inexpensive':inexpensive,
-                'moderate':moderate,
-                'pricey':pricey,
-                'ultra':ultra,
-                'averageRate':averageRate,
-                'mostRewvied':mostRewvied,
-                'mostviewed':mostViewed,
-                'listing_openTime':listing_openTime,
-				'lpstag': jQuery("#lpstag").val(),
+                'formfields': get_extra_filter(),
+                'inexpensive':get_app_view_filter_val('.currency-signs.search-filter-attr li a#one', 'inexpensive', 'price_range'),
+                'moderate':get_app_view_filter_val('.currency-signs.search-filter-attr li a#two', 'moderate', 'price_range'),
+                'pricey':get_app_view_filter_val('.currency-signs.search-filter-attr li a#three', 'pricey', 'price_range'),
+                'ultra':get_app_view_filter_val('.currency-signs.search-filter-attr li a#four', 'ultra_high_end', 'price_range'),
+                'averageRate':get_app_view_filter_val('#listingRate', 'listing_rate'),
+                'mostRewvied':get_app_view_filter_val('#listingReviewed', 'listing_reviewed'),
+                'coupons':get_app_view_filter_val('#listingCoupons', 'coupons'),
+                'mostviewed':get_app_view_filter_val('#mostviewed', 'mostviewed'),
+                'listing_openTime':get_app_view_filter_val('.listing_openTime', 'open'),
+                'lpstag': jQuery("#lpstag").val(),
                 'tag_name':tags_name,
                 'cat_id': jQuery("#searchform select#searchcategory").val(),
                 'loc_id': seracLoc,
                 'list_style': listStyle,
                 'skeyword': skeyword,
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function(data) {
                 jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
@@ -1530,59 +1614,17 @@ jQuery(document).ready(function($){
                 if(data){
                     listing_update(data);
                     lp_append_distance_div();
+
                 }
             }
         });
-    })
-	/* ===============================2nd================================== */
-    jQuery(document).on('change', '.search-filter-attr input[type="checkbox"]#listingRate, .search-filter-attr input[type="checkbox"]#listingReviewed, .search-filter-attr input[type="checkbox"]#mostviewed', function(event) {
+    });
+	jQuery(document).on('change', '.search-filter-attr input[type="checkbox"].listing_openTime, .search-filter-attr input[type="checkbox"]#bestmatch, .search-filter-attr input[type="checkbox"]#listingCoupons,.search-filter-attr input[type="checkbox"]#listingRate, .search-filter-attr input[type="checkbox"]#listingReviewed, .search-filter-attr input[type="checkbox"]#mostviewed', function(event) {
+
         event.preventDefault();
-        $selectedFields = [];
-        jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-            $selectedFields[i] = jQuery(selectedElement).val();
-        });
-        var docHeight = jQuery( document ).height();
-        jQuery( "body" ).prepend( '<div id="full-overlay"></div>' );
-        jQuery('#full-overlay').css('height',docHeight+'px');
-        event.preventDefault();
-        jQuery(this).toggleClass('active');
-        jQuery('.lp-filter-pagination').hide();
-        jQuery('#content-grids').html(' ');
-        jQuery('.lp-filter-pagination-ajx').remove();
-        jQuery('#content-grids').addClass('content-loading');
-        jQuery('.map-view-list-container').remove();
-        var inexpensive='';
-        moderate = '';
-        pricey = '';
-        ultra = '';
-        averageRate = '';
-        mostRewvied = '';
-        listing_openTime = '';
-        mostviewed = '';
-
-        inexpensive = jQuery('.currency-signs #one').find('.active').data('price');
-        moderate = jQuery('.currency-signs #two').find('.active').data('price');
-        pricey = jQuery('.currency-signs #three').find('.active').data('price');
-        ultra = jQuery('.currency-signs #four').find('.active').data('price');
-        listStyle = '';
-
-        if( jQuery( '.search-filter-attr input[type="checkbox"]#listingReviewed' ).hasClass('active') )
-        {
-            mostRewvied = jQuery( '.search-filter-attr input[type="checkbox"]#listingReviewed' ).val();
-        }
-        if( jQuery( '.search-filter-attr input[type="checkbox"]#listingRate' ).hasClass('active') )
-        {
-            averageRate = jQuery( '.search-filter-attr input[type="checkbox"]#listingRate' ).val();
-        }
-        if( jQuery( '.search-filter-attr input[type="checkbox"]#mostviewed' ).hasClass('active') )
-        {
-            mostviewed = jQuery( '.search-filter-attr input[type="checkbox"]#mostviewed' ).val();
-        }
-
-        if( jQuery( '.search-filter-attr input[type="checkbox"].listing_openTime' ).hasClass('active') )
-        {
-            listing_openTime = jQuery( '.search-filter-attr input[type="checkbox"].listing_openTime' ).val();
-        }
+		var $this	=	jQuery(this);
+		best_match_filter_toggle($this);
+		get_app_view_before_send();
 
         if( jQuery(this).hasClass('active') ){
             jQuery(this).parent('label').children('.app-filter-loader').addClass('app-filter-loader-active').show().html('<i class="fa fa-spinner" aria-hidden="true"></i>');
@@ -1607,28 +1649,30 @@ jQuery(document).ready(function($){
 		if(check_if_loc_disabled_fornearme()){
 			seracLoc = '';
 		}
-
+        listStyle	=	'';
         jQuery.ajax({
             type: 'POST',
             dataType: 'json',
             url: ajax_search_term_object.ajaxurl,
             data: {
                 'action': 'ajax_search_tags',
-                'formfields': $selectedFields,
-                'inexpensive':inexpensive,
-                'moderate':moderate,
-                'pricey':pricey,
-                'ultra':ultra,
-                'averageRate':averageRate,
-                'mostRewvied':mostRewvied,
-                'mostviewed':mostviewed,
-                'listing_openTime':listing_openTime,
+                'formfields': get_extra_filter(),
+                'inexpensive':get_app_view_filter_val('.currency-signs.search-filter-attr li a#one', 'inexpensive', 'price_range'),
+                'moderate':get_app_view_filter_val('.currency-signs.search-filter-attr li a#two', 'moderate', 'price_range'),
+                'pricey':get_app_view_filter_val('.currency-signs.search-filter-attr li a#three', 'pricey', 'price_range'),
+                'ultra':get_app_view_filter_val('.currency-signs.search-filter-attr li a#four', 'ultra_high_end', 'price_range'),
+                'averageRate':get_app_view_filter_val('#listingRate', 'listing_rate'),
+                'mostRewvied':get_app_view_filter_val('#listingReviewed', 'listing_reviewed'),
+                'coupons':get_app_view_filter_val('#listingCoupons', 'coupons'),
+                'mostviewed':get_app_view_filter_val('#mostviewed', 'mostviewed'),
+                'listing_openTime':get_app_view_filter_val('.listing_openTime', 'open'),
                 'lpstag': jQuery("#lpstag").val(),
                 'tag_name':tags_name,
                 'cat_id': jQuery("#searchform select#searchcategory").val(),
                 'loc_id': seracLoc,
                 'list_style': listStyle,
                 'skeyword': skeyword,
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function(data) {
                 jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
@@ -1641,17 +1685,60 @@ jQuery(document).ready(function($){
             }
         });
     });
-	/* =============================end by saj br============================== */
+    function best_match_filter_toggle(selector) {
+		if(selector.is('#bestmatch')){
+			if(selector.is(':checked')) {
+				jQuery('.search-filter-attr input[type="checkbox"].listing_openTime').prop('checked', true);
+				jQuery('.search-filter-attr input[type="checkbox"]#listingRate').prop('checked', true);
+			} else {
+                jQuery('.search-filter-attr input[type="checkbox"].listing_openTime').prop('checked', false);
+                jQuery('.search-filter-attr input[type="checkbox"]#listingRate').prop('checked', false);
+			}
+		}
+    }
+    function get_app_view_filter_val(selector, filter_val, filterType) {
+    	if(selector == '.listing_openTime') {
+            var $return	=	'close';
+		} else {
+            var $return	=	'';
+		}
+		if(filterType == 'price_range') {
+    		if(jQuery(selector).hasClass('active')) {
+                jQuery(selector).addClass('myclass');
+    			$return	=	filter_val;
+			}
+		} else {
+            if(jQuery(selector).is(':checked')) {
+                $return	=	filter_val;
+            }
+		}
+        return $return;
+    }
+    function get_app_view_before_send() {
+        var docHeight = jQuery( document ).height();
+        jQuery( "body" ).prepend( '<div id="full-overlay"></div>' );
+        jQuery('#full-overlay').css('height',docHeight+'px');
+        event.preventDefault();
+
+        jQuery(this).toggleClass('active');
+        jQuery('.lp-filter-pagination').hide();
+        jQuery('#content-grids').html(' ');
+        jQuery('.lp-filter-pagination-ajx').remove();
+        jQuery('#content-grids').addClass('content-loading');
+        jQuery('.map-view-list-container').remove();
+    }
 	
 	/* =========================================================== */
 jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', function(event){
 		
 		$selectedFields = [];
 		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
 		});
 		jQuery('#lp-pages-in-cats').hide(200);
-
+		var seracLoc	=	'';
 		var $this = jQuery(this);
         var new_design_v2            =    false;
         var new_header_filters        =    false;
@@ -1691,6 +1778,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 				}else if( jQuery('#lp_search_loc').length != 0 ){
 				seracLoc			=	jQuery("#lp_search_loc").val();
 				}
+            jQuery('html, body').animate({scrollTop:0},500);
         }
         else
         {
@@ -1707,7 +1795,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 		
 		jQuery('#content-grids').html(' ');
 		jQuery('.lp-filter-pagination-ajx').remove();
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
+        add_listing_skeletons();
 		jQuery('.map-view-list-container').remove();
 		var inexpensive='';
 		moderate = '';
@@ -1797,7 +1886,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 					'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 					'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-					'distance_range' 	: jQuery("#distance_range").val()
+					'distance_range' 	: jQuery("#distance_range").val(),
+					'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data) {
 					$this.addClass('active');
@@ -1815,7 +1905,9 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
     {
 		$selectedFields = [];
 		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
 		});
 
         get_filters_before_send();
@@ -1891,7 +1983,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
                 'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
                 'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
                 'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-                'distance_range' 	: jQuery("#distance_range").val()
+                'distance_range' 	: jQuery("#distance_range").val(),
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function(data) {
                 jQuery('#full-overlay').remove();
@@ -1906,7 +1999,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
     })
 
 		/* =======================Open now========================= */
-	jQuery(document).on('click','.search-filters li.listing_openTime a, input[type="checkbox"].listing_openTime',function(event) {
+	jQuery(document).on('click','input[type="checkbox"].listing_openTime',function(event) {
 
 
         var new_design_v2	=	false;
@@ -1926,7 +2019,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 		jQuery('.lp-filter-pagination').hide();
 		jQuery('#content-grids').html(' ');
 		jQuery('.lp-filter-pagination-ajx').remove();
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
+        add_listing_skeletons();
 		jQuery('.map-view-list-container').remove();
 
 
@@ -1936,6 +2030,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 		ultra = '';
 		averageRate = '';
 		mostRewvied = '';
+        coupons    =    '';
 		var listing_openTime = '';
 		mostViewed = '';
 		
@@ -1950,6 +2045,11 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 			averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 			mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
 			listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+            coupons = jQuery('.search-filters li.listing_coupons').find('a.active').data('value');
+           if( jQuery('.search-filters li.listing_coupons a.active').length > 0 )
+           {
+               coupons    =    'coupons';
+            }
 			event.preventDefault();
 		}
 		else
@@ -1974,7 +2074,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 		else{
 			jQuery(this).parent('label').children('.app-filter-loader').hide().html('<i class="fa fa-spinner" aria-hidden="true"></i>');
 			jQuery(this).attr('data-value', 'close');
-			listing_openTime = 'close';			
+			listing_openTime = 'close';
 		}
 		//listing_openTime = jQuery(this).data('value');
 
@@ -2020,6 +2120,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					'ultra':ultra,
 					'averageRate':averageRate,
 					'mostRewvied':mostRewvied,
+                    'coupons':coupons,
 					'mostviewed':mostViewed,
 					'listing_openTime':listing_openTime,
 					'lpstag': jQuery("#lpstag").val(),
@@ -2035,7 +2136,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 					'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 					'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-					'distance_range' 	: jQuery("#distance_range").val()
+					'distance_range' 	: jQuery("#distance_range").val(),
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data) {
 					jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
@@ -2062,11 +2164,13 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 	});
 	
 	/* =======================Open now========================= */
-	jQuery(document).on('click','#filter-in-header .open-now-filter, .search-filters li#listing_openTime a, input[type="checkbox"]#listing_openTime',function(event)
+	jQuery(document).on('click','input[type="checkbox"]#listing_openTime',function(event)
     {
 		$selectedFields = [];
 		jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-			$selectedFields[i] = jQuery(selectedElement).val();
+			keyValuePair = {};
+			keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+			$selectedFields.push(keyValuePair);
 		});
 		 jQuery(this).toggleClass('active');
         var new_design_v2            =    false;
@@ -2116,7 +2220,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 		jQuery('.lp-filter-pagination').hide();
 		jQuery('#content-grids').html(' ');
 		jQuery('.lp-filter-pagination-ajx').remove();
-		jQuery('#content-grids').addClass('content-loading');
+		//jQuery('#content-grids').addClass('content-loading');
+        add_listing_skeletons();
 		jQuery('.map-view-list-container').remove();
 		var inexpensive='';
 		moderate = '';
@@ -2223,7 +2328,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 					'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 					'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-					'distance_range' 	: jQuery("#distance_range").val()
+					'distance_range' 	: jQuery("#distance_range").val(),
+                    'lpNonce' : jQuery('#lpNonce').val()
 					},
 				success: function(data) {
 					jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
@@ -2263,6 +2369,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
                     'action': 'listingpro_add_favorite', 
                     'post-id': val, 
                     'type': type,
+                    'lpNonce' : jQuery('#lpNonce').val()
                     },
                 success: function(data) {
                     if(data){
@@ -2301,7 +2408,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
                     url: ajax_search_term_object.ajaxurl,
                     data: { 
                         'action': 'listingpro_remove_favorite', 
-                        'post-id': val, 
+                        'post-id': val,
+                        'lpNonce' : jQuery('#lpNonce').val()
                         },
                     success: function(data) {
                         if(data){
@@ -2333,7 +2441,9 @@ jQuery(document).ready(function($){
 			$this = jQuery(this);
 			$selectedFields = [];
 			jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-				$selectedFields[i] = jQuery(selectedElement).val();
+				keyValuePair = {};
+				keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+				$selectedFields.push(keyValuePair);
 			});
 			event.preventDefault();
 			var docHeight = jQuery( document ).height();
@@ -2433,7 +2543,8 @@ jQuery(document).ready(function($){
 				jQuery('.lp-filter-pagination').hide();
 				jQuery('.lp-filter-pagination-ajx').remove();
 				jQuery('#content-grids').html(' ');
-				jQuery('#content-grids').addClass('content-loading');
+				//jQuery('#content-grids').addClass('content-loading');
+                add_listing_skeletons();
 				jQuery('.map-view-list-container').remove();
 
 				inexpensive = jQuery('.currency-signs #one').find('.active').data('price');
@@ -2489,7 +2600,8 @@ jQuery(document).ready(function($){
 						'my_bounds_sw_lat' 	: jQuery("#pac-input").attr( 'data-sw-lat' ),
 						'my_bounds_sw_lng' 	: jQuery("#pac-input").attr( 'data-sw-lng' ),
 						'data_zoom' 	: jQuery( '#pac-input' ).attr( 'data-zoom'),
-						'distance_range' 	: jQuery("#distance_range").val()
+						'distance_range' 	: jQuery("#distance_range").val(),
+                        'lpNonce' : jQuery('#lpNonce').val()
 						},
 					success: function(data){
 						jQuery('#full-overlay').remove();
@@ -2536,7 +2648,49 @@ function decode_utf8(utf8String) {
     return unicodeString;
 }
 
-			function listing_update(data , new_design_v2, listStyle){
+                function listing_update(data , new_design_v2, listStyle){
+                    //for search dynamic titles
+                    if(data.searchtitles != ''){
+                        //console.log(data.searchtitles);
+                        $countKeys = Object.keys(data.searchtitles).length;
+
+                        jQuery('span.dyn_titles').remove();
+                        if($countKeys==3){
+                            //only single term
+                            if(data.searchtitles['category']){
+
+                                document.title = data.searchtitles['category']+' - '+data.searchtitles['website'];
+								if(jQuery('.lp-header-search.archive-search h4.lp-title').length) {
+                                    jQuery('.lp-header-search.archive-search h4.lp-title').html('Results For <strong class="term-name">'+ data.searchtitles['category'] +'</strong> Listings');
+								} else {
+                                    jQuery('.lp-title h3').html('Results For <span class="font-bold term-name">'+ data.searchtitles['category'] +'</span> <span class="dename"></span><span class="font-bold"> Listings</span>');
+								}
+
+                            }
+                            if(data.searchtitles['location']){
+                                document.title = data.searchtitles['location']+' - '+data.searchtitles['website'];
+                                if(jQuery('.lp-header-search.archive-search h4.lp-title').length) {
+                                    jQuery('.lp-header-search.archive-search h4.lp-title').html('Results In <strong class="term-name">'+ data.searchtitles['location'] +'</strong> Listings');
+								} else {
+                                    jQuery('.lp-title h3').html('Results In <span class="font-bold term-name">'+ data.searchtitles['location'] +'</span>');
+								}
+                            }
+
+                        }
+                        if($countKeys==5){
+                            //cat and loc both terms
+                            document.title = data.searchtitles['category'] +' ' +data.searchtitles['in']+' '+data.searchtitles['location']+' - '+data.searchtitles['website'];
+
+                            if(jQuery('.lp-header-search.archive-search h4.lp-title').length) {
+                                jQuery('.lp-header-search.archive-search h4.lp-title').html('Results For <strong class="term-name">'+ data.searchtitles['category'] +'</strong> ' +data.searchtitles['in']+' <em>'+ data.searchtitles['location'] +'</em>');
+							} else {
+                                jQuery('.lp-title h3').html('Results For <span class="font-bold term-name">'+ data.searchtitles['category'] +'</span> <span class="dename"> '+data.searchtitles['in']+' '+data.searchtitles['location']+'</span>');
+							}
+
+
+                        }
+
+                    }
 					jQuery('.outer_all_page_overflow').slideUp();
 					var pars = decode_utf8(data.html);
 					if( new_design_v2 == true )
@@ -2589,7 +2743,9 @@ function decode_utf8(utf8String) {
 
                         //jQuery('#listing_found').html('<p>'+data.found+' '+data.foundtext+'</p>');
                         jQuery('#content-grids').fadeIn('slow');
-                        jQuery('#content-grids').removeClass('content-loading');
+                        remove_listing_skeletons();
+                        //jQuery('#content-grids').removeClass('content-loading');
+                        jQuery('.listing-app-view #content-grids').removeClass('content-loading');
                         if( jQuery('.lp-countdown').length != 0 ){
                             jQuery('.lp-countdown').each(function (i, obj) {
                                 var selector    =   '#'+jQuery(this).attr('id');
@@ -2603,8 +2759,10 @@ function decode_utf8(utf8String) {
 						jQuery('#content-grids').html(pars); 
 						
 						//jQuery('#listing_found').html('<p>'+data.found+' '+data.foundtext+'</p>'); 	
-						jQuery('#content-grids').fadeIn('slow'); 					
-						jQuery('#content-grids').removeClass('content-loading');						
+						jQuery('#content-grids').fadeIn('slow'); 	
+                        remove_listing_skeletons();
+						//jQuery('#content-grids').removeClass('content-loading');		
+                        jQuery('.listing-app-view #content-grids').removeClass('content-loading');
                     }
 
 
@@ -2705,8 +2863,13 @@ function decode_utf8(utf8String) {
 					//jQuery( ".qickpopup" ).trigger('click');
 
                 }
+				
+
+				
 
                 jQuery(".v2-map-load .v2mapwrap").trigger('click');
+				
+				
 					 
 					
 			}
@@ -2732,7 +2895,9 @@ jQuery(document).ready(function() {
 function listingproc_update_results() {
 	$selectedFields = [];
 	jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {
-		$selectedFields[i] = jQuery(selectedElement).val();
+		keyValuePair = {};
+		keyValuePair[jQuery(selectedElement).data('key')] = jQuery(selectedElement).val();
+		$selectedFields.push(keyValuePair);
 	});
 	
 	   var new_design_v2    =    false;
@@ -2751,7 +2916,8 @@ function listingproc_update_results() {
 	jQuery('#full-overlay').css('height',docHeight+'px');
 	jQuery('#content-grids').html(' ');
 	jQuery('.solitaire-infinite-scroll').remove();
-	jQuery('#content-grids').addClass('content-loading');
+	//jQuery('#content-grids').addClass('content-loading');
+    add_listing_skeletons();
 	jQuery('.map-view-list-container').remove();
 	jQuery('.lp-filter-pagination-ajx').remove();
 	var inexpensive='';
@@ -2826,7 +2992,8 @@ function listingproc_update_results() {
 			'mostRewvied':mostRewvied,
 			'listing_openTime':listing_openTime,
 			'tag_name':tags_name,
-			'list_style': listStyle
+			'list_style': listStyle,
+            'lpNonce' : jQuery('#lpNonce').val()
 		},
 		success: function(data){
 			jQuery('#full-overlay').remove();
@@ -3085,18 +3252,70 @@ function get_filters_before_send()
     if( jQuery('.search-filter-response').length != 0 )
     {
         jQuery('.search-filter-response').html(' ');
-        jQuery('.search-filter-response').addClass('content-loading');
+        //jQuery('.search-filter-response').addClass('content-loading');
+        add_listing_skeletons();
 	}
 	else
 	{
         jQuery('#content-grids').html(' ');
-        jQuery('#content-grids').addClass('content-loading');
+        //jQuery('#content-grids').addClass('content-loading');
+        add_listing_skeletons();
 	}
 
 
     jQuery('.lp-filter-pagination-ajx').remove();
     jQuery('.map-view-list-container').remove();
 
+}
+
+function add_listing_skeletons(){
+	var $listStyle           =   get_list_style();
+	if(jQuery('body').hasClass('listing-skeleton-view-list_view')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-list_view');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-grid_view');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view2')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-grid_view2');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view3')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-grid_view3');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view_v2')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-grid_view_v2');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view_v3')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-grid_view_v3');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-list_view_v2')){
+		if($listStyle == 'list') {
+			jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-list_view_v2');
+		}else{
+			jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-grid_view_v2');
+		}
+	}else if(jQuery('body').hasClass('listing-skeleton-view-lp-list-view-compact')){
+		jQuery('#content-grids').addClass('content-loading-listing-skeleton-view-lp-list-view-compact');
+	}
+}
+
+function remove_listing_skeletons(){
+	var $listStyle           =   get_list_style();
+	if(jQuery('body').hasClass('listing-skeleton-view-list_view')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-list_view');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-grid_view');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view2')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-grid_view2');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view3')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-grid_view3');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view_v2')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-grid_view_v2');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-grid_view_v3')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-grid_view_v3');
+	}else if(jQuery('body').hasClass('listing-skeleton-view-list_view_v2')){
+		if($listStyle == 'list') {
+			jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-list_view_v2');
+		}else{
+			jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-grid_view_v2');
+		}
+	}else if(jQuery('body').hasClass('listing-skeleton-view-lp-list-view-compact')){
+		jQuery('#content-grids').removeClass('content-loading-listing-skeleton-view-lp-list-view-compact');
+	}
 }
 
 function get_filter_RRV( selector )
@@ -3108,6 +3327,7 @@ function get_filter_RRV( selector )
     }
     else
     {
+        jQuery('ul#select-lp-more-filter li').find('a').removeClass('active');
         return  '';
     }
 }
@@ -3157,3 +3377,35 @@ function check_if_loc_disabled_fornearme(){
 		return false;
 	}
 }
+
+jQuery(document).on('click', '.lp-open-search-btn-icon', function(event) {
+		var myDropDown = jQuery("#input-dropdown");
+		myDropDown.attr('size', length);
+		myDropDown.css('display', 'block');
+		myDropDown.css('overflow-y', 'hidden');
+		if( jQuery('.lp-home-banner-contianer-inner').length )
+        {
+			if( jQuery('.lp-home-banner-contianer-inner').hasClass('app-view2-header-animate') )
+			{
+				jQuery('.listing-app-view.listing-app-view-new .app-view-header .lp-home-banner-contianer').addClass('home-banner-animated');
+                jQuery('.listing-app-view.listing-app-view-new section').hide();
+                jQuery('.listing-app-view.listing-app-view-new .app-view2-banner-cat-slider').hide();
+			}
+		}
+		myDropDown.niceScroll({
+			cursorcolor:"#363F48",
+			cursoropacitymax: 1,
+			boxzoom:false,
+			cursorwidth: "10px",
+			cursorborderradius: "0px",
+			cursorborder: "0px solid #fff",
+			touchbehavior:true,
+			preventmultitouchscrolling: false,
+			cursordragontouch: true,	
+			background: "#f7f7f7",
+			horizrailenabled: false,
+			autohidemode: false,
+			zindex : "999999",
+		});
+		
+	});

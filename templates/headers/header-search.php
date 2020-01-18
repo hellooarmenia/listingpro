@@ -59,7 +59,7 @@ if ( $home_srch_loc_switchr == true ) {
 }
 
 $locOption = '';
-if ($search_loc_option == 'yes') {
+if ($search_loc_option == 'yes' && is_front_page()) {
     $locOption = 'yes';
 }elseif ($search_loc_option == 'no') {
     $locOption = 'no';
@@ -98,23 +98,23 @@ if( !isset($_GET['s'])){
 elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s_loc']))
 {
     if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat'])){
-        $sterm = $_GET['lp_s_cat'];
-        $term_ID = $_GET['lp_s_cat'];
+        $sterm = wp_kses_post($_GET['lp_s_cat']);
+        $term_ID = wp_kses_post($_GET['lp_s_cat']);
         $termo = get_term_by('id', $sterm, 'listing-category');
         $parent = $termo->parent;
     }
     if(isset($_GET['lp_s_cat']) && empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
-        $sterm = $_GET['lp_s_tag'];
-		$lpstag = $_GET['lp_s_tag'];
+        $sterm = wp_kses_post($_GET['lp_s_tag']);
+		$lpstag = wp_kses_post($_GET['lp_s_tag']);
     }
 
     if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
-        $sterm = $_GET['lp_s_tag'];
-		$lpstag = $_GET['lp_s_tag'];
+        $sterm = wp_kses_post($_GET['lp_s_tag']);
+		$lpstag = wp_kses_post($_GET['lp_s_tag']);
     }
 
     if(isset($_GET['lp_s_loc']) && !empty($_GET['lp_s_loc'])){
-        $loc_ID = $_GET['lp_s_loc'];
+        $loc_ID = wp_kses_post($_GET['lp_s_loc']);
     }
 }
 
@@ -148,16 +148,59 @@ elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s
                             $selected = '';
                         }
                         echo '<option '.$selected.' value="'.$location->term_id.'">'.$location->name.'</option>';
-                        $sub = get_term_children( $location->term_id, 'listing-category' );
-                        foreach ( $sub as $subID ) {
-                            if($term_ID == $subID){
-                                $selected = 'selected';
-                            }else{
-                                $selected = '';
-                            }
-                            $term = get_term_by( 'id', $subID, 'listing-category' );
-                            echo '<option '.$selected.' class="sub_cat" value="'.$term->term_id.'">-&nbsp;&nbsp;'.$term->name.'</option>';
-                        }
+                        
+						$args1 = array(
+							'post_type' => 'listing',
+							'order' => 'ASC',
+							'hide_empty' => false,
+							'parent' => $location->term_id,
+						);
+						$locations1 = get_terms( 'listing-category',$args1);
+						foreach($locations1 as $location1) {
+							if($term_ID == $location1->term_id){
+								$selected = 'selected';
+							}else{
+								$selected = '';
+							}
+							echo '<option '.$selected.' value="'.$location1->term_id.'">-'.$location1->name.'</option>';
+							
+							$args2 = array(
+								'post_type' => 'listing',
+								'order' => 'ASC',
+								'hide_empty' => false,
+								'parent' => $location1->term_id,
+							);
+							$locations2 = get_terms( 'listing-category',$args2);
+							foreach($locations2 as $location2) {
+								if($term_ID == $location2->term_id){
+									$selected = 'selected';
+								}else{
+									$selected = '';
+								}
+								echo '<option '.$selected.' value="'.$location2->term_id.'">--'.$location2->name.'</option>';
+								
+								$args3 = array(
+									'post_type' => 'listing',
+									'order' => 'ASC',
+									'hide_empty' => false,
+									'parent' => $location2->term_id,
+								);
+								$locations3 = get_terms( 'listing-category',$args3);
+								foreach($locations3 as $location3) {
+									if($term_ID == $location3->term_id){
+										$selected = 'selected';
+									}else{
+										$selected = '';
+									}
+									echo '<option '.$selected.' value="'.$location3->term_id.'">---'.$location3->name.'</option>';
+									
+									
+								}
+								
+							}
+							
+						}
+						
                     }
                     ?>
                 </select>
@@ -346,11 +389,77 @@ elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s
                                                 $selected = '';
                                             }
                                             echo '<option '.$selected.' value="'.$location->term_id.'">'.$location->name.'</option>';
-                                            $sub = get_term_children( $location->term_id, 'location' );
-                                            foreach ( $sub as $subID ) {
-                                                $locationTerm = get_term_by( 'id', $subID, 'location' );
-                                                echo  '<option '.$selected.' class="sub_cat" value="'.$locationTerm->term_id.'">-&nbsp;&nbsp;'.$locationTerm->name.'</option>';
-                                            }
+											
+											$args1 = array(
+												'post_type' => 'listing',
+												'order' => 'ASC',
+												'hide_empty' => false,
+												'parent' => $location->term_id,
+											);
+											
+                                            //$sub = get_term_children( $location->term_id, 'location' );
+											$locations1 = get_terms( 'location',$args1);
+											if ( ! empty( $locations1 ) && ! is_wp_error( $locations1 ) ){
+												foreach($locations1 as $location1) {
+													if($loc_ID == $location1->term_id){
+														$selected = 'selected';
+													}else{
+														$selected = '';
+													}
+													echo '<option '.$selected.' value="'.$location1->term_id.'">-&nbsp;&nbsp;'.$location1->name.'</option>';
+													
+													//2nd
+													$args2 = array(
+														'post_type' => 'listing',
+														'order' => 'ASC',
+														'hide_empty' => false,
+														'parent' => $location1->term_id,
+													);
+													
+													//$sub = get_term_children( $location->term_id, 'location' );
+													$locations2 = get_terms( 'location',$args2);
+													if ( ! empty( $locations2 ) && ! is_wp_error( $locations2 ) ){
+														foreach($locations2 as $location2) {
+															if($loc_ID == $location2->term_id){
+																$selected = 'selected';
+															}else{
+																$selected = '';
+															}
+															echo '<option '.$selected.' value="'.$location2->term_id.'">--&nbsp;&nbsp;'.$location2->name.'</option>';
+															
+															//3rd
+															
+															$args3 = array(
+																'post_type' => 'listing',
+																'order' => 'ASC',
+																'hide_empty' => false,
+																'parent' => $location2->term_id,
+															);
+															
+															//$sub = get_term_children( $location->term_id, 'location' );
+															$locations3 = get_terms( 'location',$args3);
+															if ( ! empty( $locations3 ) && ! is_wp_error( $locations3 ) ){
+																foreach($locations3 as $location3) {
+																	if($loc_ID == $location3->term_id){
+																		$selected = 'selected';
+																	}else{
+																		$selected = '';
+																	}
+																	echo '<option '.$selected.' value="'.$location3->term_id.'">---&nbsp;&nbsp;'.$location3->name.'</option>';
+																	
+																	
+																	
+																	
+																}
+															}
+															
+															
+														}
+													}
+													
+												}
+											}
+											
                                         }
                                     }
                                     ?>

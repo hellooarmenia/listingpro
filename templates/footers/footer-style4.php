@@ -7,7 +7,6 @@ global $listingpro_options;
     $author_info = $listingpro_options['author_info'];
     $fb = $listingpro_options['fb'];
     $tw = $listingpro_options['tw'];
-    $gog = $listingpro_options['gog'];
     $insta = $listingpro_options['insta'];
     $tumb = $listingpro_options['tumb'];
     $fyout = $listingpro_options['f-yout'];
@@ -49,7 +48,7 @@ global $listingpro_options;
 		                        <?php
 		                        if( isset( $footer_logo ) && !empty( $footer_logo ) ):
 		                        ?>
-		                        <img src="<?php echo $footer_logo['url']; ?>" alt="">
+		                        <img src="<?php echo esc_url($footer_logo['url']); ?>" alt="">
 		                        <?php endif; ?>
 		                    </a>
                 		</div>
@@ -64,7 +63,7 @@ global $listingpro_options;
 		                if( !empty( $copy_right ) ):
 		            ?>
         			<div class="col-md-12 lp-footer4-copyrights">
-		                <span class="copyrights"><?php echo $copy_right; ?></span>
+		                <span class="copyrights"><?php echo esc_attr($copy_right); ?></span>
                 	</div>
                 	<?php endif; ?>
     			</div>

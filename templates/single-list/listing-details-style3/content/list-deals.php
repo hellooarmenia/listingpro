@@ -42,7 +42,7 @@ echo '<div class="list-discount-outer">';
 	    }
         elseif( $discount_displayin == 'sidebar' )
 	    {
-		    $col_class   =   'col-md-6';
+		    $col_class   =   'col-md-12';
 	    }
         foreach ( $listing_discount_data_final as $key => $discount_data ):
             if( $deal_counter == 1 ):

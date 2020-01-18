@@ -1,17 +1,10 @@
 jQuery.noConflict();
 
 setTimeout(function() {
-
-
-
     if( jQuery('body').hasClass('home') )
-
     {
-
         var currentTOP  =   jQuery('.header-container header').height();
-
         jQuery( '.lp-header-search-wrap' ).css('top', '-'+currentTOP+'px');
-
     }
 
 
@@ -21,20 +14,12 @@ setTimeout(function() {
 }, 600);
 
 jQuery(function(){
-
     var sidebarHeight   =   jQuery('.sidebar-top0').height(),
-
         DesHeight       =   sidebarHeight-200,
-
         topHeader       =   jQuery('.lp-listing-top-title-header').height(),
-
         minHeight       =   jQuery('.min-height-class').height(),
-
         desHeightT      =   topHeader+minHeight,
-
         minHeightT      =   sidebarHeight-DesHeight;
-
-
 
     if( DesHeight >= sidebarHeight )
 
@@ -45,28 +30,55 @@ jQuery(function(){
     }
 
     else
-
     {
-
         minHeightT  =   sidebarHeight-topHeader+140;
-
         jQuery('.min-height-class').css('min-height', minHeightT);
 
     }
-
-
 });
-
-jQuery(document).on('click', '.show-number-wrap', function(e){
-
-   jQuery(this).find('.show-number').css('display', 'none');
-
-   jQuery(this).find('.grind-number').css('display', 'inline-block');
-
-});
-
 jQuery(document).ready(function (e) {
-	
+
+    if(jQuery('.lp-listing-top-title-header').length) {
+        var top_title_header_height =   jQuery('.lp-listing-top-title-header').height();
+        jQuery('.sidebar-top0').css('top', '-'+parseInt(top_title_header_height+40)+'px');
+    }
+
+    if(jQuery('#menu-placeholder-image').length){
+        var menu_placeholder_image  =   jQuery('#menu-placeholder-image').val();
+        var menu_chili_image  =   jQuery('#menu-chili-image').val();
+
+        if (menu_placeholder_image != '') {
+            jQuery('.lp-listing-menu-top').css('background', 'url(' + menu_placeholder_image + ')');
+        }
+        jQuery('.lp-listing-menuu-slide').each(function(index){
+            var $thisSlide      =   jQuery(this),
+                targetImg       =   $thisSlide.find('img'),
+                topImgSrc       =   '';
+            jQuery(targetImg).each(function (imgIndex) {
+                var loopImg     =   jQuery(this),
+                    targetSrc   =   loopImg.attr('src');
+
+                if(targetSrc != menu_placeholder_image && targetSrc != menu_chili_image) {
+                    topImgSrc   =   targetSrc;
+
+                    return;
+                }
+            });
+            if (topImgSrc != '') {
+                $thisSlide.find('.lp-listing-menu-top').css('background', 'url(' + topImgSrc + ')');
+            }
+        });
+    }
+    
+    if(jQuery('#datepicker-lang').length) {
+        var datepicker_lang =   jQuery('#datepicker-lang').val();
+        jQuery.datepicker.regional[datepicker_lang];
+    }
+
+    if(jQuery('.loop-grid-clearfix').length > 0){
+        jQuery('.loop-grid-clearfix:nth-child(4)').after('<div class="clearfix"></div>');
+    }
+
 	jQuery('.claimformtrigger2').click(function () {
         jQuery('.planclaim-page-popup').show();
     })
@@ -116,14 +128,11 @@ jQuery('.lp-review-form-top-multi .lp-review-stars i').click(function (e) {
         }
 
     });
-	
 
     jQuery('.manage-group-types').click(function (e) {
         e.preventDefault();
         window.location.replace(jQuery(this).data('url')) ;
     });
-
-    
 
     jQuery('.show-more-event-content').click(function (e) {
 
@@ -256,7 +265,12 @@ if( jQuery('#lp-submit-form').length != 0 )
             }
             if( scrollPos > inpuFaqsLp )
             {
-                jQuery('.quick-tip-inner').html(jQuery('#inpuFaqsLp').data('quick-tip'));
+                if(jQuery('#inpuFaqsLp').data('quick-tip')) {
+                    jQuery('.quick-tip-inner').html(jQuery('#inpuFaqsLp').data('quick-tip'));
+                } else {
+                    jQuery('.quick-tip-inner').html(jQuery('#inpuFaqsLp1').data('quick-tip'));
+                }
+
             }
             if( scrollPos > descTop )
             {
@@ -328,27 +342,16 @@ if( jQuery('#lp-submit-form').length != 0 )
                 });
 
                 jQuery('.page-style2-sidebar').removeClass('style2-sidebar-fixed');
-
                 scrollState =   'scrolled';
-
             }
-
             else
-
             {
-
                 var topMAr  =   10;
-
                 if( jQuery('.page-style2-sidebar').hasClass('logged-in') )
-
                 {
-
                     topMAr  =   50;
-
                 }
-
                 if( scrollState == 'scrolled' )
-
                 {
 
                     // jQuery('.page-style2-sidebar').css({
@@ -416,30 +419,42 @@ if( jQuery('#lp-submit-form').length != 0 )
                     // })
 
                     jQuery('.page-style2-sidebar').addClass('style2-sidebar-fixed testClass');
-
                     scrollState =   '';
-
                 }
-
-
-
-
-
-
 
             }
 
         });
 
     }
+    var firstDay = jQuery('#start_of_weekk').val();
+    if(jQuery('#event-date-s').length) {
+        var dateTodayy = new Date();
+        jQuery('#event-date-s').datepicker({
+            firstDay: firstDay,
+            minDate: dateTodayy,
+            dateFormat: 'mm/dd/yy',
+            onSelect: function(dateText, inst) {
+                // Get the selected date
+                var inDate = new Date(jQuery(this).val());
+                // Set the minimum date for the check out option to the selected date
+                jQuery("#event-date-e").datepicker('option', 'minDate',inDate);
+            }
+        });
+        jQuery('#event-date-e').datepicker({
+            firstDay: firstDay,
+            minDate: dateTodayy,
+            dateFormat: 'mm/dd/yy'
+        });
+    }
 
     var dateToday = new Date();
-
     jQuery('.discount-date').datepicker({
-
+        firstDay: firstDay,
         minDate: dateToday,
-
+        dateFormat: 'mm/dd/yy'
     });
+
 
     jQuery('.mobile-toggle-filters').click(function (e) {
 
@@ -465,7 +480,8 @@ if( jQuery('#lp-submit-form').length != 0 )
                 'action': 'author_review_tab_cb',
                 'reviewStyle': reviewStyle,
                 'listID' : listID,
-                'authorID': authorID
+                'authorID': authorID,
+                'lpNonce' : jQuery('#lpNonce').val()
             },
 
             success: function(data)
@@ -530,6 +546,8 @@ if( jQuery('#lp-submit-form').length != 0 )
         {
 
 
+            alert(tabType);
+            alert(jQuery('#lpNonce').val());
             jQuery(targetID).find('.author-inner-content-wrap').addClass('content-loading');
 
             jQuery.ajax({
@@ -540,13 +558,26 @@ if( jQuery('#lp-submit-form').length != 0 )
                     'tabType': tabType,
                     'reviewStyle': reviewStyle,
                     'authorID': authorID,
-                    'listingLayout' : listingLayout
+                    'listingLayout' : listingLayout,
+                    'lpNonce' : jQuery('#lpNonce').val()
                 },
                 success: function(data)
                 {
                     jQuery(targetID).find('.author-inner-content-wrap').removeClass('content-loading');
                     jQuery(targetID).find('.author-inner-content-wrap').html(data);
                     $this.addClass('data-available');
+                    jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled','disabled');
+                    jQuery('.author-contact-wrap input, .author-contact-wrap textarea').keyup(function () {
+                        var name = jQuery('.author-contact-wrap input#name7').val();
+                        var email = jQuery('.author-contact-wrap input#email7').val();
+                        var phone = jQuery('.author-contact-wrap input#phone7').val();
+                        var message = jQuery('.author-contact-wrap textarea#message7').val();
+                        if ( name.length > 0 && email.length > 0 && phone.length > 0 && message.length > 0 ) {
+                            jQuery('.author-contact-wrap').find('.lp-review-btn').removeAttr('disabled');
+                        }else{
+                            jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled','disabled');
+                        }
+                    });
                 }
             });
         }
@@ -570,6 +601,7 @@ if( jQuery('#lp-submit-form').length != 0 )
             data: {
                 'action': 'author_archive_listings_cb',
                 'pageNum': pageNum,
+                'lpNonce' : jQuery('#lpNonce').val()
 
             },
             success: function(data)
@@ -779,7 +811,7 @@ if( jQuery('#lp-submit-form').length != 0 )
         jQuery('.lp-header-search-filters .lp-features-filter').toggleClass( 'add-border' );
 
         jQuery('.more-filters-container').slideToggle();
-
+        
     })
 
 
@@ -822,7 +854,7 @@ if( jQuery('#lp-submit-form').length != 0 )
 
             slidesToShow: 3,
 
-            slidesToScroll: 1,
+            slidesToScroll: 3,
 
             prevArrow:"<i class=\"fa fa-angle-right arrow-left\" aria-hidden=\"true\"></i>",
 
@@ -887,9 +919,7 @@ if( jQuery('#lp-submit-form').length != 0 )
         }
 
         if( jQuery('.lp-child-cats-tax-wrap').length > childCatNum )
-
         {
-
             jQuery('.lp-child-cats-tax-slider').slick({
 
                 infinite: true,
@@ -903,25 +933,91 @@ if( jQuery('#lp-submit-form').length != 0 )
                 nextArrow:"<i class=\"fa fa-angle-left arrow-right\" aria-hidden=\"true\"></i>"
 
             });
-
-        }
+        }        
 
     }
+    
+    if( jQuery('.events-sidebar-wrap').length )
+    {
+        var eventsNum   =   jQuery('.events-sidebar-wrap').data('num');
 
+        if( eventsNum > 1 )
+        {
+            jQuery('.events-sidebar-wrap').slick({
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                prevArrow:"<i class=\"fa fa-angle-right arrow-left\" aria-hidden=\"true\"></i>",
+                nextArrow:"<i class=\"fa fa-angle-left arrow-right\" aria-hidden=\"true\"></i>",
+                adaptiveHeight: true
+            });
+        }
+    }
+    if( jQuery('.events-content-area-wrap').length )
+    {
+        var eventsNum   =   jQuery('.events-content-area-wrap').data('num');
 
+        if( eventsNum > 2 )
+        {
+            jQuery('.events-content-area-wrap').slick({
+                infinite: true,
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                prevArrow:"<i class=\"fa fa-angle-right arrow-left\" aria-hidden=\"true\"></i>",
+                nextArrow:"<i class=\"fa fa-angle-left arrow-right\" aria-hidden=\"true\"></i>"
+            });
+        }
+    }
+    if( jQuery('.events-element-content-area-wrap').length )
+    {
+        var eventsNum   =   jQuery('.events-element-content-area-wrap').data('num');
 
-
-
-
-
-
+        if( eventsNum > 3 )
+        {
+            jQuery('.events-content-area-wrap').slick({
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                prevArrow:"<i class=\"fa fa-angle-right arrow-left\" aria-hidden=\"true\"></i>",
+                nextArrow:"<i class=\"fa fa-angle-left arrow-right\" aria-hidden=\"true\"></i>"
+            });
+        }
+    }
+    
+    if( jQuery('.app-view-new-ads-slider').length )
+    {
+        jQuery('.app-view-new-ads-slider').slick({
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            autoplay: true
+        });
+    }
+    if( jQuery('.app-view2-banner-cat-slider').length )
+    {
+        jQuery('.app-view2-banner-cat-slider').slick({
+            infinite: true,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            arrows: false,
+            dots: false,
+        });
+    }
+    if( jQuery('.app-view2-location-container').length )
+    {
+        jQuery('.app-view2-location-container').slick({
+            infinite: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            arrows: false,
+            dots: false
+        });
+    }
 
     if( jQuery('.lp-locations-slider') .length != 0 && jQuery('.lp-locations-slider .lp-location-box').length > 6 )
 
     {
-
-
-
         jQuery('.lp-locations-slider').slick({
 
             infinite: true,
@@ -949,9 +1045,6 @@ if( jQuery('#lp-submit-form').length != 0 )
         });
 
     }
-
-
-
     jQuery('.sort-by-filter').hover(function (e)
 
     {
@@ -1212,17 +1305,12 @@ if( jQuery('#lp-submit-form').length != 0 )
 
 
     jQuery('.review-form-toggle, .lp-listing-review-form h2').click(function(e)
-
     {
-
         e.preventDefault();
-
         jQuery('.lp-listing-review-form .lp-form-opener').hide();
 
-
-
+        jQuery('.lp-listing-review-form').find( 'i.fa-chevron-down, i.fa-chevron-up' ).toggleClass('fa-chevron-down fa-chevron-up');
         jQuery('.lp-review-form-bottom').slideToggle(500);
-
         jQuery('html,body').animate(
 
             {
@@ -1281,7 +1369,28 @@ if( jQuery('#lp-submit-form').length != 0 )
 
     });
 
-
+    
+    jQuery('.toggle-all-days2').click(function(e)
+    {
+        e.preventDefault();
+        var leftColHeight   =   jQuery('.min-height-class').height(),
+            timingsIH       =   jQuery('.lp-listing-timings').height();
+        jQuery('.lp-today-timing.all-days-timings').slideToggle(200).toggleClass('days-opened');
+        setTimeout(function(){
+            var isOpened    =   jQuery('.lp-today-timing.all-days-timings').is('.days-opened');
+            if( isOpened === true ) {
+                var timingsOH           =   jQuery('.lp-listing-timings').height(),
+                    leftColHeightN      =   leftColHeight+timingsOH;
+                jQuery('.min-height-class').css('min-height', leftColHeightN+'px');
+            }
+            else
+            {
+                var leftColHeightN      =   leftColHeight-timingsIH;
+                jQuery('.min-height-class').css('min-height', leftColHeightN+'px');
+            }
+        }, 150);
+    });
+    
     jQuery('.toggle-additional-details').click(function(e)
     {
         e.preventDefault();
@@ -1353,6 +1462,7 @@ if( jQuery('#lp-submit-form').length != 0 )
                 'post-id': val,
 
                 'type': type,
+                'lpNonce' : jQuery('#lpNonce').val()
 
             },
 
@@ -1436,7 +1546,8 @@ if( jQuery('#lp-submit-form').length != 0 )
 
                 'post-id': val,
 
-                'type' : type
+                'type' : type,
+                'lpNonce' : jQuery('#lpNonce').val()
 
             },
 
@@ -1596,6 +1707,7 @@ if( jQuery('#lp-submit-form').length != 0 )
                 restype : restype,
 
                 id : reviewID,
+                'lpNonce' : jQuery('#lpNonce').val()
 
             },
 
@@ -1681,9 +1793,190 @@ if( jQuery('#lp-submit-form').length != 0 )
 
     });
 
+    jQuery(document).on('click', '#add-menu-image_btn', function (e) {
+        e.preventDefault();
+        var $this = jQuery(this);
+        var userID = $this.data('uid'),
+            img_Url = jQuery(this).closest('.add-menu_image').find('#selected_image_menu_url').val(),
+            selected_list_Id = jQuery('#add_image_menu').val();
 
-    jQuery(document).on('click', '#lp-save-menu', function (e) {
+        if ((selected_list_Id == '0') || (img_Url == '')) {
+            $this.closest('.add-menu_image').append('<p class="add_img_menu_error">Something Went Wrong</p>');
+            return false;
+        }
+        jQuery('#add-menu-img-spinner').show();
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: ajax_search_term_object.ajaxurl,
+            data: {
+                'action': 'add_image_menu',
+                'userID': userID,
+                'img_Url': img_Url,
+                'selected_list_Id': selected_list_Id,
+                'lpNonce' : jQuery('#lpNonce').val()
+            },
+            success: function (res) {
+                jQuery('.add_img_menu_error').remove();
+                $this.closest('.ordering-service-wrap').find('ul.listing_append_img_menu').append('<li class="clearfix"><a class="pull-left online_ordring_list_title" target="_blank" href="' + res.selected_list_Link + '">' + res.selected_list_Title + '</a><span data-uid="' + userID + '" data-target="' + selected_list_Id + '" class="pull-right del_img_menu"><i class="fa fa-trash fa-spinner"></i></span></li>');
+                jQuery('.add-new-service_img_menu .jFiler-input-choose-btn').text('Browse File');
+                jQuery('#add-menu-img-spinner').hide();
+                $this.closest('.add-menu_image').find('#selected_image_menu_url').val('');
+                $this.closest('.add-menu_image').find('#selected_image_menu_url').text('Select Listing');
+                jQuery('#add_image_menu').val('');
+                jQuery('.no-img_menu').hide();
+            },
 
+            error: function (err) {
+                alert(err);
+                jQuery('#add-menu-img-spinner').hide();
+            }
+        });
+    });
+    jQuery(document).on('click', '.add-menu_image .jFiler-input-choose-btn', function () {
+        jQuery('#selected_image_menu_url').val('');
+    });
+    jQuery(document).on('click', '.del_img_menu', function (e) {
+        e.preventDefault();
+        var $this = jQuery(this);
+        var userID = $this.data('uid'),
+            target = $this.data('target');
+        $this.find('i.fa-spinner').removeClass('fa-trash');
+        $this.find('i.fa-spinner').addClass('fa-spin');
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: ajax_search_term_object.ajaxurl,
+            data: {
+                'action': 'del_add_image_menu',
+                'userID': userID,
+                'target': target,
+                'lpNonce' : jQuery('#lpNonce').val()
+            },
+            success: function (res) {
+                console.log(res);
+                $this.closest("li").remove();
+                // jQuery('#add-menu-img-spinner').hide();
+            },
+
+            error: function (err) {
+                alert(err);
+                // jQuery('#add-menu-img-spinner').hide();
+            }
+        });
+    });
+
+
+    
+jQuery(document).on('click', '.lp-edit-menu', function (e) {
+
+    e.preventDefault();
+
+    var $this       =   jQuery(this),
+        userID      =   $this.data('uid'),
+        LID      =   $this.data('lid'),
+        menuID  =   $this.data('menuid'),
+        mTitle  =   jQuery('#menu-title-'+menuID).val(),
+        mDetail  =   jQuery('#menu-detail-'+menuID).val(),
+        mOldPrice  =   jQuery('#menu-old-price-'+menuID).val(),
+        mNewPrice  =   jQuery('#menu-new-price-'+menuID).val(),
+        mQuoteT  =   jQuery('#menu-quote-text-'+menuID).val(),
+        mQuoteL  =   jQuery('#menu-quote-link-'+menuID).val(),
+        mLink  =   jQuery('#menu-link-'+menuID).val(),
+        mGroup  =   jQuery('#menu-group-'+menuID).val(),
+        mType  =   jQuery('#menu-type-'+menuID).val(),
+        mImage      =   jQuery('.edit-upload-'+menuID+' .frontend-input').val();
+
+
+    if(jQuery('.frontend-input-multiple').length > 0){
+        mImage      =   jQuery('.edit-upload-'+menuID+' .frontend-input-multiple').val();
+    }
+            popularItem  =   '';
+
+            if( jQuery('.menu_Popular_Item-'+menuID).is(':checked') )
+            {
+                popularItem = 'mItemPopularTrue';
+            }
+            else
+            {
+                popularItem = 'mItemPopularfalse';
+            }
+            var spiceLVL = jQuery('.menuSpice-control-'+menuID+' option:selected').data('level');
+            if ( spiceLVL == '1' ) {
+                spiceLVL    =   'spicelvl1';
+            }else if ( spiceLVL == '2' ) {
+                spiceLVL    =   'spicelvl2';
+            }else if ( spiceLVL == '3') {
+                spiceLVL    =   'spicelvl3';
+            }else if ( spiceLVL == '4') {
+                spiceLVL    =   'spicelvl4';
+            }else{
+                spiceLVL    =   'spicelvlunset';
+            }
+
+    $this.append('<i class="fa fa-spin fa-spinner"></i>');
+
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ajax_search_term_object.ajaxurl,
+        data: {
+            'action': 'add_menu_cb',
+            'user_id': userID,
+            'LID' : LID,
+            'menuID' : menuID,
+            'mTitle': mTitle,
+            'mDetail': mDetail,
+            'mOldPrice': mOldPrice,
+            'mNewPrice': mNewPrice,
+            'mQuoteT': mQuoteT,
+            'mQuoteL': mQuoteL,
+            'mLink': mLink,
+            'mImage': mImage,
+            'mType' : mType,
+            'mGroup' : mGroup,
+            'popularItem' : popularItem,
+            'spiceLVL' : spiceLVL,
+            'menuUp': 'yes',
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success: function (res) {
+            var menu_id = $this.data('menuid');
+            // alert(menu_id);
+            // ajax_success_popup( res, $this );
+            console.log(res);
+            jQuery('.active-update-formm').slideUp();
+            $this.find('i').remove();
+            jQuery('#menu-update-'+menuID).closest('.lp-menu-close-outer').find('.lp-menu-closed').find('h4.lp-right-side-title').html('<span>Item Name</span><br>'+mTitle);
+            jQuery('#menu-update-'+menuID).closest('.lp-menu-close-outer').find('.lp-menu-closed').find('.col-md-2.price').html('<span>Price</span><br>'+mOldPrice);
+        },
+
+        error: function (err) {
+            alert(err);
+            $this.find('i').remove();
+        }
+    });
+});
+if (jQuery('#selected_image_menu_url').length != 0) {
+    jQuery(document).on('click', function (e) {
+        var jqhiddeninputfeild = jQuery('#selected_image_menu_url').val();
+        var jqtriggerforcheck = jQuery('#selected_image_menu_url').hasClass('.frontend-input-multiple');
+        if (jqtriggerforcheck = true) {
+            var asd = jQuery('.add-new-service_img_menu .jFiler-input-choose-btn').text();
+            if (jqhiddeninputfeild != '') {
+                var lastFive = jqhiddeninputfeild.substr(jqhiddeninputfeild.length - 13);
+                var finalcom = '...' + lastFive;
+                if (asd != finalcom) {
+                    var string = finalcom.substr(0, 15);
+                    jQuery('.add-new-service_img_menu .jFiler-input-choose-btn').text(string);
+                    return false;
+                }
+            }
+        }
+    });
+}
+    
+jQuery(document).on('click', '#lp-save-menu', function (e) {
         e.preventDefault();
         var $this   =   jQuery(this),
             userID  =   $this.data('uid'),
@@ -1696,13 +1989,44 @@ if( jQuery('#lp-submit-form').length != 0 )
             mListing  =   jQuery('#menu-listing').val(),
             mLink  =   jQuery('#menu-link').val(),
             mImage  =   jQuery('.new-file-upload .frontend-input').val(),
-            mType  =   jQuery('#menu-type').val(),
-            mGroup  =   jQuery('#menu-group').val();
+            mType  =   jQuery('#lp-menus .panel-heading li.active').text(),
+            mGroup  =   jQuery('#menu-group').val(),
+            orderP  =   '',
+            orderU  =   '',
+            calcPrice  =   '',
+            popularItem  =   '';
 
+            if( jQuery('.menu_Popular_Item').is(':checked') )
+            {
+                popularItem = 'mItemPopularTrue';
+            }
+            else
+            {
+                popularItem = 'mItemPopularfalse';
+            }
+            var spiceLVL = jQuery('.menuSpice-control option:selected').data('level');
+            if ( spiceLVL == '1' ) {
+                spiceLVL    =   'spicelvl1';
+            }else if ( spiceLVL == '2' ) {
+                spiceLVL    =   'spicelvl2';
+            }else if ( spiceLVL == '3') {
+                spiceLVL    =   'spicelvl3';
+            }else if ( spiceLVL == '4') {
+                spiceLVL    =   'spicelvl4';
+            }else{
+                spiceLVL    =   'spicelvlunset';
+            }
+
+            if (mNewPrice.length > 0){
+                calcPrice   =   mNewPrice;
+            }else{
+                calcPrice   =   mOldPrice;
+            }
         if( mImage == '' && jQuery('.new-file-upload .frontend-input-multiple').length != 0 )
         {
             mImage  =   jQuery('.new-file-upload .frontend-input-multiple').val();
         }
+
         if( mListing == '' || mListing == null || mListing == 0 )
         {
             jQuery('#select2-menu-listing-container').addClass('error');
@@ -1711,7 +2035,6 @@ if( jQuery('#lp-submit-form').length != 0 )
         {
             jQuery('#select2-menu-listing-container').removeClass('error');
         }
-
         if( mTitle == '' )
         {
             jQuery('#menu-title').addClass('error');
@@ -1720,7 +2043,6 @@ if( jQuery('#lp-submit-form').length != 0 )
         {
             jQuery('#menu-title').removeClass('error');
         }
-
         if( mType == '' || mType == 0 || mType == null )
         {
             jQuery('select#menu-type').next('.select2-container').addClass('error');
@@ -1737,7 +2059,6 @@ if( jQuery('#lp-submit-form').length != 0 )
         {
             jQuery('select#menu-group').next('.select2-container').removeClass('error');
         }
-
         if( mTitle == '' || ( mType == '' && mType == 0 || mType == null ) || ( mGroup == '' && mGroup == 0 || mGroup == null ) || mListing == '' || mListing == null || mListing == 0  )
         {
             var dataError   =   [];
@@ -1746,9 +2067,7 @@ if( jQuery('#lp-submit-form').length != 0 )
             ajax_success_popup( dataError, $this );
             return false;
         }
-
         $this.append('<i class="fa fa-spin fa-spinner"></i>');
-
         jQuery.ajax({
             type: 'POST',
             dataType: 'json',
@@ -1767,10 +2086,170 @@ if( jQuery('#lp-submit-form').length != 0 )
                 'mImage' : mImage,
                 'mType' : mType,
                 'mGroup' : mGroup,
+                'orderP' : orderP,
+                'orderU' : orderU,
+                'popularItem' : popularItem,
+                'spiceLVL'  :   spiceLVL,
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function( res )
             {
-                ajax_success_popup( res, $this );
+                console.log(res.menu_after_update);
+                console.log(res.menu_after_update[mType]);
+                console.log(res.menu_after_update[mType][mGroup]);
+                console.log(res.menu_after_update[mType][mGroup].length);
+                var menuLength  =   parseInt(res.menu_after_update[mType][mGroup].length-1);
+                jQuery('#menu-group').val(null).trigger('change');
+                var  type_rep  =   mType.replace(/ /g,'-');
+                var  grp_rep  =   mGroup[0].replace(/ /g,'-');
+                var  listid  =   mListing;
+                var  menu_id  =  type_rep+'_'+grp_rep+'_'+menuLength+'_'+listid;
+                var regmQuoteT = '';
+                if(mQuoteT != ''){
+                regmQuoteT = '<div class="col-sm-6">' +
+                '<label class="lp-dashboard-top-label" for="menu-quote-text-'+menu_id+'">Quote Text</label>' +
+                '<input id="menu-quote-text-'+menu_id+'"     type="text"   class="form-control lp-dashboard-text-field"    value="'+mQuoteT+'"    placeholder="Ex: Quote">' +
+                '</div>';
+                }
+                var mQuoteLinK = '';
+                if(mQuoteL != ''){
+                mQuoteLinK = '<div class="col-sm-6">' +
+                '<label class="lp-dashboard-top-label" for="menu-quote-link-'+menu_id+'">Quote Link</label>' +
+                '<input id="menu-quote-link-'+menu_id+'"           type="text"          class="form-control lp-dashboard-text-field"            value="'+mQuoteL+'"              placeholder="Ex: hht://yourweb.com/page">' +
+                '</div>';
+                }
+                    var checkedpoP = '';
+                if (popularItem == 'mItemPopularTrue') {
+                    checkedpoP = 'checked';
+                }
+                var selected_spicelvl1 = '';
+                var selected_spicelvl2 = '';
+                var selected_spicelvl3 = '';
+                var selected_spicelvl4 = '';
+
+                if (spiceLVL == 'spicelvl1') {
+                    selected_spicelvl1 = 'selected';
+                } else if (spiceLVL == 'spicelvl2') {
+                    selected_spicelvl2 = 'selected';
+                } else if (spiceLVL == 'spicelvl3') {
+                    selected_spicelvl3 = 'selected';
+                } else if (spiceLVL == 'spicelvl4') {
+                    selected_spicelvl4 = 'selected';
+                }
+
+
+                var html    =   '<div class="lp-menu-close-outer">' +
+                '<div class="lp-menu-closed clearfix ">' +
+                '<div class="row">' +
+                '<div class="col-md-6"><i class="fa fa-check-circle fa-check-circle2" aria-hidden="true"></i><h4 class="lp-right-side-title"><span>Item Name</span><br>'+ mTitle +'</h4></div>' +
+                '<div class="col-md-2"><span>Group</span><br>'+ mGroup +'</div>' +
+                '<div class="col-md-2 price"><span>Price</span><br>'+ calcPrice +'</div>' +
+                '<div class="col-md-2"><span class="lp-dot-extra-buttons"><i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
+                '<ul class="lp-user-menu list-style-none">' +
+                '<li><a class="edit-menu-item" data-menuID="'+menu_id+'" data-uid="'+ userID +'" href=""><i class="fa fa-pencil" aria-hidden="true"></i><span>Edit</span></a></li>' +
+                '<li><a href="" class="menu-del del-this" data-LID="'+mListing+'" data-targetid="'+menu_id+'" data-uid="'+ userID +'"><i class="fa fa-trash" aria-hidden="true"></i><span>Delete</span></a></li>' +
+                '</ul>' +
+                '</span></div>' +
+                '</div>' +
+                '</div>' +
+                '<div id="menu-update-'+menu_id+'" class="lp-menu-form-outer background-white" style="display: none">' +
+                '<div class="lp-menu-form-inner">' +
+                '<form class="row">' +
+                '<input value="'+mType+'" type="hidden" id="menu-type-'+menu_id+'" name="menu-type-'+menu_id+'">' +
+                '<input type="hidden" value="'+mGroup+'" id="menu-group-'+menu_id+'" name="menu-group-'+menu_id+'">' +
+                '<div class="col-sm-12 margin-top-10">' +
+                '<div class="lp-menu-form-feilds">' +
+                '<div class="row clearfix">' +
+                '<div class="col-md-12">' +
+                '<div class="row">' +
+                '<div class="margin-bottom-10 col-md-8">' +
+                '<label class="lp-dashboard-top-label" for="menu-title-'+menu_id+'">Menu Item</label>' +
+                '<input name="menu-title-'+menu_id+'"  id="menu-title-'+menu_id+'"  type="text"  class="form-control lp-dashboard-text-field" placeholder="Ex: Roasted Chicken" value="'+ mTitle +'">' +
+                '</div>' +
+                '<div class="menu-price-wrap">' +
+                '<div class="col-sm-2 padding-left-0">' +
+                '<label class="lp-dashboard-top-label" for="menu-old-price-'+menu_id+'">Reg. Price</label>' +
+                '<input name="menu-old-price-'+menu_id+'"  id="menu-old-price-'+menu_id+'"  type="text" class="form-control lp-dashboard-text-field" placeholder="Ex: $10" value="'+mOldPrice+'">' +
+                '</div>' +
+                '<div class="col-sm-2 padding-left-0">' +
+                '<label class="lp-dashboard-top-label" for="menu-new-price-'+menu_id+'">Sale Price</label>' +
+                '<input id="menu-new-price-'+menu_id+'"  name="menu-new-price-'+menu_id+'"  type="text"  class="form-control lp-dashboard-text-field"  placeholder="Ex: $10"  value="'+mNewPrice+'">' +
+                '</div>' +
+                '</div>' +
+                '<div class="menu-quote-wrap clearfix margin-bottom-20">' +
+                    regmQuoteT +
+                    mQuoteLinK +
+                '</div>' +
+                '</div>' +
+                '<div class="margin-bottom-30">' +
+                '<label class="lp-dashboard-top-label" for="menu-detail-'+menu_id+'">Short Description</label>' +
+                '<textarea name="menu-detail-'+menu_id+'" id="menu-detail-'+menu_id+'" type="text" class="form-control lp-dashboard-des-field" rows="3" placeholder="Ex: Roasted Chicken">'+mDetail+'</textarea>' +
+                '</div>' +
+                '</div>' +
+
+
+                    '<div class="lp-invoices-all-stats-on-off clearfix margin-bottom-10 Popular_item_container">' +
+                    '<label class="switch">' +
+                    '<input '+checkedpoP+' value="Yes" class="form-control switch-checkbox menu_Popular_Item-'+menu_id+'" type="checkbox" name="lp_form_fields_inn[235]">' +
+                    '<div class="slider round"></div>' +
+                    '</label>' +
+                    '<span class="margin-left-10" style="font-size: 16px!important;font-weight: normal!important;">Popular Item</span>' +
+                    '</div>' +
+                    '<div class="clearfix margin-bottom-10 menuSpice-control_containter">' +
+                    '<select style="width: 100%!important;margin-left: 0;" id="menuSpice-control" class="form-control menuSpice-control-'+menu_id+'">' +
+                    '<option>Spice Level</option>' +
+
+
+                        '<option data-level="1" '+selected_spicelvl1+' >🌶</option>' +
+                        '<option data-level="2" '+selected_spicelvl2+' >🌶🌶</option>' +
+                        '<option data-level="3" '+selected_spicelvl3+' >🌶🌶🌶</option>' +
+                        
+                    '</select>' +
+                    '</div>' +
+
+                    '<div class="col-md-12">' +
+                    '<div class="jFiler-input-dragDrop pos-relative event-featured-image-wrap-dash">' +
+                    '<div class="upload-field dashboard-upload-field edit-upload-'+menu_id+'">' +
+                    '<input class="frontend-input-multiple" type="hidden" id="dis-old-img-'+menu_id+'" value="'+mImage+'">' +
+                    '<input type="hidden" class="frontend-input" name="frontend_input"><label><a class="jFiler-input-choose-btn blue">Browse File</a><input class="frontend-button" type="button" value="" style="position: relative; z-index: 1;"> </label><div class="clearfix"></div><img class="frontend-image">    ' +
+                    '<div class= "menu-edit-imgs-wrap" >' +
+                    '<div class="menu-edit-img-wrap gal-img-count-single">' +
+                    '<span data-src="'+mImage+'" data-target="dis-old-img-'+menu_id+'" class="remove-menu-img"><i class="fa fa-close"></i></span>' +
+                    '<img class="gal-img-count-single lp-uploaded-img event-old-img-'+menu_id+'" src="'+mImage+'" alt="">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="clearfix"></div>' +
+                '<div class="lp-menu-save-btns clearfix col-md-12 margin-bottom-20">' +
+                '<button class="lp-cancle-btn cancel-update-menu">Cancel</button>' +
+                '<button data-LID="'+mListing+'" data-menuID="'+menu_id+'"  data-uid="'+userID+'"  class="lp-save-btn lp-edit-menu">save</button>' +
+                '</div>' +
+                '</form>' +
+                '</div>' +
+                '</div>' +
+                '<div>';
+                jQuery('.panel-body.lp-panel-body-outer.lp-menu-panel-body-outer .tab-content.lp-tab-content-outer .tab-pane.fade.in.active').append( html );
+                $this.find('i.fa.fa-spin.fa-spinner').remove();
+
+
+            jQuery('.menu-edit-imgs-wrap .frontend-input-multiple').val('');
+            $this.closest('#menu-form-toggle').find('.lp-menu-close-outer.lp-menu-open').slideUp();
+            $this.attr('id', 'lp-save-menu-reopen');
+            jQuery('#menu-title').val('');
+            jQuery('#menu-detail').val('');
+            jQuery('#menu-old-price').val('');
+            jQuery('#menu-new-price').val('');
+            jQuery('#menu-quote-text').val('');
+            jQuery('#menu-quote-link').val('');
+            jQuery('#menu-link').val('');
+            jQuery('.new-file-upload .frontend-input').val('');
+
             },
             error: function( err )
             {
@@ -1783,15 +2262,18 @@ if( jQuery('#lp-submit-form').length != 0 )
     jQuery('.add-new-open-form').click(function (e) {
         e.preventDefault();
         var targetForm  =   '#'+jQuery(this).data('form')+'-form-toggle';
-
-        jQuery(targetForm).slideToggle( 'fast', function () {
-            jQuery('html, body').animate({
-                scrollTop: jQuery(targetForm).offset().top
-            }, 1000, function () {
-                jQuery('.lp-blank-section').fadeOut();
+        jQuery( 'div.panel.with-nav-tabs.panel-default.lp-dashboard-tabs.col-md-11' ).fadeOut( "fast", function() {
+            jQuery(targetForm).fadeIn("fast", function () {
+                jQuery( ".lp-blank-section" ).fadeOut();
             });
-        } );
-
+        });
+    });
+    jQuery('.lp-blank-section .add-new-open-form').click(function (e) {
+        e.preventDefault();
+        var targetForm  =   '#'+jQuery(this).data('form')+'-form-toggle';
+        jQuery(targetForm).fadeIn("fast", function () {
+            jQuery( ".lp-blank-section" ).fadeOut();
+        });
     });
     var targetPlanMetaKey   =   'menu';
     if( jQuery('.select2-ajax').length != 0 )
@@ -2012,7 +2494,8 @@ if( jQuery('#lp-submit-form').length != 0 )
                    'annLI' : annLI,
                    'annTI' : annTI,
                    'annIC' : annIC,
-                   'annType' : annType
+                   'annType' : annType,
+                   'lpNonce' : jQuery('#lpNonce').val()
                },
                success: function( res )
                {
@@ -2180,6 +2663,7 @@ if( jQuery('#lp-submit-form').length != 0 )
                     'disOff' : disOff,
                     'disImg' : disImg,
                     'disSta' : 'active',
+                    'lpNonce' : jQuery('#lpNonce').val()
                 },
                 success: function( res )
                 {
@@ -2277,6 +2761,7 @@ if( jQuery('#lp-submit-form').length != 0 )
                 'offerLI' : offerLI,
 
                 'offerImg' : offerImg,
+                'lpNonce' : jQuery('#lpNonce').val()
 
             },
 
@@ -2318,17 +2803,10 @@ if( jQuery('#lp-submit-form').length != 0 )
     });
 
     jQuery(document).on('click', '.dashboard-confirm-del-btn', function (e) {
-
         var $this       =   jQuery('.remove-active');
-
         if( $this.hasClass('del-all-menu') )
-
         {
-
-
-
             var lid     =   $this.data('lid'),
-
                 user_id =   $this.data('uid');
 
 
@@ -2336,213 +2814,107 @@ if( jQuery('#lp-submit-form').length != 0 )
             jQuery(this).append('<i class="fa fa-spin fa-spinner" style="margin-left: 5px;"></i>');
 
             jQuery.ajax({
-
                 type: 'POST',
-
                 dataType: 'json',
-
                 url: ajax_search_term_object.ajaxurl,
-
                 data:{
-
                     'action': 'del_all_menu_cb',
-
                     'user_id' : user_id,
-
                     'lid' : lid,
-
+                    'lpNonce' : jQuery('#lpNonce').val()
                 },
-
                 success: function( res )
-
                 {
-
                     if( res.status == 'success' )
-
                     {
-
                         location.reload();
-
                     }
-
                     $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
-
                 },
-
-
-
                 error: function( err )
-
                 {
-
                     console.log( err );
-
                     $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
-
                 }
-
             });
-
         }
-
         else
-
         {
-
             var targetID    =   $this.data('targetid'),
-
                 userID      =   $this.data('uid'),
-
                 delType     =   '',
-
                 delIDS      =   '',
-
                 dellAll     =   '';
 
-
-
-
-
             if( $this.hasClass('dis-del') )
-
             {
-
                 delType =   'dis';
-
             }
-
             if( $this.hasClass('event-del') )
-
             {
-
                 delType =   'event';
-
             }
-
-
-
             if( $this.hasClass('ann-del') )
-
             {
-
                 delType =   'ann';
-
             }
-
-
-
             if( $this.hasClass('offer-del') )
-
             {
-
                 delType     =   'offer';
-
                 delIDS      =   $this.data('del-ids');
-
             }
-
             if( $this.hasClass('menu-del') )
-
             {
-
                 delType =   'menu';
-
                 delIDS  =   $this.data('lid');
-
             }
-
             if( $this.hasClass('del-type') )
-
             {
-
                 delType =   'type';
-
                 dellAll =   jQuery('input[name="delete-group-type"]:checked').val();
-
             }
-
             if( $this.hasClass('del-group') )
-
             {
-
                 delType =   'group';
-
                 dellAll =   jQuery('input[name="delete-group-type"]:checked').val();
-
             }
-
-
-
-
-
             jQuery(this).append('<i class="fa fa-spin fa-spinner" style="margin-left: 5px;"></i>');
-
-
-
-
-
             jQuery.ajax({
-
                 type: 'POST',
-
                 dataType: 'json',
-
                 url: ajax_search_term_object.ajaxurl,
-
                 data:{
-
                     'action': 'del_ann_dis_menu_cb',
-
                     'user_id' : userID,
-
                     'delType' : delType,
-
                     'targetID' : targetID,
-
                     'delIDS' : delIDS,
-
                     'dellAll' : dellAll,
-
+                    'lpNonce' : jQuery('#lpNonce').val()
                 },
-
                 success: function( res )
-
                 {
-
-
-
                     if( res.status == 'success' )
-
                     {
-
-                        location.reload();
+                        if(delType == 'menu') {
+                            jQuery('.menu-del[data-targetid="'+targetID+'"]').closest('.lp-menu-close-outer').remove();
+                            jQuery('#dashboard-delete-modal').modal('hide');
+                            jQuery('.dashboard-confirm-del-btn').find('i').remove();
+                        } else {
+                            jQuery('#dashboard-delete-modal').modal('hide');
+                            location.reload();
+                        }
 
                     }
-
                     $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
-
                 },
-
-
-
                 error: function( err )
-
                 {
-
                     console.log( err );
-
                     $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
-
                 }
-
             });
-
         }
-
-
-
-
-
     });
     jQuery(document).on('click', 'a.event-edit, a.menu-edit, a.ann-edit, a.dis-edit, a.offer-edit', function(e)
     {
@@ -2627,8 +2999,6 @@ if( jQuery('#lp-submit-form').length != 0 )
     }
 });
 
-
-
 jQuery(document).on('change', '#discount_displayin', function (e) {
 
     e.preventDefault();
@@ -2658,6 +3028,7 @@ jQuery(document).on('change', '#discount_displayin', function (e) {
             'userID' : userID,
 
             'thisval' : thisval,
+            'lpNonce' : jQuery('#lpNonce').val()
 
         },
 
@@ -2683,6 +3054,58 @@ jQuery(document).on('change', '#discount_displayin', function (e) {
 
 })
 
+jQuery(document).on('change', '#event_displayin', function (e) {
+
+    e.preventDefault();
+
+    var $this   =   jQuery(this),
+
+        thisval =   $this.val(),
+
+        userID  =   $this.data('udi');
+
+    jQuery($this).after('<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
+
+    jQuery.ajax({
+
+        type: 'POST',
+
+        dataType: 'json',
+
+        url: ajax_search_term_object.ajaxurl,
+
+        data:{
+
+            'action': 'event_display_area',
+
+            'userID' : userID,
+
+            'thisval' : thisval,
+            'lpNonce' : jQuery('#lpNonce').val()
+
+        },
+
+        success: function( res )
+
+        {
+
+            jQuery('#event_displayin').next('i').remove();
+
+        },
+
+        error: function( err )
+
+        {
+
+            alert( err );
+
+            $this.find('i').remove();
+
+        }
+
+    });
+
+});
 
 
 jQuery(document).on('click', '.lp-edit-offer', function(e)
@@ -2690,11 +3113,7 @@ jQuery(document).on('click', '.lp-edit-offer', function(e)
 {
 
     e.preventDefault();
-
-
-
-
-
+    
     var $this   =   jQuery(this),
 
         userID  =   $this.data('uid'),
@@ -2775,7 +3194,8 @@ jQuery(document).on('click', '.lp-edit-offer', function(e)
 
             'offerUP' : 'yes',
 
-            'offerID' : offerID
+            'offerID' : offerID,
+            'lpNonce' : jQuery('#lpNonce').val()
 
         },
 
@@ -2858,7 +3278,8 @@ jQuery(document).on('click', '.lp-edit-dis', function (e)
             'disDes' : disDes,
             'disOff' : disOff,
 			'disImg' : disImg,
-            'disUp' : 'yes'
+            'disUp' : 'yes',
+            'lpNonce' : jQuery('#lpNonce').val()
         },
         success: function( res )
         {
@@ -2912,6 +3333,7 @@ jQuery(document).on('click', '.lp-edit-announcements', function (e)
             'annIC' : annIC,
             'annUP' : 'yes',
             'annID' : annID,
+            'lpNonce' : jQuery('#lpNonce').val()
         },
 
         success: function( res )
@@ -2926,69 +3348,6 @@ jQuery(document).on('click', '.lp-edit-announcements', function (e)
         }
     });
 });
-
-
-
-jQuery(document).on('click', '.lp-edit-menu', function (e) {
-
-    e.preventDefault();
-
-    var $this       =   jQuery(this),
-        userID      =   $this.data('uid'),
-        LID      =   $this.data('lid'),
-        menuID  =   $this.data('menuid'),
-        mTitle  =   jQuery('#menu-title-'+menuID).val(),
-        mDetail  =   jQuery('#menu-detail-'+menuID).val(),
-        mOldPrice  =   jQuery('#menu-old-price-'+menuID).val(),
-        mNewPrice  =   jQuery('#menu-new-price-'+menuID).val(),
-        mQuoteT  =   jQuery('#menu-quote-text-'+menuID).val(),
-        mQuoteL  =   jQuery('#menu-quote-link-'+menuID).val(),
-        mLink  =   jQuery('#menu-link-'+menuID).val(),
-        mGroup  =   jQuery('#menu-group-'+menuID).val(),
-        mType  =   jQuery('#menu-type-'+menuID).val(),
-        mImage      =   jQuery('.edit-upload-'+menuID+' .frontend-input').val();
-    if( mImage == '' )
-    {
-        mImage  =   jQuery('#dis-old-img-'+menuID).val();
-    }
-
-
-
-    $this.append('<i class="fa fa-spin fa-spinner"></i>');
-
-    jQuery.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: ajax_search_term_object.ajaxurl,
-        data: {
-            'action': 'add_menu_cb',
-            'user_id': userID,
-            'LID' : LID,
-            'menuID' : menuID,
-            'mTitle': mTitle,
-            'mDetail': mDetail,
-            'mOldPrice': mOldPrice,
-            'mNewPrice': mNewPrice,
-            'mQuoteT': mQuoteT,
-            'mQuoteL': mQuoteL,
-            'mLink': mLink,
-            'mImage': mImage,
-            'mType' : mType,
-            'mGroup' : mGroup,
-            'menuUp': 'yes'
-        },
-        success: function (res) {
-            ajax_success_popup( res, $this );
-        },
-
-        error: function (err) {
-            alert(err);
-            $this.find('i').remove();
-        }
-    });
-});
-
-
 
 function init_countdown( selector )
 {
@@ -3022,7 +3381,7 @@ function init_countdown( selector )
         showSeconds: false,
         language: 'Custom',
         minimumDigits: minDigits
-   });
+    });
 
     clock.setTime(clockStart);
     clock.setCountdown(true);
@@ -3042,17 +3401,19 @@ jQuery(document).on( 'click', '.lp-ann-btn', function (e) {
 
     e.preventDefault();
 
-    var targetANN   =   '#'+jQuery(this).attr('data-ann');
+    if(jQuery(this).hasClass('lp-no-review-btn')) {
 
+    } else {
+        var targetANN   =   '#'+jQuery(this).attr('data-ann');
+        jQuery(targetANN).show();
 
+        jQuery(targetANN).find('.lp-listing-announcement').fadeIn();
+        jQuery(targetANN).find('.lp-listing-announcement').addClass('active-ann');
 
-    jQuery(targetANN).find('.lp-listing-announcement').fadeIn();
-
-    jQuery(targetANN).find('.lp-listing-announcement').addClass('active-ann');
-
-    jQuery('.code-overlay').fadeIn();
-
+        jQuery('.code-overlay').fadeIn();
+    }
 });
+
 
 
 
@@ -3061,11 +3422,9 @@ jQuery(document).on( 'click', '.close-ann', function (e) {
     e.preventDefault();
 
     jQuery('.active-ann').fadeOut();
-
     jQuery('.active-ann').removeClass('active-ann');
-
     jQuery('.code-overlay').fadeOut();
-
+    jQuery('.lp-listing-announcements').fadeOut();
 });
 
 
@@ -3134,7 +3493,8 @@ jQuery(document).on( 'click', '.ann-toggle-btn', function (e) {
             'user_id' : userID,
             'status' : status,
             'annID' : annID,
-            'annUP' : 'on-off'
+            'annUP' : 'on-off',
+            'lpNonce' : jQuery('#lpNonce').val()
         },
 
         success: function( res )
@@ -3173,7 +3533,8 @@ jQuery(document).on('change', '.on-off-ann', function (e) {
             'user_id' : userID,
             'status' : status,
             'annID' : annID,
-            'annUP' : 'on-off'
+            'annUP' : 'on-off',
+            'lpNonce' : jQuery('#lpNonce').val()
         },
 
         success: function( res )
@@ -3315,6 +3676,16 @@ jQuery(document).on('change', '.coupons-fields-switch input[type="checkbox"]', f
             });
         }
     }
+    else if(targetID == 'coupon-end'){
+        if( jQuery(this).is(':checked') )
+        {
+            jQuery('.lp-cpn-end-container').slideDown(500);
+        }
+        else
+        {
+            jQuery('.lp-cpn-end-container').slideUp(500);
+        }
+    }
     else
     {
         jQuery('#'+targetID+'-switch').slideToggle(500, function () {
@@ -3327,249 +3698,6 @@ jQuery(document).on('change', '.coupons-fields-switch input[type="checkbox"]', f
 
 });
 
-jQuery(document).on('click', '.add-new-type', function(e){
-    e.preventDefault();
-    jQuery('#menu-type-new, .save-new-type').fadeIn();
-});
-jQuery(document).on('click', '.add-new-group', function(e){
-    e.preventDefault();
-    jQuery('#menu-group-new, .save-new-group').fadeIn();
-});
-jQuery(document).on('click', '.save-new-type', function (e) {
-    e.preventDefault();
-
-
-    var $this   =   jQuery(this),
-        userID  =   $this.data('uid'),
-        type    =   jQuery('#menu-type-new').val();
-
-
-    $this.append('<i class="fa fa-spin fa-spinner"></i>');
-    if( type == '' )
-    {
-        jQuery('#menu-type-new').addClass('error');
-        $this.find('i').remove();
-        return false;
-    }
-    else
-    {
-        jQuery('#menu-type-new').removeClass('error');
-    }
-    if( $this.hasClass('processing') )
-    {
-
-    }
-    else
-    {
-        $this.addClass('processing');
-
-
-        jQuery.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: ajax_search_term_object.ajaxurl,
-            data:{
-                'action': 'add_menu_type_cb',
-                'user_id' : userID,
-                'type' : type,
-            },
-            success: function( res )
-            {
-
-                if( $this.hasClass('manage-type-group-form') )
-                {
-                    location.reload();
-                }
-                else
-                {
-                    var optData = {
-                        id: type,
-                        text: type
-                    };
-
-                    var newOption = new Option(optData.text, optData.id, false, false);
-                    jQuery('#menu-type').append(newOption).trigger('change');
-
-                    var currentTypes    =   jQuery('#menu-type').val();
-                    if( currentTypes == null )
-                    {
-                        jQuery('#menu-type').val(type).trigger('change');
-                    }
-                    else
-                    {
-                        currentTypes.push( type );
-                        jQuery('#menu-type').val(currentTypes).trigger('change');
-                    }
-                }
-
-                $this.find('i').removeClass('fa-spin fa-spinner');
-                $this.find('i').remove();
-                $this.removeClass('processing');
-                jQuery('#menu-type-new').val('');
-
-            },
-            error: function( err )
-
-            {
-                alert( err );
-                $this.find('i').remove();
-            }
-
-        });
-    }
-});
-jQuery(document).on( 'click', '.save-new-group', function (e) {
-
-    e.preventDefault();
-
-
-
-
-
-    var $this   =   jQuery(this),
-
-        userID  =   $this.data('uid'),
-
-        group    =   jQuery('#menu-group-new').val();
-
-
-
-    $this.append('<i class="fa fa-spin fa-spinner"></i>');
-
-
-
-
-
-    if( group == '' )
-
-    {
-
-        jQuery('#menu-group-new').addClass('error');
-
-        $this.find('i').remove();
-
-        return false;
-
-    }
-
-    else
-
-    {
-
-        jQuery('#menu-group-new').removeClass('error');
-
-    }
-
-    if( $this.hasClass('processing') )
-
-    {
-
-
-
-    }
-
-    else
-
-    {
-
-        $this.addClass('processing');
-
-        jQuery.ajax({
-
-            type: 'POST',
-
-            dataType: 'json',
-
-            url: ajax_search_term_object.ajaxurl,
-
-            data:{
-
-                'action': 'add_menu_group_cb',
-
-                'user_id' : userID,
-
-                'group' : group,
-
-            },
-
-            success: function( res )
-
-            {
-
-
-
-                if( $this.hasClass('manage-type-group-form') )
-
-                {
-
-                    location.reload();
-
-                }
-
-                else
-
-                {
-
-                    var optData = {
-
-                        id: group,
-
-                        text: group
-
-                    };
-
-                    var newOption = new Option(optData.text, optData.id, false, false);
-
-                    jQuery('#menu-group').append(newOption).trigger('change');
-
-
-
-                    var currentGroups   =   jQuery('#menu-group').val();
-
-                    if( currentGroups == null )
-
-                    {
-
-                        jQuery('#menu-group').val(group).trigger('change');
-
-                    }
-
-                    else
-
-                    {
-
-                        currentGroups.push(group);
-
-                        jQuery('#menu-group').val(currentGroups).trigger('change');
-
-                    }
-
-                }
-                $this.find('i').removeClass('fa-spin fa-spinner');
-
-                $this.find('i').remove();
-
-                $this.removeClass('processing');
-
-                jQuery('#menu-group-new').val('');
-
-            },
-
-            error: function( err )
-
-            {
-
-                alert( err );
-
-                $this.find('i').remove();
-
-            }
-
-        });
-
-    }
-
-} );
 
 jQuery(document).on('click', '.del-all-menu', function (e) {
     e.preventDefault();
@@ -3582,29 +3710,34 @@ jQuery(document).on('click', '.del-all-menu', function (e) {
 });
 
 jQuery(document).on('click', '#lp-save-events', function(e){
-
     e.preventDefault();
-
     var $this   =   jQuery(this),
         eTitle  =   jQuery('#event-title').val(),
         eDesc   =   jQuery('#event-description').val(),
         eDate   =   jQuery('#event-date-s').val(),
+        eDateE  =   jQuery('#event-date-e').val(),
         eTime   =   jQuery('#event-time').val(),
-        eLoc    =   jQuery('#event-location').val(),
-        eLat    =   jQuery('#lp-events-form .latitude').val(),
-        eLon    =   jQuery('#lp-events-form .longitude').val(),
-        eTUrl   =   jQuery('#event-ticket-url').val(),
+        eTimeE  =   jQuery('#event-time-e').val(),
+        eLoc    =   '',
+        eLat    =   jQuery('#lp-events-form #latitude').val(),
+        eLon    =   jQuery('#lp-events-form #longitude').val(),
+        eTUrl   =   jQuery('#event-tickets-data').val(),
         eLID    =   jQuery('#event-listing').val(),
         eImg    =   jQuery('.new-file-upload .frontend-input').val(),
         eUID    =   $this.data('uid'),
         eUtils  =    '';
-
-
+    if( jQuery('.events-map-wrap a[data-type="gaddresscustom"]').hasClass('active'))
+    {
+        eLoc    =   jQuery('#lp-events-form input[name="gAddresscustom"]').val();
+    }
+    else
+    {
+        eLoc    =   jQuery('#lp-events-form input[name="gAddress"]').val();
+    }
     jQuery('.coupons-fields-switch').find('.switch-checkbox').each(function () {
         var CheckboxX       =   jQuery(this),
             target          =   CheckboxX.data('target'),
             targetVal       =   ''
-
         if( CheckboxX.is(':checked') )
         {
             targetVal   =   'yes';
@@ -3615,14 +3748,22 @@ jQuery(document).on('click', '#lp-save-events', function(e){
         }
         eUtils  +=   target+'|'+targetVal+'*';
     });
-
     if( eLID == '' || eLID == 0 || eLID == null )
     {
-        jQuery('#select2-event-listing-container').addClass('error');
+        if(jQuery('#event-listing').length) {
+            jQuery('#event-listing').addClass('error');
+        } else {
+            jQuery('#select2-event-listing-container').addClass('error');
+        }
     }
     else
     {
-        jQuery('#select2-event-listing-container').removeClass('error');
+        if(jQuery('#event-listing').length) {
+            jQuery('#event-listing').removeClass('error');
+        } else {
+            jQuery('#select2-event-listing-container').removeClass('error');
+        }
+
     }
     if( eTitle == '' )
     {
@@ -3633,13 +3774,7 @@ jQuery(document).on('click', '#lp-save-events', function(e){
         jQuery('#event-title').removeClass('error');
     }
 
-    if( eLoc == '' ){
-        jQuery('#event-location').addClass('error');
-    }
-    else
-    {
-        jQuery('#event-location').removeClass('error');
-    }
+
     if( eDate == '' ){
         jQuery('#event-date-s').addClass('error');
     }
@@ -3654,7 +3789,7 @@ jQuery(document).on('click', '#lp-save-events', function(e){
     {
         jQuery('#event-time').removeClass('error');
     }
-    if( eLID == '' || eLID == 0 || eLID == null || eTitle == '' || eTime == '' || eDate == '' || eLoc == '' )
+    if( eLID == '' || eLID == 0 || eLID == null || eTitle == '' || eTime == '' || eDate == '' )
     {
         var dataError   =   [];
         dataError.status    =   'error';
@@ -3662,6 +3797,34 @@ jQuery(document).on('click', '#lp-save-events', function(e){
         ajax_success_popup( dataError, $this );
         return false;
     }
+    if( jQuery('a[data-type="gaddress"]').hasClass('active') )
+    {
+        if( eLoc == '' ){
+            jQuery('#lp-events-form input[name="gAddresscustom"]').addClass('error');
+
+            var dataError   =   [];
+            dataError.status    =   'error';
+            dataError.msg    =   jQuery('.lp-notifaction-area').data('error-msg');
+            ajax_success_popup( dataError, $this );
+            return false;
+        }
+        else
+        {
+            jQuery('#lp-events-form input[name="gAddresscustom"]').removeClass('error');
+        }
+    } else {
+        if( eLat == '' || eLon == '' || eLoc == '' ) {
+
+            jQuery('#event-location').addClass('error');
+
+            var dataError   =   [];
+            dataError.status    =   'error';
+            dataError.msg    =   jQuery('.lp-notifaction-area').data('error-msg');
+            ajax_success_popup( dataError, $this );
+            return false;
+        }
+    }
+
     $this.append('<i class="fa fa-spin fa-spinner"></i>');
     jQuery.ajax({
         type: 'POST',
@@ -3672,7 +3835,9 @@ jQuery(document).on('click', '#lp-save-events', function(e){
             'eTitle' : eTitle,
             'eDesc' : eDesc,
             'eDate' : eDate,
+            'eDateE' : eDateE,
             'eTime' : eTime,
+            'eTimeE' : eTimeE,
             'eLoc' : eLoc,
             'eLat' : eLat,
             'eLon' : eLon,
@@ -3681,13 +3846,12 @@ jQuery(document).on('click', '#lp-save-events', function(e){
             'eUID' : eUID,
             'eImg' : eImg,
             'eUtils' : eUtils,
+            'lpNonce' : jQuery('#lpNonce').val()
         },
         success: function( res )
         {
             ajax_success_popup( res, $this );
-
         },
-
         error: function( err )
         {
             console.log( err );
@@ -3705,11 +3869,13 @@ jQuery(document).on('click', '.lp-save-events', function(e){
         eTitle  =   jQuery('#event-title-'+eID).val(),
         eDesc   =   jQuery('#event-description-'+eID).val(),
         eDate   =   jQuery('#event-date-s-'+eID).val(),
+        eDateE   =   jQuery('#event-date-e-'+eID).val(),
         eTime   =   jQuery('#event-time-'+eID).val(),
+        eTimeE   =   jQuery('#event-time-e-'+eID).val(),
         eLoc    =   jQuery('#event-location-'+eID).val(),
         eLat    =   $this.closest('.lp-coupons-form-inner').find('.latitude').val(),
         eLong    =  $this.closest('.lp-coupons-form-inner').find('.longitude').val(),
-        eTUrl   =   jQuery('#event-ticket-url-'+eID).val(),
+        eTUrl   =   jQuery('#event-tickets-data-'+eID).val(),
         eImg    =   jQuery('.edit-upload-'+eID+' .frontend-input').val(),
         eUID    =   $this.data('uid');
 
@@ -3722,7 +3888,6 @@ jQuery(document).on('click', '.lp-save-events', function(e){
     {
         jQuery('#event-title').removeClass('error');
     }
-
     if( eTitle == '' )
     {
         return false;
@@ -3741,7 +3906,9 @@ jQuery(document).on('click', '.lp-save-events', function(e){
             'eTitle' : eTitle,
             'eDesc' : eDesc,
             'eDate' : eDate,
+            'eDateE' : eDateE,
             'eTime' : eTime,
+            'eTimeE' : eTimeE,
             'eLoc' : eLoc,
             'eLat' : eLat,
             'eLon' : eLong,
@@ -3749,26 +3916,28 @@ jQuery(document).on('click', '.lp-save-events', function(e){
             'eUID' : eUID,
             'eID' : eID,
             'eImg' : eImg,
-            'eUp' : 'yes'
+            'eUp' : 'yes',
+            'lpNonce' : jQuery('#lpNonce').val()
         },
         success: function( res )
         {
             ajax_success_popup( res, $this );
         },
-
         error: function( err )
         {
             console.log( err );
         }
     });
 });
+
 jQuery(document).on( 'click', '.attend-event', function (e) {
     e.preventDefault();
-    var $this   =   jQuery(this),
-        eID     =   $this.data('event'),
-        eUID    =   $this.data('uid');
-
-
+    var $this       =   jQuery(this),
+        eID         =   $this.data('event'),
+        eUID        =   $this.data('uid'),
+        notGoing    =   '',
+        goingText   =   jQuery('.going-text').val(),
+        nGoingText  =   jQuery('.not-going-text').val();
 
     if( $this.hasClass('processing') )
     {
@@ -3776,8 +3945,25 @@ jQuery(document).on( 'click', '.attend-event', function (e) {
     }
     else
     {
-        $this.append('<i class="fa fa-spinner fa-spin"></i>');
+        if( $this.hasClass('not-going') )
+        {
+            notGoing    =   'yes';
+        }
+        else
+        {
+
+        }
+        if( $this.hasClass('from-lpec') )
+        {
+            $this.find('i').removeClass('fa-plus').addClass('fa-spinner fa-spin');
+        }
+        else
+        {
+            $this.append('<i class="fa fa-spinner fa-spin"></i>');
+        }
+
         $this.addClass('processing');
+
         jQuery.ajax({
             type: 'POST',
             dataType: 'json',
@@ -3786,10 +3972,48 @@ jQuery(document).on( 'click', '.attend-event', function (e) {
                 'action': 'event_attending_cb',
                 'eID': eID,
                 'eUID': eUID,
+                'notGoing': notGoing,
+                'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function (res) {
-                $this.closest('.lp-events-btns-outer').find('.total-going').text(res.total_attending);
-                $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-check');
+                if( $this.hasClass('from-lpec') )
+                {
+                    jQuery('#lpec-attendee-count-'+eID).text(parseInt(res.total_attending));
+                }
+                else
+                {
+                    jQuery('.total-going').text(res.total_attending);
+                    $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-check');
+                }
+
+                $this.removeClass('processing');
+                if( notGoing == 'yes' )
+                {
+                    $this.removeClass('not-going');
+                    if( $this.hasClass('from-lpec') )
+                    {
+                        jQuery('ul#lpec-attendees-avatar-'+eID).find('li#lpec-attendee-avatar-'+eUID+'-'+eID).remove();
+                        $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-plus');
+                    }
+                    else
+                    {
+                        $this.text(goingText);
+                    }
+
+                }else
+                {
+                    $this.addClass('not-going');
+                    if( $this.hasClass('from-lpec') )
+                    {
+                        jQuery('ul#lpec-attendees-avatar-'+eID).prepend(res.attendee_avatar);
+                        $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-times');
+                    }
+                    else
+                    {
+                        $this.text(nGoingText);
+                    }
+                }
+
             },
             error: function (err) {
                 console.log(err);
@@ -3801,12 +4025,46 @@ jQuery(document).on( 'click', '.attend-event', function (e) {
 jQuery(document).on('click', '.cancel-ad-new-btn', function (e) {
     e.preventDefault();
     var targetForm      =   '#'+jQuery(this).data('cancel')+'-form-toggle';
-
-    jQuery(targetForm).fadeOut('slow', function () {
-        jQuery('html, body').animate({
-            scrollTop: jQuery('.add-new-open-form').offset().top
-        }, 1000);
+    jQuery( targetForm ).fadeOut( "fast", function() {
+        if (jQuery('body').find('div.panel.with-nav-tabs.panel-default.lp-dashboard-tabs.col-md-11')) {
+            jQuery( ".lp-blank-section" ).fadeIn();
+        }
+        jQuery('div.panel.with-nav-tabs.panel-default.lp-dashboard-tabs.col-md-11').fadeIn();
     });
+});
+
+
+jQuery(document).on('click', '.menu-add-new', function (e) {
+    jQuery('.panel.with-nav-tabs.panel-default.lp-dashboard-tabs').fadeOut("slow", function () {
+        jQuery('div.tab-pane.fade.in.active.clearfix.lp-dashboard-menu-container').fadeIn("fast", function () {
+            jQuery('div.panel.with-nav-tabs.panel-default.lp-dashboard-tabs.col-md-12.lp-left-panel-height.lp-left-panel-height-outer.padding-bottom0').fadeIn("fast");
+        });
+    });
+});
+
+jQuery(document).on('click', '.lp-view-all-btn', function (e) {
+    e.preventDefault();
+    if(jQuery(this).hasClass('all-with-refresh')) {
+        location.reload();
+    } else {
+        jQuery('div.panel.with-nav-tabs.panel-default.lp-dashboard-tabs.col-md-12.lp-left-panel-height.lp-left-panel-height-outer.padding-bottom0').fadeOut("fast", function () {
+            jQuery('div.tab-pane.fade.in.active.clearfix.lp-dashboard-menu-container').fadeOut("fast", function () {
+                jQuery('.panel.with-nav-tabs.panel-default.lp-dashboard-tabs').fadeIn("Slow");
+            });
+        });
+    }
+
+});
+
+jQuery(document).on('click', '.cancel-add-menu', function (e) {
+    e.preventDefault();
+    jQuery('#lp-save-menu').attr('id', 'lp-save-menu-reopen');
+    jQuery('.lp-menu-close-outer.lp-menu-open').slideUp();
+});
+jQuery(document).on('click', '#lp-save-menu-reopen', function (e) {
+    e.preventDefault();
+    jQuery(this).attr('id', 'lp-save-menu');
+    jQuery('.lp-menu-close-outer.lp-menu-open').slideDown();
 });
 
 jQuery(document).on('click', '.lp-notifi-icons', function (e) {
@@ -3837,7 +4095,11 @@ jQuery(document).ready(function () {
 });
 jQuery('html').click(function (e) {
    if(jQuery('.lp-multi-star-wrap').is(":visible") && e.target.className != 'open-multi-rate-box' ) {
-       jQuery('.lp-multi-star-wrap').slideUp();
+       if(jQuery('.lp-multi-star-wrap').hasClass('lp-multi-start-wrap-edit-review')) {
+
+       } else {
+           jQuery('.lp-multi-star-wrap').slideUp();
+       }
    }
 });
 
@@ -3845,7 +4107,10 @@ function ajax_success_popup( res, $this )
 {
    if( res.status == 'success' )
    {
-       $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-check');
+       if($this != ''){
+           $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-check');
+        }
+      
        jQuery('.lp-notifaction-area').find('h4').text(res.msg);
        jQuery('.lp-notifaction-area').removeClass('lp-notifaction-error').addClass('lp-notifaction-success');
        jQuery('.lp-notifaction-area').addClass('active-wrap');
@@ -3855,7 +4120,10 @@ function ajax_success_popup( res, $this )
    }
    if ( res.status == 'error' )
    {
-       $this.find('i').remove();
+        if($this != ''){
+           $this.find('i').remove();
+        }
+       
        jQuery('.lp-notifaction-area').find('h4').text(res.msg);
        jQuery('.lp-notifaction-area').removeClass('lp-notifaction-success').addClass('lp-notifaction-error');
        jQuery('.lp-notifaction-area').addClass('active-wrap');
@@ -3953,6 +4221,7 @@ jQuery(document).on('click', '.remove-event-img', function (e) {
     {
         var targetID    =   $this.data('targetid');
         $this.closest('.removeable-image').find('.frontend-image').attr('src', '');
+        $this.closest('.removeable-image').find('.frontend-image').hide();
         $this.closest('.removeable-image').find('.lp-uploaded-img').attr('src', '');
         $this.closest('.removeable-image').find('.frontend-input').val('');
         jQuery('#event-old-img-'+targetID).val('');
@@ -3961,100 +4230,37 @@ jQuery(document).on('click', '.remove-event-img', function (e) {
     else
     {
         $this.closest('.removeable-image').find('.frontend-image').attr('src', '');
+        $this.closest('.removeable-image').find('.frontend-image').hide();
         $this.closest('.removeable-image').find('.frontend-input').val('');
         $this.remove();
     }
 });
 
-/* for listing select2 ajax based booking and services screen */
-jQuery(document).ready(function(){
-	
-	/* for bookings */
-	jQuery('#reservaListing').select2({
-        ajax: {
-            url: ajax_search_term_object.ajaxurl,
-            dataType: 'json',
-            type:'GET',
-            data: function (params) {
-                return {
-                    q: params.term, // search query
-                    action: 'select2_ajax_dashbaord_listing_booking' // AJAX action for admin-ajax.php
-                };
-                console.log(params);
-            },
-            processResults: function( data ) {
-                var options = [];
-                if ( data ) {
-
-                    // data is the array of arrays, and each of them contains ID and the Label of the option
-                    jQuery.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
-                        options.push( { id: text[0], text: text[1]  } );
-                    });
-
-                }
-                return {
-                    results: options
-                };
-            },
-            cache: true
-        },
-        minimumInputLength: 3
-    });
-	/* end for bookings */
-	
-});
-
-/* end for listing select2 ajax based booking and services screen */
-
 
 jQuery(document).on('click', '.lp-copy-code', function (e)
 {
-
     e.preventDefault();
-
     var $this           =   jQuery(this);
-
     var targetCodeEL    =   jQuery(this).data('target-code'),
-
         thisHtml        =   jQuery(this).data('html'),
-
         targetCodeELC   =   '.'+targetCodeEL;
-
-
-
-
-
     if( $this.hasClass('close-copy-pop') )
-
     {
-        jQuery(targetCodeELC).animate({
+        $this.closest('.coupons-bottom-content-wrap').find(targetCodeELC).animate({
             bottom: '-'+ jQuery(targetCodeELC).height() +'px'
-
         }, 500, function (e) {
-
             $this.html(thisHtml);
-
             $this.removeClass('close-copy-pop');
-
         });
-
     }
-
     else
-
     {
-
         var bottomPlus  =   0;
-
         if( $this.hasClass('lp-discount-btn') )
-
         {
-
             bottomPlus  =   49;
-
         }
-
-        jQuery(targetCodeELC).animate({
+        $this.closest('.coupons-bottom-content-wrap').find(targetCodeELC).animate({
             bottom: bottomPlus+'px'
         }, 500, function (e) {
             if( $this.hasClass('lp-discount-btn') )
@@ -4063,9 +4269,7 @@ jQuery(document).on('click', '.lp-copy-code', function (e)
                 $this.html('<span><i class="fa fa-times"></i></span>');
             }
         });
-
     }
-
 });
 jQuery(document).on('click', '.close-right-icon', function (e) {
     e.preventDefault();
@@ -4116,7 +4320,8 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.author-haspag
             'pageNo': pageNo,
             'authorID':authorID,
             'authorPagin' : authorPagin,
-            'listingLayout':listingLayout
+            'listingLayout':listingLayout,
+            'lpNonce' : jQuery('#lpNonce').val()
         },
         success: function(data) {
             jQuery('#mylistings').find('.author-inner-content-wrap').removeClass('content-loading');
@@ -4132,4 +4337,1139 @@ jQuery(document).ready(function(){
         jQuery('.featuresDataContainerOuterSubmit').show();
         jQuery('.featuresDataContainer.lp-check-custom-wrapp').show();
     }
+});
+jQuery(document).ready(function(){
+    jQuery('.lp-review-form-top .lp-listing-stars').click(function (e) {
+        e.preventDefault();
+        if( jQuery(this).hasClass('do-not-proceed') )
+        {}
+        else
+        {
+            jQuery(this).addClass( 'do-not-proceed' );
+            jQuery('.lp-review-form-bottom').slideToggle(500);
+            jQuery('html,body').animate( {
+             scrollTop: jQuery(".lp-listing-review-form").offset().top -100
+          },'slow');
+        }
+    });
+ });   
+// for events
+jQuery(document).on('change', '#toggle-attendees-check', function () {
+    if( jQuery(this).is(':checked') )
+    {
+        jQuery('.attendee-checkbox').attr('checked', 'checked');
+    }
+    else
+    {
+        jQuery('.attendee-checkbox').removeAttr('checked');
+    }
+});
+jQuery(document).on('click', '.download-attendees', function (e) {
+    e.preventDefault();
+});
+jQuery(document).on('click', '#lp-send-message', function(e){
+    e.preventDefault();
+    var $this       =   jQuery(this),
+        msgError    =   jQuery('#event-msg-error').val(),
+        msgSuccess  =   jQuery('#event-msg-success').val(),
+        uid         =   $this.data('uid'),
+        msgContent  =   jQuery('.attendeesmessage').val(),
+        attendees   =   jQuery(".attendee-checkbox:checked").map(function(){
+            return jQuery(this).val();
+        }).get();
+
+    var responseData    =   [];
+
+    if( msgContent == '' || attendees == '' )
+    {
+        responseData.status =   'error';
+        responseData.msg    =   msgError;
+        ajax_success_popup( responseData, $this );
+        return false;
+    }
+
+
+    if( $this.hasClass('processing') )
+    {
+
+    }
+    else
+    {
+        $this.append('<i class="fa fa-spinner fa-spin"></i>');
+        $this.addClass('processing');
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: ajax_search_term_object.ajaxurl,
+            data: {
+                'action': 'send_attendees_msg',
+                'msgContent': msgContent,
+                'attendees': attendees,
+                'uid': uid,
+                'lpNonce' : jQuery('#lpNonce').val()
+            },
+            success: function (res) {
+                responseData.status =   'success';
+                responseData.msg    =   msgSuccess;
+                ajax_success_popup( responseData, $this );
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+});
+jQuery(document).on('click', '.open-send-msg-form, .cancel-send-mas-atten', function (e) {
+    e.preventDefault();
+    jQuery('#notification-form').slideToggle('fast', function () {
+        jQuery("html, body").animate({ scrollTop:  jQuery('#notification-form').offset().top }, 1000);
+    });
+});
+
+jQuery(document).on('click', '.attendees-pagination span', function (e) {
+    e.preventDefault();
+    var $this   =   jQuery(this),
+        pageNo  =   $this.data('pageurl'),
+        targetC =   '.attendees-pagin-wrap-'+pageNo;
+
+    if( jQuery(this).hasClass( 'current' ) )
+    {
+        return false;
+    }
+    jQuery('.attendees-pagination span.current').removeClass('current');
+    $this.addClass('current');
+    jQuery('.current-pagin-wrap').fadeOut(500, function () {
+        jQuery('.current-pagin-wrap').removeClass('current-pagin-wrap');
+        jQuery(targetC).fadeIn(500, function () {
+            jQuery(targetC).addClass('current-pagin-wrap');
+        })
+    });
+});
+
+jQuery(document).on('click', '.listing-tabs-element li a', function (e) {
+    e.preventDefault();
+    var $this       =   jQuery(this),
+        taxonomy    =   $this.attr('data-tax'),
+        term        =   $this.attr('data-term'),
+        numPost     =   $this.attr('data-num'),
+        layout     =   $this.attr('data-layout'),
+        list     =   $this.attr('data-list'),
+        grid     =   $this.attr('data-grid');
+
+
+    jQuery('.listing-tabs-element li.active').removeClass('active');
+    $this.closest( 'li' ).addClass('active');
+    jQuery('#listing-tabs-inner-container').html();
+    jQuery('#listing-tabs-inner-container').closest('.wpb_wrapper').find('.listingcampaings').remove();
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ajax_search_term_object.ajaxurl,
+        data: {
+            'action': 'listing_tabs_get_listings',
+            'taxonomy': taxonomy,
+            'term': term,
+            'numPost': numPost,
+            'layout': layout,
+            'list': list,
+            'grid': grid,
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success: function (res) {
+            jQuery('#listing-tabs-inner-container').html(res);
+            jQuery('#listing-tabs-inner-container').find('.listingcampaings').remove();
+            
+            jQuery('#listing-tabs-inner-container').find('.app-view-new-ads-slider').slick({
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false
+            });
+            
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+
+})
+
+//for events calander
+jQuery(document).on('click', '.calender-header-switcher ul li', function(){
+    var $this   =   jQuery(this);
+
+    jQuery('.calender-header-switcher ul li.active').removeClass('active');
+    $this.addClass('active');
+
+    var calanderType    =   'event-calender-list-view';
+    if( jQuery('.calender-type-wrap').length > 0 )
+    {
+        calanderType    =   jQuery('.calender-type-wrap').data('ctype');
+    }
+
+    getCalanderMapView( calanderType, $this );
+
+});
+jQuery(document).on('click', '.close-active-box', function (e) {
+    e.preventDefault();
+    jQuery('.current-active-box').removeClass('current-active-box');
+    jQuery('.active-event-for-map').removeClass('active-event-for-map');
+    jQuery('.caew-box').removeClass('caew-box').fadeOut(500);
+    jQuery('.event-calander-classic2').fadeOut(500);
+    jQuery('.calender-header-switcher ul li').removeClass('active');
+    jQuery('.calender-header-switcher ul li.show-calader-list').addClass('active');
+    jQuery('.calender-type-wrap').attr('data-activetoggle', 'calander');
+    if(jQuery('.event-calander-classic2').length) {
+        jQuery('.event-by-day-wrap').fadeOut();
+    }
+});
+jQuery(document).on('click', '.week-day-date-box.has-events', function (e) {
+    e.preventDefault();
+
+    var $this       =   jQuery(this),
+        ewtTarget   =   $this.data('ewt'),
+        targetDate  =   $this.data('todaytime'),
+        targetDateA =   targetDate.split('-');
+
+    jQuery('.current-active-box').removeClass('current-active-box');
+    if( $this.hasClass('current-active-box') )
+    {
+        $this.removeClass('current-active-box');
+        jQuery('.active-event-for-map').removeClass('active-event-for-map');
+        jQuery('.caew-box').removeClass('caew-box').fadeOut(500);
+        jQuery('.event-calander-classic2').fadeOut(500);
+        return false;
+    }
+    else
+    {
+        $this.addClass('current-active-box');
+    }
+    if( jQuery('.modern-calender-inner-left').length > 0 )
+    {
+        if( jQuery('.events-by-day-wrap.caew-box').length > 0 )
+        {
+            if( jQuery('.calender-type-wrap').attr('data-activetoggle') == 'map' )
+            {
+                jQuery('.active-event-for-map').removeClass('active-event-for-map');
+                jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('caew-box active-event-for-map');
+                jQuery('.calender-header-switcher ul li.show-calander-map').trigger('click');
+            }
+            else
+            {
+                jQuery('.active-event-for-map').removeClass('active-event-for-map');
+                jQuery('.caew-box').removeClass('caew-box').fadeOut(500, function () {
+                    jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('caew-box active-event-for-map').fadeIn();
+                });
+            }
+        }
+        else
+        {
+            jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('caew-box active-event-for-map').fadeIn();
+        }
+        jQuery('.calender-header-moderen-date2 .today-event-date-container p').html(targetDateA[1]+ ' ' + targetDateA[0] +'<span>'+ targetDateA[2] +'</span>');
+    }
+    else
+    {
+        if( jQuery('.event-calander-classic2').length > 0 )
+        {
+            showClassic2CalEvents(ewtTarget, targetDate);
+        }
+        else
+        {
+            showClassicCalEvents(ewtTarget);
+        }
+    }
+
+});
+jQuery(document).on('click', '.get-npm', function (e) {
+    e.preventDefault();
+    if( jQuery(this).hasClass('disabled') )
+    {
+        return false;
+    }
+    var $this           =   jQuery(this),
+        targetDate      =   $this.data('npmnum'),
+        currentCMN      =   jQuery('.cc-month').data('cmn'),
+        cTypClass       =   jQuery('.calender-type-wrap').data('ctype'),
+        cTypee          =   'classic',
+        targetAction    =   'nm',
+        currentMN       =   '',
+        currentYN       =   '',
+        per_page        =   '';
+
+    if( jQuery('#event_per_page').length > 0 )
+    {
+        per_page    =   jQuery('#event_per_page').val();
+    }
+    if( cTypee == 'classic' && jQuery('#ec_classic2_check').length > 0 )
+    {
+        cTypee  =   jQuery('#ec_classic2_check').val();
+    }
+    if( cTypClass == 'event-calender-modern' )
+    {
+        cTypee   =   'modern';
+    }
+    if( cTypClass == 'event-calender-list-view' )
+    {
+        cTypee  =   'list'
+    }
+    if( cTypClass == 'event-calender-classic-weekly' )
+    {
+        cTypee  =   'weekly';
+    }
+    if (currentCMN.indexOf(',') > -1)
+    {
+        var currentCMNArr   =   currentCMN.split(','),
+            currentMN       =   currentCMNArr[0],
+            currentYN       =   currentCMNArr[1];
+    }
+
+    if( $this.hasClass( 'btn-pm' ) )
+    {
+        targetAction    =   'pm';
+    }
+
+    if (targetDate.indexOf(',') > -1)
+    {
+        var targetDateArr   =   targetDate.split(','),
+            targetDateM     =   targetDateArr[0],
+            targetDateY     =   targetDateArr[1];
+
+
+        jQuery('.'+cTypClass).fadeOut(500, function () {
+            jQuery('.event-spinner').fadeIn();
+        });
+
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: ajax_search_term_object.ajaxurl,
+            data: {
+                'action': 'get_event_calender_data',
+                'targetDateM': targetDateM,
+                'targetDateY': targetDateY,
+                'targetAction' : targetAction,
+                'currentMN' : currentMN,
+                'currentYN' : currentYN,
+                'cTypee' : cTypee,
+                'per_page' : per_page,
+                'lpNonce' : jQuery('#lpNonce').val()
+            },
+            success: function (res) {
+                if( res.status == 'success' )
+                {
+                    jQuery('.prev-mon-markup').html(res.prev_mon_markup);
+                    jQuery('.next-mon-markup').html(res.next_mon_markup);
+                    jQuery('.curr-mon-markup').html(res.curr_mon_markup);
+
+                    if( cTypee == 'weekly' )
+                    {
+                        jQuery('.event-calender-weekly').html(res.calender_markup);
+                        jQuery('.event-calender-weekly').addClass('events-after-ajax');
+                    }
+                    else
+                    {
+                        jQuery('.event-calender-monthly').html(res.calender_markup);
+                        if(cTypee == 'modern') {
+                            var target_first_event  =   jQuery('.month-dates-wrap .week-day-date-box.has-events:first').attr('data-ewt'),
+                                target_daytime      =   jQuery('.month-dates-wrap .week-day-date-box.has-events:first').attr('data-todaytime');
+
+                            var target_daytime_arr  =   target_daytime.split('-');
+                            var target_day_markup   =   target_daytime_arr[1]+' '+target_daytime_arr[0]+' <span>'+target_daytime_arr[2]+'</span>';
+                            jQuery('.events-by-day-wrap[data-ebdt='+target_first_event+']').addClass('caew-box active-event-for-map').fadeIn();
+                            jQuery('.today-event-date-container p').html(target_day_markup);
+                        }
+
+                    }
+                    jQuery('.event-spinner').fadeOut(500, function () {
+                        jQuery('.'+cTypClass).fadeIn();
+                    });
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+});
+jQuery(document).on('click', '.event-pager ul li span', function (e) {
+    var $this   =   jQuery(this),
+        pageNo  =   $this.data('pageno');
+
+    if( $this.hasClass('current') )
+    {
+        return false;
+    }
+    jQuery('.event-pager ul li .current').removeClass('current');
+    $this.addClass('current');
+    jQuery('.list-calendar-pager-wrap.current-event-page-active').fadeOut(500, function () {
+
+        jQuery('.list-calendar-pager-wrap.current-event-page-active').removeClass('current-event-page-active');
+        jQuery('.list-calendar-pager-wrap .active-event-for-map').removeClass('active-event-for-map');
+
+        if( jQuery('.calender-type-wrap').attr('data-activetoggle') == 'map' )
+        {
+            jQuery('.list-calendar-pager-wrap:eq( '+ pageNo +' )').addClass('current-event-page-active');
+            jQuery('.current-event-page-active .events-by-day-wrap').addClass('active-event-for-map');
+            jQuery('.calender-header-switcher ul li.show-calander-map').trigger('click');
+        }
+        else
+        {
+            jQuery('.list-calendar-pager-wrap:eq( '+ pageNo +' )').fadeIn(500, function(){
+                jQuery('.list-calendar-pager-wrap:eq( '+ pageNo +' )').addClass('current-event-page-active');
+                jQuery('.current-event-page-active .events-by-day-wrap').addClass('active-event-for-map');
+            });
+        }
+
+    });
+});
+jQuery(document).on('click', '.event-npw', function(){
+    var $this       =   jQuery(this),
+        targetWeek  =   $this.data('targetweek');
+
+    var maxWeeks    =   jQuery('.event-calender-weekly .week-days-wrap').length;
+
+    if( targetWeek > 0 && targetWeek <= maxWeeks )
+    {
+        jQuery('.week-days-wrap.active-week').removeClass('active-week');
+
+        jQuery('.week-days-wrap').hide();
+        jQuery('.event-week-'+targetWeek).show();
+        jQuery('.week-days-wrap.event-week-'+targetWeek).addClass('active-week');
+
+        var weekFirstDate   =   jQuery('.week-days-wrap.active-week .lp-week-days-wrape-inner-container .week-day-box:first .week-day-date').text();
+        var weekLastDate    =   jQuery('.week-days-wrap.active-week .lp-week-days-wrape-inner-container .week-day-box:last .week-day-date').text();
+
+        if( weekFirstDate == '' )
+        {
+            weekFirstDate   =   '1';
+        }
+        if( weekLastDate == '' )
+        {
+            weekLastDate    =   '31';
+        }
+        getActiveWeekEvents(weekFirstDate, weekLastDate);
+    }
+});
+jQuery(document).on('click', '.week-days-wrap .week-day-box.has-events', function () {
+
+    var $this   =   jQuery(this),
+        targetE =   $this.data('ewt');
+
+    jQuery('.events-for-day:visible').slideUp('fast', function () {
+        jQuery('.'+targetE).slideDown('fast');
+    });
+
+});
+jQuery(document).ready(function () {
+    jQuery('.active-week').removeClass('active-week');
+    jQuery('.week-day-box.has-events:first').closest('.week-days-wrap').addClass('active-week');
+
+    var weekFirstDate   =   jQuery('.week-days-wrap.active-week .lp-week-days-wrape-inner-container .week-day-box:first .week-day-date').text();
+    var weekLastDate    =   jQuery('.week-days-wrap.active-week .lp-week-days-wrape-inner-container .week-day-box:last .week-day-date').text();
+
+    getActiveWeekEvents(weekFirstDate, weekLastDate);
+
+    if( jQuery('.event-calender-modern').length > 0 )
+    {
+        jQuery('.week-day-date-box.has-events:first').trigger('click');
+    }
+
+});
+
+function showClassicCalEvents(ewtTarget)
+{
+    jQuery('.event-calender-classic-map').empty();
+    if( jQuery('.events-by-day-wrap.caew-box').length > 0 )
+    {
+        jQuery('.active-event-for-map').removeClass('active-event-for-map');
+        jQuery('.caew-box').removeClass('caew-box').fadeOut(500, function () {
+            jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('caew-box').fadeIn();
+            jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').find('.event-by-day-wrap').addClass('active-event-for-map');
+            if( jQuery('.calender-type-wrap').attr('data-activetoggle') == 'map' )
+            {
+                jQuery('.active-event-for-map').hide();
+                jQuery('.calender-header-switcher ul li.show-calander-map.show-calander-map-'+ewtTarget).trigger('click');
+            }
+            else
+            {
+                jQuery('.calender-header-switcher ul li.show-calader-list').addClass('active');
+                jQuery('.active-event-for-map').show();
+            }
+        });
+    }
+    else
+    {
+        jQuery('.active-event-for-map').removeClass('active-event-for-map');
+        jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('caew-box').fadeIn();
+        jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').find('.event-by-day-wrap').addClass('active-event-for-map');
+        if( jQuery('.calender-type-wrap').attr('data-activetoggle') != 'map' ){
+            jQuery('.events-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').find('.event-by-day-wrap').fadeIn();
+        }
+    }
+}
+
+function showClassic2CalEvents(ewtTarget, targetDate)
+{
+
+    var TargetDate  =   targetDate.split('-');
+
+    jQuery('.event-calander-classic2 .today-event-date-container span').text(TargetDate[1]+' '+TargetDate[0]);
+    jQuery('.event-calender-classic-map').empty();
+    jQuery('.active-event-for-map').hide().removeClass('active-event-for-map');
+    jQuery('.event-calander-classic2').fadeIn(500);
+    if( jQuery('.calender-type-wrap').attr('data-activetoggle') == 'map' )
+    {
+        jQuery('.event-calander-classic2 .event-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('active-event-for-map');
+        jQuery('.event-calander-classic2 .calender-header-switcher .show-calander-map').trigger('click');
+    }
+    else
+    {
+        jQuery('.event-calander-classic2 .event-by-day-wrap[data-ebdt="'+ ewtTarget +'"]').addClass('active-event-for-map').fadeIn();
+    }
+}
+function getActiveWeekEvents(weekFirstDate, weekLastDate)
+{
+    jQuery('.event-calender-weekly .event-by-day-wrap-inner.events-for-day').each(function () {
+        var $this       =   jQuery(this),
+            targetDate  =   $this.data('targetdate');
+        $this.removeClass('active-event-for-map');
+        $this.fadeOut(500);
+
+        if( targetDate >= weekFirstDate && targetDate <= weekLastDate )
+        {
+            $this.addClass('active-event-for-map');
+            if(
+                jQuery('.calender-type-wrap').attr('data-activetoggle') == 'calander' ||
+                jQuery('.calender-type-wrap').attr('data-activetoggle') == undefined
+            )
+            {
+                $this.fadeIn(500);
+            }
+        }
+    });
+    if( jQuery('.calender-type-wrap').attr('data-activetoggle') == 'map' )
+    {
+        jQuery('.calender-header-switcher ul li.show-calander-map').trigger('click');
+    }
+}
+function getCalanderMapView( cType, $this )
+{
+    var mapWrapTartget  =   '.event-calender-weekly-map',
+        eventWrapTarget =   '.event-by-day-wrap-inner',
+        mapContainer    =   'map';
+
+    if( cType == 'event-calender-list-view' )
+    {
+        mapWrapTartget  =   '.event-calander-list-map';
+        eventWrapTarget =   '.current-event-page-active';
+    }
+    if( cType == 'event-calender-modern' )
+    {
+        mapWrapTartget  =   '.event-calander-moder-map';
+        eventWrapTarget =   '.events-by-day-wrap.active-event-for-map';
+    }
+    if( cType == 'event-calender-classic' )
+    {
+        eventWrapTarget =   '.event-by-day-wrap.active-event-for-map';
+        if( jQuery('.event-calander-classic2').length == 0 )
+        {
+            var mapDate =   $this.data('targetdate');
+            mapWrapTartget  =   '.event-calender-classic-map.classic-map-'+mapDate;
+        }
+        else
+        {
+            mapWrapTartget  =   '.event-calender-classic-map';
+        }
+    }
+
+    if( $this.hasClass('show-calander-map') )
+    {
+        jQuery('div[data-ctype="'+ cType +'"]').attr('data-activetoggle', 'map');
+        jQuery(eventWrapTarget).fadeOut(500, function () {
+            jQuery(mapWrapTartget).empty();
+            jQuery(mapWrapTartget).html('<div id="map" class="event-calander-map"></div>');
+            jQuery(mapWrapTartget).fadeIn();
+            loadCalanderMap(mapContainer);
+        });
+    }
+    if( $this.hasClass('show-calader-list') )
+    {
+        jQuery('div[data-ctype="'+ cType +'"]').attr('data-activetoggle', 'calander');
+        jQuery(mapWrapTartget).fadeOut(500, function () {
+            if( cType == 'event-calender-classic-weekly' )
+            {
+                var weekFirstDate   =   jQuery('.week-days-wrap.active-week .lp-week-days-wrape-inner-container .week-day-box:first .week-day-date').text();
+                var weekLastDate    =   jQuery('.week-days-wrap.active-week .lp-week-days-wrape-inner-container .week-day-box:last .week-day-date').text();
+                getActiveWeekEvents(weekFirstDate, weekLastDate);
+            }
+            if( cType == 'event-calender-list-view' || cType == 'event-calender-modern' || cType == 'event-calender-classic' )
+            {
+                jQuery(eventWrapTarget).fadeIn(500);
+            }
+
+        });
+    }
+}
+function loadCalanderMap(mapContainer)
+{
+    var defmaplat = jQuery('body').data('defaultmaplat');
+    var defmaplong = jQuery('body').data('defaultmaplot');
+
+    var map = null
+    $mtoken = jQuery('#page').data("mtoken");
+    $mtype = jQuery('#page').data("mtype");
+    $mapboxDesign = jQuery('#page').data("mstyle");
+
+    if($mtoken != '' && $mtype == 'mapbox'){
+
+        L.mapbox.accessToken = $mtoken;
+        map = L.mapbox.map(mapContainer, 'mapbox.streets');
+        L.tileLayer('https://api.tiles.mapbox.com/v4/'+$mapboxDesign+'/{z}/{x}/{y}.png?access_token='+$mtoken+'', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery Â© <a href="http://mapbox.com">Mapbox</a>',
+            id: 'mapbox.light'
+        }).addTo(map);
+
+        var markers = new L.MarkerClusterGroup();
+        initializeMap(markers);
+        if(markers===undefined){}else{
+            map.fitBounds(markers.getBounds());
+            map.scrollWheelZoom.disable();
+        }
+    }else{
+
+        var map = new L.Map('map', {
+            minZoom: 3,
+        }).setView(new L.LatLng(defmaplat, defmaplong), 18);
+        if($mtype == 'google'){
+            L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                maxZoom: 18,
+                subdomains:['mt0','mt1','mt2','mt3'],
+                noWrap: true,
+            });
+            var googleLayer = new L.Google('ROADMAP');
+            map.addLayer(googleLayer);
+        }else{
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        }
+        var markers = new L.MarkerClusterGroup();
+        initializeMap(markers);
+        if(markers===undefined){}else{
+
+            map.fitBounds(markers.getBounds(), {padding: [50, 50]});
+
+        }
+    }
+    function initializeMap(markers) {
+        markers.clearLayers();
+        if( jQuery('.active-event-for-map').length > 0)
+        {
+            jQuery('.active-event-for-map').each(function () {
+                var LPtitle  = jQuery(this).data("title"),
+                    siteURL     = jQuery('#page').data("site-url");
+                    LPposturl  = jQuery(this).data("posturl"),
+                    LPlattitue  = jQuery(this).data("lattitue"),
+                    LPlongitute  = jQuery(this).data("longitute"),
+                    LPpostid  = jQuery(this).data("postid"),
+                    LPimageSrc  = jQuery(this).find('.event-img').find('img').attr('src'),
+                    LPaddress   =   jQuery(this).data('address');
+
+                if(LPlattitue != '' && LPlongitute != '')
+                {
+                    var LPimage = '';
+                    if(LPimageSrc != ''){
+                        LPimage = LPimageSrc;
+                    }
+
+                    var markerLocation = new L.LatLng(LPlattitue, LPlongitute); // London
+
+                    var CustomHtmlIcon = L.HtmlIcon.extend({
+                        options : {
+                            html : "<div class='lpmap-icon-shape pin card"+LPpostid+"'><div class='lpmap-icon-contianer'><img src='"+siteURL+"/wp-content/themes/listingpro/assets/images/pins/lp-logo.png' /></div></div>",
+                        }
+                    });
+
+                    var customHtmlIcon = new CustomHtmlIcon();
+                    var marker = new L.Marker(markerLocation, {icon: customHtmlIcon}).bindPopup('<div class="map-post"><div class="map-post-thumb"><a href="'+LPposturl+'"><img src="'+LPimage+'" ></a></div><div class="map-post-des"><div class="map-post-title"><h5><a href="'+LPposturl+'">'+LPtitle+'</a></h5></div><div class="map-post-address"><p><i class="fa fa-map-marker"></i> '+LPaddress+'</p></div></div></div>').addTo(map);
+
+                    markers.addLayer(marker);
+                    map.addLayer(markers);
+                }
+            });
+
+        }
+        else
+        {
+            alert('no listing foound');
+        }
+
+    }
+}
+jQuery(document).on('click', '.event-tickets-list-dash i', function (e) {
+    var $this           =   jQuery(this),
+        $thisWrap       =   $this.closest('.event-tickets-list-dash'),
+        currentUrls     =   $thisWrap.find('input[type="hidden"]').val(),
+        ticketPlatform  =   $this.attr('data-ticket-platform'),
+        ticketUrl       =   $this.attr('data-ticket-url'),
+        newUrls         =   '';
+    if (currentUrls.indexOf(',') > -1)
+    {
+        if( currentUrls.indexOf(','+ticketPlatform) > -1 )
+        {
+            var findStr =   ','+ticketPlatform+'|'+ticketUrl;
+        }
+        else
+        {
+            var findStr =   ticketPlatform+'|'+ticketUrl;
+        }
+        newUrls =   currentUrls.replace( findStr, '' );
+    }
+    else
+    {
+        var findStr =   ticketPlatform+'|'+ticketUrl;
+        newUrls =   currentUrls.replace( findStr, '' );
+    }
+    $thisWrap.find('input[type="hidden"]').val(newUrls);
+    jQuery(this).closest('li').remove();
+});
+
+jQuery(document).on('click', '#add-event-ticket-platform', function(e){
+    var thisWrap        =   jQuery(this).closest('.lp-coupon-box-row'),
+        ticketPlatform  =   thisWrap.find('.event-tickets-platforms').val(),
+        ticketUrl       =   thisWrap.find('.event-ticket-url').val(),
+        currentUrls     =   thisWrap.find('input[type="hidden"]').val();
+    if( ticketUrl == '' )
+    {
+        thisWrap.find('.event-ticket-url').addClass('error');
+        return false;
+    }
+    else
+    {
+        thisWrap.find('.event-ticket-url').removeClass('error');
+    }
+    if( ticketPlatform == '' )
+    {
+        thisWrap.find('.event-tickets-platforms').addClass('error');
+        return false;
+    }
+    else
+    {
+        thisWrap.find('.event-tickets-platforms').removeClass('error');
+    }
+    var embedMarkup =   '<li><strong>'+ ticketPlatform +'</strong> '+ ticketUrl +' <i class="fa fa-times" data-ticket-platform="'+ ticketPlatform +'" data-ticket-url="'+ ticketUrl +'"></i></li>';
+    thisWrap.find('.event-tickets-list-dash ul').append( embedMarkup );
+    
+    if( currentUrls == '' )
+    {
+        thisWrap.find('input[type="hidden"]').val(ticketPlatform+'|'+ticketUrl);
+    }
+    else
+    {
+        thisWrap.find('input[type="hidden"]').val(currentUrls+','+ticketPlatform+'|'+ticketUrl);
+    }
+});
+
+jQuery(document).on('click', '#add-new-service', function (e) {
+    var $this       =   jQuery(this),
+        uid         =   $this.attr('data-uid'),
+        $thisWrap   =   $this.closest( '.ordering-service-wrap' ),
+        serviceVal  =   $thisWrap.find('select').val(),
+        serviceUrl  =   $thisWrap.find('input#service_url').val();
+    if( $thisWrap.find('li:contains("'+ serviceVal +'")') .length )
+    {
+        $thisWrap.find('li:contains("'+ serviceVal +'")').css('color', 'red');
+        return false;
+    }
+    if (jQuery('#service_url').val().length < 1){
+        jQuery('.form-group.menu_online_order_url').addClass('with_error');
+        return false;
+    }else {
+        jQuery('.form-group.menu_online_order_url').removeClass('with_error');
+        if(/^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(jQuery("#service_url").val())){
+                    jQuery('.form-group.menu_online_order_url').removeClass('with_error');
+
+        } else {
+            jQuery('.form-group.menu_online_order_url').addClass('with_error');
+            return false;
+
+        }
+    }
+
+    jQuery('#add-new-service-spinner').fadeIn();
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ajax_search_term_object.ajaxurl,
+        data:{
+            'action': 'add_menu_service_cb',
+            'serviceVal' : serviceVal,
+            'serviceUrl': serviceUrl,
+            'user_id' : uid,
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success: function( res )
+        {
+            jQuery('.form-group.menu_online_order_url').removeClass('with_error');
+            if( res.status == 'success' )
+            {
+                jQuery('#add-new-service-spinner').fadeOut();
+                $thisWrap.find('li.no-services').remove();
+                $thisWrap.find('ul').append(res.msg);
+            }
+            console.log(res);
+        },
+        error: function( err )
+        {
+            alert( err );
+            $this.find('i').remove();
+        }
+    });
+});
+jQuery(document).on('click', '#add-new-type', function (e) {
+    e.preventDefault();
+    var $this        =   jQuery(this),
+        $thisWrap    =   $this.closest('#manage-types-content'),
+        newType      =   $thisWrap.find('input[type="text"]').val(),
+        uid          =   $this.data('uid');
+    if( newType == '' )
+    {
+        $thisWrap.find('input[type="text"]').addClass('error');
+        return false;
+    }
+    else
+    {
+        $thisWrap.find('input[type="text"]').removeClass('error');
+        $this.addClass('processing');
+    }
+    if( $thisWrap.find('li:contains("'+ newType +'")') .length )
+    {
+        $thisWrap.find('li:contains("'+ newType +'")').css('color', 'red');
+        return false;
+    }
+    jQuery('#add-new-type-spinner').fadeIn();
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ajax_search_term_object.ajaxurl,
+        data:{
+            'action': 'add_menu_type_cb',
+            'user_id' : uid,
+            'type' : newType,
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success: function( res )
+        {
+            jQuery('#add-new-type-spinner').fadeOut();
+            $this.removeClass('processing');
+            $thisWrap.find('input[type="text"]').val('');
+            jQuery('.lp-menu-step-one .panel-heading .nav-tabs li.active').removeClass('active');
+            jQuery('.lp-menu-step-one .panel-body .tab-content .tab-pane.active').removeClass('in active');
+            var embed_markup    =   '<li>'+ newType +' <span class="del-group-type del-type del-this" data-uid="'+ uid +'" data-targetid="'+ res.data_index +'"><i class="fa fa-trash"></i></span></li>';
+            var embed_tab       =   '<li class="active"><a href="#type-'+ newType +'" data-toggle="tab">'+ newType +'</a></li>';
+            var embed_tab_cn    =   '<div class="tab-pane fade in active" id="type-'+ newType +'"></div>';
+            $thisWrap.find('ul').append(embed_markup);
+            jQuery('.lp-menu-step-one .panel-heading .nav-tabs').append(embed_tab);
+            jQuery('.lp-menu-step-one .panel-body .tab-content').append(embed_tab_cn);
+        },
+        error: function( err )
+        {
+            alert( err );
+            $this.find('i').remove();
+        }
+    });
+});
+jQuery(document).on('click', '#add-new-group', function (e) {
+    e.preventDefault();
+    var $this        =   jQuery(this),
+        $thisWrap    =   $this.closest('#manage-groups-content'),
+        newGroup     =   $thisWrap.find('input[type="text"]').val(),
+        uid          =   $this.data('uid');
+    if( newGroup == '' )
+    {
+        $thisWrap.find('input[type="text"]').addClass('error');
+        return false;
+    }
+    else
+    {
+        $thisWrap.find('input[type="text"]').removeClass('error');
+        $this.addClass('processing');
+    }
+    if( $thisWrap.find('li:contains("'+ newGroup +'")') .length )
+    {
+        $thisWrap.find('li:contains("'+ newGroup +'")').css('color', 'red');
+        return false;
+    }
+    jQuery('#add-new-group-spinner').fadeIn();
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ajax_search_term_object.ajaxurl,
+        data:{
+            'action': 'add_menu_group_cb',
+            'user_id' : uid,
+            'group' : newGroup,
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success: function( res )
+        {
+            jQuery('#add-new-group-spinner').fadeOut();
+            $this.removeClass('processing');
+            $thisWrap.find('input[type="text"]').val('');
+            var embed_markup    =   '<li>'+ newGroup +' <span class="del-group-type del-group del-this" data-uid="'+ uid +'" data-targetid="'+ res.data_index +'"><i class="fa fa-trash"></i></span></li>';
+            $thisWrap.find('ul').append(embed_markup);
+            var optData = {
+                id: newGroup,
+                text: newGroup
+            };
+            var newOption = new Option(optData.text, optData.id, false, false);
+            jQuery('#menu-group').append(newOption).trigger('change');
+            var currentGroups   =   jQuery('#menu-group').val();
+            if( currentGroups == null )
+            {
+                jQuery('#menu-group').val(group).trigger('change');
+            }
+            else
+            {
+                currentGroups.push(group);
+                jQuery('#menu-group').val(currentGroups).trigger('change');
+            }
+        },
+        error: function( err )
+        {
+            alert( err );
+            $this.find('i').remove();
+        }
+    });
+});
+jQuery(document).on('click', '.manange-typs-groups-tabs li', function (e) {
+    e.preventDefault();
+    jQuery('.manange-typs-groups-tabs li.active').removeClass('active');
+    jQuery(this).addClass('active');
+
+    var targetID =   jQuery(this).attr('id');
+
+    if( targetID == 'manage-types-tab' )
+    {
+        jQuery('#manage-groups-content').removeClass('active-content');
+        jQuery('#manage-types-content').addClass('active-content');
+    }
+    else
+    {
+        jQuery('#manage-types-content').removeClass('active-content');
+        jQuery('#manage-groups-content').addClass('active-content');
+    }
+});
+jQuery('#menu-group').on('select2:select', function (e) {
+    jQuery('#menu-form-toggle').slideDown();
+});
+function myFuction(el) {
+    jQuery(el).find('.show-number').css('display', 'none');
+    jQuery(el).find('.grind-number').css('display', 'inline-block');
+}
+jQuery(document).on('click', '.listing-app-view-new-discount', function(){
+    var $this   =   jQuery(this),
+        target  =   $this.closest('.app-view2-first-recent');
+
+    jQuery('.app-view2-first-recent').find('.popover_overlay.active_popover_overlay').removeClass('active_popover_overlay');
+
+    if( $this.hasClass('current-active-pop')) {
+        $this.removeClass('current-active-pop')
+    } else {
+        $this.addClass('current-active-pop');
+        target.find('.popover_overlay').addClass('active_popover_overlay');
+    }
+});
+
+
+/* ******************  SHOW ALL MENUS OF SELECTED LISTING  ******************* */
+jQuery(document).on('change','#lp-menus #menu-listing', function() {
+
+    var selectedListingID = jQuery(this).find(":selected").val();
+
+
+    jQuery.ajax({
+        dataType:'html',
+        url: ajax_search_term_object.ajaxurl,
+        data:{
+            'action':'listingpro_dashboard_menu_of_listing',
+            'selectedListingID' : selectedListingID,
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success:function (res) {
+            jQuery('.lp-compaignForm-leftside .lp-menu-panel-body-outer').html(res);
+        },
+        error:function (err) {
+            console.log(err);
+        },
+    });
+
+});
+
+/* ******************  DELETE ALL MENUS OF LISTING  ******************* */
+jQuery(document).on('click', '.del-this-menu', function(e)
+{
+    e.preventDefault();
+    jQuery('.remove-active-menu').removeClass('remove-active-menu');
+    jQuery(this).addClass('remove-active-menu');
+    jQuery('#dashboard-delete-modal3').modal('show');
+    jQuery('.modal-backdrop').hide();
+});
+jQuery(document).on('click', '.dashboard-confirm-del-menu-btn', function (e) {
+    var $this       =   jQuery('.remove-active-menu'),
+        lid         =   $this.data('targetid'),
+        user_id     =   $this.data('uid');
+
+    jQuery(this).append('<i class="fa fa-spin fa-spinner" style="margin-left: 5px;"></i>');
+
+    jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ajax_search_term_object.ajaxurl,
+        data:{
+            'action': 'del_assigned_menu_to_listing',
+            'user_id' : user_id,
+            'lid' : lid,
+            'lpNonce' : jQuery('#lpNonce').val()
+        },
+        success: function( res )
+        {
+            if( res.status == 'success' )
+            {
+                location.reload();
+            }
+            $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
+        },
+        error: function( err )
+        {
+            console.log( err );
+            $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
+        }
+    });
+});
+jQuery(document).on('click', '.open-edit-this-menu', function (e) {
+    e.preventDefault();
+    var targetID        =   jQuery(this).data('targetid'),
+        listingTitle    =   jQuery(this).data('targettitle');
+
+    jQuery('.panel.with-nav-tabs.panel-default.lp-dashboard-tabs').fadeOut("slow", function () {
+        jQuery('div.tab-pane.fade.in.active.clearfix.lp-dashboard-menu-container').fadeIn("fast", function () {
+            jQuery('div.panel.with-nav-tabs.panel-default.lp-dashboard-tabs.lp-left-panel-height.lp-left-panel-height-outer').fadeIn("fast");
+        });
+    });
+
+    if(jQuery('#menu-listing').hasClass('select2-ajax')) {
+        if (jQuery('#menu-listing').find("option[value='" + targetID + "']").length) {
+            jQuery('#menu-listing').val(targetID).trigger('change');
+        } else {
+            var newOption = new Option(listingTitle, targetID, true, true);
+            jQuery('#menu-listing').append(newOption).trigger('change');
+        }
+    } else {
+        jQuery('#menu-listing').val(targetID);
+        jQuery('#menu-listing').trigger('change');
+    }
+
+});
+
+jQuery(document).on('click', '.discount-bar', function (e) {
+    var $this       =   jQuery(this),
+        thisWrap    =   $this.closest('.lp-listing-bottom-right');
+
+    $this.toggleClass('active-discount-bar');
+
+    if($this.hasClass('active-discount-bar')){
+        $this.find('i.pull-right').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+    } else {
+        $this.find('i.pull-right').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+    }
+
+
+    thisWrap.find('.coupons-bottom-content-wrap').slideToggle(function () {
+        $this.closest('.lp-listing-bottom-right').toggleClass('active');
+    });
+});
+
+jQuery(document).on('click', '.del-order-service', function (e) {
+   var $this    =   jQuery(this),
+       uid      =   $this.attr('data-uid'),
+       target   =   $this.attr('data-target');
+
+   if($this.hasClass('active-ajax')){
+
+   } else {
+       $this.addClass('active-ajax');
+       $this.find('i').removeClass('fa-trash').addClass('fa-spinner fa-spin');
+
+       jQuery.ajax({
+           type: 'POST',
+           dataType: 'json',
+           url: ajax_search_term_object.ajaxurl,
+           data:{
+               'action': 'del_ordering_service',
+               'uid' : uid,
+               'target' : target,
+               'lpNonce' : jQuery('#lpNonce').val()
+           },
+           success: function( res )
+           {
+               if( res.status == 'success' )
+               {
+                   $this.closest('li').remove();
+               }
+           },
+           error: function( err )
+           {
+               console.log( err );
+               $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
+           }
+       });
+   }
+});
+jQuery(document).on('click', '.delete-my-review', function (e) {
+    e.preventDefault();
+    var $this       =   jQuery(this),
+        reviewID    =   $this.attr('data-reviewid');
+
+    if($this.hasClass('active-ajax')) {
+
+    } else {
+        $this.addClass('active-ajax');
+        $this.append('<i class="fa fa-spinner fa-spin" style="margin-left: 5px;"></i>');
+
+        jQuery.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: ajax_search_term_object.ajaxurl,
+            data:{
+                'action': 'delete_own_review',
+                'reviewID' : reviewID,
+                'lpNonce' : jQuery('#lpNonce').val()
+            },
+            success: function( res )
+            {
+                location.reload();
+            },
+            error: function( err )
+            {
+                console.log( err );
+                $this.find('i').removeClass('fa-spin fa-spinner').addClass('fa-trash-o');
+            }
+        });
+    }
+
+});
+jQuery(document).ready(function () {
+    jQuery('.lp-ad-location-image').click(function (e) {
+        e.preventDefault();
+        var img_src = jQuery(this).find('img').data('model_img_src_ad');
+        jQuery('#ad_preview').find('img#imgsrc').attr('src', img_src);
+    });
+});
+jQuery(document).on('click', '.app-view2-show-search', function(e){
+    e.preventDefault();
+    var inputField = jQuery('.dropdown_fields');
+    inputField.trigger('click');
 });

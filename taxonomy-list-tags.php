@@ -7,7 +7,7 @@ global $listingpro_options;
 $listing_mobile_view            =   $listingpro_options['single_listing_mobile_view'];
 
 
-if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
+if( ($listing_mobile_view == 'app_view' && $listing_mobile_view == 'app_view2') && wp_is_mobile() )
 {
     get_header('app-view');
 }
@@ -24,6 +24,10 @@ if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
 {
     get_template_part( 'mobile/templates/listing-with-map-app' );
 }
+elseif ( $listing_mobile_view == 'app_view2' && wp_is_mobile() )
+{
+    get_template_part( 'mobile/templates/listing-with-map-app-new' );
+}
 else
 {
     switch($listing_style) {
@@ -38,11 +42,13 @@ else
             break;
 		case '4': get_template_part( 'templates/listing-with-header-filters' );
         break;
+        case '5': get_template_part( 'templates/listing-with-sidebar-filters' );
+            break;
 
     }
 }
 
-if( $listing_mobile_view == 'app_view' && wp_is_mobile() )
+if( ($listing_mobile_view == 'app_view' && $listing_mobile_view == 'app_view2') && wp_is_mobile() )
 {
     get_footer('app-view');
 }

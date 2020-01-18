@@ -5,6 +5,12 @@ add_action('wp_ajax_importDemo', 'importDemo');
 add_action('wp_ajax_nopriv_importDemo', 'importDemo');
 if(!function_exists('importDemo')){
 	function importDemo(){
+        check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            $res = json_encode(array('nonceerror'=>'yes'));
+            die($res);
+        }
 		$layout = null;
 		$res = null;
 

@@ -4,24 +4,64 @@ if(session_id() == '') {
 }
 /* ================================save data via paypal====================================== */
 if(!function_exists('lp_save_campaign_data')){
-    function lp_save_campaign_data($adID, $transactionID, $method, $token, $status, $price, $lpTOtalprice = '', $listing_id='', $adsofType, $ads_days,$ads_price){
+    function lp_save_campaign_data($price_packages, $transactionID, $method, $token, $status,$price= '', $budget = '', $listing_id='', $adsofType, $ads_days, $ads_price, $taxPrice){
         global $wpdb,$listingpro_options;
         $dbprefix = $wpdb->prefix;
-        $user_ID = '';
         $user_ID = get_current_user_id();
         $currency_code = '';
-        $currency_code = $listingpro_options['currency_paid_submission'];
+        $currency_code = lp_theme_option('currency_paid_submission');
         $priceKeyArray = 0;
         $packagesDetails ='';
-        $enableTax = false;
-        $Taxrate='';
-        if($listingpro_options['lp_tax_swtich']=="1"){
-            $enableTax = true;
-            $Taxrate = $listingpro_options['lp_tax_amount'];
-        }
 
-        $price_packages = $_SESSION['price_package'];
-        if(empty($lpTOtalprice)){
+        $expiryDate = '';
+		$currentdate = date("d-m-Y");
+		$expiryDate = date("d-m-Y", strtotime(' + '.$ads_days.' days'));
+		
+		$ad_title = lp_theme_option('lp_pro_title_offer');
+		if(empty($ad_title)){
+			$ad_title = esc_html__('Black Friday 50% Off', 'listingpro');
+		}
+		$my_post = array(
+			'post_title'    => $ad_title,
+			'post_status'   => 'publish',
+			'post_type' => 'lp-ads',
+		);
+		$adID = wp_insert_post( $my_post );
+
+		listing_set_metabox('ads_listing', $listing_id, $adID);
+
+		listing_set_metabox('ads_mode', $adsofType, $adID);
+		if($adsofType=="perclick"){
+			listing_set_metabox('remaining_balance', $budget, $adID);
+		}else{
+            update_post_meta($adID,'campain_expire_date', $expiryDate);
+        }
+		
+		listing_set_metabox('duration', $ads_days, $adID);
+		listing_set_metabox('budget', $budget, $adID);
+		
+
+		listing_set_metabox('ad_status', 'Active', $adID);
+		listing_set_metabox('campaign_id', $adID, $listing_id);
+		update_post_meta( $listing_id, 'campaign_status', 'active' );
+
+		$priceKeyArray = array();
+		if( !empty($price_packages) ){
+			foreach( $price_packages as $val ){
+				$priceKeyArray[] = $val;
+				update_post_meta( $listing_id, $val, 'active' );
+			}
+		}
+
+		if( !empty($priceKeyArray) ){
+
+			listing_set_metabox('ad_type', $priceKeyArray, $adID);
+		}
+			
+		
+ 	if(!empty($price_packages)){
+        //$price_packages = $_SESSION['price_package'];
+        if(empty($budget)){
             if( !empty($price_packages) && is_array($price_packages) ){
 				$sepVar = ' and ';
 				if( count($price_packages) > 2 ){
@@ -40,31 +80,12 @@ if(!function_exists('lp_save_campaign_data')){
                         $packagesDetails .= esc_html__('Top in Search Page Ads', 'listingpro');
 						$packagesDetails .= $sepVar;
                     }
-                    $taxPrice = 0;
-                    if($enableTax=="1" && !empty($Taxrate)){
-                        $taxPrice = ($Taxrate / 100)*$listingpro_options[$val];
-                        $priceKeyArray = $listingpro_options[$val]+$priceKeyArray+$taxPrice;
-                    }
-                    else{
-                        $priceKeyArray = $listingpro_options[$val]+$priceKeyArray;
-                    }
+                    
 					update_post_meta( $listing_id, $val, 'active' );
-                }
-            }
-            else if(!empty($price_packages) && !is_array($price_packages)){
-
-                $taxPrice = 0;
-                if($enableTax=="1" && !empty($Taxrate)){
-                    $taxPrice = ($Taxrate / $priceKeyArray)*100;
-                    $priceKeyArray = $priceKeyArray+$taxPrice;
-                }
-                else{
-                    $priceKeyArray = $price_packages;
                 }
             }
         }
         else{
-            //$priceKeyArray = $lpTOtalprice;
             if( !empty($price_packages) && is_array($price_packages) ){
 				$sepVar = ' and ';
 				if( count($price_packages) > 2 ){
@@ -83,14 +104,102 @@ if(!function_exists('lp_save_campaign_data')){
                         $packagesDetails .= esc_html__('Top in Search Page Ads', 'listingpro');
 						$packagesDetails .= $sepVar;
                     }
-                    //$priceKeyArray = $listingpro_options[$val]+$priceKeyArray;
-                    $priceKeyArray = $lpTOtalprice;
 					update_post_meta( $listing_id, $val, 'active' );
                 }
             }
         }
+        }
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        lp_create_campaign_table();
+
+		$insert_sql = array(
+			'user_id' => $user_ID,
+			'post_id' => $adID,
+			'payment_method' => $method,
+			'token' => $token,
+			'price' => $ads_price,
+			'currency' => $currency_code,
+			'status' => $status,
+			'transaction_id' => $transactionID,
+			'mode' => $adsofType,
+			'duration' => $ads_days,
+			'budget' => $budget,
+			'ad_date' => $currentdate,
+			'ad_expiryDate' => $expiryDate,
+			'tax' => $taxPrice
+		);
+		$table = 'listing_campaigns';
+		if($method=="wire"){
+			//for wire
+			
+			$data = array('post_id' => $adID,'status' => 'success');
+			$where = array('transaction_id' => $transactionID);
+			lp_update_data_in_db($table, $data, $where);
+			
+		}else{
+			lp_insert_data_in_db($table, $insert_sql);
+		}
+		
+
+        $current_user = wp_get_current_user();
+        $user_email = $current_user->user_email;
+        $admin_email = get_option('admin_email');
+        $listing_title = get_the_title($listing_id);
+        $listing_url = get_the_permalink($listing_id);
+        $campaign_packages = $packagesDetails;
+
+        $author_name = $current_user->user_login;
+        $website_url = site_url();
+        $website_name = get_option('blogname');
+        $user_name = $author_name;
+        /* for admin */
+        $subject = lp_theme_option('listingpro_subject_campaign_activate');
+        $mail_content = lp_theme_option('listingpro_content_campaign_activate');
+
+        $formated_mail_content = lp_sprintf2("$mail_content", array(
+            'campaign_packages' => "$campaign_packages",
+            'listing_title' => "$listing_title",
+            'listing_url' => "$listing_url",
+            'website_url' => "$website_url",
+            'website_name' => "$website_name",
+            'user_name' => "$user_name",
+            'author_name' => "$author_name"
+        ));
+        lp_mail_headers_append();
+        $headers[] = 'Content-Type: text/html; charset=UTF-8';
+        LP_send_mail( $admin_email, $subject, $formated_mail_content, $headers);
+        lp_mail_headers_remove();
+
+        /* for author */
+
+        $subject = lp_theme_option('listingpro_subject_campaign_activate_author');
+        $mail_content = lp_theme_option('listingpro_content_campaign_activate_author');
+
+        $formated_mail_content = lp_sprintf2("$mail_content", array(
+            'campaign_packages' => "$campaign_packages",
+            'listing_title' => "$listing_title",
+            'listing_url' => "$listing_url",
+            'website_url' => "$website_url",
+            'website_name' => "$website_name",
+            'user_name' => "$user_name",
+        ));
+		lp_mail_headers_append();
+        $headers[] = 'Content-Type: text/html; charset=UTF-8';
+        LP_send_mail( $user_email, $subject, $formated_mail_content, $headers);
+		lp_mail_headers_remove();
+
+    }
+}
+
+
+
+
+/* =============================listingpro create campaign table=========================== */
+if(!function_exists('lp_create_campaign_table')){
+	function lp_create_campaign_table(){
+		global $wpdb,$listingpro_options;
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $sql="
 		   CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_campaigns`
 		 (
@@ -108,83 +217,15 @@ if(!function_exists('lp_save_campaign_data')){
 			  duration varchar(255) default NULL,
 			  budget varchar(255) default NULL,
 			  ad_date varchar(255) default NULL,
-			  ad_expiryDate varchar(255) default NULL
+			  ad_expiryDate varchar(255) default NULL,
+			  tax varchar(255) default NULL
 			  
 		 );";
         dbDelta($sql);
-
-        /* $insert_sql ="
-				INSERT INTO `".$wpdb->prefix."listing_campaigns` VALUES ('','$user_ID','$adID','$method','$token','$lpTOtalprice','$currency_code','$status','$transactionID')";
-
-        dbDelta($insert_sql); */
-		
-		$insert_sql = array(
-			'user_id' => $user_ID,
-			'post_id' => $adID,
-			'payment_method' => $method,
-			'token' => $token,
-			'price' => $lpTOtalprice,
-			'currency' => $currency_code,
-			'status' => $status,
-			'transaction_id' => $transactionID,
-			'mode' => $adsofType,
-			'duration' => $ads_days,
-			'budget' => $ads_price,
-		);
-		$table = 'listing_campaigns';
-		lp_insert_data_in_db($table, $insert_sql);
-		
-
-        $current_user = wp_get_current_user();
-        $user_email = $current_user->user_email;
-        $admin_email = get_option('admin_email');
-        $listing_title = get_the_title($listing_id);
-        $listing_url = get_the_permalink($listing_id);
-        $campaign_packages = $packagesDetails;
-
-        $author_name = $current_user->user_login;
-        $website_url = site_url();
-        $website_name = get_option('blogname');
-        $user_name = $author_name;
-        /* for admin */
-        $subject = $listingpro_options['listingpro_subject_campaign_activate'];
-        $mail_content = $listingpro_options['listingpro_content_campaign_activate'];
-
-        $formated_mail_content = lp_sprintf2("$mail_content", array(
-            'campaign_packages' => "$campaign_packages",
-            'listing_title' => "$listing_title",
-            'listing_url' => "$listing_url",
-            'website_url' => "$website_url",
-            'website_name' => "$website_name",
-            'user_name' => "$user_name",
-            'author_name' => "$author_name"
-        ));
-		lp_mail_headers_append();
-        $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        wp_mail( $admin_email, $subject, $formated_mail_content, $headers);
-
-        /* for author */
-
-        $subject = $listingpro_options['listingpro_subject_campaign_activate_author'];
-        $mail_content = $listingpro_options['listingpro_content_campaign_activate_author'];
-
-        $formated_mail_content = lp_sprintf2("$mail_content", array(
-            'campaign_packages' => "$campaign_packages",
-            'listing_title' => "$listing_title",
-            'listing_url' => "$listing_url",
-            'website_url' => "$website_url",
-            'website_name' => "$website_name",
-            'user_name' => "$user_name",
-        ));
-		lp_mail_headers_append();
-        $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        wp_mail( $user_email, $subject, $formated_mail_content, $headers);
-		lp_mail_headers_remove();
-
-    }
+	}
 }
 
-/* ===========================================listingpro insert data in db============================================== */
+/* =========================listingpro insert data in db============================================== */
 
 if(!function_exists('lp_insert_data_in_db')){
     function lp_insert_data_in_db($table, $dataArray){

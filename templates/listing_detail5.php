@@ -67,9 +67,15 @@ if ( have_posts() ) {
         $menuImg = '';
         $menuMeta = get_post_meta($post->ID, 'menu_listing', true);
         if(!empty($menuMeta)){
-            $menuTitle = $menuMeta['menu-title'];
-            $menuImg = $menuMeta['menu-img'];
-            $menuOption = true;
+            if(isset($menuMeta['menu-title'])) {
+                    $menuTitle = $menuMeta['menu-title'];
+            }
+
+            $menuImg  =   '';
+            if(isset($menuMeta['menu-img'])) {
+                    $menuImg = $menuMeta['menu-img'];
+            }
+            $menuOption = true;        
         }
 
         $timekit = false;
@@ -93,7 +99,6 @@ if ( have_posts() ) {
         $user_cpinterest = '';
 
         $user_facebook = get_the_author_meta('facebook', $user_id);
-        $user_google = get_the_author_meta('google', $user_id);
         $user_linkedin = get_the_author_meta('linkedin', $user_id);
         $user_instagram = get_the_author_meta('instagram', $user_id);
         $user_twitter = get_the_author_meta('twitter', $user_id);
@@ -533,7 +538,7 @@ if ( have_posts() ) {
                                 global $listingpro_options;
                                 $authorURL = $listingpro_options['listing-author'];
                                 if (is_user_logged_in()) {
-                                    if ( is_plugin_active( 'listingpro-plugin/plugin.php' ) ) {
+                                    if (class_exists('ListingproPlugin')) {
                                         ?>
                                         <a href="<?php echo esc_url($authorURL); ?>">
                                             <?php
@@ -579,18 +584,10 @@ if ( have_posts() ) {
             <div class="content-white-area">
 
                 <div class="single-inner-container single_listing lp-single_listing-style3" >
-                    <?php if( isset($listingpro_options['lp-gads-editor']) ){
-                        $listingGAdsense = $listingpro_options['lp-gads-editor'];
-                        if( !empty($listingGAdsense) ){ ?>
-
-                            <div class="row padding-bottom-30">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <?php echo $listingGAdsense; ?>
-                                </div>
-                            </div>
-
-                        <?php }
-                    } ?>
+                    <?php
+						//show google ads
+						apply_filters('listingpro_show_google_ads', 'listing', get_the_ID());
+					?>
                     <?php
                     $page_layout5   =   $listingpro_options['lp-detail-page-layout5-content']['general'];
 

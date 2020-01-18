@@ -1,6 +1,7 @@
 <?php 
 get_header();
 the_post();
+$elementor_page = get_post_meta( get_the_ID(), '_elementor_edit_mode', true );
 if(has_shortcode( get_the_content(), 'vc_row' ) || has_shortcode( get_the_content(), 'listingpro_submit' ) || has_shortcode( get_the_content(), 'listingpro_pricing' ) || is_front_page()) {
 	
 	if(has_shortcode( get_the_content(), 'vc_row' ) && has_shortcode( get_the_content(), 'listingpro_promotional' )){
@@ -18,6 +19,12 @@ if(has_shortcode( get_the_content(), 'vc_row' ) || has_shortcode( get_the_conten
 	}
 	
 	
+}elseif (!empty($elementor_page) ) {
+    ?>
+	 <section>
+		<?php the_content(); ?>
+	 </section>
+<?php
 }else{
 	?>
 	<!-- section-contianer open -->

@@ -100,7 +100,19 @@ if( !empty( $listing_discount_data_init ) ):
 
                             if( $discount_data['disHea'] ) echo '<strong>'. $discount_data['disHea'] .'</strong>';
 
-                            if( $discount_data['disDes'] ) echo '<p>'. html_entity_decode($discount_data['disDes']) .'</p>';
+                            html_entity_decode(mb_substr( $discount_data['disDes'], 0, 35 ));
+
+                            global $listingpro_options;
+                            $listing_mobile_view            =   $listingpro_options['single_listing_mobile_view'];
+                            if( $discount_data['disDes'] ) echo '<p>'. html_entity_decode(mb_substr( $discount_data['disDes'], 0, 35 )) .'</p>';
+
+                            if( $listing_mobile_view == 'app_view' && wp_is_mobile() ){
+
+                            }
+                            else{
+
+                                if( $discount_data['disDes'] ) echo '<p>'. html_entity_decode($discount_data['disDes']) .'</p>';
+                            }
 
 
                             $btn_href   =   '';

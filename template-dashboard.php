@@ -10,7 +10,7 @@
  <?php
 global $listingpro_options, $post;
 $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
-
+$unreadMsgs = lp_get_inbox_msgs_status();
 	
 	$userID = '';
 	if(is_user_logged_in()){
@@ -53,7 +53,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 	$rmessage = '';
 	$rType = '';
 	if(isset($_POST['removeid']) && !empty($_POST['removeid'])){
-		$rID = $_POST['removeid'];
+        $rID = sanitize_text_field($_POST['removeid']);
 		$rpost = get_post( $rID ); 
 		$rpost_author = $rpost->post_author;
 		if($user_id == $rpost_author){
@@ -78,7 +78,6 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 	$user_email = get_the_author_meta('user_email', $user_id);
 	// User Social links
 	$user_facebook = get_the_author_meta('facebook', $user_id);
-	$user_google = get_the_author_meta('google', $user_id);
 	$user_linkedin = get_the_author_meta('linkedin', $user_id);
 	$user_instagram = get_the_author_meta('instagram', $user_id);
 	$user_twitter = get_the_author_meta('twitter', $user_id);
@@ -93,22 +92,21 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			$message = esc_html__("Your profile was updated successfully.", "listingpro");
 			$mType = 'success';
 
-			$first = esc_html($_POST['first_name']);
-			$last = esc_html($_POST['last_name']);
-			$email = esc_html($_POST['email']);
-			$user_phone = esc_html($_POST['phone']);
-			$user_address = esc_html($_POST['address']);
-			$description = esc_html($_POST['desc']);
+            $first = esc_html(sanitize_text_field($_POST['first_name']));
+            $last = esc_html(sanitize_text_field($_POST['last_name']));
+            $email = esc_html(sanitize_email($_POST['email']));
+            $user_phone = esc_html(sanitize_text_field($_POST['phone']));
+            $user_address = esc_html(sanitize_text_field($_POST['address']));
+            $description = esc_html(sanitize_text_field($_POST['desc']));
 
-			$facebook = esc_html($_POST['facebook']);
-			$google = esc_html($_POST['google']);
-			$linkedin = esc_html($_POST['linkedin']);
-			$instagram = esc_html($_POST['instagram']);
-			$twitter = esc_html($_POST['twitter']);
-			$pinterest = esc_html($_POST['pinterest']);
+            $facebook = esc_html(sanitize_text_field($_POST['facebook']));
+            $linkedin = esc_html(sanitize_text_field($_POST['linkedin']));
+            $instagram = esc_html(sanitize_text_field($_POST['instagram']));
+            $twitter = esc_html(sanitize_text_field($_POST['twitter']));
+            $pinterest = esc_html(sanitize_text_field($_POST['pinterest']));
 
-			$password = esc_html($_POST['pwd']);
-			$confirm_password = esc_html($_POST['confirm']);
+            $password = esc_html(sanitize_text_field($_POST['pwd']));
+            $confirm_password = esc_html(sanitize_text_field($_POST['confirm']));
 
 			update_user_meta( $user_ID, 'first_name', $first );
 			update_user_meta( $user_ID, 'last_name', $last );
@@ -117,13 +115,12 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			update_user_meta( $user_ID, 'description', $description );
 
 			update_user_meta( $user_ID, 'facebook', $facebook );
-			update_user_meta( $user_ID, 'google', $google );
 			update_user_meta( $user_ID, 'linkedin', $linkedin );
 			update_user_meta( $user_ID, 'instagram', $instagram );
 			update_user_meta( $user_ID, 'twitter', $twitter );
 			update_user_meta( $user_ID, 'pinterest', $pinterest );
-			
-			$your_image_url = $_POST['your_author_image_url'];
+
+            $your_image_url = sanitize_text_field($_POST['your_author_image_url']);
 			$author_avatar_url = get_user_meta($user_ID, "listingpro_author_img_url", true); 
 			if($your_image_url != ''){
 				update_user_meta( $user_ID, 'listingpro_author_img_url', $your_image_url );
@@ -158,8 +155,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 	}
 	
 	$contactSupport = $listingpro_options['contact_support'];
-	$resurva_bookings_enable = $listingpro_options['resurva_bookings_enable'];
-	$timekit_bookings_enable = $listingpro_options['timekit_bookings_enable'];
+
 
 		
 			/* by zaheer on 28 march */
@@ -167,7 +163,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			/* end by zaheer on 28 march */
  ?>
 <?php get_header();?>
-
+<input type="hidden" id="datepicker-lang" value="<?php echo get_option('WPLANG'); ?>">
 <!--==================================Section Open=================================-->
 <?php
 	if (class_exists('ListingproPlugin')) {
@@ -177,6 +173,16 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			$u_display_name = $current_user->nickname;
 		}
 ?>
+        <div class="modal fade lp-modal-content-image-outer" id="imagemodal" tabindex="-1" role="dialog">
+            <div class="modal-dialog  lp-modal-content-image">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <span data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        <img src="" id="imagepreview" class="imagepreview" >
+                    </div>
+                </div>
+            </div>
+        </div>
 	<section class="aliceblue">
 		
 		<?php
@@ -253,24 +259,6 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 				}
 			}
 			
-			$tymkit_panel = '';
-			$tymkitOpenedClass = '';
-			$tymkit_Listing = '';
-			$activeTymkitListing = '';
-			if(isset($_GET['dashboard'])){
-				$tymkit_panel = esc_html($_GET['dashboard']);
-			}
-			if(!empty($tymkit_panel) && ($tymkit_panel=="bookings" || $tymkit_panel=="timekit-bookings")){
-				$tymkitOpenedClass = 'opened';
-				
-				if($tymkit_panel=="bookings"){
-					$tymkit_Listing = 'class="active"';
-				}
-				else if($tymkit_panel=="timekit-bookings"){
-					$activeTymkitListing = 'class="active"';
-				}
-			}
-			
 			$creat_menu_openedClass     =   '';
             $creat_menu_panel           =   '';
             $create_menu_a              =   '';
@@ -305,6 +293,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			$activeDashboardMenu = '';
             $activeAnnouncementMenu = '';
 			$activeEventsMenu = '';
+        $activeBookingsMenu = '';
             $activeDiscountMenu = '';
 		    $activeImgMenu = '';
 			$activeprofileMenu = '';
@@ -320,6 +309,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			$activemenues = '';
 			$activeSubscriptionMenu = '';
             $activeinbox     = '';
+            $activeadcompn = '';
 			if(!empty($dashPage)){
 				if($dashPage=="main-screen"){
 					$activeDashboardMenu = 'class="active-dash-menu"';
@@ -330,6 +320,9 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 				}else if ( $dashPage == 'events' ){
 					  $activeEventsMenu =   'class="active-dash-menu"';
 				}
+               else if ( $dashPage == 'manage-booking' ){
+                   $activeBookingsMenu =   'class="active-dash-menu"';
+               }
                 elseif ( $dashPage == 'discounts' )
                 {
                     $activeDiscountMenu =   'class="active-dash-menu"';
@@ -366,7 +359,9 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 				}
 				else if($dashPage=="inbox"){
                     $activeinbox = 'class="active-dash-menu"';
-                }
+                }else if($dashPage=="active-campaigns"){
+                   $activeadcompn = 'class="active-dash-menu"';
+               }
 				
 			}
 			
@@ -394,16 +389,21 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
         $user_ID = get_current_user_id();
         $results = '';
         $resultss = '';
-        $results = $wpdb->get_results( "SELECT * FROM {$dbprefix}listing_orders WHERE user_id ='$user_ID' AND plan_type ='Package' AND status='success'" );
-        $resultss = $wpdb->get_results( "SELECT * FROM {$dbprefix}listing_orders WHERE user_id ='$user_ID' AND plan_type ='Package' AND status='expired'" );
 
-        if(empty($results) && empty($resultss)){
+        $listing_orders_table   =   $dbprefix.'listing_orders';
+        if(lp_table_exists_check($listing_orders_table)) {
+            $results = $wpdb->get_results( "SELECT * FROM {$dbprefix}listing_orders WHERE user_id ='$user_ID' AND plan_type ='Package' AND status='success'" );
+            $resultss = $wpdb->get_results( "SELECT * FROM {$dbprefix}listing_orders WHERE user_id ='$user_ID' AND plan_type ='Package' AND status='expired'" );
+        }
+
+        if(empty($results) && !is_array($resultss)){
             $dashboard_packages_show = false;
         }else{
             $dashboard_packages_show = true;
         }
 			$ad_compaigns_show = true;
 			$review_dashoard_show = true;
+            $bookings_show = true;
 			$booking_dashoard_show = true;
 			$menu_dashoard_show = true;
 		    $img_menu_dashoard_show = true;
@@ -414,9 +414,8 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
             $discounts_show =   true;
 			$lead_form_show = false;
             global $listingpro_customizer_options;
-            $lead_form_active   =   $listingpro_customizer_options['form_builder']['active'];
             $lead_form_user_dashboard =    get_option('lead_form_user_dashboard');
-            if( $lead_form_user_dashboard == 1 && $lead_form_active == 1 )
+            if( $lead_form_user_dashboard == 1)
             {
                 $lead_form_show = true;
             }
@@ -460,10 +459,11 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 			if($review_dashoard == 0) {
 				$review_dashoard_show = false;
 			}
-			$booking_dashoard = $listingpro_options['booking_dashoard'];
-			if($booking_dashoard == 0) {
-				$booking_dashoard_show = false;
-			}
+
+        $booking_dashoard = $listingpro_options['booking_dashoard'];
+        if($booking_dashoard == 0) {
+            $booking_dashoard_show = false;
+        }
 			$menu_dashoard = $listingpro_options['menu_dashoard'];
 			if($menu_dashoard == 0) {
 				$menu_dashoard_show = false;
@@ -518,6 +518,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 							?>
 								<li><a <?php echo $activeAnnouncementMenu; ?> href="<?php echo $currentURL.$perma.$dashQuery.'announcements'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-microphone" aria-hidden="true"></i></span> <?php echo esc_html__('Announcements', 'listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Announcements', 'listingpro'); ?>"> <i class="fa fa-microphone" aria-hidden="true"></i></span></a> </li>
 							<?php endif; ?>
+
 							<?php
 							   if( $simpleDashboard == false && $dashboard_usr_show == true && $events_show == true ):
 								   ?>
@@ -527,21 +528,36 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 								   
 								   </a> </li>
                             <?php endif; ?>
-							<?php
-							if( $simpleDashboard == false && $dashboard_usr_show == true && $lead_form_show == true && is_plugin_active( 'listingpro-visualizer/plugin.php' ) ):
-                                       ?>
-                                       <li><a href="<?php echo $currentURL.$perma.$dashQuery.'lead_form'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-bullhorn" aria-hidden="true"></i></span> <?php echo esc_html__('Lead Form', 'listingpro'); ?><span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Lead Form', 'listingpro'); ?>"> <i class="fa fa-bullhorn" aria-hidden="true"></i></span></a> </li>
-                                   <?php endif; ?>
+                            <?php
+
+                            if( $simpleDashboard == false && $dashboard_usr_show == true && $booking_dashoard_show == true && class_exists('Listingpro_bookings') ):
+                                ?>
+                                <li>
+                                    <a <?php echo $activeBookingsMenu; ?> href="<?php echo $currentURL.$perma.$dashQuery.'manage-booking'; ?>">
+                                    <span class="sub_icon sub_iconfirst"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span> <?php echo esc_html__('Appointments', 'listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Appointments', 'listingpro'); ?>"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                                    </a> 
+                                </li>
+                            <?php endif; ?>
+                            <?php
+                            if ($simpleDashboard == false && $dashboard_usr_show == true && $lead_form_show == true && class_exists('Listingpro_lead_form')):
+                                ?>
+                                <li><a href="<?php echo $currentURL . $perma . $dashQuery . 'lead_form'; ?>"><span
+                                                class="sub_icon sub_iconfirst"><i class="fa fa-bullhorn"
+                                                                                  aria-hidden="true"></i></span> <?php echo esc_html__('Lead Form', 'listingpro'); ?>
+                                        <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable"
+                                              data-tooltip="<?php echo esc_html__('Lead Form', 'listingpro'); ?>"> <i
+                                                    class="fa fa-bullhorn" aria-hidden="true"></i></span></a></li>
+                            <?php endif; ?>
 							<?php
 							if( $simpleDashboard == false && $dashboard_usr_show == true && $discounts_show == true ):
 								?>
-								<li><a <?php echo $activeDiscountMenu; ?> href="<?php echo $currentURL.$perma.$dashQuery.'discounts'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-bar-chart" aria-hidden="true"></i></span> <?php echo esc_html__('Coupons', 'listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Coupons', 'listingpro'); ?>"><i class="fa fa-bar-chart" aria-hidden="true"></i></span></a> </li>
+								<li><a <?php echo $activeDiscountMenu; ?> href="<?php echo $currentURL.$perma.$dashQuery.'discounts'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-tags" aria-hidden="true"></i></span> <?php echo esc_html__('Coupons', 'listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Coupons', 'listingpro'); ?>"><i class="fa fa-tags" aria-hidden="true"></i></span></a> </li>
 							<?php endif; ?>
 
 						<?php } ?>
                     <?php if($simpleDashboard==false){ ?>
                         <?php if($menu_dashoard_show == true){ ?>
-                            <li><a <?php echo $activemenues; ?> href="<?php echo $currentURL.$perma.$dashQuery.'menus'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-credit-card" aria-hidden="true"></i></span> <?php esc_html_e('Menu','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Menu', 'listingpro'); ?>"><i class="fa fa-credit-card" aria-hidden="true"></i></span></a></li>
+                            <li><a <?php echo $activemenues; ?> href="<?php echo $currentURL.$perma.$dashQuery.'menus'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-cutlery" aria-hidden="true"></i></span> <?php esc_html_e('Menu','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Menu', 'listingpro'); ?>"><i class="fa fa-cutlery" aria-hidden="true"></i></span></a></li>
                         <?php } ?>
 					<?php }  ?>
 
@@ -558,7 +574,15 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 								<li><a <?php echo $activesavedMenu; ?> href="<?php echo $currentURL.$perma.$dashQuery.'saved'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-heart" aria-hidden="true"></i></span> <?php esc_html_e('Saved','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Saved', 'listingpro'); ?>"><i class="fa fa-heart" aria-hidden="true"></i></span></a></li>
 							<?php } ?>
 							
-							<li><a <?php echo $activeinbox; ?> href="<?php echo $currentURL.$perma.$dashQuery.'inbox'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-envelope-o" aria-hidden="true"></i></span> <?php esc_html_e('Inbox','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Inbox', 'listingpro'); ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></span></a></li>
+							<li><a <?php echo $activeinbox; ?> href="<?php echo $currentURL.$perma.$dashQuery.'inbox'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-envelope-o" aria-hidden="true"></i></span> <?php esc_html_e('Inbox','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Inbox', 'listingpro'); ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+							<?php if(!empty($unreadMsgs)){
+								?>
+									<span class="unreadMsgDot"></span>
+								<?php
+							}?>
+							</a>
+							
+							</li>
 							
 							<?php } ?>
 							<?php if($simpleDashboard==false){ ?>
@@ -566,7 +590,16 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 									<li><a <?php echo $activesavedListing; ?> href="<?php echo $currentURL.$perma.$dashQuery.'listings'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-map-marker" aria-hidden="true"></i></span> <?php esc_html_e('Listings','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('listings', 'listingpro'); ?>"><i class="fa fa-map-marker" aria-hidden="true"></i></span></a></li>
 							<?php } ?>
 							
-									<li><a <?php echo $activeinbox; ?> href="<?php echo $currentURL.$perma.$dashQuery.'inbox'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-envelope-o" aria-hidden="true"></i></span> <?php esc_html_e('Inbox','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Inbox', 'listingpro'); ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></span></a></li>
+									<li><a <?php echo $activeinbox; ?> href="<?php echo $currentURL.$perma.$dashQuery.'inbox'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-envelope-o" aria-hidden="true"></i></span> <?php esc_html_e('Inbox','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Inbox', 'listingpro'); ?>"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+									<?php if(!empty($unreadMsgs)){
+										?>
+											<span class="unreadMsgDot"></span>
+										<?php
+									}?>
+									</a>
+									
+									
+									</li>
 						
 							
 							<?php if($invoices_dashboard_show == true){ ?>
@@ -589,8 +622,8 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 									if (class_exists('ListingAds')) {
 								?>
 								<?php if($ad_compaigns_show == true){ ?>
-										<li class="dropdown <?php echo esc_attr($openedClass); ?>">
-											<a href="<?php echo $currentURL.$perma.$dashQuery.'active-campaigns'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-envelope" aria-hidden="true"></i> </span><?php esc_html_e('Ad Campaigns ','listingpro'); ?>  <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Ad Campaigns', 'listingpro'); ?>"><i class="fa fa-envelope" aria-hidden="true"></i></span></a>
+										<li class="<?php echo esc_attr($openedClass); ?>">
+											<a <?php echo $activeadcompn; ?> href="<?php echo $currentURL.$perma.$dashQuery.'active-campaigns'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-bullhorn" aria-hidden="true"></i> </span><?php esc_html_e('Ad Campaigns ','listingpro'); ?>  <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Ad Campaigns', 'listingpro'); ?>"><i class="fa fa-bullhorn" aria-hidden="true"></i></span></a>
 											
 										</li>
 								<?php } ?>
@@ -602,45 +635,24 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 								if (class_exists('ListingReviews')) {
 							?>
 							<?php if($review_dashoard_show == true){ ?>
-									<li class="dropdown <?php echo esc_attr($reviewOpenedClass); ?>">
-										<a href="<?php echo $currentURL.$perma.$dashQuery.'reviews'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-star" aria-hidden="true"></i> </span> <?php esc_html_e(' Reviews ','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Reviews', 'listingpro'); ?>"><i class="fa fa-star" aria-hidden="true"></i></span></span></a>
+									<li class="<?php echo esc_attr($reviewOpenedClass); ?>">
+										<a href="<?php echo $currentURL.$perma.$dashQuery.'reviews'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-star" aria-hidden="true"></i> </span> <?php esc_html_e(' Reviews ','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Reviews', 'listingpro'); ?>"><i class="fa fa-star" aria-hidden="true"></i></span></a>
 									</li>
 							<?php } ?>
 							<?php
 								}
 							?>
-						<?php if( $timekit_bookings_enable == 1 || $resurva_bookings_enable == 1 ) { ?>
-								<?php if($simpleDashboard==false){ ?>
-								
-								<?php if($booking_dashoard_show == true){ ?>
-									<li class="dropdown <?php echo esc_attr($tymkitOpenedClass); ?>">
-										<a href="<?php echo $currentURL.$perma.$dashQuery.'bookings'; ?>"><span class="sub_icon sub_iconfirst"><i class="fa fa-calendar-o" aria-hidden="true"></i> </span>  <?php esc_html_e('Bookings ','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Bookings', 'listingpro'); ?>"><i class="fa fa-calendar-o" aria-hidden="true"></i></span></a>
-										<ul class="<?php echo esc_attr($tymkitOpenedClass); ?>">
-											<?php if( $resurva_bookings_enable == 1 ) { ?>
-												<li <?php echo $tymkit_Listing; ?>><a href="<?php echo $currentURL.$perma.$dashQuery.'bookings'; ?>"><i class="fa fa-angle-right"></i><?php esc_html_e(' Resurva','listingpro'); ?> <span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Resurva', 'listingpro'); ?>"><i class="fa fa-angle-right"></i></span></a></li>
-											<?php } ?>
-											<?php if( $timekit_bookings_enable == 1 ) { ?>
-												<li <?php echo $activeTymkitListing; ?>><a href="<?php echo $currentURL.$perma.$dashQuery.'timekit-bookings'; ?>"><i class="fa fa-angle-right"></i><?php esc_html_e(' Timekit','listingpro'); ?><span class="sub_icon sub_iconsecond simptip-position-right simptip-movable" data-tooltip="<?php echo esc_html__('Timekit', 'listingpro'); ?>"><i class="fa fa-angle-right"></i></span></a></li>
-											<?php } ?>
-										</ul>
-									</li>
-								<?php } ?>
-								<?php } } ?>
-								
-
-						
-						 
-						 
-						
+                    <?php
+                    if(class_exists('Listingpro_timekit_resurva') && function_exists('listingpro_tr_dash_nav')) {
+                        listingpro_tr_dash_nav();
+                    }
+                    ?>
 				</ul>
-				
-				
-				
+
 			  </div>
 				  
 			
 			  <div id="page-content-wrapper">
-
                   <input type="hidden" id="select2-ajax-noresutls" value="<?php echo esc_html_e( 'No results found', 'listingpro' ); ?>">
                   <input type="hidden" id="select2-ajax-tooshort" value="<?php echo esc_html_e( 'Please enter 3 or more characters', 'listingpro' ); ?>">
                   <input type="hidden" id="select2-ajax-searching" value="<?php echo esc_html_e( 'Searching...', 'listingpro' ); ?>">
@@ -672,7 +684,7 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 
 											<?php } ?>
 										<?php } ?>
-										<li><a href="<?php echo wp_logout_url(); ?>"><span><i class="fa fa-lock" aria-hidden="true"></i>
+										<li><a href="<?php echo wp_logout_url( esc_url(home_url('/')) ); ?>"><span><i class="fa fa-lock" aria-hidden="true"></i>
  <?php echo esc_html__('Logout', 'listingpro'); ?></span></a></li>
                                            
                                         </ul>
@@ -715,19 +727,33 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 							<?php
 								if(isset($_GET['dashboard']) && !empty($_GET['dashboard'])){
 									if(
-										$_GET['dashboard'] == 'discounts'
-										|| $_GET['dashboard'] == 'announcements'
-										|| $_GET['dashboard'] == 'offers'
-										|| $_GET['dashboard'] == 'menu-types'
-										|| $_GET['dashboard'] == 'menu-groups'
-										|| $_GET['dashboard'] == 'create-menu'
+                                    esc_html($_GET['dashboard']) == 'discounts'
+										|| esc_html($_GET['dashboard']) == 'announcements'
+										|| esc_html($_GET['dashboard']) == 'offers'
+										|| esc_html($_GET['dashboard']) == 'menu-types'
+										|| esc_html($_GET['dashboard']) == 'menu-groups'
+										|| esc_html($_GET['dashboard']) == 'create-menu'
 									)
 									{
-										get_template_part('templates/dashboard/'.$_GET['dashboard'].'');
+										get_template_part('templates/dashboard/'.esc_html($_GET['dashboard']).'');
 									}
+                                    elseif ( esc_html($_GET['dashboard']) == 'bookings' || esc_html($_GET['dashboard']) == 'timekit-bookings' )
+                                    {
+                                        $file = ABSPATH.'wp-content/plugins/listingpro-timekit-resurva/dashboard/'.esc_html($_GET['dashboard']).'.php';
+                                        require ($file);
+                                    }
+                                    elseif ( esc_html($_GET['dashboard']) == 'manage-booking' && class_exists('Listingpro_bookings') )
+                                    {
+                                        $file = ABSPATH.'wp-content/plugins/listingpro-bookings/templates/'.esc_html($_GET['dashboard']).'.php';
+                                        require ($file);
+                                    }elseif ( esc_html($_GET['dashboard']) == 'lead_form' && class_exists('Listingpro_lead_form') )
+                                    {
+                                        $file = ABSPATH.'wp-content/plugins/listingpro-lead-form/templates/'.esc_html($_GET['dashboard']).'.php';
+                                        require ($file);
+                                    }
 									else
 									{
-									get_template_part('templates/dashboard/'.$_GET['dashboard'].'');
+									get_template_part('templates/dashboard/'.esc_html($_GET['dashboard']).'');
 									}
 								}else {
 									get_template_part('templates/dashboard/main-screen');
@@ -740,16 +766,16 @@ $listing_mobile_view    =   $listingpro_options['single_listing_mobile_view'];
 							if($simpleDashboard==true){ 
 								if(isset($_GET['dashboard']) && !empty($_GET['dashboard'])){
 									if(
-										$_GET['dashboard'] == 'discounts'
-										|| $_GET['dashboard'] == 'announcements'
-										|| $_GET['dashboard'] == 'offers'
+                                            esc_html($_GET['dashboard']) == 'discounts'
+										|| esc_html($_GET['dashboard']) == 'announcements'
+										|| esc_html($_GET['dashboard']) == 'offers'
 									)
 									{
-										get_template_part('templates/dashboard/'.$_GET['dashboard'].'');
+										get_template_part('templates/dashboard/'.esc_html($_GET['dashboard']).'');
 									}
 									else
 									{
-									get_template_part('templates/dashboard/'.$_GET['dashboard'].'');
+									get_template_part('templates/dashboard/'.esc_html($_GET['dashboard']).'');
 									}
 								}else{
 									get_template_part('templates/dashboard/update-profile');

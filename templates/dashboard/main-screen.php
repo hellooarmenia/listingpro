@@ -19,7 +19,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
 }
 ?>
 
-    <div class="clearfix lp-dashboard-panel-outer col-md-<?php echo $colCLass; ?> lp-new-dashboard-panel-outer lp-left-panel-height">
+    <div class="clearfix lp-dashboard-panel-outer col-md-<?php echo $colCLass; ?> lp-new-dashboard-panel-outer lp-left-panel-height lp-left-static">
         <div class="notices-area">
             <?php if($publish_listings != 0 && !empty($campgn_notice)){ ?>
                 <div class="notice info">
@@ -391,7 +391,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
 set_query_var( 'lptotalClicks', $lptotalClicks );
 if( !empty($lpalertsRatings) || !empty($lptotalClicks) ){
     ?>
-    <div class="col-md-3 padding-right-0 lp-right-panel-height">
+    <div class="col-md-3 padding-right-0 lp-right-panel-height lp-right-static">
         <div class="lp-ad-click-outer">
             <?php
             if( !empty($lptotalClicks)){ ?>

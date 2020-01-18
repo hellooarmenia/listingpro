@@ -10,7 +10,14 @@
 	
 	if(!function_exists('listingpro_add_favorite')){
 		function listingpro_add_favorite(){
-			// Load current favourite posts from cookie
+            check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+            // Nonce is checked, get the POST data and sign user on
+            if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+                $res = json_encode(array('nonceerror'=>'yes'));
+                die($res);
+            }
+
+            // Load current favourite posts from cookie
 			$favposts = (isset($_COOKIE['newco'])) ? explode(',', (string) $_COOKIE['newco']) : array();
 			$favposts = array_map('absint', $favposts); // Clean cookie input, it's user input!
 
@@ -48,6 +55,12 @@
 	
 	if(!function_exists('listingpro_remove_favorite')){
 		function listingpro_remove_favorite(){
+            check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+            // Nonce is checked, get the POST data and sign user on
+            if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+                $res = json_encode(array('nonceerror'=>'yes'));
+                die($res);
+            }
 			// Load current favourite posts from cookie
 			$favpostsd = $_POST['post-id'];
 			$favposts = (isset($_COOKIE['newco'])) ? explode(',', (string) $_COOKIE['newco']) : array();

@@ -65,8 +65,12 @@
 					if($showAddListing==true) {
 							$addURL = listingpro_url('add_listing_url_mode');
 							if(!empty($addURL)) {
+                                $lpl_add_listing    =   'lpl-add-listing-loggedout';
+                                if(is_user_logged_in()) {
+                                    $lpl_add_listing = 'lpl-add-listing-logedin';
+                                }
 							?>
-							<a href="<?php echo listingpro_url('add_listing_url_mode'); ?>" class="lpl-button"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+							<a href="<?php echo listingpro_url('add_listing_url_mode'); ?>" class="lpl-button <?php echo $lpl_add_listing; ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
 							<?php 
 						}
 					}
@@ -75,7 +79,7 @@
 					if (!is_user_logged_in()) {
 						?>
 					<a class="lpl-button md-trigger" data-modal="modal-3"><?php esc_html_e('Log In', 'listingpro');?></a>
-					<?php }  else { ?>					<a href="<?php echo wp_logout_url( esc_url(home_url('/')) ); ?>" class="lpl-button" style="right: 10px;"><?php esc_html_e('Sign out ','listingpro'); ?></a>					<?php } ?>
+					<?php }  else { ?>					<a href="<?php echo wp_logout_url( esc_url(home_url('/')) ); ?>" class="lpl-button lpl-signout" style="right: 10px;"><?php esc_html_e('Sign out ','listingpro'); ?></a>					<?php } ?>
 				<?php
 					echo listingpro_mobile_menu();
 				?>

@@ -40,7 +40,7 @@
 				}
 				else if(empty($_GET['lp_s_tag']) && empty($_GET['lp_s_cat']) && !empty($_GET['select']) ){
 					$tagtitle = esc_html__('Search ', 'listingpro');
-					echo wp_kses_post($before) .$tagtitle." ".$_GET['select'] ." ".$after;
+					echo wp_kses_post($before) .$tagtitle." ".sanitize_text_field($_GET['select']) ." ".$after;
 				}
 				
 			  

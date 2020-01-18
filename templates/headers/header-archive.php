@@ -21,7 +21,7 @@ $searchfilter = '';
 global $paged;
 $taxTaxDisplay = true;
 
-if( !isset($_GET['s'])){
+if( !isset($wp_kses_post(['s']))){
     $queried_object = get_queried_object();
     $term_id = $queried_object->term_id;
     $taxName = $queried_object->taxonomy;
@@ -46,21 +46,21 @@ if( !isset($_GET['s'])){
 }elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s_loc'])){
 
     if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat'])){
-        $sterm = $_GET['lp_s_cat'];
-        $term_ID = $_GET['lp_s_cat'];
+        $sterm = wp_kses_post($_GET['lp_s_cat']);
+        $term_ID = wp_kses_post($_GET['lp_s_cat']);
         $termo = get_term_by('id', $sterm, 'listing-category');
         $termName = esc_html__('Results For','listingpro').' <strong class="term-name">'.$termo->name.'</strong>';
         $parent = $termo->parent;
     }
     if(isset($_GET['lp_s_cat']) && empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
-        $sterm = $_GET['lp_s_tag'];
+        $sterm = wp_kses_post($_GET['lp_s_tag']);
         $lpstag = $sterm;
         $termo = get_term_by('id', $sterm, 'list-tags');
         $termName = esc_html__('Results For','listingpro').' <strong>'.$termo->name.'</strong>';
     }
 
     if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
-        $sterm = $_GET['lp_s_tag'];
+        $sterm = wp_kses_post($_GET['lp_s_tag']);
         $lpstag = $sterm;
 
         $termo = get_term_by('id', $sterm, 'list-tags');
@@ -68,8 +68,8 @@ if( !isset($_GET['s'])){
     }
 
     if(isset($_GET['lp_s_loc']) && !empty($_GET['lp_s_loc'])){
-        $sloc = $_GET['lp_s_loc'];
-        $loc_ID = $_GET['lp_s_loc'];
+        $sloc = wp_kses_post($_GET['lp_s_loc']);
+        $loc_ID = wp_kses_post($_GET['lp_s_loc']);
         if(is_numeric($sloc)){
             $sloc = $sloc;
             $termo = get_term_by('id', $sloc, 'location');
@@ -156,6 +156,81 @@ cover; background-position: center; ">
         <?php
         get_template_part('templates/headers/filters-in-header');
         ?>
-		<?php } ?>
+		<?php }else{
+            ?>
+            <div style="display: none; height: 0px; padding: 0; margin: 0;" id="searchform">
+                <select class="chosen-select2" id="searchcategory">
+                    <option value=""><?php echo esc_html__('All Categories', 'listingpro'); ?></option>
+
+                    <?php
+                    $args = array(
+                        'post_type' => 'listing',
+                        'order' => 'ASC',
+                        'hide_empty' => false,
+                        'parent' => 0,
+                    );
+                    $locations = get_terms('listing-category', $args);
+                    foreach ($locations as $location) {
+                        if ($term_ID == $location->term_id) {
+                            $selected = 'selected';
+                        } else {
+                            $selected = '';
+                        }
+                        echo '<option ' . $selected . ' value="' . $location->term_id . '">' . $location->name . '</option>';
+
+                        $args1 = array(
+                            'post_type' => 'listing',
+                            'order' => 'ASC',
+                            'hide_empty' => false,
+                            'parent' => $location->term_id,
+                        );
+                        $locations1 = get_terms('listing-category', $args1);
+                        foreach ($locations1 as $location1) {
+                            if ($term_ID == $location1->term_id) {
+                                $selected = 'selected';
+                            } else {
+                                $selected = '';
+                            }
+                            echo '<option ' . $selected . ' value="' . $location1->term_id . '">-' . $location1->name . '</option>';
+
+                            $args2 = array(
+                                'post_type' => 'listing',
+                                'order' => 'ASC',
+                                'hide_empty' => false,
+                                'parent' => $location1->term_id,
+                            );
+                            $locations2 = get_terms('listing-category', $args2);
+                            foreach ($locations2 as $location2) {
+                                if ($term_ID == $location2->term_id) {
+                                    $selected = 'selected';
+                                } else {
+                                    $selected = '';
+                                }
+                                echo '<option ' . $selected . ' value="' . $location2->term_id . '">--' . $location2->name . '</option>';
+
+                                $args3 = array(
+                                    'post_type' => 'listing',
+                                    'order' => 'ASC',
+                                    'hide_empty' => false,
+                                    'parent' => $location2->term_id,
+                                );
+                                $locations3 = get_terms('listing-category', $args3);
+                                foreach ($locations3 as $location3) {
+                                    if ($term_ID == $location3->term_id) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
+                                    echo '<option ' . $selected . ' value="' . $location3->term_id . '">---' . $location3->name . '</option>';
+
+                                }
+                            }
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <?php
+        } ?>
     </div>
 </div>

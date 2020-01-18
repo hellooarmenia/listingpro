@@ -80,11 +80,10 @@ if(!empty( $latitude ) && !empty($longitude) && $map_show == 'true' ):
             </li>
         <?php
         endif;
-        if( $social_show == 'true' && ( !empty($facebook) || !empty($twitter) || !empty( $google_plus ) || !empty( $youtube ) || !empty( $instagram ) ) ):
+        if( $social_show == 'true' && ( !empty($facebook) || !empty($twitter) || !empty( $youtube ) || !empty( $instagram ) ) ):
         ?>
             <li class="lp-widget-social-links">
                 <?php if( !empty($facebook) ): ?><a href="<?php echo $facebook; ?>" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a><?php endif;; ?>
-                <?php if( !empty($google_plus) ): ?> <a href="<?php echo $google_plus; ?>" target="_blank"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a><?php endif; ?>
                 <?php if( !empty($twitter) ): ?> <a href="<?php echo $twitter; ?>" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a><?php endif; ?>
                 <?php if( !empty($youtube) ): ?><a href="<?php echo $youtube; ?>" target="_blank"><i class="fa fa-youtube-square" aria-hidden="true"></i></a><?php endif; ?>
                 <?php if( !empty($instagram) ): ?><a href="<?php echo $instagram; ?>" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a><?php endif; ?>

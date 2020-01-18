@@ -3,7 +3,7 @@
 <!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
 <?php
     $mobile_view = lp_theme_option('single_listing_mobile_view');
-	if(wp_is_mobile() && $mobile_view == 'app_view' && !is_page_template('template-dashboard.php'))
+	if(wp_is_mobile() &&  ( $mobile_view == 'app_view' || $mobile_view == 'app_view2' ) && !is_page_template('template-dashboard.php'))
 	{
 		get_template_part( 'templates/headers/header-app-view' );
 	}
@@ -24,9 +24,23 @@
 					$listing_detail_slider_style = lp_theme_option('lp_detail_slider_styles');
 		?>	
 		<?php wp_head(); ?>
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('select.form-control').removeClass('form-control').addClass('custom-form-control');
+            })
+        </script>
+        <style type="text/css">
+            .custom-form-control{
+                width: 100%;
+                padding: 10px;
+                line-height: 24px;
+                -webkit-appearance: textfield;
+            }
+        </style>
     </head>
-			<body <?php body_class(); lp_header_data_atts('body'); ?>>
-	
+<body <?php body_class(); lp_header_data_atts('body'); ?>>
+	<?php wp_nonce_field('lp_ajax_nonce', 'lpNonce'); ?>
+    <input type="hidden" id="start_of_weekk" value="<?php echo get_option('start_of_week'); ?>">
 	<?php
 
 				$listing_styledata = '';
@@ -96,7 +110,7 @@
 				<!--===========================header-views========================-->
 				<?php get_template_part( 'templates/headers/header-views' ); ?>
 				<?php 
-					if (is_front_page() && $topBannerView != 'banner_view2' ) { ?>
+					if (is_front_page() && $topBannerView != 'banner_view2' && $topBannerView != 'banner_view3' ) { ?>
 					<div class="home-categories-area <?php echo esc_attr($alignClass); ?> 
 						<?php echo esc_attr($newbannerstyleClass); ?> 
 						<?php echo esc_attr($maintxtstyleClass); ?>

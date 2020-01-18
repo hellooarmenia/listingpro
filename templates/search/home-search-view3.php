@@ -1,4 +1,4 @@
-		<?php
+<?php
 								
 			$listCats=array();
 			$catIcon = '';
@@ -210,7 +210,7 @@
 				?>
 							<div class="form-group pull-right <?php echo esc_attr($searchHide); ?>">
 								<div class="lp-search-bar-right">
-									<input value="<?php echo esc_html__( '', 'listingpro' );?>" class="lp-search-btn" type="submit">
+									<input value="" class="lp-search-btn" type="submit">
 									<i class="icons8-search lp-search-icon"></i>
 									<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/ellipsis.gif" class="searchloading">
 									<!--

@@ -25,18 +25,20 @@ if(!function_exists('listingpro_save_stripe')){
             $paypal_success .=$lpURLChar.'lpcheckstatus=success';
         }
         $email = $_POST['email'];
+        $coupon = $_POST['coupon'];
         $planID = $_POST['plan'];
+        
 		$planprice = '';
 		if(isset($_POST['plan_price']) && !empty($_POST['plan_price'])){
 			$planprice = $_POST['plan_price'];
 		}
+        $planpriceOR = get_post_meta($planID, 'plan_price', true);
 		$taxrate = 0;		
 		if(isset($_POST['taxrate']) && !empty($_POST['taxrate'])){
 			$taxrate = $_POST['taxrate'];
 		}
         $listing = $_POST['listing'];
-        $token = $_POST['token'];
-
+        $token = $_POST['token'];                
         $subsrID = '';
         
         $recurring;
@@ -46,7 +48,7 @@ if(!function_exists('listingpro_save_stripe')){
 
         $listing_title = get_the_title($listing);
 		if(empty($planprice)){
-			$planprice = get_post_meta($planID, 'plan_price', true);
+			$planprice = get_post_meta($planID, 'plan_price', true);			
 		} 
         $plan_time = get_post_meta($planID, 'plan_time', true);
 		
@@ -60,6 +62,7 @@ if(!function_exists('listingpro_save_stripe')){
 		
 		listing_set_metabox('lp_purchase_price', $plan_priceformeta, $listing);
 		listing_set_metabox('lp_purchase_tax', $plan_taxPrice, $listing);
+        
 		
 		/* end for saving meta in post meta for invoice */
 		
@@ -76,6 +79,53 @@ if(!function_exists('listingpro_save_stripe')){
         \Stripe\Stripe::setApiKey("$secritKey");
 
         if(!empty($recurring)){
+            
+            if(!empty($coupon)){
+                $planpriceOR = get_post_meta($planID, 'plan_price', true);                            
+                $existingCoupon = lp_get_existing_coupons();
+                if(!empty($existingCoupon)){
+                    $returnKey = lp_search_coupon_in_array($coupon, $existingCoupon);
+                    if(isset($returnKey)){
+                        $couponData = $existingCoupon[$returnKey];
+                        if(!empty($couponData)){
+                            $couponType = '';
+                            if(isset($couponData['copontype'])){
+                                $couponType = $couponData['copontype'];
+                            }                            
+                            $discount = $couponData['discount'];
+                            $couponID = $coupon.rand();
+                            if(!empty($couponType)){
+                                $discount = (float)$discount*100;
+                                $discount = round($discount, 2);
+                                $discount = (int)$discount;                                
+                                $disType = array(
+                                    'duration' => 'once',
+                                    'id' => $couponID,
+                                    'amount_off' => $discount,
+                                    "currency" => $currency
+                                );
+                                
+                            }else{
+                                if(lp_theme_option('lp_tax_swtich')=="1"){
+                                    $taxrate = lp_theme_option('lp_tax_amount');
+                                    $taxrate = ($taxrate/100)*$planpriceOR;
+                                }
+                                $disType = array(
+                                    'duration' => 'once',
+                                    'id' => $couponID,
+                                    'percent_off' => $discount,
+                                );
+                            }
+                            $planpriceOR = $planpriceOR + $taxrate;
+                            $planpriceOR = (float)$planpriceOR*100;
+                            $planpriceOR = round($planpriceOR, 2);
+                            $planpriceOR = (int)$planpriceOR;
+                            $planprice = $planpriceOR;
+                        }
+                    }
+                }                    
+            }
+            
             if(!empty($plan_time)){
                 $plan_time = (int) $plan_time;
             }else{
@@ -104,19 +154,20 @@ if(!function_exists('listingpro_save_stripe')){
 
             /* step-2 */
             $plan = \Stripe\Plan::create(array(
-
 				"product" => array(
 				    "name" =>get_the_title($planID).rand()
-				 ),
-				 
+				 ),				 
                 "id" => "$user_id".rand(),
                 "interval" => "day",
                 "interval_count" => $plan_time,
 				  "currency" => $currency,
                 "amount" => $planprice,
             ));
-
-
+            
+            if(!empty($discount)){
+                $couponStripe = \Stripe\Coupon::create($disType);
+            }
+            
             /* step-3 */
             $subscirptionObj = \Stripe\Subscription::create(array(
                 "customer" => $customer->id,
@@ -125,6 +176,7 @@ if(!function_exists('listingpro_save_stripe')){
                         "plan" => $plan->id,
                     )
                 ),
+                'coupon' => $couponStripe,
             ));
 
             
@@ -213,7 +265,7 @@ if(!function_exists('listingpro_save_stripe')){
                 $my_post = array( 'ID' => $listing, 'post_date'  => date("Y-m-d H:i:s"), 'post_status'   => 'pending' );
             }
             wp_update_post( $my_post );
-
+            listingpro_apply_coupon_code_at_payment($coupon,$listing,$taxrate,$planprice);
             $ex_plan_id = listing_get_metabox_by_ID('Plan_id', $listing);
             $new_plan_id = listing_get_metabox_by_ID('changed_planid', $listing);
             if(!empty($new_plan_id)){
@@ -266,6 +318,7 @@ if(!function_exists('listingpro_save_stripe')){
                     'description' => 'listing has been purchased',
                     'payment_method' => $method,
                     'summary' => 'recurring',
+                    'price' => $planpriceINVOICE,
                     'token' => $token);
             }
             else{
@@ -365,7 +418,7 @@ if(!function_exists('listingpro_save_stripe')){
 			
 			lp_mail_headers_append();
             $headers1[] = 'Content-Type: text/html; charset=UTF-8';
-            wp_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers1);
+            LP_send_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers1);
 
             $mail_subject2 = $listingpro_options['listingpro_subject_purchase_activated'];
             $website_url = site_url();
@@ -392,7 +445,7 @@ if(!function_exists('listingpro_save_stripe')){
 			
 			lp_mail_headers_append();
             $headers[] = 'Content-Type: text/html; charset=UTF-8';
-            wp_mail( $useremail, $formated_mail_subject2, $formated_mail_content2, $headers);
+            LP_send_mail( $useremail, $formated_mail_subject2, $formated_mail_content2, $headers);
 			lp_mail_headers_remove();
 
             $response = '';
@@ -426,14 +479,14 @@ if(!function_exists('listingpro_save_package_stripe')){
 			$lpURLChar = '&';
 		}
         $secritKey = '';
-        $secritKey = $listingpro_options['stripe_secrit_key'];
+        $secritKey = lp_theme_option('stripe_secrit_key');
         $dbprefix = '';
         $dbprefix = $wpdb->prefix;
-        $paypal_success = $listingpro_options['payment-checkout'];
+        $paypal_success = lp_theme_option('payment-checkout');
         $paypal_success = get_permalink($paypal_success);
         $paypal_success .=$lpURLChar.'lpcheckstatus=success';
         $currency = '';
-        $currency = $listingpro_options['currency_paid_submission'];
+        $currency = lp_theme_option('currency_paid_submission');
         $response = '';
         $token = '';
         $status = 'success';
@@ -442,6 +495,7 @@ if(!function_exists('listingpro_save_package_stripe')){
         $listing_id = $_POST['listing'];
         $token = $_POST['token'];
         $email = $_POST['email'];
+        $taxprice = $_POST['taxprice'];
         $adsTypeval = $_POST['adsTypeval'];
 		if(isset($_POST['ads_days'])){
 			$ads_days = $_POST['ads_days'];
@@ -450,24 +504,23 @@ if(!function_exists('listingpro_save_package_stripe')){
 
 
         $price_packages = $_POST['packages'];
-        $lpTOtalprice = $_POST['lpTOtalprice'];
+        $budget = $_POST['lpTOtalprice'];
         $pkgPrice = $ads_price;
 		$_SESSION['price_package'] = $price_packages;
-
-        /* if(!empty($price_packages)){
-            foreach($price_packages as $package){
-                $pkgPrice = $pkgPrice + $listingpro_options["$package"];
-            }
-        } */
-
-        /* if(isset($_POST['taxprice'])){
-            if(!empty($_POST['taxprice'])){
-                $taxPrice = $_POST['taxprice'];
-            }
+		
+		$enableTax = false;
+        $taxrate='';
+        if(lp_theme_option('lp_tax_swtich')=="1"){
+            $enableTax = true;
+            $taxrate = lp_theme_option('lp_tax_amount');
+			if(!empty($taxrate)){
+				$taxrate = ($taxrate/100)*$ads_price;
+				$ads_price = $ads_price + $taxrate;
+			}
         }
-        $pkgPrice = $pkgPrice+$taxPrice; */
-
+		$ads_org_price = $ads_price;
         $ads_price = (float)$ads_price*100;
+		
 
         \Stripe\Stripe::setApiKey("$secritKey");
         $charge = \Stripe\Charge::create(array(
@@ -484,53 +537,14 @@ if(!function_exists('listingpro_save_package_stripe')){
             if(session_id() == '') {
                 session_start();
             }
-            $ads_durations = $listingpro_options['listings_ads_durations'];
-
-
-            $currentdate = date("d-m-Y");
-            $exprityDate = date('Y-m-d', strtotime($currentdate. ' + '.$ads_durations.' days'));
-            $exprityDate = date('d-m-Y', strtotime( $exprityDate ));
-
-
-            $my_post = array(
-                'post_title'    => $listing_id,
-                'post_status'   => 'publish',
-                'post_type' => 'lp-ads',
-            );
-            $adID = wp_insert_post( $my_post );
-
-            listing_set_metabox('ads_listing', $listing_id, $adID);
-
-            listing_set_metabox('ads_mode', $adsTypeval, $adID);
-           if($adsTypeval=="perclick"){
-                listing_set_metabox('remaining_balance', $lpTOtalprice, $adID);
-           }
-            listing_set_metabox('duration', $ads_days, $adID);
-            listing_set_metabox('budget', $lpTOtalprice, $adID);
 			
-
-            listing_set_metabox('ad_status', 'Active', $adID);
-            listing_set_metabox('campaign_id', $adID, $listing_id);
-            update_post_meta( $listing_id, 'campaign_status', 'active' );
-
-            $priceKeyArray;
-            if( !empty($price_packages) ){
-                foreach( $price_packages as $val ){
-                    $priceKeyArray[] = $val;
-                    update_post_meta( $listing_id, $val, 'active' );
-                }
-            }
-
-            if( !empty($priceKeyArray) ){
-
-                listing_set_metabox('ad_type', $priceKeyArray, $adID);
-            }
 
             $tID = $token;
             $token = $token;
             $payment_method = 'stripe';
 
-            lp_save_campaign_data($adID, $tID, $payment_method, $token, $status, $price_packages, $lpTOtalprice, $listing_id, $adsTypeval, $ads_days,$lpTOtalprice);
+            lp_save_campaign_data($price_packages, $tID, $payment_method, $token, $status, $ads_price, $budget, $listing_id, $adsTypeval, $ads_days, $ads_org_price, $taxprice);
+            
             $response = json_encode(array('status'=>'success', 'token'=>$token, 'email'=>$email, 'listing'=>$listing_id, 'redirect'=>$paypal_success, 'pgks'=>$price_packages));
 
             die($response);
@@ -600,6 +614,7 @@ if(!function_exists('listingpro_claim_payment_via_stripe')){
             /* update claim to success */
             listing_set_metabox('claim_status', 'approved',$claimPost);
             listing_set_metabox('claimed_section', 'claimed', $listing_id);
+            update_post_meta($listing_id, 'claimed', 1);
             listing_set_metabox('owner', $claimerID, $claimPost);
 
             /* updating post table */

@@ -61,9 +61,15 @@ if ( have_posts() ) {
         $menuImg = '';
         $menuMeta = get_post_meta($post->ID, 'menu_listing', true);
         if(!empty($menuMeta)){
-            $menuTitle = $menuMeta['menu-title'];
-            $menuImg = $menuMeta['menu-img'];
-            $menuOption = true;
+            if(isset($menuMeta['menu-title'])) {
+                    $menuTitle = $menuMeta['menu-title'];
+            }
+
+            $menuImg  =   '';
+            if(isset($menuMeta['menu-img'])) {
+                    $menuImg = $menuMeta['menu-img'];
+            }
+            $menuOption = true;        
         }
 
         $timekit = false;
@@ -87,7 +93,6 @@ if ( have_posts() ) {
         $user_cpinterest = '';
 
         $user_facebook = get_the_author_meta('facebook', $user_id);
-        $user_google = get_the_author_meta('google', $user_id);
         $user_linkedin = get_the_author_meta('linkedin', $user_id);
         $user_instagram = get_the_author_meta('instagram', $user_id);
         $user_twitter = get_the_author_meta('twitter', $user_id);
@@ -117,18 +122,10 @@ if ( have_posts() ) {
             ?>
             <div class="content-white-area">
                 <div class="container single-inner-container single_listing" >
-                    <?php if( isset($listingpro_options['lp-gads-editor']) ){
-                        $listingGAdsense = $listingpro_options['lp-gads-editor'];
-                        if( !empty($listingGAdsense) ){ ?>
-
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <?php echo $listingGAdsense; ?>
-                                </div>
-                            </div>
-
-                        <?php }
-                    } ?>
+                    <?php
+						//show google ads
+						apply_filters('listingpro_show_google_ads', 'listing', get_the_ID());
+					?>
                     <div class="row">
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <?php
@@ -142,7 +139,6 @@ if ( have_posts() ) {
 
                                         case 'lp_content_section': get_template_part( 'templates/single-list/listing-details-style1/content/content' );
                                             break;
-
                                         case 'lp_features_section': get_template_part( 'templates/single-list/listing-details-style1/content/features' );
                                             break;
 
@@ -173,6 +169,15 @@ if ( have_posts() ) {
                                                 get_template_part( 'templates/single-list/listing-details-style1/content/list-offer-deals-discount' );
                                             }
                                             break;
+                                        case 'lp_event_section':
+                                            $post_author_id = get_post_field( 'post_author', get_the_ID() );
+                                            $event_displayin =   get_user_meta( $post_author_id, 'event_display_area', true );
+                                            if( $event_displayin == 'content' || empty( $event_displayin ) )
+                                            {
+                                                $GLOBALS['event_grid_call'] =   'content_area';
+                                                get_template_part( 'templates/single-list/event' ) ;
+                                            }
+                                            break;
                                     }
                                 }
 
@@ -187,6 +192,11 @@ if ( have_posts() ) {
 
                                     switch($key) {
 
+                                        case 'lp_booking_section':
+                                            if(class_exists('Listingpro_bookings')){
+                                                include( ABSPATH . 'wp-content/plugins/listingpro-bookings/templates/bookings.php' );
+                                            }
+                                            break;
                                         case 'lp_timing_section': get_template_part( 'templates/single-list/listing-details-style1/sidebar/timings' );
                                             break;
 
@@ -204,7 +214,15 @@ if ( have_posts() ) {
 
                                         case 'lp_sidebarelemnts_section': get_template_part( 'templates/single-list/listing-details-style1/sidebar/def-sidebar' );
                                             break;
-                                        case 'lp_event_section': get_template_part( 'templates/single-list/event' );
+                                        case 'lp_event_section':
+                                            $post_author_id = get_post_field( 'post_author', get_the_ID() );
+                                            $event_displayin =   get_user_meta( $post_author_id, 'event_display_area', true );
+                                            if( $event_displayin == 'sidebar' )
+                                            {
+                                                $GLOBALS['event_grid_call'] =   'sidebar_area';
+                                                get_template_part( 'templates/single-list/event' ) ;
+                                            }
+
                                             break;
 
                                         case 'lp_offers_section':

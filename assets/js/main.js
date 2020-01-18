@@ -63,6 +63,8 @@ jQuery(document).ready(function() {
 
     jQuery('.claimformtrigger2').click(function(){
         jQuery('header').addClass('lp-head-zindex');
+        var divHeight = jQuery('.leftside').height();
+        jQuery('.rightside').css('height', divHeight+'px');
     })
 
     jQuery('.lp-click-zindex').click(function() {
@@ -134,7 +136,7 @@ jQuery(document).ready(function($){
 	}
 
 	if (loc == 'yes') {
-		if( jQuery('.form-group').is('.lp-location-search') || jQuery('.form-group').is('.lp-location-inner-search') ){
+		if( (jQuery('.form-group').is('.lp-location-search') || jQuery('.form-group').is('.lp-location-inner-search')) && jQuery('body').is('.home')){
 			if(apiType==="geo_ip_db"){
 				jQuery.getJSON('https://geoip-db.com/json/geoip.php?jsonp=?') 
 				 .done (function(location)
@@ -147,7 +149,7 @@ jQuery(document).ready(function($){
 					jQuery('#searchlocation').find('#def_location').val(location.city);
 					jQuery('#cities').val(location.city);
 					jQuery('input[name=lp_s_loc]').val(location.city);
-					jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
+					// jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
 					jQuery("#searchlocation").prop('disabled', false).trigger('chosen:updated');
 					jQuery('.select2-selection__rendered').parent('.select2-selection').addClass('slide-right');
 					jQuery('.lp-location-search .ui-widget > i').fadeOut('slow');
@@ -161,7 +163,7 @@ jQuery(document).ready(function($){
 					jQuery('#searchlocation').find('#def_location').val(location.city);
 					jQuery('#cities').val(location.city);
 					jQuery('input[name=lp_s_loc]').val(location.city);
-					jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
+					// jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
 					jQuery("#searchlocation").prop('disabled', false).trigger('chosen:updated');
 					jQuery('.select2-selection__rendered').parent('.select2-selection').addClass('slide-right');
 					jQuery('.lp-location-search .ui-widget > i').fadeOut('slow');
@@ -175,7 +177,7 @@ jQuery(document).ready(function($){
 						jQuery('#searchlocation').find('#def_location').val(lpgpsclocation);
 						jQuery('#cities').val(lpgpsclocation);
 						jQuery('input[name=lp_s_loc]').val(lpgpsclocation);
-						jQuery(".select2-selection__rendered").attr("title",lpgpsclocation).text(lpgpsclocation);
+						// jQuery(".select2-selection__rendered").attr("title",lpgpsclocation).text(lpgpsclocation);
 						jQuery("#searchlocation").prop('disabled', false).trigger('chosen:updated');
 						jQuery('.select2-selection__rendered').parent('.select2-selection').addClass('slide-right');
 						jQuery('.lp-location-search .ui-widget > i').fadeOut('slow');
@@ -205,7 +207,7 @@ jQuery(document).ready(function($){
 							jQuery('#searchlocation').find('#def_location').val(location.city);
 							jQuery('#cities').val(location.city);
 							jQuery('input[name=lp_s_loc]').val(location.city);
-							jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
+							// jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
 						}
 						jQuery("#searchlocation").prop('disabled', false).trigger('chosen:updated');
 						jQuery('.select2-selection__rendered').parent('.select2-selection').addClass('slide-right');
@@ -227,7 +229,7 @@ jQuery(document).ready(function($){
 							jQuery('input[name=lp_s_loc]').val(location.city);
 						}
 						
-						jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
+						// jQuery(".select2-selection__rendered").attr("title",location.city).text(location.city);
 						jQuery("#searchlocation").prop('disabled', false).trigger('chosen:updated');
 						jQuery('.select2-selection__rendered').parent('.select2-selection').addClass('slide-right');
 						jQuery('.lp-location-search .ui-widget > i').fadeOut('slow');
@@ -247,7 +249,7 @@ jQuery(document).ready(function($){
 						jQuery('#cities').val(lpgpsclocation);
 						jQuery('input[name=lp_s_loc]').val(lpgpsclocation);
 						
-						jQuery(".select2-selection__rendered").attr("title",lpgpsclocation).text(lpgpsclocation);
+						// jQuery(".select2-selection__rendered").attr("title",lpgpsclocation).text(lpgpsclocation);
 						jQuery("#searchlocation").prop('disabled', false).trigger('chosen:updated');
 						jQuery('.select2-selection__rendered').parent('.select2-selection').addClass('slide-right');
 						jQuery('.lp-location-search .ui-widget > i').fadeOut('slow');
@@ -263,7 +265,7 @@ jQuery(document).ready(function($){
 jQuery('#lp-new-ad-compaignForm').on('submit', function(e){
         var $this = jQuery(this);
 		if($this.data('type')=="adsperclick"){
-			totalPrice = jQuery('input[name="adsprice_pc"]').val();
+			totalPrice = jQuery('input[name="ads_price"]').val();
 		}else{
 			totalPrice = jQuery('input[name="ads_price"]').val();
 		}
@@ -273,26 +275,14 @@ jQuery('#lp-new-ad-compaignForm').on('submit', function(e){
         listing_id = jQuery('input[name=lp_ads_for_listing]').val();
         listing_name = jQuery('input[name=lp_ads_title]').val();
         taxRate = $this.find('input[name="taxprice"]').val();
+
         if (listing_id==='' || method==='' ) {
             alert(jQuery('input#ad-blank-errorMsg').val());
             e.preventDefault();
         }
         else if(method==='stripe'){
 			
-			if (jQuery("li.taxpricein")[0]){
-				if(jQuery.trim(totalPrice) == ''){}else{
-					$taxVal = jQuery('li.taxpricein h5 span').text();  
-					$taxVal = parseInt($taxVal);
-					$taxVal = $taxVal/100;
-					$taxVal = $taxVal*totalPrice;
-					$taxVal = $taxVal.toFixed(2);
-					totalPrice = parseFloat($taxVal) + parseFloat(totalPrice);
-				}
-			}
-
             totalPrice = parseFloat(totalPrice)*100;
-           /*  taxPrice = (totalPrice/100)*taxRate;
-            totalPrice = totalPrice + taxPrice; */
             totalPrice = parseFloat(totalPrice).toFixed();
 
             handler.open({
@@ -883,32 +873,7 @@ if(jQuery('body').hasClass('home') || jQuery('body').hasClass('app-view-home')){
  jQuery('#map-view-icon2').click(function () {
    jQuery("#search-filter-attr-filter").animate({width: "toggle"}, 5);
  });
-  jQuery("#app-view-login-popup .signUpClick").on('click' , function() {
-	  jQuery('.signInClick').removeClass('active');
-	  jQuery('.siginincontainer2').hide();
-	  jQuery('.forgetpasswordcontainer2').hide();
-	  jQuery('.siginupcontainer2').fadeIn();
-	  jQuery(this).addClass('active');
-  });
- jQuery("#app-view-login-popup .signInClick").on('click' , function() {
-	  jQuery('.signUpClick').removeClass('active');
-	  jQuery(this).addClass('active');
-	  jQuery('.forgetpasswordcontainer2').hide();
-	  jQuery('.siginupcontainer2').hide();
-	  jQuery('.siginincontainer2').fadeIn();
-  });
- jQuery("#app-view-login-popup .forgetPasswordClick").on('click' , function() { 
-  jQuery('.siginupcontainer2').hide();
-  jQuery('.siginincontainer2').hide(); 
-  jQuery('.forgetpasswordcontainer2').fadeIn();
 
-  });
- jQuery("#app-view-login-popup .cancelClick").on('click' , function() { 
-  jQuery('.siginupcontainer2').hide();
-  jQuery('.forgetpasswordcontainer2').hide();
-  jQuery('.siginincontainer2').fadeIn(); 
-
-  });
    jQuery('.listing-app-view .lp-search-toggle .user-menu').click(function(e){
            
     jQuery(".lp-user-menu").toggleClass("main");
@@ -927,6 +892,11 @@ jQuery(document).mouseup(function(e){
    jQuery(".detail-page2-tab-content .tab-content .tab-pane").removeClass('active');
     jQuery('.single-tabber2 ul .lpreviews').addClass('active');
     jQuery('.detail-page2-tab-content .tab-content .lpreviews').addClass('active');
+	
+	jQuery('html, body').animate({
+                scrollTop: jQuery('#review-section').offset().top
+            }, 200
+		);
     
   
  });
@@ -975,260 +945,7 @@ jQuery(document).mouseup(function(e){
 		}
 		jQuery(this).next('.post_response').slideToggle(200);		
 	});
-	
-	// Add hours
-    jQuery('button.add-hours').on('click', function(event) {
-		event.preventDefault();
-		var $this = jQuery(this);
-		var lp2times = $this.closest('#day-hours-BusinessHours').data('lpenabletwotimes');
-		var error = false;
-		var fullday = '';
-		var fullhoursclass = '';
-		
-		var lpdash = "~";
-		
-		if(lp2times=="disable"){
-		
-			var weekday = jQuery('select.weekday').val();
-			if(jQuery(".fulldayopen").is(":checked")){
-				jQuery('.fulldayopen').attr('checked', false);
-				jQuery('select.hours-start').prop("disabled", false);
-				jQuery('select.hours-end').prop("disabled", false);
-				var startVal ='';
-				var endVal ='';
-				var hrstart ='';
-				var hrend ='';
-				fullday = $this.data('fullday');
-				fullhoursclass = 'fullhours';
-				lpdash = "";
-			}
-			else{
-				var startVal = jQuery('select.hours-start').val();
-				var endVal = jQuery('select.hours-end').val();
-				var hrstart = jQuery('select.hours-start').find('option:selected').val();
-				var hrend = jQuery('select.hours-end').find('option:selected').val();
-				
-				var startVal_digit = hrstart.replace(':', '');
-				var endVal_digit = hrend.replace(':', '');
 
-                if (startVal_digit.indexOf('am') > -1) {
-                    startVal_digit = startVal_digit.replace('am', '');
-                }
-                else if (startVal_digit.indexOf('pm') > -1) {
-                    startVal_digit = startVal_digit.replace('pm', '');
-                    if (startVal_digit != '1200' && startVal_digit != '1230') {
-                        startVal_digit = parseInt(startVal_digit) + 1200;
-                    }
-                }
-                if (endVal_digit.indexOf('am') > -1) {
-                    endVal_digit = endVal_digit.replace('am', '');
-                    endVal_digit = parseInt(endVal_digit);
-                    if(endVal_digit >= 1200){
-                        endVal_digit = parseInt(endVal_digit) - 1200;
-                    }
-
-                }
-                else if (endVal_digit.indexOf('pm') > -1) {
-                    endVal_digit = endVal_digit.replace('pm', '');
-                    endVal_digit = parseInt(endVal_digit) + 1200;
-                }
-				
-				if(startVal_digit > endVal_digit){
-					nextWeekday = jQuery("select.weekday option:selected+option").val();
-					if(typeof nextWeekday === "undefined"){
-						nextWeekday = jQuery("select.weekday").find("option:first-child").val();
-					}
-					
-					weekday = weekday+"~"+nextWeekday;
-				}
-				
-				
-			}
-			
-			
-			var sorryMsg = jQuery(this).data('sorrymsg');
-			var alreadyadded = jQuery(this).data('alreadyadded');
-            if( $this.hasClass('lp-add-hours-st') )
-            {
-                var remove = '<i class="fa fa-times"></i>';
-            }
-            else
-            {
-                var remove  =   jQuery(this).data('remove');
-            }
-			jQuery('.hours-display .hours').each(function(index, element) { 
-				var weekdayTExt = jQuery(element).children('.weekday').text();
-				if(weekdayTExt == weekday){
-					alert(sorryMsg+'! '+weekday+' '+alreadyadded);
-					error = true;
-				}
-			});
-			if(error != true){
-				jQuery('.hours-display').append("<div class='hours "+fullhoursclass+"'><span class='weekday'>"+ weekday +"</span><span class='start-end fullday'>"+fullday+"</span><span class='start'>"+ hrstart +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend +"</span><a class='remove-hours' href='#'>"+remove+"</a><input name='business_hours["+weekday+"][open]' value='"+startVal+"' type='hidden'><input name='business_hours["+weekday+"][close]' value='"+endVal+"' type='hidden'></div>");
-				var current = jQuery('select.weekday').find('option:selected');
-				var nextval = current.next();
-				current.removeAttr('selected');
-				nextval.attr('selected','selected');
-				jQuery('select.weekday').trigger('change.select2');
-			}
-		}
-		else{
-			var lptwentlyfourisopen = '';
-			/* 2times */
-			var weekday = jQuery('select.weekday').val();
-			var weekday1 = weekday;
-			var weekday2 = weekday;
-			if(jQuery(".fulldayopen").is(":checked")){
-				
-				lptwentlyfourisopen = 'yes';
-				
-				jQuery('.fulldayopen').attr('checked', false);
-				jQuery('select.hours-start').prop("disabled", false);
-				jQuery('select.hours-end').prop("disabled", false);
-				
-				jQuery('select.hours-start2').prop("disabled", false);
-				jQuery('select.hours-end2').prop("disabled", false);
-				
-				var startVal1 ='';
-				var endVal1 ='';
-				var hrstart1 ='';
-				var hrend1 ='';
-				
-				var startVal2 ='';
-				var endVal2 ='';
-				var hrstart2 ='';
-				var hrend2 ='';
-				
-				
-				
-				fullday = $this.data('fullday');
-				fullhoursclass = 'fullhours';
-				
-				lpdash = "";
-			}
-			else{
-				var startVal1 = jQuery('select.hours-start').val();
-				var endVal1 = jQuery('select.hours-end').val();
-				var hrstart1 = jQuery('select.hours-start').find('option:selected').val();
-				var hrend1 = jQuery('select.hours-end').find('option:selected').val();
-				
-				var startVal1_digit = hrstart1.replace(':', '');
-				var endVal1_digit = hrend1.replace(':', '');
-
-                if (startVal1_digit.indexOf('am') > -1) {
-                    startVal1_digit = startVal1_digit.replace('am', '');
-                }
-                else if (startVal1_digit.indexOf('pm') > -1) {
-                    startVal1_digit = startVal1_digit.replace('pm', '');
-                    if (startVal1_digit != '1200' && startVal1_digit != '1230') {
-                        startVal1_digit = parseInt(startVal1_digit) + 1200;
-                    }
-                }
-                if (endVal1_digit.indexOf('am') > -1) {
-                    endVal1_digit = endVal1_digit.replace('am', '');
-                    endVal1_digit = parseInt(endVal1_digit);
-                    if( endVal1_digit >= 1200 ){
-                        endVal1_digit = parseInt(endVal1_digit) - 1200;
-                    }
-                }
-                else if (endVal1_digit.indexOf('pm') > -1) {
-                    endVal1_digit = endVal1_digit.replace('pm', '');
-                    endVal1_digit = parseInt(endVal1_digit) + 1200;
-                }
-				
-				
-				if(startVal1_digit > endVal1_digit){
-					
-					nextWeekday = jQuery("select.weekday option:selected+option").val();
-					if(typeof nextWeekday === "undefined"){
-						nextWeekday = jQuery("select.weekday").find("option:first-child").val();
-						
-					}
-					
-					weekday1 = weekday+"~"+nextWeekday;
-					
-				}
-				
-				
-				var startVal2 = jQuery('select.hours-start2').val();
-				var endVal2 = jQuery('select.hours-end2').val();
-				var hrstart2 = jQuery('select.hours-start2').find('option:selected').text();
-				var hrend2 = jQuery('select.hours-end2').find('option:selected').text();
-				
-				var startVal2_digit = hrstart2.replace(':', '');
-				var endVal2_digit = hrend2.replace(':', '');
-
-                if (startVal2_digit.indexOf('am') > -1) {
-                    startVal2_digit = startVal2_digit.replace('am', '');
-                }
-                else if (startVal2_digit.indexOf('pm') > -1) {
-                    startVal2_digit = startVal2_digit.replace('pm', '');
-                    if (startVal2_digit != '1200' && startVal2_digit != '1230') {
-                        startVal2_digit = parseInt(startVal2_digit) + 1200;
-                    }
-                }
-                if (endVal2_digit.indexOf('am') > -1) {
-                    endVal2_digit = endVal2_digit.replace('am', '');
-                    endVal2_digit = parseInt(endVal2_digit);
-                    if( endVal2_digit >= 1200 ){
-                        endVal2_digit = parseInt(endVal2_digit) - 1200;
-                    }
-                }
-                else if (endVal2_digit.indexOf('pm') > -1) {
-                    endVal2_digit = endVal2_digit.replace('pm', '');
-                    endVal2_digit = parseInt(endVal2_digit) + 1200;
-                }
-				
-				
-				if(startVal2_digit > endVal2_digit){
-					nextWeekday = jQuery("select.weekday option:selected+option").val();
-					if(typeof nextWeekday === "undefined"){
-						nextWeekday = jQuery("select.weekday").find("option:first-child").val();
-					}
-					
-					weekday2 = weekday+"~"+nextWeekday;
-				}
-				
-				
-			}
-			
-			var sorryMsg = jQuery(this).data('sorrymsg');
-			var alreadyadded = jQuery(this).data('alreadyadded');
-            if( $this.hasClass('lp-add-hours-st') )
-            {
-                var remove = '<i class="fa fa-times"></i>';
-            }
-            else
-            {
-                var remove  =   jQuery(this).data('remove');
-            }
-			jQuery('.hours-display .hours').each(function(index, element) { 
-				var weekdayTExt = jQuery(element).children('.weekday').text();
-				if(weekdayTExt == weekday){
-					alert(sorryMsg+'! '+weekday+' '+alreadyadded);
-					error = true;
-				}
-			});
-			
-			if(error != true){
-				
-				if( (jQuery(".lp-check-doubletime .enable2ndday").is(":checked")) && (lptwentlyfourisopen==="") ){
-					
-					jQuery('.hours-display').append("<div class='hours "+fullhoursclass+"'><span class='weekday'>"+ weekday +"</span><span class='start-end fullday'>"+fullday+"</span><span class='start'>"+ hrstart1 +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend1 +"</span><a class='remove-hours' href='#'>"+remove+"</a><br><span class='weekday'>&nbsp;</span><span class='start'>"+ hrstart2 +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend2 +"</span><input name='business_hours["+weekday1+"][open][0]' value='"+startVal1+"' type='hidden'><input name='business_hours["+weekday1+"][close][0]' value='"+endVal1+"' type='hidden'><input name='business_hours["+weekday2+"][open][1]' value='"+startVal2+"' type='hidden'><input name='business_hours["+weekday2+"][close][1]' value='"+endVal2+"' type='hidden'></div>");
-				}else{
-					
-					jQuery('.hours-display').append("<div class='hours "+fullhoursclass+"'><span class='weekday'>"+ weekday1 +"</span><span class='start-end fullday'>"+fullday+"</span><span class='start'>"+ hrstart1 +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend1 +"</span><a class='remove-hours' href='#'>"+remove+"</a><input name='business_hours["+weekday1+"][open]' value='"+startVal1+"' type='hidden'><input name='business_hours["+weekday1+"][close]' value='"+endVal1+"' type='hidden'></div>");
-				}
-				var current = jQuery('select.weekday').find('option:selected');
-				var nextval = current.next();
-				current.removeAttr('selected');
-				nextval.attr('selected','selected');
-				jQuery('select.weekday').trigger('change.select2');
-			}
-			
-			/* 2times */
-		}
-	});
 	
 	jQuery(document).ready(function(){
 		jQuery('select.hours-start2').prop("disabled", true);
@@ -1325,9 +1042,14 @@ jQuery(document).mouseup(function(e){
 				show_title: false,
 			}); 
 		}else{
-            jQuery("a[rel^='prettyPhoto']").on('click', function(event) {
-                event.preventDefault();
-                
+            jQuery("a[rel^='prettyPhoto']").prettyPhoto({
+                animation_speed:'fast',
+                theme:'dark_rounded',
+                slideshow:7000,
+                autoplay_slideshow: true,
+                social_tools: '',
+                deeplinking: false,
+                show_title: false,
             });
         }
 	}
@@ -1444,7 +1166,67 @@ jQuery(document).mouseup(function(e){
 				]
 			});
 
-		}
+		} else if(sliderstyle=="style3"){
+
+            var images = jQuery( ".listing-slide" ).data('images-num');
+            var slidestoshow = 2;
+            if (images == 1) {
+                jQuery('.listing-slide img').css('width','100%');
+                slidestoshow = 1;
+            }else if(images == 2){
+                slidestoshow = 2;
+            }else if(images == 3){
+                slidestoshow = 2;
+            }else if(images == 4){
+                slidestoshow = 3;
+            }else if(images == 6){
+                slidestoshow = 4;
+            }else if(images == 8){
+                slidestoshow = 6;
+            }else if(images == 10){
+                slidestoshow = 8;
+            }else if(images >= 12){
+                slidestoshow = 10;
+            }
+
+            // Listing Detail Slider
+            jQuery('.listing-slide').slick({
+                slidesToShow: 2,
+                autoplay: true,
+                draggable: false,
+                autoplaySpeed: 5000,
+                centerMode: true,
+                focusOnSelect: true,
+                variableWidth: true,
+                adaptiveHeight: true,
+                responsive: [
+                    {
+                        breakpoint: 9999,
+                        settings: {
+                            slidesToShow: slidestoshow,
+                        }
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            arrows: true,
+                            centerMode: false,
+                            centerPadding: '0px',
+                            //slidesToShow: 5
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            arrows: true,
+                            centerMode: false,
+                            centerPadding: '0px',
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        }
 	}
 	
     // Listing Detail Slider
@@ -1643,33 +1425,6 @@ jQuery(document).mouseup(function(e){
           jQuery(this).next('.label').text(jQuery(this).val());
         });
 		}
-	// Popup Form
-	jQuery(".signUpClick").on('click' , function() {
-		jQuery('.signInClick').removeClass('active');
-        jQuery(this).addClass('active');
-		jQuery('.siginincontainer').fadeOut();
-		jQuery('.forgetpasswordcontainer').fadeOut();
-		jQuery('.siginupcontainer').fadeIn();
-	 });
-	jQuery(".signInClick").on('click' , function() {
-		jQuery('.signUpClick').removeClass('active');
-		jQuery(this).addClass('active');
-		jQuery('.forgetpasswordcontainer').fadeOut();
-		jQuery('.siginupcontainer').fadeOut();
-		jQuery('.siginincontainer').fadeIn();
-	 });
-	jQuery(".forgetPasswordClick").on('click' , function() { 
-		jQuery('.siginupcontainer').fadeOut();
-		jQuery('.siginincontainer').fadeOut(); 
-		jQuery('.forgetpasswordcontainer').fadeIn();
-
-	 });
-	jQuery(".cancelClick").on('click' , function() { 
-		jQuery('.siginupcontainer').fadeOut();
-		jQuery('.forgetpasswordcontainer').fadeOut();
-		jQuery('.siginincontainer').fadeIn(); 
-
-	 });
 	 // Mapbox 
 	jQuery(window).load(function(){
 		
@@ -1964,8 +1719,7 @@ L.Google.asyncInitialize = function() {
 	});
 		
 			
-			 	jQuery( ".all-list-map" ).on('click', function() {
-					//alert('ghgfh');
+                jQuery( ".all-list-map" ).on('click', function() {
 					var defmaplat = jQuery('body').data('defaultmaplat');
 					var defmaplong = jQuery('body').data('defaultmaplot');
 					jQuery('.map-pop').empty();
@@ -1976,18 +1730,19 @@ L.Google.asyncInitialize = function() {
 					}
 					var map = null
 					$mtoken = jQuery('#page').data("mtoken");	
+                    $mtype = jQuery('#page').data("mtype");	
 					$mapboxDesign = jQuery('#page').data("mstyle");
 					
-					if($mtoken != ''){
+					if($mtoken != '' && $mtype == 'mapbox'){
 						
 						L.mapbox.accessToken = $mtoken;
 						 map = L.mapbox.map('map', 'mapbox.streets');
 						L.tileLayer('https://api.tiles.mapbox.com/v4/'+$mapboxDesign+'/{z}/{x}/{y}.png?access_token='+$mtoken+'', {
-									maxZoom: 18,
-									attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-										'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-										'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-									id: 'mapbox.light'
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                            id: 'mapbox.light'
 						}).addTo(map);						
 						 
 						var markers = new L.MarkerClusterGroup();
@@ -1996,18 +1751,22 @@ L.Google.asyncInitialize = function() {
 							map.fitBounds(markers.getBounds());
 							map.scrollWheelZoom.disable();
 						}
-					}else{	
+					}else{
 						
 						var map = new L.Map('map', {
 							minZoom: 3,							
 						}).setView(new L.LatLng(defmaplat, defmaplong), 18);
-						L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-							maxZoom: 18,
-							subdomains:['mt0','mt1','mt2','mt3'],
-							noWrap: true,
-						});
-						var googleLayer = new L.Google('ROADMAP');						
-						map.addLayer(googleLayer);
+						if($mtype == 'google'){
+                            L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                                maxZoom: 6,
+                                subdomains:['mt0','mt1','mt2','mt3'],
+                                noWrap: true,
+                            });
+                            var googleLayer = new L.Google('ROADMAP');						
+                            map.addLayer(googleLayer);
+                        }else{
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                        }
 						var markers = new L.MarkerClusterGroup();
 						initializeMap(markers);
 						if(markers===undefined){}else{
@@ -2034,15 +1793,22 @@ L.Google.asyncInitialize = function() {
                             {
                                 var LPaddress  = jQuery(this).find('.gaddress').text();
                                 var LPimageSrc  = jQuery(this).find('.lp-listing-top-thumb').find('img').attr('src');
-                                var LPiconSrc  = jQuery(this).find('.cat-icon').find('img').attr('src');
+								var LPiconSrc  = jQuery(this).find('.cat-icon').find('img').attr('src');
+								if (typeof jQuery("body").data('deficon') !== 'undefined'){
+                                    LPiconSrc = jQuery("body").data('deficon');
+								}
+                               
                             }
                             else
                             {
 							var LPaddress  = jQuery(this).find('.gaddress').text();
 							var LPimageSrc  = jQuery(this).find('.lp-grid-box-thumb').find('img').attr('src');
 							var LPiconSrc  = jQuery(this).find('.cat-icon').find('img').attr('src');
+								if (typeof jQuery("body").data('deficon') !== 'undefined'){
+                                    LPiconSrc = jQuery("body").data('deficon');
+								}
                             }
-
+							
 							if(LPlattitue != '' && LPlongitute != ''){
 								var LPimage = '';
 								if(LPimageSrc != ''){
@@ -2085,20 +1851,21 @@ L.Google.asyncInitialize = function() {
 						jQuery('.map-pop').empty();
 						jQuery('.map-pop').html('<div class="mapSidebar" id="map"></div>');
 						var map = null
-						$mtoken = jQuery('#page').data("mtoken");					
+						$mtoken = jQuery('#page').data("mtoken");			
+						$mtype = jQuery('#page').data("mtype");			
 						$mapboxDesign = jQuery('#page').data("mstyle");					
 						
-						if($mtoken != ''){
+						if($mtoken != '' && $mtype == 'mapbox'){
 							
 							L.mapbox.accessToken = $mtoken;
 							 map = L.mapbox.map('map', 'mapbox.streets')
 							 .setView([defmaplat, defmaplong], 2);
 							L.tileLayer('https://api.tiles.mapbox.com/v4/'+$mapboxDesign+'/{z}/{x}/{y}.png?access_token='+$mtoken+'', {
-										maxZoom: 18,
-										attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-											'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-											'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-										id: 'mapbox.light'
+                                maxZoom: 18,
+                                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                                id: 'mapbox.light'
 							}).addTo(map);						
 							 
 							var markers = new L.MarkerClusterGroup();
@@ -2113,13 +1880,17 @@ L.Google.asyncInitialize = function() {
 							var map = new L.Map('map', {
 								minZoom: 3,
 							}).setView(new L.LatLng(defmaplat, defmaplong), 6);
-							L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-								maxZoom: 6,
-								subdomains:['mt0','mt1','mt2','mt3'],
-								noWrap: true,
-							});
-							var googleLayer = new L.Google('ROADMAP');						
-							map.addLayer(googleLayer);
+                            if($mtype == 'google'){
+                                L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                                    maxZoom: 6,
+                                    subdomains:['mt0','mt1','mt2','mt3'],
+                                    noWrap: true,
+                                });
+                                var googleLayer = new L.Google('ROADMAP');						
+                                map.addLayer(googleLayer);
+                            }else{
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                            }
 							
 							
 							var markers = new L.MarkerClusterGroup();
@@ -2137,6 +1908,7 @@ L.Google.asyncInitialize = function() {
 									  L.Util.requestAnimFrame(map.invalidateSize,map,!1,map._container);
 									});
 								}
+                            
 							
 						}
 						
@@ -2231,22 +2003,27 @@ L.Google.asyncInitialize = function() {
 			 jQuery('#cpmap').empty();
 			var map = null;
 			 $mtoken = jQuery('#page').data("mtoken");
+             $mtype = jQuery('#page').data("mtype");	
 				$siteURL = jQuery('#page').data("site-url");
 				$lat = jQuery('.cp-lat').data("lat");
 				$lan = jQuery('.cp-lan').data("lan");
-				if($mtoken != ''){
+				if($mtoken != '' && $mtype == 'mapbox'){
 					L.mapbox.accessToken = $mtoken;
 
-					var map = L.mapbox.map('cpmap', 'mapbox.streets')
+					$mapboxDesign = jQuery('#page').data("mstyle");
+					var map = L.mapbox.map('cpmap', $mapboxDesign)
 					.setView([$lat,$lan], 14);
 					map.scrollWheelZoom.disable();
 					
 				}else{
 					
-					var map = new L.Map('cpmap', '').setView(new L.LatLng($lat, $lan), 16);
-						
+				    var map = new L.Map('cpmap', '').setView(new L.LatLng($lat, $lan), 16);
+					if($mtype == 'google'){	
 						var googleLayer = new L.Google('ROADMAP');						
 						map.addLayer(googleLayer);
+                    }else{
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                    }
 						
 						map.scrollWheelZoom.disable();
 					}
@@ -2279,9 +2056,10 @@ L.Google.asyncInitialize = function() {
 					
 					$mtoken = jQuery('#page').data("mtoken");
 					$siteURL = jQuery('#page').data("site-url");
+                    $mtype = jQuery('#page').data("mtype");
 					$lat = jQuery('.singlebigmaptrigger').data("lat");
 					$lan = jQuery('.singlebigmaptrigger').data("lan");
-					if($mtoken != ''){
+					if($mtoken != '' && $mtype == 'mapbox'){
 						
 						L.mapbox.accessToken = $mtoken;
 						var map = L.mapbox.map('map', 'mapbox.streets')
@@ -2309,12 +2087,14 @@ L.Google.asyncInitialize = function() {
 						
 					}else{
 							var map = new L.Map('map', {center: new L.LatLng($lat,$lan), zoom: 14});
-							var googleLayer = new L.Google('ROADMAP');
-							map.addLayer(googleLayer);
-							var markers = new L.MarkerClusterGroup();
-						
+                            if($mtype == 'google'){
+                                var googleLayer = new L.Google('ROADMAP');
+                                map.addLayer(googleLayer);
+                            }else{
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                            }
+							var markers = new L.MarkerClusterGroup();						
 							var markerLocation = new L.LatLng($lat, $lan); // London
-
 							var CustomHtmlIcon = L.HtmlIcon.extend({
 								options : {
 									html : "<div class='lpmap-icon-shape pin '><div class='lpmap-icon-contianer'><img src='"+$siteURL+"wp-content/themes/listingpro/assets/images/pins/lp-logo.png'  /></div></div>",
@@ -2344,7 +2124,7 @@ L.Google.asyncInitialize = function() {
         this.wrapper = jQuery( "<span>" )
           .addClass( "custom-combobox" )
           .insertAfter( this.element );
- 
+
         this.element.hide();
         this._createAutocomplete();
         this._createShowAllButton();
@@ -2352,7 +2132,7 @@ L.Google.asyncInitialize = function() {
       _createAutocomplete: function() {
         var selected = this.element.children( ":selected" ),
           value = selected.val() ? selected.text() : "";
- 
+
         this.input = jQuery( "<input>" )
           .appendTo( this.wrapper )
           .val( value )
@@ -2366,13 +2146,13 @@ L.Google.asyncInitialize = function() {
 		  .tooltip({
             tooltipClass: "ui-state-highlight"
           });
- 
+
       },
- 
+
       _createShowAllButton: function() {
         var input = this.input,
           wasOpen = false;
- 
+
         jQuery( "<a>" )
           .attr( "tabIndex", -1 )
           .attr( "title", "Show All Items" )
@@ -2391,17 +2171,17 @@ L.Google.asyncInitialize = function() {
           })
           .on('click' , function() {
             input.focus();
- 
+
             // Close if already visible
             if ( wasOpen ) {
               return;
             }
- 
+
             // Pass empty string as value to search for, displaying all results
             input.autocomplete( "search", "" );
           });
       },
- 
+
       _source: function( request, response ) {
         var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
         response( this.element.children( "option" ).map(function() {
@@ -2414,14 +2194,14 @@ L.Google.asyncInitialize = function() {
             };
         }) );
       },
- 
+
       _removeIfInvalid: function( event, ui ) {
- 
+
         // Selected an item, nothing to do
         if ( ui.item ) {
           return;
         }
- 
+
         // Search for a match (case-insensitive)
         var value = this.input.val(),
           valueLowerCase = value.toLowerCase(),
@@ -2432,12 +2212,12 @@ L.Google.asyncInitialize = function() {
             return false;
           }
         });
- 
+
         // Found a match, nothing to do
         if ( valid ) {
           return;
         }
- 
+
         // Remove invalid value
         this.input
           .val( "" )
@@ -2449,7 +2229,7 @@ L.Google.asyncInitialize = function() {
         }, 2500 );
         this.input.autocomplete( "instance" ).term = "";
       },
- 
+
       _destroy: function() {
         this.wrapper.remove();
         this.element.show();
@@ -2488,10 +2268,14 @@ L.Google.asyncInitialize = function() {
 // Popup Data
 jQuery(document).on('click', '.qickpopup', function(){
   // variables
+
   var LPtitle  = jQuery(this).closest('.lp-grid-box-contianer').data("title");
   var LPlattitue  = jQuery(this).closest('.lp-grid-box-contianer').data("lattitue");
   var LPlongitute  = jQuery(this).closest('.lp-grid-box-contianer').data("longitute");
   var LPpostID  = jQuery(this).closest('.lp-grid-box-contianer').data("postid");
+
+    var feaImg  =  jQuery(this).closest('.lp-grid-box-contianer').data("feaimg");
+
     var mapPin	=	jQuery(this).data('mappin');
         jQuery('#listing-preview-popup .md-close').hide();
         var docHeight = jQuery( document ).height();
@@ -2510,24 +2294,40 @@ jQuery(document).on('click', '.qickpopup', function(){
             dataType: "json",
             data: {
                 'action':'quick_preivew_cb',
-                'LPpostID' : LPpostID
+                'LPpostID' : LPpostID,
+				'lpNonce' : jQuery('#lpNonce').val()
             },
             success:function(data) {
                 jQuery('#listing-preview-popup .md-close').show().children('i').css('right', '20px');
                 jQuery('#listing-preview-popup .popup-inner-left-padding').html(data);
+                var mapinSrc	=	'';
+
+
+                mapinSrc	=	jQuery(data).find('span.cat-icon').find('img').attr('src');
+                if(mapinSrc != '') {
+                    mapPin	=	mapinSrc;
+                }
+
                 var markers = false;
                 $mtoken = jQuery('#page').data("mtoken");
                 $siteURL = jQuery('#page').data("site-url");
                 $lat = LPlattitue;
                 $lan = LPlongitute;
                 $mapboxDesign = jQuery('#page').data("mstyle");
-                if($mtoken != ''){
+                $mtype = jQuery('#page').data("mtype");	
+                if($mtoken != '' && $mtype == 'mapbox'){
                     L.mapbox.accessToken = $mtoken;
                     map = L.mapbox.map('quickmap'+LPpostID, $mapboxDesign);
                 }else{
+                    
                     var map = new L.Map('quickmap'+LPpostID, {center: new L.LatLng($lat,$lan), zoom: 14});
-                    var googleLayer = new L.Google('ROADMAP');
-                    map.addLayer(googleLayer);
+                    if($mtype == 'google'){
+                        var googleLayer = new L.Google('ROADMAP');
+                        map.addLayer(googleLayer);
+                    }else{
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                    }
+                        
                 }
                 map.setView([$lat,$lan], 14);
                 markers = new L.MarkerClusterGroup();
@@ -2582,7 +2382,7 @@ jQuery(document).on('click', '.qickpopup', function(){
 		}
 	});
 	var API = jQuery("#menu").data( "mmenu" );
-	jQuery(".lpl-button.md-trigger, .sign-login-wrap .md-trigger").click(function() {
+    jQuery(".lpl-button.md-trigger, .sign-login-wrap .md-trigger,.lpl-button.app-view-popup-style").click(function() {
 		API.close();
 	});
 	//Tags Container 
@@ -2676,7 +2476,11 @@ jQuery(document).on('click', '.qickpopup', function(){
 				event.preventDefault();
 				jQuery('.hotel-menu').slideToggle(400);
 			});
-			
+
+            jQuery('.listing-app-view .hotel-menu a.close-menu-popup').on('click', function(event) {
+                event.preventDefault();
+                jQuery('.hotel-menu').slideToggle(400);
+            });
 		}
 
 
@@ -2719,7 +2523,6 @@ jQuery(document).on('click', '.qickpopup', function(){
 	 /* Select Category */
 	 jQuery('.postsubmitSelect').on('change', function(){
 		 jQuery('.feature-fields-error-container').remove();
-		jQuery('.featuresDataContainerOuterSubmit').show();
 		jQuery('.featuresDataRow').show();
 		var cvalue =	jQuery(this).val() ;
 		jQuery('.featuresData').css({'opacity':'0','visibility':'hidden','display':'none'});
@@ -2993,28 +2796,56 @@ jQuery(function($) { 'use strict';
 });
 
 jQuery(document).ready(function($) {  
-    jQuery('.googleAddressbtn').on('click', function(e) {		
-		var dtype = jQuery(this).data('type');
-		if(dtype=="gaddress") {
-			jQuery('.post-submit #inputAddresss').slideUp(300);
-			jQuery('.lp-custom-lat').slideUp(300);
-			jQuery('.post-submit #inputAddress').slideDown();
-			jQuery('.post-submit .googlefulladdress').slideDown(300);
-			jQuery('.post-submit #latitude').attr('type', 'hidden');
-			jQuery('.post-submit #longitude').attr('type', 'hidden');
-			jQuery(this).next('.googleAddressbtn').removeClass('active');
-			jQuery(this).addClass('active');
-		} else {
-			jQuery('.post-submit #inputAddress').slideUp();
-			jQuery('.post-submit .googlefulladdress').slideUp(300);
-			jQuery('.post-submit #inputAddresss').slideDown(300);
-			jQuery('.lp-custom-lat').slideDown(300);
-			jQuery('.post-submit #latitude').attr('type', 'text');
-			jQuery('.post-submit #longitude').attr('type', 'text');
-			jQuery(this).prev('.googleAddressbtn').removeClass('active');
-			jQuery(this).addClass('active');
-		}
-		e.preventDefault();        
+    jQuery('.googleAddressbtn').on('click', function(e) {
+        var dtype = jQuery(this).data('type');
+        if(dtype=="gaddress") {
+            if( jQuery(this).hasClass('events-dash') )
+            {
+                jQuery('.events-map-wrap #inputAddresss').slideUp(300);
+                jQuery('.lp-custom-lat').slideUp(300);
+                jQuery('.events-map-wrap #inputAddress').slideDown();
+                jQuery('.events-map-wrap .googlefulladdress').slideDown(300);
+                jQuery('.events-map-wrap #latitude').attr('type', 'hidden');
+                jQuery('.events-map-wrap #longitude').attr('type', 'hidden');
+                jQuery(this).next('.googleAddressbtn').removeClass('active');
+                jQuery(this).addClass('active');
+            }
+            else
+            {
+                jQuery('.post-submit #inputAddresss').slideUp(300);
+                jQuery('.lp-custom-lat').slideUp(300);
+                jQuery('.post-submit #inputAddress').slideDown();
+                jQuery('.post-submit .googlefulladdress').slideDown(300);
+                jQuery('.post-submit #latitude').attr('type', 'hidden');
+                jQuery('.post-submit #longitude').attr('type', 'hidden');
+                jQuery(this).next('.googleAddressbtn').removeClass('active');
+                jQuery(this).addClass('active');
+            }
+        } else {
+            if( jQuery(this).hasClass('events-dash') )
+            {
+                jQuery('.events-map-wrap #inputAddress').slideUp();
+                jQuery('.events-map-wrap .googlefulladdress').slideUp(300);
+                jQuery('.events-map-wrap #inputAddresss').slideDown(300);
+                jQuery('.lp-custom-lat').slideDown(300);
+                jQuery('.events-map-wrap #latitude').attr('type', 'text');
+                jQuery('.events-map-wrap #longitude').attr('type', 'text');
+                jQuery(this).prev('.googleAddressbtn').removeClass('active');
+                jQuery(this).addClass('active');
+            }
+            else
+            {
+                jQuery('.post-submit #inputAddress').slideUp();
+                jQuery('.post-submit .googlefulladdress').slideUp(300);
+                jQuery('.post-submit #inputAddresss').slideDown(300);
+                jQuery('.lp-custom-lat').slideDown(300);
+                jQuery('.post-submit #latitude').attr('type', 'text');
+                jQuery('.post-submit #longitude').attr('type', 'text');
+                jQuery(this).prev('.googleAddressbtn').removeClass('active');
+                jQuery(this).addClass('active');
+            }
+        }
+        e.preventDefault();        
     });
 });
 
@@ -3472,7 +3303,15 @@ function lpshowsidemap() {
 			jQuery( ".sidemap-fixed .sidemarpInside" ).trigger('click');
 		}
 }
-window.onload = lpshowsidemap;
+if (window.attachEvent){
+	window.attachEvent('onload', lpshowsidemap);
+}
+else if (window.addEventListener){
+	window.addEventListener('load', lpshowsidemap, false);
+}
+else {
+	document.addEventListener('load', lpshowsidemap, false);
+} 
 
 /* for 1.2.7 */
 jQuery(document).ready(function($){
@@ -3534,11 +3373,26 @@ jQuery(document).ready(function($){
 	/* end preview image*/
 	 
 	
-	jQuery('.app-view-header .lp-search-toggle .user-menu i').click(function() {
-		jQuery('#app-view-login-popup').css({
-			'top': '0px',
-			'transform': 'translateY(0%)'
-		});
+	jQuery('.app-view-header .lp-search-toggle .user-menu i, .app-view-popup-style, .event-by-going-wrap .app-view-popup-style').click(function() {
+        if( jQuery(this).hasClass('app-view-popup-style') )
+        {
+            jQuery('#app-view-login-popup').fadeIn();
+            jQuery('#app-view-login-popup').css({
+                'top': '20%',
+                'transform': 'translateY(0%)',
+				'opacity' : 1
+            });
+        }
+        else
+		{
+            jQuery('#app-view-login-popup').css({
+                'top': '0px',
+                'transform': 'translateY(0%)',
+            });
+		}
+	});
+	jQuery('.style2-popup-login .md-close').click(function(e){
+        jQuery('#app-view-login-popup').fadeOut();
 	});
 
 });
@@ -3794,10 +3648,21 @@ jQuery(document).ready(function(){
     jQuery(document).on('click','button.lp_payment_step_next.secondStep', function(){
         jQuery('.lp-checkout-steps .firstStep').addClass('completed');
         jQuery('button.lp_payment_step_next.thirdStep').css("display", "block");
-		jQuery(this).addClass('thirdStep');
-		jQuery(this).removeClass('secondStep');
-		jQuery(this).prop("type", "submit");
+        jQuery(this).addClass('thirdStep');
+        jQuery(this).removeClass('secondStep');
+        $planprice = jQuery('input[name=plan_price]').val();
 
+        if(jQuery('input[name="lp-recurring-option"]').is(':checked')) {
+            jQuery(this).prop("type", "submit");
+		} else {
+            if (parseFloat($planprice) == 0) {
+                /* price zero or 100% discount */
+                $listings_id = jQuery('input[name=listings_id]').val();
+                lp_make_this_listing_publish_withdiscount($listings_id);
+            }else{
+                jQuery(this).prop("type", "submit");
+            }
+		}
     });
 
 	/* third step */
@@ -3864,12 +3729,6 @@ jQuery(document).ready(function(){
             }
     });
 
-	 jQuery('.lp-dot-extra-buttons').click(function(e){
-		  jQuery(this).find(".lp-user-menu").toggleClass("main");
-	  });
-	  
-	
-
 	jQuery('p#reply-title').on('click', function(event) {
 		event.preventDefault();
 		var thiss = jQuery(this);
@@ -3897,12 +3756,7 @@ jQuery(document).ready(function(){
 		jQuery('.lp-search-section-header-view').toggleClass('active-section-header-view');
     });
 	
-	/* fill form field on checkout */
-	jQuery(document).on('click', 'button.secondStep', function(){
-		
-	});
-	
-	
+
 	/* see more and see less activiey on user dashboard */
 	jQuery('button.lp_see_more_activities').on('click', function(){
 		$this = jQuery(this);
@@ -3934,6 +3788,7 @@ jQuery(document).ready(function(){
         $method = $this.closest('.lp-listing-outer-container').data('method');
         $plan = $this.closest('.lp-listing-outer-container').data('plan');
         $duration = $this.closest('.lp-listing-outer-container').data('duration');
+        $status = $this.closest('.lp-listing-outer-container').data('status');
 		$listTitle = $this.closest('.lp-listing-outer-container').data('listtitle');
         $fullAmount=$amount;
         if($this.hasClass('lp_preview_this_invoice')){
@@ -3985,6 +3840,7 @@ jQuery(document).ready(function(){
             jQuery('div.lp_right_preview_invoice .lppopmethod').text($method);
             jQuery('div.lp_right_preview_invoice .lppopplan').text($plan);
             jQuery('div.lp_right_preview_invoice .lppopduration').text($duration);
+            jQuery('div.lp_right_preview_invoice .lppopstatus').text($status);
 
 
             jQuery('#lpinvoiceforpdf .lppopinvoice').text($inoviceno);
@@ -4007,146 +3863,76 @@ jQuery(document).ready(function(){
 		jQuery( "div.lp_popup_preview_invoice" ).toggle( "fold", foldSettings );
 		e.preventDefault();
 	});
-    /* campaign popup code starts */
-    jQuery('button.lp-let-start-btn').on('click', function(){
-		
-        jQuery('#modal-lp-submit-ad').modal('toggle');
-        jQuery('.lp-ad-step-two').toggle('fold', foldSettings, function(){
-			jQuery("html, body").animate({ scrollTop: jQuery(document).height()-jQuery(window).height() });
-		});
-		return false;
-    });
+
 
     jQuery('button.lp-cancle-btn').on('click', function(e){
-        jQuery('.lp-ad-step-two').toggle('fold', foldSettings);
-        jQuery('.lp_campaign_preview').hide(300);
-        jQuery('.lp_selected_active_ad').show(300);
-        jQuery('.lp_campaign_invoice_pmethod').hide(300);
         e.preventDefault();
+        jQuery('.lp-ad-step-two').fadeOut( function () {
+            jQuery('.lp_camp_invoice_wrp').fadeIn();
+        });
     });
 
-/* show preview of currnt ad place */
+
+    /* show preview of currnt ad place */
 	jQuery('input[name="lpadsoftype[]"]').on('click', function(){
         $this = jQuery(this);
         adsduration_pd = '';
         lp_make_campaign_paybutton_active();
         $newprice = 0;
+		$campType = lp_get_camp_type();
+		if($campType=='adsperduration'){
+			lp_set_camp_duration_price_in_preview(jQuery('input[name=adsduration_pd]').val());
+			
+		}else if($campType=='adsperclick'){
+			lp_set_camp_budget_price_in_preview(jQuery('input[name=adsprice_pc]').val());
+		}
+		
         if($this.is(":checked")){
-            preview = $this.data('preview');
-            jQuery('img.lp-preview-img-tag').attr('src', preview);
-            jQuery('.lp_campaign_invoice_pmethod').show(300);
-            //jQuery('.lp_selected_active_ad').hide(300);
-            //jQuery('.lp_campaign_preview').show(300);
-			jQuery('.lp_selected_active_ad').hide(300);
-            //jQuery('button.lp_campaign_paynow').attr('disabled', false);
-            $price = $this.data('price');
-            $prevPrice = '';
+           
 			
-			if(jQuery('#lp-new-ad-compaignForm').data('type')=="adsperclick"){
-				$prevPrice = jQuery('input[name="adsprice_pc"]').val();
-			}else{
-				$prevPrice = jQuery('input[name="ads_price"]').val();
-			}
-
-            if(jQuery('form#lp-new-ad-compaignForm').data('type')=="adsperclick"){
-                $newprice = $prevPrice;
-                jQuery('input[name=ads_price]').val($newprice);
-
-                
-            }else if(jQuery('form#lp-new-ad-compaignForm').data('type')=="adsperduration"){
-                if(jQuery('input[name=adsduration_pd]').val()==""){}else{
-					
-					adsduration_pd = jQuery('input[name=adsduration_pd]').val();
-					jQuery('input[name="lpadsoftype[]"]:checked').each(function() {
-						$thisAd = jQuery(this).data('price');
-						$newprice1 = parseFloat(adsduration_pd) * parseFloat($thisAd);
-						$newprice = parseFloat($newprice)+parseFloat($newprice1);
-						$newprice = $newprice.toFixed(2);
-					});
-					jQuery('input[name=ads_price]').val($newprice);
-					
-                }
-            }
-			
-			jQuery('.lp_payment_methods_ads').show(300);
 
             if($this.val()=="lp_random_ads"){
                 jQuery('.lp-invoices-all-stats li.spotlight span i.fa-check-circle').removeClass('lp-gray-this-ccircle');
+				jQuery('.lpcampain-spotlight .greencheck').removeClass('graycheck');
             }
             if($this.val()=="lp_top_in_search_page_ads"){
                 jQuery('.lp-invoices-all-stats li.searchpage span i.fa-check-circle').removeClass('lp-gray-this-ccircle');
+				jQuery('.lpcampain-topsearch .greencheck').removeClass('graycheck');
             }
             if($this.val()=="lp_detail_page_ads"){
                 jQuery('.lp-invoices-all-stats li.detailpage span i.fa-check-circle').removeClass('lp-gray-this-ccircle');
+				jQuery('.lpcampain-sidebar .greencheck').removeClass('graycheck');
             }
 
         }else{
-            $price = $this.data('price');
-            $prevPrice = '';
-			
-			if(jQuery('#lp-new-ad-compaignForm').data('type')=="adsperclick"){
-				$prevPrice = jQuery('input[name="adsprice_pc"]').val();
-			}else{
-				$prevPrice = jQuery('input[name="ads_price"]').val();
-			}
-			
-            if(jQuery('form#lp-new-ad-compaignForm').data('type')=="adsperclick"){
-                $newprice = $prevPrice;
-                jQuery('input[name=ads_price]').val($newprice);
-            }else if(jQuery('form#lp-new-ad-compaignForm').data('type')=="adsperduration"){
-                if(jQuery('input[name=adsduration_pd]').val()==""){}else{
-                    
-					adsduration_pd = jQuery('input[name=adsduration_pd]').val();
-					jQuery('input[name="lpadsoftype[]"]:checked').each(function() {
-						$thisAd = jQuery(this).data('price');
-						$newprice1 = parseFloat(adsduration_pd) * parseFloat($thisAd);
-						$newprice = parseFloat($newprice) + parseFloat($newprice1);
-						$newprice = $newprice.toFixed(2);
-						
-					});
-					
-					jQuery('input[name=ads_price]').val($newprice);
-					
-                }
-            }
+            
 
             if($this.val()=="lp_random_ads"){
                 jQuery('.lp-invoices-all-stats li.spotlight span i.fa-check-circle').addClass('lp-gray-this-ccircle');
+				jQuery('.lpcampain-spotlight .greencheck').addClass('graycheck');
             }
             if($this.val()=="lp_top_in_search_page_ads"){
                 jQuery('.lp-invoices-all-stats li.searchpage span i.fa-check-circle').addClass('lp-gray-this-ccircle');
+				jQuery('.lpcampain-topsearch .greencheck').addClass('graycheck');
             }
             if($this.val()=="lp_detail_page_ads"){
                 jQuery('.lp-invoices-all-stats li.detailpage span i.fa-check-circle').addClass('lp-gray-this-ccircle');
+				jQuery('.lpcampain-sidebar .greencheck').addClass('graycheck');
             }
 
         }
 
 
-            jQuery('.lp-invoices-all-stats li.budget span').text($newprice);
-            jQuery('.lp-invoices-all-stats li.duration span').text(adsduration_pd);
-            jQuery('.lp-invoices-all-stats li.subamount span').text($newprice);
-            jQuery('.lp-invoices-all-stats li.lp-total-amount-count span').text($newprice);
 
     });
 
     /* on type in days */
    jQuery("input[name=adsduration_pd]").keyup(function(){
-        $thisval = jQuery(this).val();
-        jQuery('input[name=ads_days]').val($thisval);
-        $newprice = 0;
-        jQuery('input[name="lpadsoftype[]"]:checked').each(function() {
-            $thisAd = jQuery(this).data('price');
-            $newprice1 = parseFloat($thisval) * parseFloat($thisAd);
-            $newprice = parseFloat($newprice) + parseFloat($newprice1);
-			$newprice = $newprice.toFixed(2);
-			
-        });
-        jQuery('input[name=ads_price]').val($newprice);
 		
-		jQuery('.lp-invoices-all-stats li.budget span').text($thisval);
-		jQuery('.lp-invoices-all-stats li.subamount span').text($newprice);
-		jQuery('.lp-invoices-all-stats li.lp-total-amount-count span').text($newprice);
+        $thisval = jQuery(this).val();
+		lp_set_camp_duration_price_in_preview($thisval);
+		lp_make_campaign_paybutton_active();
+		
 		
     });
     /* exit preview */
@@ -4164,10 +3950,6 @@ jQuery(document).ready(function(){
         jQuery('.lp_campaign_invoice_pmethod').show(300);
         jQuery(this).addClass('startpayforcampaignsss');
     });
-	jQuery(document).on('click', 'button.startpayforcampaignsss', function(e){
-       jQuery(this).addClass('startpayforcampaignsssNext');
-        jQuery('.lp-select-payement-outer.lp_payment_methods_ads').show(300);
-	});
     
 	 /* campaign popup code ends */
 	 
@@ -4176,22 +3958,7 @@ jQuery(document).ready(function(){
 	/* on type on ads price input */
     jQuery("input[name=adsprice_pc]").keyup(function(){
         $thisval = jQuery(this).val();
-		if (jQuery("li.taxpricein")[0]){
-			if(jQuery.trim($thisval) == ''){}else{
-				$taxVal = jQuery('li.taxpricein h5 span').text();  
-				$taxVal = parseInt($taxVal);
-				$taxVal = $taxVal/100;
-				$taxVal = $taxVal*$thisval;
-				$taxVal = $taxVal.toFixed(2);
-				$thisval = parseFloat($taxVal) + parseFloat($thisval);
-			}
-		}
-		
-		
-        jQuery('.lp-invoices-all-stats li.budget span').text($thisval);
-		jQuery('.lp-invoices-all-stats li.duration span').text(adsduration_pd);
-		jQuery('.lp-invoices-all-stats li.subamount span').text($thisval);
-		jQuery('.lp-invoices-all-stats li.lp-total-amount-count span').text($thisval);
+		lp_set_camp_budget_price_in_preview($thisval);
 		lp_make_campaign_paybutton_active();
 		
     });
@@ -4205,8 +3972,44 @@ jQuery(document).ready(function(){
         lp_make_campaign_paybutton_active();
     });
 	
-	
-
+    jQuery('.lpadspreview').on('click', function () {
+        packeg = '';
+        jQuery('.lploading').fadeIn();
+       clicks =  jQuery(this).attr('data-clicks');
+       mode =  jQuery(this).attr('data-mode');
+       budget =  jQuery(this).attr('data-budget');
+       credit =  jQuery(this).attr('data-credit');
+       duration =  jQuery(this).attr('data-duration');
+       method =  jQuery(this).attr('data-method');
+       currency =  jQuery(this).attr('data-currency');
+       transid =  jQuery(this).attr('data-transid');
+       packeg =  jQuery(this).attr('data-packeg0');
+       packeg1 =  jQuery(this).attr('data-packeg1');
+       if(packeg1){
+          packeg += packeg1; 
+        } 
+       packeg2 =  jQuery(this).attr('data-packeg2');
+        if(packeg2){
+          packeg += packeg2; 
+        }         
+        if(mode == 'perclick'){
+            jQuery('#lp-ad-click-inner').show();
+            jQuery('.adsremaining').html(credit);
+            jQuery('#lp-ad-click-inner').find('.lp-total-clicks-inner').find('h4').text(clicks);
+           }else{
+             jQuery('#lp-ad-click-inner').hide();
+              jQuery('.adsremaining').html(duration);
+        }
+       
+       jQuery('.lp-ad-all-attached-packages').html(packeg);
+       jQuery('.lp-ad-payment-price').html(budget);
+       jQuery('.lp-ad-payment-method').html(method);
+       jQuery('.adstransid').html(transid);
+       
+       jQuery('.lploading').fadeOut();
+        
+       
+    });
 
 });
 
@@ -4274,8 +4077,14 @@ jQuery(document).ready(function () {
     // time picker
 	if( jQuery('.datetimepicker1').length != 0 )
 	{
+		var timeFormat	=	'LT';
+		if( jQuery('#wp-timeformat').val() == 'H:i' )
+		{
+			timeFormat	=	'HH:mm';
+		}
+
         jQuery('.datetimepicker1').datetimepicker({
-            format: 'LT'
+            format: timeFormat,
         });
 	}
 
@@ -4301,6 +4110,7 @@ jQuery(document).ready(function(){
     /* for checkout stripe and 2checkout */
     jQuery('#listings_checkout_form').on('submit', function(e){
         var $this = jQuery(this);
+
         method = $this.find('input[name="plan"]:checked').val();
         listing_id = $this.find('input[name="listing_id"]:checked').val();
         post_title = $this.find('input[name="listing_id"]:checked').data('title');
@@ -4309,13 +4119,14 @@ jQuery(document).ready(function(){
         currency = jQuery('input[name=currency]').val();
         if(method==='stripe'){
             plan_price = plan_price*100;
+
             //jQuery('#stripe-submit').trigger( "click" );
             handler.open({
                 name: post_title,
                 description: "",
                 zipCode: true,
                 amount: plan_price,
-                currency: currency
+                currency: currency,
             });
             e.preventDefault();
         }
@@ -4330,115 +4141,23 @@ jQuery(document).ready(function(){
 
     });
 
- jQuery('.lp-new-ad-compaign .lp-invoice-number input.radio_checked').on('click', function(e){
+ jQuery('.lp_payment_methods_ads .lp-payement-images').on('click', function(e){
 
         $this = jQuery(this);
-     lp_make_campaign_paybutton_active();
-
-		$adType = $this.closest('.lp-listing-outer-container').data('mode');
-
-        $clicks = $this.closest('.lp-listing-outer-container').data('clicks');
-
-        $mode = $this.closest('.lp-listing-outer-container').data('mode');
-
-        $budget = $this.closest('.lp-listing-outer-container').data('budget');
-
-        $credit = $this.closest('.lp-listing-outer-container').data('credit');
-
-        $currency = $this.closest('.lp-listing-outer-container').data('currency');
-
-        $packeg0 = $this.closest('.lp-listing-outer-container').data('packeg0');
-
-        $packeg1 = $this.closest('.lp-listing-outer-container').data('packeg1');
-
-        $packeg2 = $this.closest('.lp-listing-outer-container').data('packeg2');
-
-        $method = $this.closest('.lp-listing-outer-container').data('method');
-
-        $duration = $this.closest('.lp-listing-outer-container').data('duration');
-
-		if($adType=="adsperclick"){
-
-			/* for ads per click */
-
-			jQuery('#lp-ad-click-inner .lp-total-clicks-inner h4').html('');
-
-			jQuery('#lp-ad-click-innerr .facmount').html('');
-
-			jQuery('#lp-ad-click-innerr .faccredit').html('');
-
-
-
-			jQuery('#lp-ad-click-inner .lp-total-clicks-inner h4').html($clicks);
-
-			jQuery('#lp-ad-click-innerr .facmount').html($budget + $currency);
-
-			if($credit){
-
-				jQuery('#lp-ad-click-innerr .faccredit').html($credit + $currency);
-
-			}else{
-
-				jQuery('#lp-ad-click-innerr .faccredit').html($budget + $currency);
-
-			}
-
-		}else{
-
-			
-
-			/* for ads per duration */
-
-			jQuery('#lp-ad-click-innerr .lp-ad-payment-duration h5').html('');
-
-			jQuery('#lp-ad-click-innerr .lp-ad-payment-duration h5').html($duration);
-
-			jQuery('#lp-ad-click-innerr .lp-ad-payment-duration h5').html($duration);
-
-			
-
-			jQuery('#lp-ad-click-innerr .lp-ad-payment-price h5').html('');
-
-			jQuery('#lp-ad-click-innerr .lp-ad-payment-price h5').html($budget);
-
-			
-
-		}
-
-		jQuery('#lp-ad-click-innerr .lp-ad-all-attached-packages').html('');
-
-		jQuery('#lp-ad-click-innerr .lp-ad-payment-method h5').html('');
-
-		if($packeg0){
-
-			jQuery('#lp-ad-click-innerr .lp-ad-all-attached-packages').append(jQuery('<li>'+$packeg0+'</li>'));
-
-		}
-
-		if($packeg1){
-
-			jQuery('#lp-ad-click-innerr .lp-ad-all-attached-packages').append(jQuery('<li>'+$packeg1+'</li>'));
-
-		}
-
-		if($packeg2){
-
-			jQuery('#lp-ad-click-innerr .lp-ad-all-attached-packages').append(jQuery('<li>'+$packeg2+'</li>'));
-
-		}
-
-		jQuery('#lp-ad-click-innerr .lp-ad-payment-method h5').html($method);
-
-		
+		lp_make_campaign_paybutton_active();
 
     });
-	
-	jQuery('button.lp-add-new-btn').on('click', function(){
-        jQuery('.lp-blank-section').hide(300);
+
+    jQuery('button.lp-add-new-btn').on('click', function(){
+        jQuery('.lp_camp_invoice_wrp').fadeOut(function () {
+            jQuery('.lp-ad-step-two').fadeIn();
+        });
     });
     
-    jQuery('#modal-lp-submit-ad button.lp-btn-close, .lp-ad-step-two button.lp-cancle-btn').on('click', function(){
-        jQuery('.lp-blank-section').show(300);
+    jQuery('a.lp-all-camp-bck').on('click', function(e){
+		jQuery('.lp-ad-step-two').hide(300);
+        jQuery('.lp_camp_invoice_wrp').show(300);
+		e.preventDefault();
     });
 
 });
@@ -4501,6 +4220,7 @@ function lp_show_mini_subtotal(){
 
 
     jQuery('.lp-checkout-coupon-outer').css('display', 'block');
+    jQuery('.active-checkout-listing').addClass('lp-checkout-wrapper-new-without-radius');
 }
 
 /* ====================function for recurring option====================== */
@@ -4659,30 +4379,37 @@ jQuery(document).on('click', '.show-loop-map-popup', function (e) {
         url: ajax_search_term_object.ajaxurl,
         data: {
             'action':'show_map_pop_cb',
-            'LPpostID' : LPpostID
+            'LPpostID' : LPpostID,
+            'lpNonce' : jQuery('#lpNonce').val()
         },
         success:function(data) {
 
             jQuery('#grid-show-popup .grid-show-popup').html(data);
+            var markerSrc	=	jQuery('#grid-show-popup .grid-show-popup .quickmap').attr('data-marker-src');
             var markers = false;
             $mtoken = jQuery('#page').data("mtoken");
+            $mtype = jQuery('#page').data("mtype");	
             $siteURL = jQuery('#page').data("site-url");
             $lat = LAT;
             $lan = LNG;
-            if($mtoken != ''){
+            if($mtoken != '' && $mtype == 'mapbox'){
                 L.mapbox.accessToken = $mtoken;
                 map = L.mapbox.map('quickmap'+LPpostID, 'mapbox.streets');
             }else{
                 var map = new L.Map('quickmap'+LPpostID, {center: new L.LatLng($lat,$lan), zoom: 14});
-                var googleLayer = new L.Google('ROADMAP');
-                map.addLayer(googleLayer);
+                if($mtype == 'google'){
+                    var googleLayer = new L.Google('ROADMAP');
+                    map.addLayer(googleLayer);
+                }else{
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                }
             }
             map.setView([$lat,$lan], 14);
             markers = new L.MarkerClusterGroup();
             var markerLocation = new L.LatLng($lat, $lan); // London
             var CustomHtmlIcon = L.HtmlIcon.extend({
                 options : {
-                    html : "<div class='lpmap-icon-shape pin '><div class='lpmap-icon-contianer'><img src='"+$siteURL+"wp-content/themes/listingpro/assets/images/pins/lp-logo.png'  /></div></div>",
+                    html : "<div class='lpmap-icon-shape pin '><div class='lpmap-icon-contianer'><img src='"+markerSrc+"'  /></div></div>",
                 }
             });
             var customHtmlIcon = new CustomHtmlIcon();
@@ -4752,10 +4479,11 @@ jQuery(document).ready(function () {
 	})
 });
 
-//dashboard weekly monthly active
+
 
 jQuery(document).ready(function(){
 
+    //dashboard weekly monthly active
 	jQuery('.lp_stats_duration_filter li button').on('click', function(){
 
 		jQuery('.lp_stats_duratonBtn').removeClass('active');
@@ -4764,16 +4492,496 @@ jQuery(document).ready(function(){
 
     });
 
-});
 
-jQuery(document).ready(function(){
+    //If width is less than 640
     if(jQuery(window).width()<641){
         jQuery('#main_icon').on('click', function() {
             jQuery('#main_icon').toggleClass('fa fa-times');
             jQuery('#sidebar').toggle(300);
         });
     }
+    
 
+    //New archive style grid switcher
+	jQuery('.lp-grid-two').on('click', function(){
+		
+		
+		jQuery('.lp-sidebar-filters-style').removeClass('lp-grid-width1');
+		jQuery('.lp-sidebar-filters-style').removeClass('lp-grid-width3');
+
+        jQuery('.lp-sidebar-filters-style').addClass('lp-grid-width2');
+		jQuery('.lp-grid-two').addClass('active');
+		jQuery('.lp-grid-one').removeClass('active');
+		jQuery('.lp-grid-three').removeClass('active');		
+
+    });
+	jQuery('.lp-grid-one').on('click', function(){
+
+		jQuery('.lp-sidebar-filters-style').removeClass('lp-grid-width2');
+		jQuery('.lp-sidebar-filters-style').removeClass('lp-grid-width3');
+
+        jQuery('.lp-sidebar-filters-style').addClass('lp-grid-width1');
+		jQuery('.lp-grid-one').addClass('active');
+		jQuery('.lp-grid-two').removeClass('active');
+		jQuery('.lp-grid-three').removeClass('active');
+
+    });
+	jQuery('.lp-grid-three').on('click', function(){
+
+		jQuery('.lp-sidebar-filters-style').removeClass('lp-grid-width1');
+		jQuery('.lp-sidebar-filters-style').removeClass('lp-grid-width2');
+
+        jQuery('.lp-sidebar-filters-style').addClass('lp-grid-width3');
+		jQuery('.lp-grid-three').addClass('active');
+		jQuery('.lp-grid-two').removeClass('active');
+		jQuery('.lp-grid-one').removeClass('active');
+    });
+
+    
+    
 });
 
 
+jQuery(document).on('click', '.app-view-popup-style', function(){
+
+    jQuery( "body" ).prepend( '<div id="full-overlay-lp"></div>' );
+    jQuery("#full-overlay-lp").css({
+        "width": "100vw",
+        "height": "100vh",
+        "position": "fixed",
+        "background": "#000000c7",
+        "z-index": "1",
+    });
+    jQuery(".md-close i").click(function(){
+        jQuery('#full-overlay-lp').remove();
+    });
+});
+
+/* ======function to get currency symbol===== */
+
+function lp_get_currency_sysmbol(){
+	$code = jQuery('#lp-new-ad-compaignForm').data('camp-currency');
+	return $code;
+}
+/* ======function to get tax percent===== */
+
+function lp_get_tax_percent(){
+	$code = jQuery('#lp-new-ad-compaignForm').data('tax-percent');
+	return $code;
+}
+
+/* ======function to get selected campaigns org price===== */
+
+function lp_get_selected_camp_price(){
+	$totalCamPrice = 0;
+	jQuery('input[name="lpadsoftype[]"]:checked').each(function() {
+						$thisAd = jQuery(this).data('orgprice');
+						$totalCamPrice = parseFloat($totalCamPrice) + parseFloat($thisAd);
+					});
+					//console.log($totalCamPrice);
+					return $totalCamPrice;
+					
+}
+/* ======function to get selected campaigns with tax price===== */
+function lp_get_selected_camp_withtax_price(){
+	$totalCamPrice = 0;
+	jQuery('input[name="lpadsoftype[]"]:checked').each(function() {
+						$thisAd = jQuery(this).data('price');
+						$totalCamPrice = parseFloat($totalCamPrice) + parseFloat($thisAd);
+					});
+					//console.log($totalCamPrice);
+					return $totalCamPrice;
+					
+}
+/* ======function to get tax price of campaigns===== */
+function lp_get_selected_camp_onlytax_price(){
+	$totalCamPrice = 0;
+	jQuery('input[name="lpadsoftype[]"]:checked').each(function() {
+						$thisAd = jQuery(this).data('taxprice');
+						$totalCamPrice = parseFloat($totalCamPrice) + parseFloat($thisAd);
+					});
+					//console.log($totalCamPrice);
+					return $totalCamPrice;
+					
+}
+/* ======function to set camp duration price in preview===== */
+function lp_set_camp_duration_price_in_preview($thisval){
+		$daysString = jQuery('.lp-cmp-duration').data('days-text');
+		$taxPercent = lp_get_tax_percent();
+		$taxtotalPrice = lp_get_selected_camp_onlytax_price();
+		$taxtotalPrice = $thisval*$taxtotalPrice;
+        $taxtotalPrice = $taxtotalPrice.toFixed(2);
+		jQuery('input[name=taxprice]').val($taxtotalPrice);
+		jQuery('input[name=ads_days]').val($thisval);
+		$thisvalWithDays = $thisval+' '+$daysString;
+		jQuery('.lp-cmp-duration h6').text($thisvalWithDays);
+		$totalCamPrice = lp_get_selected_camp_price();
+		$totalCamPrice = parseFloat($thisval) * parseFloat($totalCamPrice);
+		console.log($totalCamPrice);
+        $totalCamPrice = $totalCamPrice.toFixed(2);
+		jQuery('.lp-cmp-subtotal h6').text(lp_get_currency_sysmbol()+''+$totalCamPrice);
+		$totalCamPriceWithTax = lp_get_selected_camp_withtax_price();
+		$totalCamPriceWithTax = parseFloat($thisval) * parseFloat($totalCamPriceWithTax);
+        $totalCamPriceWithTax = $totalCamPriceWithTax.toFixed(2);		
+		console.log($totalCamPriceWithTax);
+		jQuery('.lp-cmp-alltotal h5').text(lp_get_currency_sysmbol()+''+$totalCamPriceWithTax);
+		jQuery('input[name=ads_price]').val($totalCamPriceWithTax);
+		
+		
+		console.log($taxtotalPrice);
+		jQuery('.lp-cmp-taxtotal h6').text($taxtotalPrice);
+					
+}
+/* ======function to set camp price in preview===== */
+function lp_set_camp_budget_price_in_preview($thisval){
+	$taxPercent = lp_get_tax_percent();
+		$thisvalWithCurr = lp_get_currency_sysmbol()+''+$thisval;
+		jQuery('.lp-cmp-budget h6').text($thisvalWithCurr);
+		jQuery('.lp-cmp-subtotal h6').text($thisvalWithCurr);
+		$taxPrice = 0;
+		if($taxPercent){
+			$taxPrice = ($taxPercent/100)*$thisval;
+			$taxPrice = $taxPrice.toFixed(2);
+			jQuery('input[name=taxprice]').val($taxPrice);
+			$taxPriceWithCurr = lp_get_currency_sysmbol()+''+$taxPrice;
+			jQuery('.lp-cmp-taxtotal h6').text($taxPriceWithCurr);
+			
+		}
+		
+		$totalAmount = parseFloat($thisval) + parseFloat($taxPrice);
+		jQuery('input[name=ads_price]').val($totalAmount);
+		jQuery('.lp-cmp-alltotal h5').text($totalAmount);
+}
+/* ======function to set camp type===== */
+function lp_get_camp_type(){
+	$camptype = jQuery('#lp-new-ad-compaignForm').data('type');
+	return $camptype;
+}
+
+
+
+// Add hours
+jQuery(document).on('click', 'button.add-hours', function(event) {
+    event.preventDefault();
+    var $this = jQuery(this);
+    var lp2times = $this.closest('#day-hours-BusinessHours').data('lpenabletwotimes');
+    var sorryMsg = jQuery(this).data('sorrymsg');
+    var alreadyadded = jQuery(this).data('alreadyadded');
+    var error = false;
+    var fullday = '';
+    var fullhoursclass = '';
+
+    var lpdash = "~";
+
+    if(lp2times=="disable"){
+
+        var weekday = jQuery('select.weekday').val();
+        if(jQuery(".fulldayopen").is(":checked")){
+            jQuery('.fulldayopen').attr('checked', false);
+            jQuery('select.hours-start').prop("disabled", false);
+            jQuery('select.hours-end').prop("disabled", false);
+            var startVal ='';
+            var endVal ='';
+            var hrstart ='';
+            var hrend ='';
+            fullday = $this.data('fullday');
+            fullhoursclass = 'fullhours';
+            lpdash = "";
+        }
+        else{
+            var startVal = jQuery('select.hours-start').val();
+            var endVal = jQuery('select.hours-end').val();
+            var hrstart = jQuery('select.hours-start').find('option:selected').val();
+            var hrend = jQuery('select.hours-end').find('option:selected').val();
+
+            var startVal_digit = hrstart.replace(':', '');
+            var endVal_digit = hrend.replace(':', '');
+
+            if (startVal_digit.indexOf('am') > -1) {
+                startVal_digit = startVal_digit.replace('am', '');
+            }
+            else if (startVal_digit.indexOf('pm') > -1) {
+                startVal_digit = startVal_digit.replace('pm', '');
+                if (startVal_digit != '1200' && startVal_digit != '1230') {
+                    startVal_digit = parseInt(startVal_digit) + 1200;
+                }
+            }
+            if (endVal_digit.indexOf('am') > -1) {
+                endVal_digit = endVal_digit.replace('am', '');
+                endVal_digit = parseInt(endVal_digit);
+                if(endVal_digit >= 1200){
+                    endVal_digit = parseInt(endVal_digit) - 1200;
+                }
+
+            }
+            else if (endVal_digit.indexOf('pm') > -1) {
+                endVal_digit = endVal_digit.replace('pm', '');
+                endVal_digit = parseInt(endVal_digit) + 1200;
+            }
+
+            if(startVal_digit > endVal_digit){
+                nextWeekday = jQuery("select.weekday option:selected+option").val();
+                if(typeof nextWeekday === "undefined"){
+                    nextWeekday = jQuery("select.weekday").find("option:first-child").val();
+                }
+
+                weekday = weekday+"~"+nextWeekday;
+            }
+
+
+        }
+
+
+
+        if( $this.hasClass('lp-add-hours-st') )
+        {
+            var remove = '<i class="fa fa-times"></i>';
+        }
+        else
+        {
+            var remove  =   jQuery(this).data('remove');
+        }
+        jQuery('.hours-display .hours').each(function(index, element) {
+            var weekdayTExt = jQuery(element).children('.weekday').text();
+            if(weekdayTExt == weekday){
+                alert(sorryMsg+'! '+weekday+' '+alreadyadded);
+                error = true;
+            }
+        });
+        if(error != true){
+            jQuery('.hours-display').append("<div class='hours "+fullhoursclass+"'><span class='weekday'>"+ weekday +"</span><span class='start-end fullday'>"+fullday+"</span><span class='start'>"+ hrstart +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend +"</span><a class='remove-hours' href='#'>"+remove+"</a><input name='business_hours["+weekday+"][open]' value='"+startVal+"' type='hidden'><input name='business_hours["+weekday+"][close]' value='"+endVal+"' type='hidden'></div>");
+            var current = jQuery('select.weekday').find('option:selected');
+            var nextval = current.next();
+            current.removeAttr('selected');
+            nextval.attr('selected','selected');
+            jQuery('select.weekday').trigger('change.select2');
+        }
+    }
+    else{
+        var lptwentlyfourisopen = '';
+        /* 2times */
+        var weekday = jQuery('select.weekday').val();
+        var weekday1 = weekday;
+        var weekday2 = weekday;
+
+        if(jQuery(".fulldayopen").is(":checked")){
+
+            lptwentlyfourisopen = 'yes';
+
+            jQuery('.fulldayopen').attr('checked', false);
+            jQuery('select.hours-start').prop("disabled", false);
+            jQuery('select.hours-end').prop("disabled", false);
+
+            jQuery('select.hours-start2').prop("disabled", false);
+            jQuery('select.hours-end2').prop("disabled", false);
+
+            var startVal1 ='';
+            var endVal1 ='';
+            var hrstart1 ='';
+            var hrend1 ='';
+
+            var startVal2 ='';
+            var endVal2 ='';
+            var hrstart2 ='';
+            var hrend2 ='';
+
+
+
+            fullday = $this.data('fullday');
+            fullhoursclass = 'fullhours';
+
+            lpdash = "";
+        }
+        else{
+            var startVal1 = jQuery('select.hours-start').val();
+            var endVal1 = jQuery('select.hours-end').val();
+            var hrstart1 = jQuery('select.hours-start').find('option:selected').val();
+            var hrend1 = jQuery('select.hours-end').find('option:selected').val();
+
+            var startVal1_digit = hrstart1.replace(':', '');
+            var endVal1_digit = hrend1.replace(':', '');
+
+            if (startVal1_digit.indexOf('am') > -1) {
+                startVal1_digit = startVal1_digit.replace('am', '');
+            }
+            else if (startVal1_digit.indexOf('pm') > -1) {
+                startVal1_digit = startVal1_digit.replace('pm', '');
+                if (startVal1_digit != '1200' && startVal1_digit != '1230') {
+                    startVal1_digit = parseInt(startVal1_digit) + 1200;
+                }
+            }
+            if (endVal1_digit.indexOf('am') > -1) {
+                endVal1_digit = endVal1_digit.replace('am', '');
+                endVal1_digit = parseInt(endVal1_digit);
+                if( endVal1_digit >= 1200 ){
+                    endVal1_digit = parseInt(endVal1_digit) - 1200;
+                }
+            }
+            else if (endVal1_digit.indexOf('pm') > -1) {
+                endVal1_digit = endVal1_digit.replace('pm', '');
+                endVal1_digit = parseInt(endVal1_digit) + 1200;
+            }
+
+
+            if(startVal1_digit > endVal1_digit){
+
+                nextWeekday = jQuery("select.weekday option:selected+option").val();
+                if(typeof nextWeekday === "undefined"){
+                    nextWeekday = jQuery("select.weekday").find("option:first-child").val();
+
+                }
+
+                weekday1 = weekday+"~"+nextWeekday;
+                jQuery('.hours-display .hours').each(function (e) {
+                    var $this	=	jQuery(this);
+                    if($this.find('span.weekday:contains("'+weekday1+'")').length > 0) {
+                        alert(sorryMsg+'! '+weekday1+' '+alreadyadded);
+                        error = true;
+                    }
+                });
+
+            }
+
+
+            var startVal2 = jQuery('select.hours-start2').val();
+            var endVal2 = jQuery('select.hours-end2').val();
+            var hrstart2 = jQuery('select.hours-start2').find('option:selected').text();
+            var hrend2 = jQuery('select.hours-end2').find('option:selected').text();
+
+            var startVal2_digit = hrstart2.replace(':', '');
+            var endVal2_digit = hrend2.replace(':', '');
+
+            if (startVal2_digit.indexOf('am') > -1) {
+                startVal2_digit = startVal2_digit.replace('am', '');
+            }
+            else if (startVal2_digit.indexOf('pm') > -1) {
+                startVal2_digit = startVal2_digit.replace('pm', '');
+                if (startVal2_digit != '1200' && startVal2_digit != '1230') {
+                    startVal2_digit = parseInt(startVal2_digit) + 1200;
+                }
+            }
+            if (endVal2_digit.indexOf('am') > -1) {
+                endVal2_digit = endVal2_digit.replace('am', '');
+                endVal2_digit = parseInt(endVal2_digit);
+                if( endVal2_digit >= 1200 ){
+                    endVal2_digit = parseInt(endVal2_digit) - 1200;
+                }
+            }
+            else if (endVal2_digit.indexOf('pm') > -1) {
+                endVal2_digit = endVal2_digit.replace('pm', '');
+                endVal2_digit = parseInt(endVal2_digit) + 1200;
+            }
+
+
+            if(startVal2_digit > endVal2_digit){
+                nextWeekday = jQuery("select.weekday option:selected+option").val();
+                if(typeof nextWeekday === "undefined"){
+                    nextWeekday = jQuery("select.weekday").find("option:first-child").val();
+                }
+
+                weekday2 = weekday+"~"+nextWeekday;
+                jQuery('.hours-display .hours').each(function (e) {
+                    var $this	=	jQuery(this);
+                    if($this.find('span.weekday:contains("'+weekday2+'")').length > 0) {
+                        alert(sorryMsg+'! '+weekday2+' '+alreadyadded);
+                        error = true;
+                    }
+                });
+            }
+        }
+        
+
+        
+        if( $this.hasClass('lp-add-hours-st') )
+        {
+            var remove = '<i class="fa fa-times"></i>';
+        }
+        else
+        {
+            var remove  =   jQuery(this).data('remove');
+        }
+
+        if(error != true){
+
+            if( (jQuery(".lp-check-doubletime .enable2ndday").is(":checked")) && (lptwentlyfourisopen==="") ){
+
+                jQuery('.hours-display').append("<div class='hours "+fullhoursclass+"'><span class='weekday'>"+ weekday +"</span><span class='start-end fullday'>"+fullday+"</span><span class='start'>"+ hrstart1 +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend1 +"</span><a class='remove-hours' href='#'>"+remove+"</a><br><span class='weekday'>&nbsp;</span><span class='start'>"+ hrstart2 +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend2 +"</span><input name='business_hours["+weekday1+"][open][0]' value='"+startVal1+"' type='hidden'><input name='business_hours["+weekday1+"][close][0]' value='"+endVal1+"' type='hidden'><input name='business_hours["+weekday2+"][open][1]' value='"+startVal2+"' type='hidden'><input name='business_hours["+weekday2+"][close][1]' value='"+endVal2+"' type='hidden'></div>");
+            }else{
+
+                jQuery('.hours-display').append("<div class='hours "+fullhoursclass+"'><span class='weekday'>"+ weekday1 +"</span><span class='start-end fullday'>"+fullday+"</span><span class='start'>"+ hrstart1 +"</span><span>"+lpdash+"</span><span class='end'>"+ hrend1 +"</span><a class='remove-hours' href='#'>"+remove+"</a><input name='business_hours["+weekday1+"][open]' value='"+startVal1+"' type='hidden'><input name='business_hours["+weekday1+"][close]' value='"+endVal1+"' type='hidden'></div>");
+            }
+            var current = jQuery('select.weekday').find('option:selected');
+            var nextval = current.next();
+            current.removeAttr('selected');
+            nextval.attr('selected','selected');
+            jQuery('select.weekday').trigger('change.select2');
+        }
+
+        /* 2times */
+    }
+});
+
+
+jQuery(document).on('click', '.lp-dot-extra-buttons', function(e){
+    jQuery(this).find(".lp-user-menu").toggleClass("main");
+});
+
+
+jQuery(document).ready(function () {
+    jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").attr("disabled", true);
+	jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").addClass("LPdisabled");
+    if (jQuery('.form-group.lp-claim-form-check-circle input').is(':checked')) {
+        jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").attr("disabled", false);
+		jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").removeClass("LPdisabled");
+		
+    }else{
+        jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").attr("disabled", true);
+		
+		jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").addClass("LPdisabled");
+		
+    }
+    jQuery('.form-group.lp-claim-form-check-circle input').click(function () {
+        if (jQuery('.form-group.lp-claim-form-check-circle input').is(':checked')) {
+            jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").attr("disabled", false);
+			jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").removeClass("LPdisabled");
+			
+			
+        }else{
+            jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").attr("disabled", true);
+			jQuery(".lp-secondary-btn.btn-second-hover.lp-secondary-choose.lp-claim-plan-btn").addClass("LPdisabled");
+        }
+    });
+});
+jQuery("#pop").on("click", function(e) {
+   e.preventDefault();
+    jQuery('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+   var img_src = jQuery(this).data('imgsrc');
+   jQuery('#imagemodal').find('img').attr('src', img_src);
+});
+jQuery('#my_file').change(function() {
+  var i = jQuery(this).prev('label').clone();
+  var file = jQuery('#my_file')[0].files[0].name;
+  jQuery(this).prev('label').text(file);
+});
+jQuery(document).ready(function () {
+    if(jQuery('.payment-recurring-message').length > 0){
+        jQuery(document).on('change', '.lp-checkout-recurring-wrap', function () {
+            var checkboxVal = jQuery('.lp-checkout-recurring-wrap input[name="lp-recurring-option"]').is(':checked');
+            if ( checkboxVal === false ) {
+                jQuery('.payment-recurring-message').fadeOut('slow');
+            }
+        });
+        jQuery('.rec_alert_remove').click(function () {
+            jQuery('.payment-recurring-message').fadeOut('slow');
+        });
+    }
+});
+jQuery(document).on('click', '.sidebar-filters-map-pop', function (e) {
+    if(jQuery('.sidemap-container').hasClass('sidebar-filters-map-full')) {
+        jQuery('.sidemap-container').removeClass('sidebar-filters-map-full');
+        jQuery(this).text(jQuery(this).attr('data-full-map'));
+    } else {
+        jQuery('.sidemap-container').addClass('sidebar-filters-map-full');
+        jQuery(this).text(jQuery(this).attr('data-close-map'));
+    }
+});

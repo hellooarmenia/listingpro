@@ -66,13 +66,8 @@
                                 <?php echo listingpro_icons('fbGrey'); ?>
                             </a>
                         </li>
-                    <?php } if(!empty($user_google)) { ?>
-                        <li>
-                            <a href="<?php echo esc_url($user_google); ?>">
-                                <?php echo listingpro_icons('googleGrey'); ?>
-                            </a>
-                        </li>
-                    <?php } if(!empty($user_instagram)) { ?>
+                    <?php } ?>
+                    <?php if(!empty($user_instagram)) { ?>
                         <li>
                             <a href="<?php echo esc_url($user_instagram); ?>">
                                 <?php echo listingpro_icons('instaGrey'); ?>
@@ -100,15 +95,17 @@
                 </ul>
             </div>
         </div>
-        <form class="form-horizontal"  method="post" id="contactOwner">
+        <?php
+        $gSiteKey = '';
+        $gSiteKey = $listingpro_options['lp_recaptcha_site_key'];
+        $enableCaptcha = lp_check_receptcha('lp_recaptcha_lead');
+        ?>
+        <form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" class="form-horizontal"  method="post" id="contactOwner">
             <?php
             $author_id = '';
             $author_email = '';
             $author_email = get_the_author_meta( 'user_email' );
             $author_id = get_the_author_meta( 'ID' );
-            $gSiteKey = '';
-            $gSiteKey = $listingpro_options['lp_recaptcha_site_key'];
-            $enableCaptcha = lp_check_receptcha('lp_recaptcha_lead');
             ?>
             <div class="form-group">
                 <input type="text" class="form-control" name="name7" id="name7" placeholder="<?php esc_html_e('Name:','listingpro'); ?>">
@@ -117,7 +114,7 @@
                 <input type="email" class="form-control" name="email7" id="email7" placeholder="<?php esc_html_e('Email:','listingpro'); ?>">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="<?php esc_html_e('Phone','listingpro'); ?>">
+                <input type="text" class="form-control" name="phone7" id="phone7" placeholder="<?php esc_html_e('Phone','listingpro'); ?>">
             </div>
             <div class="form-group">
                 <textarea class="form-control" rows="5" name="message7" id="message7" placeholder="<?php esc_html_e('Message:','listingpro'); ?>"></textarea>

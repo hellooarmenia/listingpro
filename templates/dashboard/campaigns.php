@@ -54,7 +54,7 @@
 		$lp_detail_page_ads = $listingpro_options['lp_detail_page_ads'];
 		$lp_top_in_search_page_ads = $listingpro_options['lp_top_in_search_page_ads'];
 		$currencyprice = $listingpro_options['currency_paid_submission'];
-		$ads_durations = $listingpro_options['listings_ads_durations'];
+		$ads_durations = '';
 
 		$lp_promotion_title = $listingpro_options['lp_pro_title'];
 		$lp_promotion_text = $listingpro_options['lp_pro_text'];

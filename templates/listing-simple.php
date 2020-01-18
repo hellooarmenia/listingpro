@@ -1,11 +1,4 @@
 <?php
-					
-					$includeChildren = true;
-					if(lp_theme_option('lp_children_in_tax')){
-						if(lp_theme_option('lp_children_in_tax')=="no"){
-							$includeChildren = false;
-						}
-					}
 
 					$type = 'listing';
 					$term_id = '';
@@ -19,21 +12,28 @@
 					if( isset($listingpro_options['lp_archivepage_listingorder']) ){
 						$lporders = $listingpro_options['lp_archivepage_listingorder'];
 					}
-					if( isset($listingpro_options['lp_archivepage_listingorderby']) ){
-						$lporderby = $listingpro_options['lp_archivepage_listingorderby'];
+					$MtKey = '';
+					if( !empty(lp_theme_option('lp_archivepage_listingorderby')) ){
+						$lporderby = lp_theme_option('lp_archivepage_listingorderby');
 					}
+					if($lporderby=="post_views_count" || $lporderby=="listing_reviewed" || $lporderby=="listing_rate" || $lporderby=="claimed" ){
+						$MtKey = $lporderby;
+						$lporderby = 'meta_value_num';
+						
+					}
+					
+					$defSquery = '';
 					
 					if($lporderby=="rand"){
 						$lporders = '';
 					}
 					
-					$defSquery = '';
-					$lpDefaultSearchBy = 'title';
-					if( isset($listingpro_options['lp_default_search_by']) ){
-						$lpDefaultSearchBy = $listingpro_options['lp_default_search_by'];
+					$includeChildren = true;
+					if(lp_theme_option('lp_children_in_tax')){
+						if(lp_theme_option('lp_children_in_tax')=="no"){
+							$includeChildren = false;
+						}
 					}
-					
-					
 					
 					$taxTaxDisplay = true;
 					$TxQuery = '';
@@ -42,18 +42,16 @@
 					$locQuery = '';
 					$taxQuery = '';
 					$searchQuery = '';
-					$parent = '';
-					$priceQuery = '';
 					$sKeyword = '';
 					$tagKeyword = '';
+					$priceQuery = '';
 					$postsonpage = '';
 					if(isset($listingpro_options['listing_per_page'])){
 						$postsonpage = $listingpro_options['listing_per_page'];
 					}
 					else{
-						$postsonpage = 9;
+						$postsonpage = 10;
 					}
-					
 					
 					
 					if( !empty($_GET['s']) && isset($_GET['s']) && $_GET['s']=="home" ){
@@ -69,8 +67,6 @@
 						
 						if( !empty($_GET['lp_s_cat']) && isset($_GET['lp_s_cat'])){
 							$lpsCat = sanitize_text_field($_GET['lp_s_cat']);
-							$termo = get_term_by('id', $lpsCat, 'listing-category');
-							$parent = $termo->parent;
 							$catQuery = array(
 								'taxonomy' => 'listing-category',
 								'field' => 'id',
@@ -80,6 +76,7 @@
 							if( $includeChildren == false ){
                                $catQuery['include_children'] = $includeChildren;
 							}
+							$taxName = 'listing-category';
 						}
 						
 						if( !empty($_GET['lp_s_loc']) && isset($_GET['lp_s_loc'])){							
@@ -92,7 +89,6 @@
 								if(!empty($term)){
 									$lpsLoc=$term['term_id'];
 								}
-								
 								else{
 									$lpsLoc = '';
 								}
@@ -106,38 +102,35 @@
 							if( $includeChildren == false ){
                                $locQuery['include_children'] = $includeChildren;
 							}
-							
 						}
-						/* on 3 april by zaheer */
-						if( empty($_GET['lp_s_tag']) && empty($_GET['lp_s_cat']) && !empty($_GET['select']) ){
-							
-							if( $lpDefaultSearchBy=="title" ){
-								$sKeyword = sanitize_text_field($_GET['select']);
-								$defSquery = $sKeyword;
-							}
-							else{
-							
-								$sKeyword = sanitize_text_field($_GET['select']);
-								$tagQuery = array(
-									'taxonomy' => 'list-tags',
-									'field' => 'name',
-									'terms' => $sKeyword,
-									'operator'=> 'IN' //Or 'AND' or 'NOT IN'
-								);
-								$sKeyword = '';
-								$tagKeyword = sanitize_text_field($_GET['select']);
-								$defSquery = $tagKeyword;
-							}
-							
+						/* Search default result priority- Keyword then title */
+						if( empty($_GET['lp_s_tag']) && empty($_GET['lp_s_cat']) && !empty($_GET['select']) ){                        
+                                
+                            $sKeyword = sanitize_text_field($_GET['select']);
+                            $defSquery = $sKeyword;
+                            $termExist = term_exists( $sKeyword, 'list-tags' );
+
+                            if ( $termExist !== 0 && $termExist !== null ) {
+                                $tagQuery = array(
+                                    'taxonomy' => 'list-tags',
+                                    'field' => 'name',
+                                    'terms' => $sKeyword,
+                                    'operator'=> 'IN' //Or 'AND' or 'NOT IN'
+                                );
+                                $sKeyword = '';
+                                $tagKeyword = sanitize_text_field($_GET['select']);
+                                $defSquery = $tagKeyword;
+                            }													
 						}
-						/* end on 3 april by zaheer */
-						$TxQuery = array(
-							'relation' => 'AND',
-							$tagQuery,
-							$catQuery,
-							$locQuery,
-						);
-					$ad_campaignsIDS = listingpro_get_campaigns_listing( 'lp_top_in_search_page_ads', TRUE,$taxQuery,$TxQuery,$priceQuery,$sKeyword, null, null);
+							
+                    $TxQuery = array(
+                        'relation' => 'AND',
+                        $tagQuery,
+                        $catQuery,
+                        $locQuery,
+                    );
+                        
+					$ad_campaignsIDS = listingpro_get_campaigns_listing( 'lp_top_in_search_page_ads', TRUE,$taxQuery,$TxQuery,$priceQuery,$sKeyword, null, null);	
 					}
 					else{
 						$queried_object = get_queried_object();
@@ -147,7 +140,6 @@
 							$termID = get_term_by('id', $term_id, $taxName);
 							$termName = $termID->name;
 							$term_ID = $termID->term_id;
-							$parent = $termID->parent;
 						}
 						
 						$TxQuery = array(
@@ -155,9 +147,10 @@
 								'taxonomy' => $taxName,
 								'field' => 'id',
 								'terms' => $termID->term_id,
-								'operator'=> 'IN', //Or 'AND' or 'NOT IN'
+								'operator'=> 'IN' //Or 'AND' or 'NOT IN'
 							),
 						);
+						
 						if( $includeChildren == false ){
                            $TxQuery[0]['include_children'] = $includeChildren;
 						}else{
@@ -166,8 +159,6 @@
 						
 					$ad_campaignsIDS = listingpro_get_campaigns_listing( 'lp_top_in_search_page_ads', TRUE, $TxQuery,$searchQuery,$priceQuery,$sKeyword, null, null );
 					}
-
-
 					
 					$args=array(
 						'post_type' => $type,
@@ -177,24 +168,36 @@
 						'paged'  => $paged,
 						'post__not_in' =>$ad_campaignsIDS,
 						'tax_query' => $TxQuery,
+                        'meta_key' => $MtKey,
 						'orderby' => $lporderby,
 						'order'   => $lporders,
 					);
-					
 					$my_query = null;
 					$my_query = new WP_Query($args);
 					$found = $my_query->found_posts;
+
 					if(($found > 1)){
-					$foundtext = esc_html__('Results', 'listingpro');
+						$foundtext = esc_html__('Results', 'listingpro');
 					}else{
 						$foundtext = esc_html__('Result', 'listingpro');
 					}
-					// Harry Code
+
 
 					$listing_layout = $listingpro_options['listing_views'];
 					$addClassListing = '';
                     if($listing_layout == 'list_view' || $listing_layout == 'list_view3') {
 						$addClassListing = 'listing_list_view';
+					}
+                    $adsCode = '';
+                    $addClassListing2 = '';
+                    $adsCode = lp_theme_option('lp-archive-gads-editor');
+                    if(!empty($adsCode)){
+                        $addClassListing2 = 'lp-simple-ad-archive';
+
+                    }
+                    $addClasscompact = '';
+					if($listing_layout == 'lp-list-view-compact') {
+						$addClasscompact = 'lp-compact-view-outer clearfix';
 					}
 ?>
 		<!--==================================Section Open=================================-->
@@ -221,9 +224,12 @@
         ?>
         <div data-layout-class="<?php echo $layout_class; ?>" id="list-grid-view-v2" class="swtch-ll <?php echo $header_style_v2; ?> <?php echo $v2_map_class; ?> <?php echo $listing_layout; ?>"></div>
         <?php endif; ?>
-		<div class="container page-container listing-simple <?php echo esc_attr($addClassListing); ?>">
+		<div class="container page-container listing-simple <?php echo esc_attr($addClassListing); ?> <?php echo ($addClassListing2); ?>">
 			<!-- archive adsense space before filter -->
-			<?php do_action('lp_archive_adsense_before_filter'); ?>
+			<?php
+				//show google ads
+				apply_filters('listingpro_show_google_ads', 'archive', '');
+			?>
 			<div class="margin-bottom-20 margin-top-30 post-with-map-container-right">
 				<?php get_template_part( 'templates/search/filter'); ?>
 			</div>
@@ -245,7 +251,7 @@
 			</div>
 			
 			<div class="content-grids-wraps">
-				<div class="row lp-list-page-grid" id="content-grids" >
+				<div class="row lp-list-page-grid <?php echo $addClasscompact; ?>" id="content-grids" >
                     <?php
                     if( $listing_layout == 'list_view_v2' )
                     {

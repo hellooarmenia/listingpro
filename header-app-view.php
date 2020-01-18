@@ -43,7 +43,7 @@
 	?>
 
     <body <?php body_class() ?> data-submitlink="<?php echo listingpro_url('submit-listing'); ?>" data-sliderstyle="<?php echo esc_attr($listing_detail_slider_style); ?>" data-defaultmaplat="<?php echo esc_attr($lp_default_map_location_lat); ?>" data-defaultmaplot="<?php echo esc_attr($lp_default_map_location_long); ?>" data-lpsearchmode = "<?php echo esc_attr($lpsearchMode); ?>" <?php echo $lpAtts; ?>>
-	
+	<?php wp_nonce_field('lp_ajax_nonce', 'lpNonce'); ?>
 	<?php
 		$mapbox_token= '';
 		$map_style= '';
@@ -107,11 +107,10 @@
 		}
 		
 	$app_view_home  =   $listingpro_options['app_view_home'];
-	$app_view_home  =   url_to_postid( $app_view_home );
 	$lpAtts = "data-lpattern=".lp_theme_option("lp_listing_locations_field_options")." ";		
 	?>
 	
-	<div id="page" class="clearfix" <?php echo esc_attr($listing_styledata); ?> data-mtoken="<?php echo esc_attr($mapbox_token); ?>"  data-mstyle="<?php echo esc_attr($map_style); ?>" data-sitelogo="<?php echo esc_attr($primary_logo); ?>" data-site-url="<?php echo esc_url(home_url('/')); ?>"  data-ipapi="<?php echo $ipAPI ?>" data-lpcurrentloconhome = "<?php echo esc_attr($lpCurrLocOnHome) ?>" <?php echo $lpAtts; ?>>
+	<div id="page" class="clearfix" <?php echo esc_attr($listing_styledata); ?> data-mtoken="<?php echo esc_attr($mapbox_token); ?>" data-mtype="<?php echo esc_attr($mapOption); ?>"  data-mstyle="<?php echo esc_attr($map_style); ?>" data-sitelogo="<?php echo esc_attr($primary_logo); ?>" data-site-url="<?php echo esc_url(home_url('/')); ?>"  data-ipapi="<?php echo $ipAPI ?>" data-lpcurrentloconhome = "<?php echo esc_attr($lpCurrLocOnHome) ?>" <?php echo $lpAtts; ?>>
 	
 	<!--==================================Header Open=================================-->
 <div class="pos-relative">
@@ -124,6 +123,47 @@
 			get_template_part( 'mobile/templates/headers/banner/banner-app-view');
 		?>
 	</div>
+    <?php
+    $app_view_option    =   $listingpro_options['single_listing_mobile_view'];
+
+    if (is_front_page() || (!empty($app_view_home) && is_page($app_view_home))) {
+        if ($app_view_option == 'app_view2') {
+            $home_banner_cats = $listingpro_options['home_banner_cats'];
+            if (!empty($home_banner_cats)) {
+                ?>
+                <div class="app-view2-banner-cat-slider">
+                    <?php
+                    foreach ($home_banner_cats as $banner_cat) {
+                        $cat_item = get_term_by('id', $banner_cat, 'listing-category');
+                        $category_image = listing_get_tax_meta($cat_item->term_id, 'category', 'image2');
+                        if (empty($category_image)) {
+                            $category_image = listing_get_tax_meta($cat_item->term_id, 'category', 'image');
+                        }
+                        ?>
+                        <div class="app-view2-banner-cat">
+                            <?php
+                            if (!empty($category_image)) {
+                                ?>
+                                <span class="app-view2-banner-cat-img"><img src="<?php echo $category_image; ?>"></span>
+                                <?php
+                            } else {
+                                ?>
+                                <span class="app-view2-banner-cat-img"><img
+                                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAIDAAACAwBDO6GDAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAb9SURBVHic7Z1LqJVVGIbfpallWZpmpmlJNQgRQygiU0siuhFBt0EQhEGjQBpEt2kNjKBZdiMHkk3CaCJlhRWBWmFWmljqqUjJS3mpzOvTYB/leDpn77X+71v/Onu7n9GB/a/v3f96z7fWf1nr21JNAOOBW4EngDcG+Pw0Bvh8MfAwMBsYYfgedwE/AVuBZ4Dzq8ZqO4CxwJPAWuB4iw5vZUhfDgDvAQ8BIxO/0/Z+sfYCzwKjLOc65AEWAvv6d7STIX3ZCTya8L0GYzMwz3reQxbgYJOT9zQE4O+E79WME8BLwFnW8x9SAONanLi3IQAXRH63GFYDF3v0RSrDMsW9NFPcZlziGGu+pHXAlY4xo8hlyJRMcZvh/R89TdIqYLpz3KbkMmRqprjN8MyQk1wu6WNgYobYA5LLkMmZ4jYj15g/XdLyuib67hwSxwJJz2WMf4ruHBLP08CszBrdOSSBkZKWACGnSCdlyKQaNK6XdG9OAXe3gXMk/dNSOITTtPvfDLb6fAB+DyG0NCUiTis2SpoZQrDGGZAcGXJRhpgxTACG16AzQ9LduYJ3kiHDJY2vSevxXIFzGDIhQ8yhpn0TkOXSvpMypE7t4ZIezBG40zKkriFLku7MEbSbIdW5sfeK0pVOy5A6tUdIusY7aKcZUueQJUnXegfMYciYDDFjqfuf4TrvgDkMcR9XE7iwZr0rvAMWMwSY0ufv/z2MbPX5IJwbIx0ZK4ZpjrEklc2QV4HJvR2/pMLnA3FexDEnImPFMInEdWGtyPFwcbsarz5LsDmEcHWzA4DDajxK92JiCGG3V7AcGTI6Q8xYYoYszwyRnM83hyFnZ4gZS4whx501XUeZbobY2ecZLIchxzLEjCWmsz0z5LikA47xshiyN0PMWPZEHOOZIT+GEFwzLochMZ2Si7oN2eQYS1IeQ77JEDOWDRHHeBqy1jGWpDyGfJ4hpqe2pyEfOMaSlMeQlZKOZojbimOSVkUc52XIDknfOcU6hbshIYQdkt71jhvBihDCrxHHeV1lve09oUv5Fsotlv8NWDNO9GrGHuvBO05xTiOLISGE9ZJeyRF7EF4PIXwVeayHIZ+FEL52iFMfwChgTeQWMgvrUt5t09gSbeW2XP2Wa8hSCOGwpPslbc2lIekXSQ+EEA4ltLFmyEZluLo6STZDJKl3kp2nPPcmP0iaF0LoSWxnNeTFXOt6a4PG8PWaw1BxkreASk+VgU0G3e+pZ/1wPQCLgKOGDjkGPIVhj0Zvp1Yl61aEIgA3A7srdMYuYIGD/oaKZqwh82adYgBzK3TIDU7a6ysaMt9Df0hCY05JxeU9ONUy5H0P7RiyXmU1ocpiOq8FeDErU/pyRNIiJ+2WdA1pzdIQwjYn7ZaUMqRK0TCvQmMpxh6V9IKTbhSlDKmy5NO8TJRGNYaUpa5LQwg/W3VTKGVIlUXRHns/Uoerlx00kyhlSJViLh6GjEs4dk0Iwf2deSvaKUM8thqkGLLcQS+ZUoZU+W/3yJCUeegjB71k2ilD6h6ytjvoJdNOhngMWSkZUuS51ZlmSEqGXOWgl0w7GeKxoTMlQ+Y46CVzpk3qKRlyj4NeMrUbAoxRtR1Mo4DUG7v+pBgynwJ14UtkiGUusA5bKUPWSEl3GPWSaTdDrMNW6vOw+4x6ybSbIdYrrZQhS5JuB2J2ZblRwhDLsGN94js28fjRkuYaNZMoYYhl2KnclsaPwFSZpG+pqlmFdssQS9vU7DiJeaVLCiUMSR3HS7edReRPYXhQwhDLyVnaVp1/hkmaadBNFqsby82Wpa0lu2YY2ibRbhnSNSQD7ZghtT357RoSR22F0UoYYilOY6lWZzGko6+yLGt0LW0tKx+r3sMkcyYZYnkm1c2QDG0tZaNq2zXVboZYfq/WkiEpm0pNlHqFWwJLhrT8gRovShhiKXBmaWt5/dvRGWLpVEtRm26GDIKlUy1tu3PIIFgy5IihbTdDBsHSqaUy5DdD2yRKGGKp4hn9Q/YDYLmX6DG0TaKEIX8a2loqnh42tO3oTZ+lDLEMlT2GtkmUMMRSCfoPQ9uuIYNgqetbwpAD6nBDLAXNYopcDkZVQ74IIdRWPr2EIVsMbTca2lad1D8xaCbTbhmy2dD2YMV2tRaGLmHINlW7F/lLtiFrR4U2uyTVWn20dkN6x+PVFZp+aqx1WOVue1md84dU7n3IhxXarDBqxhTq78sRFSitUQRgCvBvQgGxY8Ako+bMxKJlb3qdb1sALEnonGUOesOALZF6O4GSPyFbP8BUYE9E5+wDXH7AEXgsQu8gUGRLdHGAOcD+Jp2zH4dKpH30ArCsiV4PMNtLry2hMZ8sBr4EDgCHgG+B54HLMugNAxYCq2gUVd4ErAQeoWJxZk/+AywT275CyP49AAAAAElFTkSuQmCC"></span>
+                                <?php
+                            }
+                            ?>
+                            <?php echo $cat_item->name; ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <?php
+            }
+        }
+    }
+    ?>
 	<!--==================================Header Close=================================-->
 
 	<!--================================== Search Close =================================-->

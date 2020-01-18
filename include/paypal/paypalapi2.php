@@ -313,55 +313,21 @@ if ( ! class_exists('wp_PayPalAPI') ) {
                 //$listing_id  =  $_SESSION['listing_id'];
                 $price_package  =  $_SESSION['price_package'];
                 $ads_duration = $_SESSION['ads_duration'];
-
-
-                $currentdate = date("d-m-Y");
-                $exprityDate = date('Y-m-d', strtotime($currentdate. ' + '.$ads_durations.' days'));
-                $exprityDate = date('d-m-Y', strtotime( $exprityDate ));
-
-
-                $my_post = array(
-                    'post_title'    => $listing_id,
-                    'post_status'   => 'publish',
-                    'post_type' => 'lp-ads',
-                );
-                $adID = wp_insert_post( $my_post );
-
-                if($adsType=="byduration"){}else{
-                    //cpc
-                    listing_set_metabox('remaining_balance', $pricetotal, $adID);
-                }
-				listing_set_metabox('duration', $ads_duration, $adID);
-				listing_set_metabox('budget', $pricetotal, $adID);
-                listing_set_metabox('ads_mode', $adsType, $adID);
-                listing_set_metabox('ads_listing', $listing_id, $adID);
-
-                listing_set_metabox('ad_status', 'Active', $adID);
-                listing_set_metabox('ad_date', '', $adID);
-                listing_set_metabox('ad_expiryDate', '', $adID);
-
-                listing_set_metabox('campaign_id', $adID, $listing_id);
-                update_post_meta( $listing_id, 'campaign_status', 'active' );
-
-
-
-                if( !empty($price_package) ){
-                    foreach( $price_package as $val ){
-                        update_post_meta( $listing_id, $val, 'active' );
-                    }
-                }
-
-                if( !empty($price_package) ){
-                    listing_set_metabox('ad_type', $price_package, $adID);
-                }
-
+				
+				
+				$taxrate='';
+				$budget = $pricetotal;
+				$taxPrice = $_SESSION['taxprice'];
+				$_SESSION['taxprice'] = '';
+				
+				
+				$price = $pricetotal;
                 $tID = $result['PAYMENTINFO_0_TRANSACTIONID'];
                 $token = $result['TOKEN'];
                 $payment_method = 'paypal';
 
-                lp_save_campaign_data($adID, $tID, $payment_method, $token, $status, $pricetotal, $pricetotal, $listing_id, $adsType, $ads_duration,$pricetotal);
-
-
+                lp_save_campaign_data($price_package, $tID, $payment_method, $token, $status, $price, $budget, $listing_id, $adsType, $ads_duration,$pricetotal, $taxPrice);
+				
             }
 
         }

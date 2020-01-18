@@ -1,7 +1,6 @@
 	<?php
 	global $listingpro_options;
     $app_view_home  =   $listingpro_options['app_view_home'];
-    $app_view_home  =   url_to_postid( $app_view_home );
 	if ( is_front_page() || ( !empty( $app_view_home ) && is_page( $app_view_home ) ) ) {
 		$topBannerView = $listingpro_options['top_banner_styles'];
 		$top_title = $listingpro_options['top_title'];
@@ -67,11 +66,21 @@
 			 </div>
 			<?php } ?>
 
-			
-			<div class="lp-home-banner-contianer-inner">
+            <?php
+               $app_view2_header_container  =   '';
+               $app_view_option    =   $listingpro_options['single_listing_mobile_view'];
+               if( $app_view_option == 'app_view2' )
+               {
+                   $app_view2_header_container  =   'app-view2-header-animate';
+               }
+           ?>
+			<div class="lp-home-banner-contianer-inner <?php echo $app_view2_header_container; ?>">
 			 <div class="container">
 			  <div class="row">
 			   <div class="col-md-8 col-xs-12 col-md-offset-2 col-sm-offset-0">
+                   <?php if(!empty($top_main_title) && $app_view_option == 'app_view2') { ?>
+                       <p class="lp-app-view2-des"><?php echo $top_main_title; ?></p>
+                   <?php } ?>
 				<?php get_template_part( 'templates/search/home-search'); ?>
 				<div class="text-center lp-search-description">
 				 <?php if(!empty($main_text)) { ?>

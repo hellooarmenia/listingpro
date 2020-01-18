@@ -157,10 +157,19 @@
 						'orderby' => $lporderby,
 						'order'   => $lporders,
 					);
-					
-					$my_query = null;
-					$my_query = new WP_Query($args);
-					$found = $my_query->found_posts;
+
+                    if($lpDefaultSearchBy == 'keyword') {
+                        $args['s']  =   $sKeyword = sanitize_text_field($_GET['select']);
+                    }
+                    $my_query = null;
+                    $my_query = new WP_Query($args);
+                    $found = $my_query->found_posts;
+                    if($found == 0){
+                        unset($args['tax_query']);
+                        $my_query = null;
+                        $my_query = new WP_Query($args);
+                        $found = $my_query->found_posts;
+                    }
 					if(($found > 1)){
 						$foundtext = esc_html__('Results', 'listingpro');
 					}else{

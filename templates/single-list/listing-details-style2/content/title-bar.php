@@ -67,7 +67,7 @@
                                     if(get_post_status($post->ID)=="publish"){
 
                                         ?>
-                                        <a href="#" class="secondary-btn" id="clicktoreview2">
+                                        <a href="#review-section" class="secondary-btn" id="clicktoreview2">
                                             <i class="fa fa-star"></i>
                                             <?php echo esc_html__('Submit Review', 'listingpro'); ?>
                                         </a>

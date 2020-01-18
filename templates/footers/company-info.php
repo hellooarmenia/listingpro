@@ -15,22 +15,22 @@
 <?php
 
 if( $copy_right ){
-	echo '<li>'.$copy_right.'</li>';
+	echo '<li>'.wp_kses_post($copy_right).'</li>';
 }
 ?>
 <?php
 if( $footer_address ){
-	echo '<li>'.$footer_address.'</li>';
+	echo '<li>'.wp_kses_post($footer_address).'</li>';
 }
 ?>
 <?php
 if( $phone_number ){
-	echo '<li>'.esc_html__('Tel', 'listingpro').' '.$phone_number.'</li>';
+	echo '<li>'.esc_html__('Tel', 'listingpro').' '.wp_kses_post($phone_number).'</li>';
 }
 ?>
 </ul>
 <?php
 if( $author_info ){
-	echo '<p class="credit-links">'.$author_info.'</p>';
+	echo '<p class="credit-links">'.wp_kses_post($author_info).'</p>';
 }
 ?>

@@ -10,13 +10,15 @@
 	$menuMeta = get_post_meta($post->ID, 'menu_listing', true);
 
 	if(!empty($menuMeta)){
+		if(isset($menuMeta['menu-title'])) {
+                $menuTitle = $menuMeta['menu-title'];
+        }
 
-		$menuTitle = $menuMeta['menu-title'];
-
-		$menuImg = $menuMeta['menu-img'];
-
-		$menuOption = true;
-
+        $menuImg  =   '';
+        if(isset($menuMeta['menu-img'])) {
+                $menuImg = $menuMeta['menu-img'];
+        }
+        $menuOption = true;        
 	}
 
 	if( ( !empty($menuMeta) && $menuOption == true ) ) {

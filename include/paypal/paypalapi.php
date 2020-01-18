@@ -39,8 +39,8 @@ if ( ! class_exists('wp_PayPalAPI') ) {
             if ( $paypal_success === FALSE || ! is_numeric($paypal_success) )
               trigger_error('Success page not defined! Please define it at the plugin configuration page!', E_USER_ERROR);*/
 
-            global $plan_price, $post_id;
-			
+            global $plan_price, $post_id, $coupon;
+
             $lpPayDesc = null;
             $lpPayDesc = esc_html__('listing title', 'listingpro'). ':'.get_the_title($post_id).' ';
             $lpPayDesc .= esc_html__('price', 'listingpro').':'.$plan_price;
@@ -50,12 +50,7 @@ if ( ! class_exists('wp_PayPalAPI') ) {
 
             $CURRENCYCODE = $currency_code;
 
-            /* global $wpdb;
-            $result = $wpdb->get_results( "SELECT * FROM wp_url" );
-
-            foreach ( $result as $info ) {
-              $url = $info->url;
-            } */
+            
             $url = get_template_directory_uri();
 
             // FIELDS
@@ -107,6 +102,11 @@ if ( ! class_exists('wp_PayPalAPI') ) {
                 $fields['PAYMENTREQUEST_0_SHIPPINGAMT'] = $_POST['SHIPPINGAMT'];
                 $fields['PAYMENTREQUEST_0_AMT'] += $_POST['SHIPPINGAMT'];
             }
+			
+			if(isset($_SESSION['lp_paypal_session'])){
+					$fields['L_BILLINGTYPE0'] = 'RecurringPayments';
+					$fields['L_BILLINGAGREEMENTDESCRIPTION0'] = 'Exemplo';
+			}
 
             $fields_string = '';
 
@@ -202,18 +202,32 @@ if ( ! class_exists('wp_PayPalAPI') ) {
             $result = curl_exec($ch);
             //close connection
             curl_close($ch);
+			
+			$nvp = array();
+		 
+			if (preg_match_all('/(?<name>[^\=]+)\=(?<value>[^&]+)&?/', $result, $matches)) {
+				foreach ($matches['name'] as $offset => $name) {
+					$nvp[$name] = urldecode($matches['value'][$offset]);
+				}
+			}
 
             parse_str($result, $result);
             $post_id =  $result['PAYMENTREQUEST_0_CUSTOM'];
+			$var = new wp_PayPalAPI();
             if ( $result['ACK'] == 'Success' ) {
-                //wp_PayPalAPI::SavePayment($result, 'pending');
-                $var = new wp_PayPalAPI();
-                $var->SavePayment($result, 'pending');
-                $var->DoExpressCheckout($result,$post_id);
-                //wp_PayPalAPI::DoExpressCheckout($result);
+				$var->SavePayment($result, 'pending');
+				/* paypal subscription */
+				if(isset($_SESSION['lp_paypal_session'])){
+					
+					$var->create_recurring_payments_profile($result, 'success',$post_id);
+					
+				}else{
+					/* one time payment */
+					$var->DoExpressCheckout($result,$post_id);
+				}
+                
 
             } else {
-                $var = new wp_PayPalAPI();
                 $var->SavePayment($result, 'failed');
                 //wp_PayPalAPI::SavePayment($result, 'failed');
             }
@@ -273,10 +287,13 @@ if ( ! class_exists('wp_PayPalAPI') ) {
             $result = curl_exec($ch);
             //close connection
             curl_close($ch);
-
+			
+			
             parse_str($result, $result);
             if ( $result['ACK'] == 'Success' ) {
-                wp_PayPalAPI::UpdatePayment($result, 'success',$post_id);
+                
+				wp_PayPalAPI::UpdatePayment($result, 'success',$post_id);
+				
             } else {
                 wp_PayPalAPI::UpdatePayment($result, 'failed',$post_id);
             }
@@ -289,13 +306,20 @@ if ( ! class_exists('wp_PayPalAPI') ) {
             global $wpdb;
             $dbprefix = $wpdb->prefix;
             $date = date('d-m-Y');
+			
+			if(isset($_SESSION['lp_paypal_session'])){
+				$summary = 'recurring';
+			}else{
+				$summary = serialize($result);
+			}
+							
             $update_data = array(
 				'price' => $result['PAYMENTREQUEST_0_AMT'],
 				'currency' => $result['CURRENCYCODE'],
                 'date' => $date,
                 'status' => $status,
                 'description' => $result['PAYMENTREQUEST_0_DESC'],
-                'summary' => serialize($result),
+                'summary' => $summary,
                 'token' => $result['TOKEN']);
 
             $where = array('post_id' => $result['PAYMENTREQUEST_0_CUSTOM']);
@@ -318,17 +342,6 @@ if ( ! class_exists('wp_PayPalAPI') ) {
             $dbprefix = $wpdb->prefix;
 
             if($status=="success" && !empty($post_id)){
-				
-				/* paypal subscription */
-				if(isset($_SESSION['lp_paypal_session'])){
-					$subcPrefix = 'sub_p';
-					$subcPrefix .= rand(111111111,999999999999);
-					$pnid= listing_get_metabox_by_ID('Plan_id', $post_id);
-					$new_subsc = array('plan_id' => $pnid, 'subscr_id' => $subcPrefix, 'listing_id'=>$post_id);
-					lp_add_new_susbcription_meta($new_subsc);
-					unset($_SESSION['lp_paypal_session']);
-				}
-				
 				
 				
 				$claimPost = get_post_meta($post_id, 'claimpID', true);
@@ -362,7 +375,7 @@ if ( ! class_exists('wp_PayPalAPI') ) {
                     $my_post = array( 'ID' => $post_id, 'post_date'  => date("Y-m-d H:i:s"), 'post_status'   => 'pending' );
                 }
                 wp_update_post( $my_post );
-
+                
                 $ex_plan_id = listing_get_metabox_by_ID('Plan_id', $post_id);
                 $new_plan_id = listing_get_metabox_by_ID('changed_planid', $post_id);
                 if(!empty($new_plan_id)){
@@ -416,7 +429,9 @@ if ( ! class_exists('wp_PayPalAPI') ) {
                 ));
 
                 $headers1[] = 'Content-Type: text/html; charset=UTF-8';
-                wp_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers1);
+                lp_mail_headers_append();
+                LP_send_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers1);
+                lp_mail_headers_remove();
                 // to user
 
                 $mail_subject2 = $listingpro_options['listingpro_subject_purchase_activated'];
@@ -442,8 +457,11 @@ if ( ! class_exists('wp_PayPalAPI') ) {
                     'payment_method' => "$payment_method"
                 ));
 
+                lp_mail_headers_append();
                 $headers[] = 'Content-Type: text/html; charset=UTF-8';
-                wp_mail( $useremail, $formated_mail_subject2, $formated_mail_content2, $headers);
+
+                LP_send_mail( $useremail, $formated_mail_subject2, $formated_mail_content2, $headers);
+                lp_mail_headers_remove();
 
                 /* on 28 march  */
                 $packageResult = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$dbprefix."listing_orders WHERE post_id = %d", $post_id ) );
@@ -484,9 +502,90 @@ if ( ! class_exists('wp_PayPalAPI') ) {
                 $wpdb->update($dbprefix.'listing_orders', $update_data, $where, $update_format);
             }
 
-
+            listingpro_apply_coupon_code_at_payment($coupon,$post_id,$fields['PAYMENTREQUEST_0_TAXAMT'],$result['PAYMENTREQUEST_0_AMT']);
 
         }
+		
+		function create_recurring_payments_profile($response,$pstatus,$post_id){
+			global $listingpro_options;
+            $paypal_api_environment = $listingpro_options['paypal_api'];
+            $paypal_success = $listingpro_options['payment_success'];
+            $paypal_success = get_permalink($paypal_success);
+            $paypal_fail = $listingpro_options['payment_fail'];
+            $paypal_fail = get_permalink($paypal_fail);
+            $paypal_api_username = $listingpro_options['paypal_api_username'];
+            $paypal_api_password = $listingpro_options['paypal_api_password'];
+            $paypal_api_signature = $listingpro_options['paypal_api_signature'];
+			$url = get_template_directory_uri();
+			$planID= listing_get_metabox_by_ID('Plan_id', $post_id);
+			$plan_time = get_post_meta($planID, 'plan_time', true);
+			if(!empty($plan_time)){
+                $plan_time = (int) $plan_time;
+            }
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($ch, CURLOPT_POST, true);
+				
+				if ( $paypal_api_environment == 'sandbox' )
+                curl_setopt($ch, CURLOPT_URL, 'https://api-3t.sandbox.paypal.com/nvp');
+				elseif ( $paypal_api_environment == 'live' )
+                curl_setopt($ch, CURLOPT_URL, 'https://api-3t.paypal.com/nvp');
+				
+				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array(
+					'USER' => urlencode($paypal_api_username),
+					'PWD' => urlencode($paypal_api_password),
+					'SIGNATURE' => urlencode($paypal_api_signature),
+				 
+					'METHOD' => 'CreateRecurringPaymentsProfile',
+					'VERSION' => '72.0',
+				 
+					'TOKEN' => $response['TOKEN'],
+					'PayerID' => $response['PAYERID'],
+				 
+					'PROFILESTARTDATE' => gmdate("Y-m-d\TH:i:s\Z"),
+					'DESC' => 'Exemplo',
+					'BILLINGPERIOD' => 'Day',
+					'BILLINGFREQUENCY' => $plan_time,
+					'AMT' => $response['AMT'],
+					'CURRENCYCODE' => $response['CURRENCYCODE'],
+					'RETURNURL' => urlencode( $url.'/include/paypal/form-handler.php?func=confirm'),
+					'CANCELURL' => urlencode($paypal_fail),
+				)));
+				 
+				$resp =    curl_exec($ch);
+				 
+				curl_close($ch);
+				parse_str($resp, $respArray);
+				 
+				$recStatus = array();
+				 
+				if (preg_match_all('/(?<name>[^\=]+)\=(?<value>[^&]+)&?/', $resp, $matches)) {
+					foreach ($matches['name'] as $offset => $name) {
+						$recStatus[$name] = urldecode($matches['value'][$offset]);
+					}
+				}
+				if($recStatus['ACK']=='Success' && isset($recStatus['PROFILEID'])){
+					if(isset($recStatus['PROFILESTATUS'])){
+						if($recStatus['PROFILESTATUS']=='ActiveProfile'){
+							//success recurring
+							$new_subsc = array('plan_id' => $planID, 'subscr_id' => $recStatus['PROFILEID'], 'listing_id'=>$post_id);
+							lp_add_new_susbcription_meta($new_subsc);
+							wp_PayPalAPI::UpdatePayment($response, 'success',$post_id);
+							
+							if(isset($_SESSION['lp_paypal_session'])){
+								unset($_SESSION['lp_paypal_session']);
+							}
+						}
+					}
+				}else{
+					//error
+					wp_PayPalAPI::UpdatePayment($response, 'failed',$post_id);
+				}
+				
+				
+			
+		}
 
     }
 

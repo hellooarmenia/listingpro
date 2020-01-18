@@ -106,7 +106,12 @@ if (!function_exists('listingpro_banner_categories')) {
             $output .= '<div class="col-md-12">';
             if ($top_banner_styles == 'map_view') {
                 if ($alignment == 'align_middle' || $alignment == 'align_bottom') {
-                    $output .= '<div class="col-md-8 col-xs-12 col-md-offset-2 col-sm-offset-0">                                                                    <div class="text-center lp-search-description">                                                                        <p>' . $cat_txt . '</p>                                                                        <img src="' . get_template_directory_uri() . '/assets/images/banner-arrow-dark.png" alt="banner-arrow" class="banner-arrow">                                                                    </div>                                                                </div>';
+                    $output .= '<div class="col-md-8 col-xs-12 col-md-offset-2 col-sm-offset-0"><div class="text-center lp-search-description"><p>' . $cat_txt . '</p>';
+                    $arrow_image = $listingpro_options['arrow_image'];
+                    if($arrow_image == 1) {
+                        $output .=    '<img src="' . get_template_directory_uri() . '/assets/images/banner-arrow-dark.png" alt="banner-arrow" class="banner-arrow">';
+                    }
+                    $output .=      '</div></div>';
                 }
             }
             $output .= '<ul class="lp-home-categoires padding-left-0 ' . $newbannercatClass . ' ' . $class_for_cat_uper . ' ' . $class_for_search_inside . ' ' . $addclass_for_tranparent_cat_view . '">';

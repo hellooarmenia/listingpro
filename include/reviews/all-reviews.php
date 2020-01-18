@@ -15,19 +15,7 @@ if(!function_exists('listingpro_get_all_reviews')){
         {
             $lp_multi_rating_fields_active	=	array();
             for ($x = 1; $x <= 5; $x++) {
-                $field_active   =   '';
-               if( isset( $listingpro_options['lp_multi_ratiing'.$x.'_switch'] ) )
-               {
-                   $field_active    =    $listingpro_options['lp_multi_ratiing'.$x.'_switch'];
-               }
-                if( $field_active == 1 )
-                {
-                    
-                    $field_active_label			=	$listingpro_options['lp_multi_ratiing'.$x.'_label_switch'];
-
-                    $lp_multi_rating_fields_active['field'.$x]['label']			=	$field_active_label;
-                    
-                }
+                $lp_multi_rating_fields =   get_listing_multi_ratings_fields( $postid );
             }
 
         }
@@ -56,11 +44,46 @@ if(!function_exists('listingpro_get_all_reviews')){
 			}else{
 				$label = esc_html__('Reviews for ','listingpro').get_the_title($postid);
 			}
-			echo '<h3 class="comment-reply-title">'.count($active_reviews_ids).' '.$label.'</h3>';
+            $colclass = 'col-md-12';
+			$reviewFilter = false;
+			if(lp_theme_option('lp_listing_reviews_orderby')=='on'){
+				$colclass = 'col-md-8';
+				$reviewFilter = true;
+			}
+            ?>
+            <div class="row">
+                <div class="<?php echo $colclass; ?>">
+            <?php
+            echo '<h4 class="lp-total-reviews">'.count($active_reviews_ids).' '. $label .'</h4>';
+            ?>
+                </div>
+            <?php
+                if(!empty($reviewFilter)){ ?>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                         <label for="sel1"><?php echo esc_html__('Filter By : ', 'listingpro'); ?></label>
+                            <select class="form-control" id="lp_reivew_drop_filter">
+                                <option value="DESC"><?php echo esc_html__('Newest', 'listingpro'); ?></option>
+                                <option value="ASC"><?php echo esc_html__('Oldest', 'listingpro'); ?></option>
+                                <option value="listing_rate"><?php echo esc_html__('Highest Rated', 'listingpro'); ?></option>
+                                <option value="listing_rate_lowest"><?php echo esc_html__('Lowest Rated', 'listingpro'); ?></option>
+
+                            </select>
+                        </div>
+                        <div class="review-filter-loader">
+                            <img src="<?php echo THEME_DIR.'/assets/images/search-load.gif'?>">
+                        </div>
+                    </div>
+                    <?php
+                }
+            ?>
+            </div>
+        <?php
 		}
 		else{			
 		}
 		
+		$reviewOrder = 'DESC';
 		if( !empty($review_ids) && count($review_ids)>0 ){
 			$review_ids = array_reverse($review_ids, true);
 			echo '<div class="reviews-section">';
@@ -68,7 +91,7 @@ if(!function_exists('listingpro_get_all_reviews')){
 				$args = array(
 					'post_type'  => 'lp-reviews',
 					'orderby'    => 'date',
-					'order'      => 'DESC',
+					'order'      => $reviewOrder,
 					'post__in'	 => $review_ids,
 					'post_status'	=> 'publish',
 					'posts_per_page'	=> -1
@@ -91,6 +114,10 @@ if(!function_exists('listingpro_get_all_reviews')){
 						// moin here ends
 
 						$rating = listing_get_metabox_by_ID('rating' ,get_the_ID());
+                        $exRating = get_post_meta(get_the_ID(),'rating', true);
+						if(empty($exRating)){
+							update_post_meta(get_the_ID(),'rating', $rating);
+						}
 						$rate = $rating;
 						$gallery = get_post_meta(get_the_ID(), 'gallery_image_ids', true);
 						$author_id = $post->post_author;
@@ -116,8 +143,6 @@ if(!function_exists('listingpro_get_all_reviews')){
                             <figcaption>
                                 <h4><a href="<?php echo get_author_posts_url($author_id); ?>"><?php the_author(); ?></a></h4>
                                 <p><i class="fa fa-star"></i> <?php echo $user_reviews_count; ?> <?php esc_html_e('Reviews','listingpro'); ?></p>
-
-
                             </figcaption>
 						</figure>
 						<section class="details">
@@ -128,36 +153,49 @@ if(!function_exists('listingpro_get_all_reviews')){
                                     <?php
                                     if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
                                     {
-                                        echo '<a href="#" data-rate-box="multi-box-'.$post->ID.'" class="open-multi-rate-box"><i class="fa fa-chevron-down" aria-hidden="true"></i>'. esc_html__( 'View All', 'listingpro' ) .'</a>';
                                         $post_rating_data   =   get_post_meta( $post->ID, 'lp_listingpro_options', true );
-                                        ?>
-                                        <div class="lp-multi-star-wrap" id="multi-box-<?php echo $post->ID; ?>">
-                                            <?php
-                                            foreach ( $lp_multi_rating_fields_active as $k => $v )
-                                            {
-                                                $field_rating_val   =   '';
-                                               if( isset($post_rating_data[$k]) )
-                                               {
-                                                   $field_rating_val   =   $post_rating_data[$k];
-                                               }
-                                                ?>
-                                                <div class="lp-multi-star-field rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
-                                                    <label><?php echo $v['label'];  ?></label>
-                                                    <p>
-                                                        <i class="fa <?php if( $field_rating_val > 0 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 1 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 2 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 3 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 4 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                    </p>
-                                                    <span class="lp-multi-star-label-start"><?php echo $v['label_start']; ?></span>
-                                                    <span class="lp-multi-star-label-end"><?php echo $v['label_end']; ?></span>
-                                                </div>
-                                                <?php
+                                        $lp_multi_rating_fields_count =   0;
+                                        $show_multi_rate_drop   =   false;
+                                        if( is_array($lp_multi_rating_fields) || is_object($lp_multi_rating_fields) ) {
+                                            $lp_multi_rating_fields_count   =   count($lp_multi_rating_fields);
+                                        }
+                                        if($lp_multi_rating_fields_count > 0) {
+                                            if(array_key_exists(0, $post_rating_data)) {
+                                                $show_multi_rate_drop   =   true;
                                             }
+                                        }
+                                        if($show_multi_rate_drop) {
+                                            echo '<a href="#" data-rate-box="multi-box-'.$post->ID.'" class="open-multi-rate-box"><i class="fa fa-chevron-down" aria-hidden="true"></i>'. esc_html__( 'View All', 'listingpro' ) .'</a>';
+
                                             ?>
-                                        </div>
-                                        <?php
+                                            <div class="lp-multi-star-wrap" id="multi-box-<?php echo $post->ID; ?>">
+                                                <?php
+                                                if(count($lp_multi_rating_fields) > 0) {
+                                                    foreach ( $lp_multi_rating_fields as $k => $v )
+                                                    {
+                                                        $field_rating_val   =   '';
+                                                        if( isset($post_rating_data[$k]) )
+                                                        {
+                                                            $field_rating_val   =   $post_rating_data[$k];
+                                                        }
+                                                        ?>
+                                                        <div class="lp-multi-star-field rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
+                                                            <label><?php echo $v;  ?></label>
+                                                            <p>
+                                                                <i class="fa <?php if( $field_rating_val > 0 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 1 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 2 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 3 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 4 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                            </p>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                            <?php
+                                        }
                                     }
                                     ?>
 									<?php
@@ -295,22 +333,7 @@ if(!function_exists('listingpro_get_all_reviews_app_view')){
 
         if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
         {
-            $lp_multi_rating_fields_active	=	array();
-            for ($x = 1; $x <= 5; $x++) {
-                $field_active   =   '';
-                if( isset( $listingpro_options['lp_multi_ratiing'.$x.'_switch'] ) )
-                {
-                    $field_active    =    $listingpro_options['lp_multi_ratiing'.$x.'_switch'];
-                }
-                if( $field_active == 1 )
-                {
-
-                    $field_active_label			=	$listingpro_options['lp_multi_ratiing'.$x.'_label_switch'];
-
-                    $lp_multi_rating_fields_active['field'.$x]['label']			=	$field_active_label;
-
-                }
-            }
+            $lp_multi_rating_fields =   get_listing_multi_ratings_fields( $postid );
 
         }
         ?>
@@ -391,36 +414,44 @@ if(!function_exists('listingpro_get_all_reviews_app_view')){
                                     <?php
                                     if( $lp_multi_rating_state == 1 && !empty( $lp_multi_rating_state ) )
                                     {
-                                        echo '<a href="#" data-rate-box="multi-box-'.$post->ID.'" class="open-multi-rate-box"><i class="fa fa-chevron-down" aria-hidden="true"></i>'. esc_html__( 'View All', 'listingpro' ) .'</a>';
                                         $post_rating_data   =   get_post_meta( $post->ID, 'lp_listingpro_options', true );
-                                        ?>
-                                        <div class="lp-multi-star-wrap" id="multi-box-<?php echo $post->ID; ?>">
-                                            <?php
-                                            foreach ( $lp_multi_rating_fields_active as $k => $v )
-                                            {
-                                                $field_rating_val   =   '';
-                                                if( isset($post_rating_data[$k]) )
-                                                {
-                                                    $field_rating_val   =   $post_rating_data[$k];
+                                        $show_multi_rate_drop   =   false;
+                                        if(count($lp_multi_rating_fields) > 0) {
+                                            if(array_key_exists(0, $post_rating_data)) {
+                                                $show_multi_rate_drop   =   true;
+                                            }
+                                        }
+                                        if($show_multi_rate_drop) {
+                                            echo '<a href="#" data-rate-box="multi-box-'.$post->ID.'" class="open-multi-rate-box"><i class="fa fa-chevron-down" aria-hidden="true"></i>'. esc_html__( 'View All', 'listingpro' ) .'</a>';
+                                            ?>
+                                            <div class="lp-multi-star-wrap" id="multi-box-<?php echo $post->ID; ?>">
+                                                <?php
+                                                if(count($lp_multi_rating_fields) > 0) {
+                                                    foreach ( $lp_multi_rating_fields as $k => $v )
+                                                    {
+                                                        $field_rating_val   =   '';
+                                                        if( isset($post_rating_data[$k]) )
+                                                        {
+                                                            $field_rating_val   =   $post_rating_data[$k];
+                                                        }
+                                                        ?>
+                                                        <div class="lp-multi-star-field rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
+                                                            <label><?php echo $v;  ?></label>
+                                                            <p>
+                                                                <i class="fa <?php if( $field_rating_val > 0 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 1 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 2 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 3 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                                <i class="fa <?php if( $field_rating_val > 4 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
+                                                            </p>
+                                                        </div>
+                                                        <?php
+                                                    }
                                                 }
                                                 ?>
-                                                <div class="lp-multi-star-field rating-with-colors <?php echo review_rating_color_class($field_rating_val); ?>">
-                                                    <label><?php echo $v['label'];  ?></label>
-                                                    <p>
-                                                        <i class="fa <?php if( $field_rating_val > 0 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 1 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 2 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 3 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                        <i class="fa <?php if( $field_rating_val > 4 ){echo 'fa-star'; }else{echo 'fa-star-o';} ?>" aria-hidden="true"></i>
-                                                    </p>
-                                                    <span class="lp-multi-star-label-start"><?php echo $v['label_start']; ?></span>
-                                                    <span class="lp-multi-star-label-end"><?php echo $v['label_end']; ?></span>
-                                                </div>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-                                        <?php
+                                            </div>
+                                            <?php
+                                        }
                                     }
                                     ?>
 									<?php

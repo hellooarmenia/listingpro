@@ -51,9 +51,15 @@
 	$menuImg = '';
 	$menuMeta = get_post_meta($post->ID, 'menu_listing', true);
 	if(!empty($menuMeta)){
-		$menuTitle = $menuMeta['menu-title'];
-		$menuImg = $menuMeta['menu-img'];
-		$menuOption = true;
+		if(isset($menuMeta['menu-title'])) {
+                $menuTitle = $menuMeta['menu-title'];
+        }
+
+        $menuImg  =   '';
+        if(isset($menuMeta['menu-img'])) {
+                $menuImg = $menuMeta['menu-img'];
+        }
+        $menuOption = true;        
 	}
 	
 

@@ -28,7 +28,6 @@ else{
 $paidclaim = $listingpro_options['lp_listing_paid_claim_switch'];
 if($showClaim==true) {
     if ( ( $lp_detail_page_styles == 'lp_detail_page_styles3' || $lp_detail_page_styles == 'lp_detail_page_styles4' ) && !wp_is_mobile()) {
-
         ?>
         <p>
             <span><?php echo listingpro_icons('building'); ?> <?php echo esc_html__('Own or work here?', 'listingpro'); ?></span>
@@ -46,8 +45,8 @@ if($showClaim==true) {
             else
             {
                 ?>
-                <a class="md-trigger claimformtrigger2" data-modal="modal-3"><?php echo esc_html__('Claim Now!', 'listingpro'); ?></a>
-                <a class="claimformtrigger md-trigger" data-modal="modal-3"><?php echo esc_html__('Claim Now!', 'listingpro'); ?></a>
+                <a class="md-trigger claimformtrigger2" data-modal="modal-2"><?php echo esc_html__('Claim Now!', 'listingpro'); ?></a>
+                <a class="claimformtrigger md-trigger" data-modal="modal-2"><?php echo esc_html__('Claim Now!', 'listingpro'); ?></a>
                 <?php
             }
             ?>
@@ -92,22 +91,21 @@ if($showClaim==true) {
                 ?>
                 <?php
             } else {
-
                 ?>
-                <?php if ($listing_mobile_view == 'app_view' && wp_is_mobile()) { ?>
+                <?php if (($listing_mobile_view == 'app_view' || $listing_mobile_view == 'app_view2') && wp_is_mobile()) { ?>
 
                     <a class="phone-number md-trigger claimformtrigger2" data-toggle="modal" data-target="#app-view-login-popup">
                         <?php echo esc_html__('Claim Now!', 'listingpro'); ?>
                     </a>
-                    <a class="phone-number claimformtrigger md-trigger" data-toggle="modal" data-target="#app-view-login-popup">
+                    <a class="phone-number claimformtrigger" data-toggle="modal" data-target="#app-view-login-popup">
                         <?php echo esc_html__('Claim Now!', 'listingpro'); ?>
                     </a>
                 <?php } else { ?>
 
-                    <a class="phone-number md-trigger claimformtrigger2" data-modal="modal-3">
+                    <a class="phone-number md-trigger claimformtrigger2" data-modal="modal-2">
                         <?php echo esc_html__('Claim Now!', 'listingpro'); ?>
                     </a>
-                    <a class="phone-number md-trigger" data-modal="modal-3">
+                    <a class="phone-number md-trigger" data-modal="modal-2">
                         <?php echo esc_html__('Claim Now!', 'listingpro'); ?>
                     </a>
 
@@ -120,5 +118,4 @@ if($showClaim==true) {
         <?php
     }
 }
-
 ?>

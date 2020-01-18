@@ -229,7 +229,7 @@ if(!function_exists('get_campaign_wire_invoice')){
             'payment_method' => "$payment_method"
         ));
 		lp_mail_headers_append();
-        $emailresponse = wp_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers);
+        $emailresponse = LP_send_mail( $admin_email, $formated_mail_subject, $formated_mail_content, $headers);
 
 
 
@@ -258,7 +258,7 @@ if(!function_exists('get_campaign_wire_invoice')){
             'user_name' => "$user_name",
             'payment_method' => "$payment_method"
         ));
-        $emailresponse = wp_mail( $to, $subject, $body, $headers);
+        $emailresponse = LP_send_mail( $to, $subject, $body, $headers);
 		lp_mail_headers_remove();
 
 $output .='
@@ -430,7 +430,7 @@ if(!function_exists('generate_wire_invoice')){
 				'.$additional.'
 			</div>
 		</div>';
-
+        
 
 		$output .='
 			<div class="col-md-12">

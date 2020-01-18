@@ -102,7 +102,7 @@ class Radium_Theme_Importer {
 		  
 			<img class="logo" src="<?php echo get_template_directory_uri().'/assets/img/demo-xshop.png'; ?>" />
 			<h6>We believe in creating...</h6>
-			<h4>simple. beautiful. useful</h2>
+			<h4>simple. beautiful. useful</h4>
 			<h2>Xshop Multipurpose Woocommerce Theme</h2>
 			<img class="bann full-img" src="<?php echo get_template_directory_uri().'/assets/img/import-demo-ban.png'; ?>" />
 			
@@ -110,8 +110,7 @@ class Radium_Theme_Importer {
 		</div>
 		<?php
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			//if ( !is_plugin_active( 'js_composer/js_composer.php' ) && !is_plugin_active( 'redux_framework/redux-framework.php' ) && !is_plugin_active( 'solitaire_shortcodes/plugin.php' ) && !is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			if ( is_plugin_active( 'solitaire_shortcodes/plugin.php' )  && class_exists( 'ReduxFramework' ) && class_exists('WPBakeryVisualComposerAbstract') && class_exists('WooCommerce')) {
+			if ( class_exists( 'ReduxFramework' ) && class_exists('WPBakeryVisualComposerAbstract') && class_exists('WooCommerce')) {
 				?>
 				<div class="wrap about-wrap">
 		
@@ -213,7 +212,8 @@ class Radium_Theme_Importer {
 					 url : ajaxurl,
 					 data : {
 						   action:'importDemo',
-						   data:formData
+						   data:formData,
+                         'lpNonce' : jQuery('#lpNonce').val()
 						 },
 						 
 					

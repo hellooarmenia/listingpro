@@ -63,6 +63,17 @@
 			<?php } ?>
 		<?php } ?>
 	
-	<?php echo listing_all_extra_fields($post->ID); ?>
+	<?php
+    global $listingpro_options;
+    $pagecontentOption = $listingpro_options['lp-detail-page-layout2-content']['general'];
+    if ($pagecontentOption):
+        foreach ($pagecontentOption as $key => $value) {
+            switch ($key) {
+                case 'lp_additional_section':
+                    echo listing_all_extra_fields($post->ID);
+            }
+        }
+    endif;
+    ?>
 	
 </div>

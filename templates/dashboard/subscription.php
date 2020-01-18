@@ -22,154 +22,170 @@
         <div class="active-subscirptions-area">
 			<?php if(!empty($userSubscriptions) && count($userSubscriptions)>0 ){ 
 			?>
+				 <div class="panel with-nav-tabs panel-default lp-dashboard-tabs col-md-11 align-center" id="lp-listings">
+					<h5 class="margin-bottom-20"><?php esc_html_e('All Subscriptions', 'listingpro'); ?></h5>
+					<div class="panel-body lp-new-packages" id="lp-new-invoices">
+						<div class="lp-main-title clearfix">
+							<div class="col-md-1"><p><?php esc_html_e('No.','listingpro'); ?></p></div>
+							<div class="col-md-2"><p><?php esc_html_e('Subscription','listingpro'); ?></p></div>
+							<div class="col-md-2"><p><?php esc_html_e('Listing Title','listingpro'); ?></p></div>
+							<div class="col-md-1 padding-0"><p><?php esc_html_e('Duration','listingpro'); ?></p></div>
+							<div class="col-md-2"><p><?php esc_html_e('Price','listingpro'); ?></p></div>
+							<div class="col-md-2"><p><?php esc_html_e('Upcoming renewal','listingpro'); ?></p></div>
+							<div class="col-md-2 text-center"><p><?php esc_html_e('Action','listingpro'); ?></p></div>
+						</div>
+					</div>
+					<div class="tab-content clearfix background-white">
+						<div class="tab-pane fade in active" id="tab1default">
+							<div class="">
+									<?php
+								global $wpdb;
+								$n=1;
+								foreach($userSubscriptions as $subscription){
 
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th><?php esc_html_e('No.','listingpro'); ?></th>
-                            <th><?php esc_html_e('Subscription','listingpro'); ?></th>
-                            <th><?php esc_html_e('Listing Title','listingpro'); ?></th>
-                            <th><?php esc_html_e('Duration','listingpro'); ?></th>
-                            <th><?php esc_html_e('Price','listingpro'); ?></th>
-                            <th><?php esc_html_e('Upcoming renewal','listingpro'); ?></th>
-                            <th><?php esc_html_e('Action','listingpro'); ?></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-						<?php
-						global $wpdb;
-						$n=1;
-						foreach($userSubscriptions as $subscription){
+									try {
+										$plan_id = $subscription['plan_id'];
+										$subscr_id = $subscription['subscr_id'];
+										$listing_id = $subscription['listing_id'];
+										
+										
+										if(strpos($subscr_id, 'sub_')!==false){
+											/* stripe */
+											$subscrObj = \Stripe\Subscription::retrieve($subscr_id);
+											try{
+												$subscrID = $subscrObj->id;
+												$planStripe = $subscrObj->plan;
+												$stripePrice = $planStripe->amount;
+												$stripePrice = (float)$stripePrice/100;
+												$stripePrice = round($stripePrice, 2);
+												$nextpayment = $subscrObj->current_period_end;
+											}
+											catch (Exception $e) {
+											}
+										}else{
+											/* paypal */
+											$subscrIDOBJ = lp_retreive_recurring_profile($subscr_id);
+											$subscrID = $subscrIDOBJ['PROFILEID'];
+											$stripePrice = $subscrIDOBJ['AMT'];
+											$nextpayment = $subscrIDOBJ['NEXTBILLINGDATE'];
+											$nextpayment = strtotime($nextpayment);
+										}
+										
 
-							try {
-								$plan_id = $subscription['plan_id'];
-								$subscr_id = $subscription['subscr_id'];
-								$listing_id = $subscription['listing_id'];
-								$subscrObj = \Stripe\Subscription::retrieve($subscr_id);
-								if(empty($subscrObj)){
-									$userSubscriptionsp[] = $subscription;
-								}
+										$listing_title = get_the_title($listing_id);
+										$plan_price = get_post_meta($plan_id, 'plan_price', true);
+										$plan_duration = get_post_meta($plan_id, 'plan_time', true);
+										$plan_duration = trim($plan_duration);
+										$taxStatus = '';
 
-								//echo '<pre>';
-								//print_r($subscrObj);
-								//echo '</pre>';
-								$subscrID = $subscrObj->id;
-								$listing_title = get_the_title($listing_id);
-								$plan_price = get_post_meta($plan_id, 'plan_price', true);
-								$plan_duration = get_post_meta($plan_id, 'plan_time', true);
-								$plan_duration = trim($plan_duration);
-								$taxStatus = '';
-								$planStripe = $subscrObj->plan;
-								$stripePrice = $planStripe->amount;
-								$plan_price = get_post_meta($plan_id, 'plan_price', true);
+										$dbprefix = $wpdb->prefix;
+										$myPrice = $wpdb->get_row( "SELECT * FROM ".$dbprefix."listing_orders WHERE plan_id = $plan_id" );
+										/* if(!empty($myPrice)){
+											$plan_price = $myPrice->price;
+										} */
 
-								$dbprefix = $wpdb->prefix;
-								$myPrice = $wpdb->get_row( "SELECT * FROM ".$dbprefix."listing_orders WHERE plan_id = $plan_id" );
-								if(!empty($myPrice)){
-									$plan_price = $myPrice->price;
-								}
+										if($stripePrice==$plan_price){
+											$taxStatus = esc_html__('exc. tax', 'listingpro');
+										}
+										else{
+											$plan_price = $stripePrice;
+											$taxStatus = esc_html__('inc. tax', 'listingpro');
+										}
 
-								$stripePrice = (float)$stripePrice/100;
-								$stripePrice = round($stripePrice, 2);
-								if($stripePrice==$plan_price){
-									$taxStatus = esc_html__('exc. tax', 'listingpro');
-								}
-								else{
-									$plan_price = $stripePrice;
-									$taxStatus = esc_html__('inc. tax', 'listingpro');
-								}
+										if($currency_position=='right'){
+											$plan_price .=$currency;
+										}else{
+											$plan_price =$currency.$plan_price;
+										}
+										$dayVar = esc_html__('Days', 'listingpro');
+										if(!empty($plan_duration)){
+											if($plan_duration==1){
+												$dayVar = esc_html__('Day', 'listingpro');
+											}
+										}
+										?>
+											<div class="lp-listing-outer-container clearfix">
+												<div class="col-md-1"><?php echo $n; ?></div>
+												<div class="col-md-2"><?php echo $subscrID; ?></div>
+												<div class="col-md-2"><?php echo $listing_title; ?></div>
+												<div class="col-md-1 padding-0"><?php echo $plan_duration.' '.$dayVar; ?></div>
+												<div class="col-md-2"><?php echo $plan_price." ($taxStatus)"; ?></div>
+												<div class="col-md-2"><?php echo date(get_option('date_format'), $nextpayment); ?></div>
+												<div class="col-md-2 text-center"><a class="delete-subsc-btn" href="<?php echo $subscrID; ?>" data-cmsg="<?php echo esc_html__('Are you sure you want to proceed action?', 'listingpro'); ?>"><?php echo esc_html__('Unsubscribe', 'listingpro'); ?></a></div>
+											</div>
+										
 
-								if($currency_position=='right'){
-									$plan_price .=$currency;
-								}else{
-									$plan_price =$currency.$plan_price;
-								}
-								$dayVar = esc_html__('Days', 'listingpro');
-								if(!empty($plan_duration)){
-									if($plan_duration==1){
-										$dayVar = esc_html__('Day', 'listingpro');
+										<?php
+									$n++;
+									}catch (Exception $e) {
+											$userSubscriptionsp[] = $subscription;
 									}
+									
 								}
-								?>
-                                <tr>
-                                    <td><?php echo $n; ?></td>
-                                    <td><?php echo $subscrID; ?></td>
-                                    <td><?php echo $listing_title; ?></td>
-                                    <td><?php echo $plan_duration.' '.$dayVar; ?></td>
-                                    <td><?php echo $plan_price." ($taxStatus)"; ?></td>
-                                    <td><?php echo date("F j, Y", $subscrObj->current_period_end); ?></td>
-                                    <td><a class="delete-subsc-btn" href="<?php echo $subscrID; ?>" data-cmsg="<?php echo esc_html__('Are you sure you want to proceed action?', 'listingpro'); ?>"><?php echo esc_html__('Unsubscribe', 'listingpro'); ?></a></td>
-                                </tr>
-
-								<?php
-							$n++;
-							}catch (Exception $e) {
-									$userSubscriptionsp[] = $subscription;
-							}
-							
-						}
-						
-						/* for paypal */
-						
-						if(!empty($userSubscriptionsp)){
-							foreach($userSubscriptionsp as $subscription){
 								
-								$plan_id = $subscription['plan_id'];
-								$subscr_id = $subscription['subscr_id'];
-								$subscrID = $subscr_id;
-								$listing_id = $subscription['listing_id'];
-								$listing_title = get_the_title($listing_id);
+								/* for paypal */
 								
-								$plan_price = get_post_meta($plan_id, 'plan_price', true);
-								$plan_duration = get_post_meta($plan_id, 'plan_time', true);
-								$plan_duration = trim($plan_duration);
-								$taxStatus = '';
-								$plan_price = get_post_meta($plan_id, 'plan_price', true);
-								$dayVar = esc_html__('Days', 'listingpro');
-								if(!empty($plan_duration)){
-									if($plan_duration==1){
-										$dayVar = esc_html__('Day', 'listingpro');
+								if(!empty($userSubscriptionsp)){
+									foreach($userSubscriptionsp as $subscription){
+										
+										$plan_id = $subscription['plan_id'];
+										$subscr_id = $subscription['subscr_id'];
+										$subscrID = $subscr_id;
+										$listing_id = $subscription['listing_id'];
+										$listing_title = get_the_title($listing_id);
+										
+										$plan_price = get_post_meta($plan_id, 'plan_price', true);
+										$plan_duration = get_post_meta($plan_id, 'plan_time', true);
+										$plan_duration = trim($plan_duration);
+										$taxStatus = '';
+										$plan_price = get_post_meta($plan_id, 'plan_price', true);
+										$dayVar = esc_html__('Days', 'listingpro');
+										if(!empty($plan_duration)){
+											if($plan_duration==1){
+												$dayVar = esc_html__('Day', 'listingpro');
+											}
+										}
+										$pfx_date = get_the_date( '', $listing_id );
+										$pfx_date = date(get_option('date_format'),strtotime($pfx_date . "+$plan_duration days"));
+										
+										if($plan_price==$plan_price){
+											$taxStatus = esc_html__('exc. tax', 'listingpro');
+										}
+										else{
+											$plan_price = $plan_price;
+											$taxStatus = esc_html__('inc. tax', 'listingpro');
+										}
+										
+										if($currency_position=='right'){
+											$plan_price .=$currency;
+										}else{
+											$plan_price =$currency.$plan_price;
+										}
+										
+										?>
+											<div class="lp-listing-outer-container clearfix">
+												<div class="col-md-1"><?php echo $n; ?></div>
+												<div class="col-md-2"><?php echo $subscrID; ?></div>
+												<div class="col-md-2"><?php echo $listing_title; ?></div>
+												<div class="col-md-1 padding-0"><?php echo $plan_duration.' '.$dayVar; ?></div>
+												<div class="col-md-2"><?php echo $plan_price." ($taxStatus)"; ?></div>
+												<div class="col-md-2"><?php echo $pfx_date; ?></div>
+												<div class="col-md-2"><a class="delete-subsc-btn" href="<?php echo $subscrID; ?>" data-cmsg="<?php echo esc_html__('Are you sure you want to proceed action?', 'listingpro'); ?>"><?php echo esc_html__('Unsubscribe', 'listingpro'); ?></a></div>
+											</div>
+										
+										
+										<?php
+										$n++;
 									}
-								}
-								$pfx_date = get_the_date( '', $listing_id );
-								$pfx_date = date(get_option('date_format'),strtotime($pfx_date . "+$plan_duration days"));
-								
-								if($plan_price==$plan_price){
-									$taxStatus = esc_html__('exc. tax', 'listingpro');
-								}
-								else{
-									$plan_price = $plan_price;
-									$taxStatus = esc_html__('inc. tax', 'listingpro');
-								}
-								
-								if($currency_position=='right'){
-									$plan_price .=$currency;
-								}else{
-									$plan_price =$currency.$plan_price;
+									
 								}
 								
 								?>
-								<tr>
-                                    <td><?php echo $n; ?></td>
-                                    <td><?php echo $subscrID; ?></td>
-                                    <td><?php echo $listing_title; ?></td>
-                                    <td><?php echo $plan_duration.' '.$dayVar; ?></td>
-                                    <td><?php echo $plan_price." ($taxStatus)"; ?></td>
-                                    <td><?php echo $pfx_date; ?></td>
-                                    <td><a class="delete-subsc-btn" href="<?php echo $subscrID; ?>" data-cmsg="<?php echo esc_html__('Are you sure you want to proceed action?', 'listingpro'); ?>"><?php echo esc_html__('Unsubscribe', 'listingpro'); ?></a></td>
-                                </tr>
-								
-								<?php
-								$n++;
-							}
-							
-						}
-						
-						?>
-                        </tbody>
-                    </table>
-                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+               
 
 
 			<?php } if(empty($userSubscriptions)){ ?>

@@ -107,7 +107,6 @@
                                             <span><i class="fa fa-share-alt" aria-hidden="true"></i></span>
                                             <a href="<?php echo listingpro_social_sharing_buttons('facebook'); ?>" class="lp-blog-grid-shares-icon icon-fb"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                                             <a href="<?php echo listingpro_social_sharing_buttons('twitter'); ?>" class="lp-blog-grid-shares-icon icon-tw"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                            <a href="<?php echo listingpro_social_sharing_buttons('gplus'); ?>" class="lp-blog-grid-shares-icon icon-gp"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
                                             <a href="<?php echo listingpro_social_sharing_buttons('pinterest'); ?>" class="lp-blog-grid-shares-icon icon-pin"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
                                         </div>
                                         <div class="clearfix"></div>
@@ -191,7 +190,6 @@
                                     <span><i class="fa fa-share-alt" aria-hidden="true"></i></span>
                                     <a href="<?php echo listingpro_social_sharing_buttons('facebook'); ?>" class="lp-blog-grid-shares-icon icon-fb"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                                     <a href="<?php echo listingpro_social_sharing_buttons('twitter'); ?>" class="lp-blog-grid-shares-icon icon-tw"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <a href="<?php echo listingpro_social_sharing_buttons('gplus'); ?>" class="lp-blog-grid-shares-icon icon-gp"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
                                     <a href="<?php echo listingpro_social_sharing_buttons('pinterest'); ?>" class="lp-blog-grid-shares-icon icon-pin"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
                                 </div>
                                 <div class="clearfix"></div>
@@ -270,7 +268,6 @@
                                     <span><i class="fa fa-share-alt" aria-hidden="true"></i></span>
                                     <a href="<?php echo listingpro_social_sharing_buttons('facebook'); ?>" class="lp-blog-grid-shares-icon icon-fb"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                                     <a href="<?php echo listingpro_social_sharing_buttons('twitter'); ?>" class="lp-blog-grid-shares-icon icon-tw"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <a href="<?php echo listingpro_social_sharing_buttons('gplus'); ?>" class="lp-blog-grid-shares-icon icon-gp"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
                                     <a href="<?php echo listingpro_social_sharing_buttons('pinterest'); ?>" class="lp-blog-grid-shares-icon icon-pin"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
                                 </div>
                                 <div class="clearfix"></div>

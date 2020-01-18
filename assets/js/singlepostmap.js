@@ -4,17 +4,14 @@ $mapboxDesign = jQuery('#page').data("mstyle");
 if($pinicon==="") {
     $pinicon=$siteURL+"wp-content/themes/listingpro/assets/images/pins/pin.png";
 }
-
 if( jQuery('.singlebigmaptrigger').length !=0) {
     $lat=jQuery('.singlebigmaptrigger').data("lat");
     $lan=jQuery('.singlebigmaptrigger').data("lan");
-
     "use strict";
     $mtoken = jQuery('#page').data("mtoken");
-    if($mtoken != ''){
-
-
-
+    $mtype = jQuery('#page').data("mtype");	
+    if($mtype == 'mapbox' || $mtype == 'openstreet'){
+        
         L.HtmlIcon = L.Icon.extend({
             options: {
                 /*
@@ -23,11 +20,9 @@ if( jQuery('.singlebigmaptrigger').length !=0) {
                 popupAnchor: (Point)
                 */
             },
-
             initialize: function(options) {
                 L.Util.setOptions(this, options);
             },
-
             createIcon: function() {
                 var div = document.createElement('div');
                 div.innerHTML = this.options.html;
@@ -37,37 +32,32 @@ if( jQuery('.singlebigmaptrigger').length !=0) {
                     div.className += ' ' + 'leaflet-marker-icon';
                 return div;
             },
-
             createShadow: function() {
                 return null;
             }
         });
-
-
-        L.mapbox.accessToken = $mtoken;
-        var map = L.mapbox.map('singlepostmap', $mapboxDesign)
-            .setView([$lat,$lan], 17);
-
+        if($mtoken != '' && $mtype == 'mapbox'){
+            L.mapbox.accessToken = $mtoken;
+            var map = L.mapbox.map('singlepostmap', $mapboxDesign)
+                .setView([$lat,$lan], 17);
+        }else if($mtype == 'openstreet'){
+            var map = new L.Map('singlepostmap', '').setView(new L.LatLng($lat, $lan), 17);
+		    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        }
         var markers = new L.MarkerClusterGroup();
-
         var markerLocation = new L.LatLng($lat, $lan); // London
-
         var CustomHtmlIcon = L.HtmlIcon.extend({
             options : {
                 html : "<div class='lpmap-icon-shape pin '><div class='lpmap-icon-contianer'><img src='"+$pinicon+"'  /></div></div>",
             }
         });
-
         var customHtmlIcon = new CustomHtmlIcon();
-
         var marker = new L.Marker(markerLocation, {icon: customHtmlIcon}).bindPopup('').addTo(map);
         markers.addLayer(marker);
         map.fitBounds(markers.getBounds());
-
         map.scrollWheelZoom.disable();
         map.invalidateSize();
-
-
+        
     }else{
         if($lan !='' && $lat !='') {
             function init() {
@@ -173,13 +163,10 @@ if( jQuery('#lp-map-hide-show').length != 0 )
     $elat=jQuery('#eventmap-popup').data("lat");
     $elan=jQuery('#eventmap-popup').data("lan");
     $pinicon    =   jQuery('#eventmap-popup').data("pinicon");
-
     "use strict";
     $mtoken = jQuery('#page').data("mtoken");
-    if($mtoken != ''){
-
-
-
+    $mtype = jQuery('#page').data("mtype");	
+    if($mtype == 'mapbox' || $mtype == 'openstreet'){
         L.HtmlIcon = L.Icon.extend({
             options: {
                 /*
@@ -188,11 +175,9 @@ if( jQuery('#lp-map-hide-show').length != 0 )
                 popupAnchor: (Point)
                 */
             },
-
             initialize: function(options) {
                 L.Util.setOptions(this, options);
             },
-
             createIcon: function() {
                 var div = document.createElement('div');
                 div.innerHTML = this.options.html;
@@ -202,37 +187,31 @@ if( jQuery('#lp-map-hide-show').length != 0 )
                     div.className += ' ' + 'leaflet-marker-icon';
                 return div;
             },
-
             createShadow: function() {
                 return null;
             }
         });
-
-
-        L.mapbox.accessToken = $mtoken;
-        var map = L.mapbox.map('eventmap-popup', $mapboxDesign)
+        if($mtoken != '' && $mtype == 'mapbox'){
+            L.mapbox.accessToken = $mtoken;
+            var map = L.mapbox.map('eventmap-popup', $mapboxDesign)
             .setView([$elat,$lean], 17);
-
+        }else{
+            var map = new L.Map('eventmap-popup', '').setView(new L.LatLng($lat, $lan), 17);
+		    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        }
         var markers = new L.MarkerClusterGroup();
-
         var markerLocation = new L.LatLng($elat, $elan); // London
-
         var CustomHtmlIcon = L.HtmlIcon.extend({
             options : {
                 html : "<div class='lpmap-icon-shape pin '><div class='lpmap-icon-contianer'><img src='"+$pinicon+"'  /></div></div>",
             }
         });
-
         var customHtmlIcon = new CustomHtmlIcon();
-
         var marker = new L.Marker(markerLocation, {icon: customHtmlIcon}).bindPopup('').addTo(map);
         markers.addLayer(marker);
         map.fitBounds(markers.getBounds());
-
         map.scrollWheelZoom.disable();
         map.invalidateSize();
-
-
     }else{
         if($elan !='' && $elat !='') {
             function init_event() {

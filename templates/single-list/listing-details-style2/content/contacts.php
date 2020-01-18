@@ -50,7 +50,6 @@
 		$user_cpinterest = '';
 
 		$user_facebook = get_the_author_meta('facebook', $user_id);
-		$user_google = get_the_author_meta('google', $user_id);
 		$user_linkedin = get_the_author_meta('linkedin', $user_id);
 		$user_instagram = get_the_author_meta('instagram', $user_id);
 		$user_twitter = get_the_author_meta('twitter', $user_id);
@@ -59,6 +58,16 @@
 	
 	
 	$lp_leadForm = $listingpro_options['lp_lead_form_switch'];
+    $plan_Id = listing_get_metabox_by_ID( 'Plan_id', $post->ID );
+        if(!empty($plan_id)){
+            $plan_id = $plan_id;
+        }else{
+            $plan_id = 'none';
+        }
+    $leadform_show = get_post_meta( $plan_Id, 'listingproc_leadform', true );
+        if($plan_id=="none"){
+            $leadform_show = 'true';
+        }
 	if($lp_leadForm=="1"){
 		$claimed_section = listing_get_metabox('claimed_section');
 		$show_leadform_only_claimed = $listingpro_options['lp_lead_form_switch_claim'];
@@ -72,7 +81,7 @@
 			}
 		}
 		
-		if($showleadform == true) { ?>
+		if($showleadform == true && $leadform_show == "true") {?>
 				<div class="widget-box business-contact business-contact2">
 					<div class="contact-form quickform">										
 						<div class="user_text">
@@ -102,13 +111,9 @@
 											<?php echo listingpro_icons('fbGrey'); ?>
 										</a>
 									</li>
-									<?php } if(!empty($user_google)) { ?>
-									<li>
-										<a href="<?php echo esc_url($user_google); ?>">
-											<?php echo listingpro_icons('googleGrey'); ?>
-										</a>
-									</li>
-									<?php } if(!empty($user_instagram)) { ?>
+									<?php } ?>
+
+									<?php if(!empty($user_instagram)) { ?>
 									<li>
 										<a href="<?php echo esc_url($user_instagram); ?>">
 											<?php echo listingpro_icons('instaGrey'); ?>
@@ -138,8 +143,7 @@
 						</div>
 						<div class="clearfix"></div>
 						
-							<form class="form-horizontal hidding-form-feilds margin-top-20"  method="post" id="contactOwner">
-								<?php
+							<?php
 								
 								$author_id = '';
 								$author_email = '';
@@ -150,6 +154,9 @@
 								$enableCaptcha = lp_check_receptcha('lp_recaptcha_lead');
 								
 								?>
+						
+							<form data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>" class="form-horizontal hidding-form-feilds margin-top-20"  method="post" id="contactOwner">
+								
 								<div class="form-group">
 									<input type="text" class="form-control" name="name7" id="name7" placeholder="<?php esc_html_e('Name:','listingpro'); ?>">
                                     <span id="name7"></span>

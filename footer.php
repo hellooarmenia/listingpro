@@ -7,10 +7,15 @@
 
 do_action('lp_add_at_startof_footer');
 $listing_mobile_view  = lp_theme_option('single_listing_mobile_view');
-if( $listing_mobile_view == 'app_view' && wp_is_mobile() && !is_page_template('template-dashboard.php')){
-    get_template_part( 'templates/footers/footer-app-view' );
-}else
-{
+if( ( $listing_mobile_view == 'app_view' || $listing_mobile_view == 'app_view2' ) && wp_is_mobile() && !is_page_template('template-dashboard.php')){
+    if( $listing_mobile_view == 'app_view2' ){
+        get_template_part( 'templates/footers/footer-app-view-new' );
+    }
+    else{
+        get_template_part( 'templates/footers/footer-app-view' );
+    }
+
+}else{
 
 		$footer_style = lp_theme_option('footer_style');
     $footerNeed = true;
@@ -19,7 +24,7 @@ if( $listing_mobile_view == 'app_view' && wp_is_mobile() && !is_page_template('t
         $listing_style = esc_html($_GET['list-style']);
     }
     if(is_tax('location') || is_tax('listing-category')  || is_tax('list-tags') || is_tax('features') || is_search()){
-        if($listing_style == '2' || $listing_style == '3'){
+        if($listing_style == '2' || $listing_style == '3' || $listing_style == '5'){
             $footerNeed = false;
         }
     }
@@ -68,8 +73,8 @@ if( $listing_mobile_view == 'app_view' && wp_is_mobile() && !is_page_template('t
 }
 
 ?>
-<?php wp_footer(); ?>
 
+<?php wp_footer(); ?>
 <script>
 
     var videoID = '';

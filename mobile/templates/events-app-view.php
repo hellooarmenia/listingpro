@@ -84,10 +84,10 @@ if ( have_posts() ) {
 											?>
                                             <button type="button"><?php echo esc_html__( 'already going', 'listingpro' ); ?></button>
 										<?php else: ?>
-                                            <button type="button" id="attend-event" data-event="<?php echo $event_id; ?>" data-uid="<?php echo $user_id; ?>"><?php echo esc_html__( 'Yes! i am going', 'listingpro' ); ?></button>
+                                            <button type="button" class="attend-event" id="attend-event" data-event="<?php echo $event_id; ?>" data-uid="<?php echo $user_id; ?>"><?php echo esc_html__( 'Yes! i am going', 'listingpro' ); ?></button>
 										<?php endif; ?>
 									<?php else: ?>
-                                        <button type="button" class="md-trigger" data-modal="modal-3"><?php echo esc_html__( 'Yes! i am going', 'listingpro' ); ?></button>
+                                        <button type="button" class="user-menu" data-toggle="modal" data-target="#app-view-login-popup"><?php echo esc_html__( 'Yes! i am going', 'listingpro' ); ?></button>
 									<?php endif; ?>
 
 									<?php
@@ -167,7 +167,7 @@ if ( have_posts() ) {
                         </div>
                         <div class="lp-event-detail-attendes-section">
 							<?php
-							if(isset($attending_users)){
+							if(isset($attending_users) && is_array($attending_users)){
 								$attendenumber = count($attending_users);
 								?>
                                 <ul>

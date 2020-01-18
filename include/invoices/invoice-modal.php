@@ -81,7 +81,6 @@ if(isset($_GET['lp_p_id'])){
 						$packagename = $packagetype;
 						
 						$date = listing_get_metabox_by_ID('ad_date', $adID);
-						$ad_expiryDate = listing_get_metabox_by_ID('ad_expiryDate', $adID);
 						$invoice = $data->transaction_id;
 						$uid = $data->user_id;
 						$user = get_user_by( 'id', $uid );

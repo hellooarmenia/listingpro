@@ -18,11 +18,15 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
 	$user_lname = get_the_author_meta('last_name', $user_id);
 	// User contact meta
 	$user_address = get_the_author_meta('address', $user_id);
+	$user_address2 = get_the_author_meta('address2', $user_id);
+	$user_city = get_the_author_meta('city', $user_id);
+	$user_zipcode = get_the_author_meta('zipcode', $user_id);
+	$user_state = get_the_author_meta('state', $user_id);
+	$user_country = get_the_author_meta('country', $user_id);
 	$user_phone = get_the_author_meta('phone', $user_id);
 	$user_email = get_the_author_meta('user_email', $user_id);
 	// User Social links
 	$user_facebook = get_the_author_meta('facebook', $user_id);
-	$user_google = get_the_author_meta('google', $user_id);
 	$user_linkedin = get_the_author_meta('linkedin', $user_id);
 	$user_instagram = get_the_author_meta('instagram', $user_id);
 	$user_twitter = get_the_author_meta('twitter', $user_id);
@@ -30,6 +34,11 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
 	// User BIO
 	$user_desc = get_the_author_meta('description', $user_id);
 	$user_ID = $user_id;
+	
+	$gSiteKey = '';
+	$gSiteKey = $listingpro_options['lp_recaptcha_site_key'];
+	$enableCaptcha = lp_check_receptcha('lp_recaptcha_userprofile');
+	
 	if ($user_ID) {
 
 		/* delete user */
@@ -69,10 +78,14 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
 			$email = esc_html($_POST['email']);
 			$user_phone = esc_html($_POST['phone']);
 			$user_address = esc_html($_POST['address']);
+			$user_address2 = esc_html($_POST['address2']);
+			$user_city = esc_html($_POST['city']);
+			$user_zipcode = esc_html($_POST['zipcode']);
+			$user_state = esc_html($_POST['state']);
+			$user_country = esc_html($_POST['country']);
 			$description = esc_html($_POST['desc']);
 
 			$facebook = esc_html($_POST['facebook']);
-			$google = esc_html($_POST['google']);
 			$linkedin = esc_html($_POST['linkedin']);
 			$instagram = esc_html($_POST['instagram']);
 			$twitter = esc_html($_POST['twitter']);
@@ -85,10 +98,14 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
 			update_user_meta( $user_ID, 'last_name', $last );
 			update_user_meta( $user_ID, 'phone', $user_phone );
 			update_user_meta( $user_ID, 'address', $user_address );
+			update_user_meta( $user_ID, 'address2', $user_address2 );
+			update_user_meta( $user_ID, 'city', $user_city );
+			update_user_meta( $user_ID, 'zipcode', $user_zipcode );
+			update_user_meta( $user_ID, 'state', $user_state );
+			update_user_meta( $user_ID, 'country', $user_country );
 			update_user_meta( $user_ID, 'description', $description );
 
 			update_user_meta( $user_ID, 'facebook', $facebook );
-			update_user_meta( $user_ID, 'google', $google );
 			update_user_meta( $user_ID, 'linkedin', $linkedin );
 			update_user_meta( $user_ID, 'instagram', $instagram );
 			update_user_meta( $user_ID, 'twitter', $twitter );
@@ -148,7 +165,7 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
                         </div>
 					<?php } ?>
 
-                    <form class="form-horizontal" id="profileupdate" action="" method="POST" enctype="multipart/form-data">
+                    <form class="form-horizontal" id="profileupdate" action="" method="POST" enctype="multipart/form-data" data-lp-recaptcha="<?php echo $enableCaptcha; ?>" data-lp-recaptcha-sitekey="<?php echo $gSiteKey; ?>">
                         <div class="page-innner-container padding-40 lp-border lp-border-radius-8">
                             <div class="user-avatar-upload lp-border-bottom padding-bottom-45">
                                 <div class="user-avatar-preview avatar-circle">
@@ -188,11 +205,43 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label for="address"><?php echo esc_html__('Address', 'listingpro'); ?></label>
-                                    <textarea  class="form-control" name="address" id="address" rows="3" placeholder="<?php esc_html_e('Your Address','listingpro'); ?>"><?php echo esc_html($user_address); ?></textarea>
+                                <div class="col-sm-6">
+                                    <label for="address"><?php echo esc_html__('Adress 1st Line', 'listingpro'); ?></label>
+                                    <input type="text" class="form-control" name="address" id="address" placeholder="<?php esc_html_e('Your Address (1st line)','listingpro'); ?>" value="<?php echo esc_html($user_address); ?>">
+                                </div>
+								
+								<div class="col-sm-6">
+                                    <label for="address"><?php echo esc_html__('Adress 2nd Line', 'listingpro'); ?></label>
+                                    <input type="text" class="form-control" name="address2" id="address2" placeholder="<?php esc_html_e('Your Address (2nd line)','listingpro'); ?>" value="<?php echo esc_html($user_address2); ?>">
                                 </div>
                             </div>
+							
+							<div class="form-group">
+							
+                                <div class="col-sm-3">
+                                    <label for="address"><?php echo esc_html__('City', 'listingpro'); ?></label>
+                                    <input type="text" class="form-control" name="city" id="city" placeholder="<?php esc_html_e('Your City','listingpro'); ?>" value="<?php echo esc_html($user_city); ?>">
+                                </div>
+								
+                                <div class="col-sm-3">
+                                    <label for="address"><?php echo esc_html__('Zip Code', 'listingpro'); ?></label>
+                                    <input type="text" class="form-control" name="zipcode" id="zipcode" placeholder="<?php esc_html_e('Zip Code','listingpro'); ?>" value="<?php echo esc_html($user_zipcode); ?>">
+                                </div>
+								
+                                <div class="col-sm-3">
+                                    <label for="address"><?php echo esc_html__('State', 'listingpro'); ?></label>
+                                    <input type="text" class="form-control" name="state" id="state" placeholder="<?php esc_html_e('State','listingpro'); ?>" value="<?php echo esc_html($user_state); ?>">
+                                </div>
+								
+                                <div class="col-sm-3">
+                                    <label for="address"><?php echo esc_html__('Country *', 'listingpro'); ?></label>
+                                    <input type="text" class="form-control" name="country" id="country" placeholder="<?php esc_html_e('Country','listingpro'); ?>" value="<?php echo esc_html($user_country); ?>" required>
+                                </div>
+								
+								
+                            </div>
+							
+							
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label for="about"><?php echo esc_html__('About', 'listingpro'); ?></label>
@@ -215,15 +264,11 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
                                     <input value="<?php echo esc_attr($user_linkedin); ?>" type="text" class="form-control" name="linkedin" id="linkedin" placeholder="<?php esc_html_e('enter linkedin profile url','listingpro'); ?>" />
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="google"><?php echo esc_html__('Google', 'listingpro'); ?></label>
-                                    <input value="<?php echo esc_attr($user_google); ?>" type="text" class="form-control" name="google" id="google" placeholder="<?php esc_html_e('enter google profile url','listingpro'); ?>" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-6">
                                     <label for="instagram"><?php echo esc_html__('Instagram', 'listingpro'); ?></label>
                                     <input value="<?php echo esc_attr($user_instagram); ?>" type="text" class="form-control" name="instagram" id="instagram" placeholder="<?php esc_html_e('enter instagram profile url','listingpro'); ?>" />
                                 </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-sm-6">
                                     <label for="pinterest"><?php echo esc_html__('Pinterest', 'listingpro'); ?></label>
                                     <input value="<?php echo esc_attr($user_pinterest); ?>" type="text" class="form-control" name="pinterest" id="pinterest" placeholder="<?php esc_html_e('enter pinterest profile url','listingpro'); ?>" />
@@ -330,7 +375,6 @@ $lpAllMessges = get_user_meta($currentUserID, 'lead_messages', true);
                     <li class="list-group-item"><?php echo esc_html__('Facebook', 'listingpro'); ?> : <?php echo $user_facebook; ?></li>
                     <li class="list-group-item"><?php echo esc_html__('Twitter', 'listingpro'); ?> : <?php echo $user_twitter; ?></li>
                     <li class="list-group-item"><?php echo esc_html__('Linkedin', 'listingpro'); ?> : <?php echo $user_linkedin; ?></li>
-                    <li class="list-group-item"><?php echo esc_html__('Google', 'listingpro'); ?> : <?php echo $user_google; ?></li>
                     <li class="list-group-item"><?php echo esc_html__('Instagram', 'listingpro'); ?> : <?php echo $user_instagram; ?></li>
                     <li class="list-group-item"><?php echo esc_html__('Pinterest', 'listingpro'); ?> : <?php echo $user_pinterest; ?></li>
 

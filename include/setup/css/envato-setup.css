@@ -788,3 +788,18 @@ li.current .lp-select-demo{
 	
 	
 }
+.lp-select-demo-image a{
+    display: inline !important;
+}
+select#setup_platform {
+    padding: 5px 10px;
+    max-width: 170px;
+    min-width: 170px;
+    border-color: #cccccc;
+    box-shadow: none;
+    color: #32373c;
+}
+p.first-step-platform {
+    text-align: center;
+    margin-top: -145px;
+}

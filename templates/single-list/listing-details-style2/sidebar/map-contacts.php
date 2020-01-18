@@ -23,7 +23,7 @@
 	$facebook = listing_get_metabox('facebook');
 	$twitter = listing_get_metabox('twitter');
 	$linkedin = listing_get_metabox('linkedin');
-	$google_plus = listing_get_metabox('google_plus');
+
 	$youtube = listing_get_metabox('youtube');
 	$instagram = listing_get_metabox('instagram');
 	$phone = listing_get_metabox('phone');
@@ -36,7 +36,7 @@
 
 <?php
 								
-	if( !empty($latitude) || !empty($longitude) || !empty($gAddress) || !empty($phone) || !empty($website) ||  !empty($facebook) || !empty($twitter) || !empty($linkedin) || !empty($google_plus) || !empty($youtube) || !empty($instagram) ){
+	if( !empty($latitude) || !empty($longitude) || !empty($gAddress) || !empty($phone) || !empty($website) ||  !empty($facebook) || !empty($twitter) || !empty($linkedin) || !empty($youtube) || !empty($instagram) ){
 ?>
 		<div class="sidebar-post">
 			<div class="widget-box map-area">
@@ -162,11 +162,10 @@
 					$facebook = listing_get_metabox('facebook');
 					$twitter = listing_get_metabox('twitter');
 					$linkedin = listing_get_metabox('linkedin');
-					$google_plus = listing_get_metabox('google_plus');
 					$youtube = listing_get_metabox('youtube');
 					$instagram = listing_get_metabox('instagram');
 					if($social_show=="true"){
-						if(empty($facebook) && empty($twitter) && empty($linkedin) && empty($google_plus) && empty($youtube) && empty($instagram)){}else{
+						if(empty($facebook) && empty($twitter) && empty($linkedin) && empty($youtube) && empty($instagram)){}else{
 							?>
 							<div class="widget-box widget-social">
 								<div class="widget-content clearfix">
@@ -192,14 +191,6 @@
 												<a href="<?php echo esc_url($linkedin); ?>" class="padding-left-0" target="_blank">
 													<!-- <i class="fa fa-linkedin"></i> -->
 													<?php echo listingpro_icons('lnk'); ?>
-												</a>
-											</li>
-										<?php } ?>
-										<?php if(!empty($google_plus)){ ?>
-											<li  class="lp-li">
-												<a href="<?php echo esc_url($google_plus); ?>" class="padding-left-0" target="_blank">
-													<!-- <i class="fa fa-linkedin"></i> -->
-													<?php echo listingpro_icons('gp'); ?>
 												</a>
 											</li>
 										<?php } ?>
