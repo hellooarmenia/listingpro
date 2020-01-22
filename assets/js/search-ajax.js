@@ -2437,7 +2437,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 
 /* for near me locations */
 jQuery(document).ready(function($){
-	jQuery('#lp-find-near-me a.near-me-btn, .lp-header-search-filters .near-me-filter').on('click', function(event){
+	jQuery('#lp-find-near-me a.near-me-btn, #lp-find-near-me a.near-me-btn-style-3, .lp-header-search-filters .near-me-filter').on('click', function(event){
 			$this = jQuery(this);
 			$selectedFields = [];
 			jQuery('.lp_extrafields_select :checked').each(function(i, selectedElement) {

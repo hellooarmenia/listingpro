@@ -3371,29 +3371,26 @@ jQuery(document).ready(function($){
      });
 	 
 	/* end preview image*/
-	 
-	
-	jQuery('.app-view-header .lp-search-toggle .user-menu i, .app-view-popup-style, .event-by-going-wrap .app-view-popup-style').click(function() {
-        if( jQuery(this).hasClass('app-view-popup-style') )
-        {
-            jQuery('#app-view-login-popup').fadeIn();
+
+
+    jQuery('.app-view-header .lp-search-toggle .user-menu i, .app-view-popup-style, .event-by-going-wrap .app-view-popup-style').click(function() {
+        jQuery('#app-view-login-popup').fadeIn(function () {
             jQuery('#app-view-login-popup').css({
                 'top': '20%',
                 'transform': 'translateY(0%)',
-				'opacity' : 1
+                'opacity': 1,
+                'overflow': 'visible'
             });
-        }
-        else
-		{
+        });
+    });
+    jQuery('.style2-popup-login .md-close').click(function(e){
+        jQuery('#app-view-login-popup').fadeOut(function () {
             jQuery('#app-view-login-popup').css({
-                'top': '0px',
-                'transform': 'translateY(0%)',
+                'opacity' : 0,
+                'display' : 'none'
             });
-		}
-	});
-	jQuery('.style2-popup-login .md-close').click(function(e){
-        jQuery('#app-view-login-popup').fadeOut();
-	});
+        });
+    });
 
 });
 
@@ -4543,17 +4540,22 @@ jQuery(document).ready(function(){
 
 
 jQuery(document).on('click', '.app-view-popup-style', function(){
-
     jQuery( "body" ).prepend( '<div id="full-overlay-lp"></div>' );
     jQuery("#full-overlay-lp").css({
         "width": "100vw",
         "height": "100vh",
         "position": "fixed",
         "background": "#000000c7",
-        "z-index": "1",
+        "z-index": "3",
     });
     jQuery(".md-close i").click(function(){
         jQuery('#full-overlay-lp').remove();
+        jQuery('#app-view-login-popup').fadeOut(function () {
+            jQuery('#app-view-login-popup').css({
+                'opacity' : 0,
+                'display' : 'none'
+            });
+        });
     });
 });
 

@@ -9,7 +9,7 @@
 	define('STYLESHEET_PATH', get_stylesheet_directory());
 	define('STYLESHEET_DIR', get_stylesheet_directory_uri());
     define('CRIDIO_API_URL', 'https://sandbox.listingprowp.com/naseer/wp-json/verifier/v1/');
-	define('CRIDIO_FILES_URL', 'https://sandbox.listingprowp.com/naseer/wp-content/plugins/lpverifier/core-files');
+    define('CRIDIO_FILES_URL', 'https://sandbox.listingprowp.com/naseer/wp-content/plugins/lpverifier/core-files');
 
 
 	/* ============== Theme Setup ============ */
@@ -5084,7 +5084,7 @@ if(!function_exists('lp_notice_plugin_version')){
 	    $listing_plugins_arr =   array(
             'listingpro-plugin' => array(
                 'file' => 'listingpro-plugin/plugin.php',
-                'version' => '2.5.4',
+                'version' => '2.5.5',
             ),
             'listingpro-reviews' => array(
                 'file' => 'listingpro-reviews/plugin.php',
@@ -5096,7 +5096,7 @@ if(!function_exists('lp_notice_plugin_version')){
             ),
             'lp-bookings' => array(
                 'file' => 'lp-bookings/lp-bookings.php',
-                'version' => '1.0.3',
+                'version' => '1.0.4',
             ),
         );
         $installed_plugins  =   get_plugins();

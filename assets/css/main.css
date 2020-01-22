@@ -24422,8 +24422,8 @@ li.lp-tooltip-outer {
 }
 
 .listing-second-view .author-img{
-    width: 60px;
-    min-width: 60px;
+    /*width: 60px;*/
+    /*min-width: 60px;*/
     height: 60px;
     border: 1px solid #dedede;
     border-radius: 100%;

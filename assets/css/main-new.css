@@ -13945,3 +13945,6 @@ display:none;
 .lp-right-15{
     right: 15px;
 }
+.get-directions {
+    z-index: 99;
+}

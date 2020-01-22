@@ -21,7 +21,7 @@ $searchfilter = '';
 global $paged;
 $taxTaxDisplay = true;
 
-if( !isset($wp_kses_post(['s']))){
+if( !isset($_GET['s'])){
     $queried_object = get_queried_object();
     $term_id = $queried_object->term_id;
     $taxName = $queried_object->taxonomy;
