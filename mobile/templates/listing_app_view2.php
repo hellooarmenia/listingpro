@@ -158,7 +158,12 @@ if ( have_posts() ) {
                     dots: false,
                     arrows : false,
                 });
-            })
+                jQuery('.app--view-new-view-menu').click(function () {
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(".app-view-new-tabs").offset().top
+                    }, 1000)
+                });
+            });
         </script>
         <!--==================================Section Open=================================-->
         <section class="aliceblue listing-app-view listing-app-view2 listing-second-view listing-app-view-new">

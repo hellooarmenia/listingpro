@@ -44,7 +44,13 @@ if(class_exists('ListingproPlugin')) {
                     <div class="lp-plan-card">
                         <div class="lp-plan-front lp-plan-face">
                             <div class="lp-claim-plans">
-                                <?php echo do_shortcode('[listingpro_pricing plan_status="claim"]'); ?>
+                                <div class="col-md-10 col-md-offset-1 padding-bottom-40 lp-margin-top-case horizontal_view">
+                                    <div class="lp-no-title-subtitleeeeeeeee">
+
+                                        <?php echo esc_html__('Choose a Plan to Claim Your Business', 'listingpro'); ?>
+                                    </div>
+                                    <?php echo do_shortcode('[listingpro_claim_pricing]'); ?>
+                                </div>
                             </div>
                             <a class="md-close lp-click-zindex"><i class="fa fa-close"></i></a>
                         </div>

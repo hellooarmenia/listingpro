@@ -544,10 +544,6 @@ if( jQuery('#lp-submit-form').length != 0 )
         }
         else
         {
-
-
-            alert(tabType);
-            alert(jQuery('#lpNonce').val());
             jQuery(targetID).find('.author-inner-content-wrap').addClass('content-loading');
 
             jQuery.ajax({

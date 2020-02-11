@@ -121,7 +121,6 @@
                                             $days = 1;
                                         } else {
                                             $days = floor($diff);
-                                            $days = abs($days);
                                         }
 
                                         $expiry = $days.' '.esc_html__('Days', 'listingpro');

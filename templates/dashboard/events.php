@@ -1052,7 +1052,7 @@ ajax_response_markup();
 
                                 <label class="lp-dashboard-top-label" for="inputAddress"><?php esc_html_e('Add Custom Address', 'listingpro'); ?></label>
 
-                                <input type="text" class="form-control form-control-st lp-dashboard-text-field" name="gAddresscustom" id="inputAddresss" placeholder="Add address here">
+                                <input type="text" class="form-control form-control-st lp-dashboard-text-field" name="gAddresscustom" id="inputAddresss" placeholder="<?php echo esc_html__('Add address here', 'listingpro'); ?>">
 
                                 <div class="row hiddenlatlong">
 
@@ -1094,7 +1094,7 @@ ajax_response_markup();
 
                                     <div class="pos-relative">
                                         <span class="lp-field-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                        <input name="event-date-s" id="event-date-s" type="text" class="lp-pos-relative-input form-control lp-dashboard-text-field" placeholder="Date">
+                                        <input name="event-date-s" id="event-date-s" type="text" class="lp-pos-relative-input form-control lp-dashboard-text-field" placeholder="<?php echo esc_html__('Date', 'listingpro'); ?>">
 
                                     </div>
 
@@ -1142,7 +1142,7 @@ ajax_response_markup();
 
                                     <div class="pos-relative" id="date-switch">
                                         <span class="lp-field-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                        <input name="event-date-e" id="event-date-e" type="text" class="lp-pos-relative-input form-control lp-dashboard-text-field" placeholder="Date">
+                                        <input name="event-date-e" id="event-date-e" type="text" class="lp-pos-relative-input form-control lp-dashboard-text-field" placeholder="<?php echo esc_html__('Date', 'listingpro'); ?>">
 
                                     </div>
 

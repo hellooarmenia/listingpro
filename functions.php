@@ -3,14 +3,16 @@
  * Listingpro Functions.
  *
  */
-    update_option( 'theme_activation', 'activated' );
 	define('THEME_PATH', get_template_directory());
 	define('THEME_DIR', get_template_directory_uri());
 	define('STYLESHEET_PATH', get_stylesheet_directory());
 	define('STYLESHEET_DIR', get_stylesheet_directory_uri());
-    define('CRIDIO_API_URL', 'https://sandbox.listingprowp.com/naseer/wp-json/verifier/v1/');
-    define('CRIDIO_FILES_URL', 'https://sandbox.listingprowp.com/naseer/wp-content/plugins/lpverifier/core-files');
-
+	define('CRIDIO_API_URL', 'https://license.listingprowp.com/wp-json/verifier/v1/');
+    define('CRIDIO_FILES_URL', 'https://license.listingprowp.com/wp-content/plugins/lpverifier/core-files');
+    update_option('theme_activation', 'activated' );
+    update_option('active_license','valid');
+    update_option('active_env','valid');
+	update_option('wrong-verification-attempts',0);
 
 	/* ============== Theme Setup ============ */
 
@@ -2294,7 +2296,6 @@ if(!function_exists('listingpro_pagination')){
         }
     }
 	add_action('lp_daily_cron_listings', 'lp_expire_this_listing');
-
 	if(!function_exists('lp_expire_this_listing')){
 		function lp_expire_this_listing(){
 			global $wpdb, $listingpro_options;
@@ -2303,44 +2304,49 @@ if(!function_exists('listingpro_pagination')){
 			$args=array(
 				'post_type' => 'listing',
 				'post_status' => 'publish',
-				'posts_per_page' => -1,
+				'posts_per_page' => 1000,
+				'meta_query' => array(
+                    'key' => 'lp_listingpro_options',
+                    'value' => 'lp_purchase_days',
+                    'compare' => 'LIKE'
+                ),
 			);
+
 			$wp_query = null;
 			$wp_query = new WP_Query($args);
+
 			if( $wp_query->have_posts() ) {
 				while ($wp_query->have_posts()) : $wp_query->the_post();
 					$listing_id = get_the_ID();
 					$checkIfRecurriong = lp_listing_has_subscriptn($listing_id);
 					$plan_id = listing_get_metabox_by_ID('Plan_id', $listing_id);
 					$plan_price = listing_get_metabox_by_ID('plan_price', $listing_id);
-				
+
 					/* attach plan to expiry listing if on from theme option */
 					$planAttach = lp_theme_option('lp_assignplanexpirybutton');
 					$nplanid = '';
 					if($planAttach=="enable"){
 						$nplanid = lp_theme_option('lp_plan_after_expire');
 					}
-					
+
 					if(!empty($plan_id)){
 						$plan_duration  = listing_get_metabox_by_ID('lp_purchase_days', $listing_id);
+
 						if(!empty($plan_duration) && empty($checkIfRecurriong)){
-							$sql =
-								"UPDATE {$wpdb->posts}
-								SET post_status = 'expired'
-								WHERE (ID = '$listing_id' AND post_type = 'listing' AND post_status = 'publish')
-								AND DATEDIFF(NOW(), post_date) >= %d";
-							
+							$sql ="UPDATE {$wpdb->posts} SET `post_status` = 'expired' WHERE (ID = '$listing_id' AND `post_type` = 'listing' AND `post_status` = 'publish')	AND DATEDIFF(NOW(), `post_date`) >= %d";
+							$plan_duration = (int) $plan_duration;
 							$res = $wpdb->query($wpdb->prepare( $sql, $plan_duration ));
 							if($res!=false){
-								
 								if(!empty($nplanid)){
 									//assign plan
                                     $time = current_time('mysql');
 									listing_set_metabox('Plan_id', $nplanid, $listing_id);
-									$plan_price = get_post_meta($nplanid, 'plan_price', true);
+									$plan_time = get_post_meta($nplanid, 'plan_time', true);
+									listing_set_metabox('lp_purchase_days', $plan_time, $listing_id);
 									$this_listing = array(
 										  'ID'           => $listing_id,
 										  'post_status'   => 'publish',
+										  'post_date'     => $time,
                                           'post_date_gmt' => get_gmt_from_date( $time )
 									  );
 									wp_update_post($this_listing);
@@ -3268,29 +3274,43 @@ if(!function_exists('listingpro_pagination')){
 	/* ============== /// ============ */
 	
 	/* ==============  get post count of taxonomy term============ */
-	if(!function_exists('lp_count_postcount_taxonomy_term_byID')){
-		function lp_count_postcount_taxonomy_term_byID($post_type,$taxonomy, $termid){
-			$postcounts = 0;
-			
-			$termObj= get_term_by('id', $termid, "$taxonomy");
-			if (!is_wp_error( $termObj )){
-				$postcounts = $termObj->count;
-			}
-			
-			
-			if(lp_theme_option('lp_children_in_tax')!="no"){
+	        if(!function_exists('lp_count_postcount_taxonomy_term_byID')){
+        function lp_count_postcount_taxonomy_term_byID($post_type,$taxonomy, $termid){
+            $postcounts = 0;
+
+            $termObj= get_term_by('id', $termid, "$taxonomy");
+            if (!is_wp_error( $termObj )){
+                $postcounts = $termObj->count;
+            }
+                        $args = array(
+                  'post_type' => $post_type,
+                  'post_status' => 'publish',
+                  'tax_query' => array(
+                    array(
+                      'taxonomy' => $taxonomy,
+                      'field' => 'id',
+                      'terms' => $termid
+                    )
+                  ),
+                );
+                $the_query = new WP_Query($args);
+                $count = $the_query->found_posts;
+                $postcounts = $count;
+
+
+            if(lp_theme_option('lp_children_in_tax')!="no"){
                $term_children = get_terms("$taxonomy", array('child_of' => $termid));
                if(!empty($term_children) && !is_wp_error($term_children)){
                    foreach($term_children as $singleTermObj){
                        $postcounts = $postcounts + $singleTermObj->count;
                    }
                }
-			}
-			
-			
-			return $postcounts;
-		}
-	}
+            }
+
+
+            return $postcounts;
+        }
+    }
 	
 	/* ============== is favourite or not only ============ */
 	if ( !function_exists('listingpro_is_favourite_new' ) )
@@ -5084,7 +5104,7 @@ if(!function_exists('lp_notice_plugin_version')){
 	    $listing_plugins_arr =   array(
             'listingpro-plugin' => array(
                 'file' => 'listingpro-plugin/plugin.php',
-                'version' => '2.5.5',
+                'version' => '2.5.6',
             ),
             'listingpro-reviews' => array(
                 'file' => 'listingpro-reviews/plugin.php',
@@ -5561,9 +5581,7 @@ if(!function_exists('deactivate_license_call')){
 
         $api_url    =   CRIDIO_API_URL.'data/'. $license_key .'/'.str_replace('/','@',$site_url).'/deactivate/'.$env;
 
-        if(ini_get('allow_url_fopen')) {
-            $response = file_get_contents($api_url);
-        } else {
+
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
@@ -5574,7 +5592,7 @@ if(!function_exists('deactivate_license_call')){
 
             $response = curl_exec($ch);
             curl_close($ch);
-        }
+
         $response = json_decode($response);
 
         if( $response->valid == 'inactive' )
@@ -5608,9 +5626,7 @@ if(!function_exists('lp_license_api_call')){
         $api_url    =   CRIDIO_API_URL.'data/'. $license_key .'/'.str_replace('/','@',$site_url).'/cron/'.$env;
     }
 
-    if(ini_get('allow_url_fopen')) {
-        $response = file_get_contents($api_url);
-    } else {
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
@@ -5621,7 +5637,7 @@ if(!function_exists('lp_license_api_call')){
 
         $response = curl_exec($ch);
         curl_close($ch);
-    }
+
 
     $response = json_decode($response);
 
@@ -5711,9 +5727,9 @@ if(!function_exists('wrong_verification_attempt')){
             $attempts_num   =   1;
         }
         update_option( 'wrong-verification-attempts', $attempts_num );
-        delete_option('theme_activation');
-        delete_option('active_license');
-        delete_option('active_env');
+        //delete_option('theme_activation');
+        //delete_option('active_license');
+        //delete_option('active_env');
     }
 }
 

@@ -2625,7 +2625,8 @@ function lp_append_distance_div(){
 			disdata = $this.data('lpnearbydist');
 			$this.next('.lp-grid-box-contianer').find('.lp-grid-box-bottom .pull-left').after('<div class="lp-nearest-distance">'+disdata+'</div>');
 			$this.next('.lp-grid-box-contianer').find('.lp-grid-box-bottom-app-view .pull-left').after('<div class="lp-nearest-distance">'+disdata+'</div>');
-			
+			$this.next('.lp-grid-box-contianer.grid_view6').find('.lp-grid-box-thumb').append('<div class="lp-nearest-distance">'+disdata+'</div>');
+			$this.next('.lp-grid-box-contianer').find('.grid-style-container .lp-listing-top,.list-style-cotainer .lp-listing-top').append('<div class="lp-nearest-distance">'+disdata+'</div>');
 		});
 	}
 }
@@ -2663,7 +2664,9 @@ function decode_utf8(utf8String) {
 								if(jQuery('.lp-header-search.archive-search h4.lp-title').length) {
                                     jQuery('.lp-header-search.archive-search h4.lp-title').html('Results For <strong class="term-name">'+ data.searchtitles['category'] +'</strong> Listings');
 								} else {
-                                    jQuery('.lp-title h3').html('Results For <span class="font-bold term-name">'+ data.searchtitles['category'] +'</span> <span class="dename"></span><span class="font-bold"> Listings</span>');
+                                    var rstring = jQuery('.lp-title h3').data('rstring');
+                                    var lstring = jQuery('.lp-title h3').find('.lstring').text();
+                                    jQuery('.lp-title h3').html(rstring+'<span class="dename"></span><span class="font-bold lstring"> '+lstring+'</span>');
 								}
 
                             }
@@ -2684,7 +2687,9 @@ function decode_utf8(utf8String) {
                             if(jQuery('.lp-header-search.archive-search h4.lp-title').length) {
                                 jQuery('.lp-header-search.archive-search h4.lp-title').html('Results For <strong class="term-name">'+ data.searchtitles['category'] +'</strong> ' +data.searchtitles['in']+' <em>'+ data.searchtitles['location'] +'</em>');
 							} else {
-                                jQuery('.lp-title h3').html('Results For <span class="font-bold term-name">'+ data.searchtitles['category'] +'</span> <span class="dename"> '+data.searchtitles['in']+' '+data.searchtitles['location']+'</span>');
+								var rstring = jQuery('.lp-title h3').data('rstring');
+                                var lstring = jQuery('.lp-title h3').find('.lstring').text();
+                                jQuery('.lp-title h3').html(rstring+'<span class="font-bold lstring"> '+lstring+'</span><span class="dename"> '+data.searchtitles['in']+' '+data.searchtitles['location']+'</span>');
 							}
 
 

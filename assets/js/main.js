@@ -1925,42 +1925,36 @@ L.Google.asyncInitialize = function() {
 									var LPpostid  = jQuery(this).data("postid");
 									var LPiconSrc = '';
 
-                                    if( jQuery('.v2-map-load').length == 1 )
-                                    {
-                                        if( jQuery('.v2-map-load').hasClass('v2_map_load_old') )
-                                    	{
-                                            var LPaddress  = jQuery(this).find('.gaddress').text();
-                                            var LPimageSrc  = jQuery(this).find('.lp-grid-box-thumb').find('img').attr('src');
-                                            if (typeof jQuery("body").data('deficon') !== 'undefined'){
+                                    if (jQuery('.v2-map-load').length == 1) {
+                                        if (jQuery('.v2-map-load').hasClass('v2_map_load_old')) {
+                                            var LPaddress = jQuery(this).find('.gaddress').text();
+                                            var LPimageSrc = jQuery(this).find('.lp-grid-box-thumb').find('img').attr('src');
+                                            if (typeof jQuery("body").data('deficon') !== 'undefined') {
                                                 // your code here
                                                 LPiconSrc = jQuery("body").data('deficon');
-                                            }else{
-                                                LPiconSrc  = jQuery(this).find('.cat-icon').find('img').attr('src');
+                                            } else {
+                                                LPiconSrc = jQuery(this).find('.cat-icon').find('img').attr('src');
                                             }
-										}
-										else
-										{
-                                            var LPaddress  = jQuery(this).find('.lp-listing-location').find('a').text();
-                                            var LPimageSrc  = jQuery(this).find('.lp-listing-top-thumb').find('img').attr('src');
+                                        } else {
+                                            var LPaddress = jQuery(this).find('.lp-listing-location').find('a').text();
+                                            var LPimageSrc = jQuery(this).find('.lp-listing-top-thumb').find('img').attr('src');
 
-                                            if (typeof jQuery("body").data('deficon') !== 'undefined'){
+                                            if (typeof jQuery("body").data('deficon') !== 'undefined') {
                                                 // your code here
                                                 LPiconSrc = jQuery("body").data('deficon');
-                                            }else{
-                                                LPiconSrc  = jQuery(this).find('.cat-icon').find('img').attr('src');
+                                            } else {
+                                                LPiconSrc = jQuery(this).find('.cat-icon').find('img').attr('src');
                                             }
-										}
-                                    }
-                                    else
-                                    {
-									var LPaddress  = jQuery(this).find('.gaddress').text();
-									var LPimageSrc  = jQuery(this).find('.lp-grid-box-thumb').find('img').attr('src');
-										if (typeof jQuery("body").data('deficon') !== 'undefined'){
-											// your code here
-											LPiconSrc = jQuery("body").data('deficon');
-										}else{
-											LPiconSrc  = jQuery(this).find('.cat-icon').find('img').attr('src');
-										}
+                                        }
+                                    } else {
+                                        var LPaddress = jQuery(this).find('.gaddress').text();
+                                        var LPimageSrc = jQuery(this).find('.listing-app-view-new-wrap').find('img').attr('src');
+                                        if (typeof jQuery("body").data('deficon') !== 'undefined') {
+                                            // your code here
+                                            LPiconSrc = jQuery("body").data('deficon');
+                                        } else {
+                                            LPiconSrc = jQuery(this).find('.cat-icon').find('img').attr('src');
+                                        }
                                     }
 									if(LPlattitue != '' && LPlongitute != ''){
 										
@@ -3213,14 +3207,13 @@ jQuery(document).mouseup(function(e)
 });
 
 jQuery("li.lp-tooltip-outer").hover(function() {
-	var $this = jQuery(this);
-	jQuery('.lp-tooltip-div').removeClass('active');
-	jQuery('.lp-tooltip-div-hidden').removeClass('active');
-	$this.find('.lp-tooltip-div').addClass('active');
-	if($this.find('a.near-me-btn').hasClass('active')){
-		jQuery('.lp-tooltip-div-hidden').addClass('active');
-	}
-	
+    var $this = jQuery(this);
+    jQuery('.lp-tooltip-div').removeClass('active');
+    jQuery('.lp-tooltip-div-hidden').removeClass('active');
+    $this.find('.lp-tooltip-div').addClass('active');
+    if($this.find('a.near-me-btn, a.near-me-btn-style-3').hasClass('active')){
+        jQuery('.lp-tooltip-div-hidden').addClass('active');
+    }
 });
 
 /* for first tab auto active on listing detail page style 2 */

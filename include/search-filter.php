@@ -359,24 +359,25 @@ if (!function_exists('ajax_search_tags')) {
 			);
 		}
 		
-		if(isset($_POST['skeyword'])){
+        if(isset($_POST['skeyword'])){
 			if( (empty($info['lp_s_tag']) || !isset($info['lp_s_tag'])) && (empty($info['cat_id']) || !isset($info['cat_id'])) ){
-				$squery     = sanitize_text_field($_POST['skeyword']);
+				$squery     = esc_attr($_POST['skeyword']);
 				if(!empty($squery)){
-					if( $lpDefaultSearchBy=="title" ){
-						$squery     = sanitize_text_field($_POST['skeyword']);
-						$defSquery = $squery;
-					}
-					else{
-						$searchtagQuery = array(
-							'taxonomy' => 'list-tags',
-							'field' => 'name',
-							'terms' => $squery,
-							'operator'=> 'IN' //Or 'AND' or 'NOT IN'
-						);
+                   $defSquery = $squery;
+                    $termExist = term_exists( $squery, 'list-tags' );
+
+                    if ( $termExist !== 0 && $termExist !== null ) {
+                        $tagQuery = array(
+                            'taxonomy' => 'list-tags',
+                            'field' => 'name',
+                            'terms' => $squery,
+                            'operator'=> 'IN' //Or 'AND' or 'NOT IN'
+                        );
 						$squery = '';
-						$defSquery = $squery;
-					}
+                        $squeryp  = esc_attr($_POST['skeyword']);
+						$defSquery = $squeryp;
+                    }
+
 				}
 			}
 		}

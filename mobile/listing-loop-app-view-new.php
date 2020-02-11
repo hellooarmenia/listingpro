@@ -180,9 +180,14 @@ if (!empty($showthisadinSidebar)) {
                     ?>
                     <span class="listing-app-view-new-details-cats">
                         <?php
-                        foreach ( $cats as $cat ) {
+                        global $listingpro_options;
+                        $lp_default_map_pin = $listingpro_options['lp_map_pin'];
+                        echo '<input type="hidden" id="def_map_marker_icon" value="' . $lp_default_map_pin['url'] . '">';
+                        foreach ($cats as $cat) {
+                            $cat_img = listing_get_tax_meta($cat->term_id, 'category', 'image');
                             if($catCount==1){
                                 $term_link = get_term_link( $cat );
+                                echo '<span class="cat-icon" style="display:none;"><img class="icon icons8-Food" src="'.$cat_img.'" alt="cat-icon"></span>';
                                 echo '<a href="'.$term_link.'">'.$cat->name.'</a>';
                             }
                             $catCount++;

@@ -4935,25 +4935,10 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             ),
             /* General Switch */
             array(
-                'id' => 'lp_listing_general_switch',
-                'type' => 'button_set',
-                'title' => esc_html__('Emails', 'listingpro'),
-                'desc'  => 'Enable to send notification emails',
-                'options' => array(
-                    'yes' => __('Yes', 'listingpro'),
-                    'no' => __('No', 'listingpro'),
-                ),
-                'default' => 'no',
-            ),
-            array(
                 'id' => 'general-emails-info',
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('<span class="font24">Global Shortcodes</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Shotcodes for every Email Template . %website_name as Website Name, %website_url as Website URL, %user_name as User Name', 'listingpro')
             ),
@@ -4963,10 +4948,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('<span class="font24">New Registered User</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for user registertaion email. %user_login_register as username, %user_pass_register as user password, %user_email_register as new user email', 'listingpro')
             ),
@@ -4975,10 +4956,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'text',
                 'title' => esc_html__('Subject for New User Notification', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for new user notification', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => esc_html__('Your username and password on %website_url', 'listingpro'),
             ),
@@ -5010,10 +4987,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'text',
                 'title' => esc_html__('Subject for New User Admin Notification', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for new user admin notification', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => esc_html__('New User Registration', 'listingpro'),
             ),
@@ -5021,10 +4994,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_admin_new_user_register',
                 'type' => 'editor',
                 'title' => esc_html__('Content for New User Admin Notification', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content for new user admin notification', 'listingpro'),
                 'desc' => '',
                 'default' => 'New user registration on %website_url.
@@ -5042,10 +5011,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('<span class="font24">Submit Listing</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for listng submission email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
             ),
@@ -5065,10 +5030,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_new_submit_listing_content',
                 'type' => 'editor',
                 'title' => esc_html__('New Listing Submission Content', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content', 'listingpro'),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;">
@@ -5098,10 +5059,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'text',
                 'title' => esc_html__('New Listing Submission Subject(for admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email subject', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => esc_html__('New listing has been submitted', 'listingpro'),
             ),
@@ -5109,10 +5066,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_new_submit_listing_content_admin',
                 'type' => 'editor',
                 'title' => esc_html__('New Listing Submission Content(for admin)', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content', 'listingpro'),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;">
@@ -5144,10 +5097,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('<span class="font24">Purchase Activated</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for purchased activated email. %listing_title as Listing title, %listing_url as Listing URL, %plan_title as Plan Title, %invoice_no as Invoice Number', 'listingpro')
             ),
@@ -5156,10 +5105,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'text',
                 'title' => esc_html__('Purchase Activated Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for purchase activated', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => esc_html__('Your purchase has  activated', 'listingpro'),
             ),
@@ -5168,10 +5113,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'editor',
                 'title' => esc_html__('Purchase Activated Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Purchase Activated', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;"><a style="width: 45%; margin: 0 auto; text-align: center; display: block; padding-bottom: 25px; padding-left: 30px; padding-right: 30px;"><img src="images/logo.png" /></a>
 <div style="width: 45%; background: #fff; padding: 50px 30px; margin: 0 auto;">
@@ -5201,10 +5142,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'text',
                 'title' => esc_html__('Purchase Activated Subject(for admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for purchase activated', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => esc_html__('A purchased has been made', 'listingpro'),
             ),
@@ -5213,10 +5150,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'editor',
                 'title' => esc_html__('Purchase Activated Content(for admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email content', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;"><a style="width: 45%; margin: 0 auto; text-align: center; display: block; padding-bottom: 25px; padding-left: 30px; padding-right: 30px;"><img src="images/logo.png" /></a>
 <div style="width: 45%; background: #fff; padding: 50px 30px; margin: 0 auto;">
@@ -5247,10 +5180,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('<span class="font24">Review Reply</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for review reply email. %listing_title as Listing title, %listing_url as Listing URL, %sender_name as Sender Name, %reply as Review Reply ', 'listingpro')
             ),
@@ -5258,10 +5187,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_subject_listing_rev_reply',
                 'type' => 'text',
                 'title' => esc_html__('Review Reply Subject', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email subject for Review Reply', 'listingpro'),
                 'desc' => '',
                 'default' => esc_html__('Review Reply', 'listingpro'),
@@ -5270,10 +5195,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_msg_listing_rev_reply',
                 'type' => 'editor',
                 'title' => esc_html__('Review Reply Content', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content for Review Reply', 'listingpro'),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;">
@@ -5291,10 +5212,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('<span class="font24">Approved Listing</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Listing Approve email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
             ),
@@ -5302,10 +5219,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_subject_listing_approved',
                 'type' => 'text',
                 'title' => esc_html__('Listing Approved Subject', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email subject for approved listing', 'listingpro'),
                 'desc' => '',
                 'default' => esc_html__('Your listing approved', 'listingpro'),
@@ -5314,10 +5227,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_listing_approved',
                 'type' => 'editor',
                 'title' => esc_html__('Listing Approved Content', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content for listing approved', 'listingpro'),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;">
@@ -5347,10 +5256,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'email-expired-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('<span class="font24">Expired Listing</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Listing Expired email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
@@ -5359,10 +5264,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_subject_listing_expired',
                 'type' => 'text',
                 'title' => esc_html__('Listing Expired Subject', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email subject for expired listing', 'listingpro'),
                 'desc' => '',
                 'default' => esc_html__('Your listing expired', 'listingpro'),
@@ -5370,10 +5271,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_listing_expired',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Expired Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for listing expired', 'listingpro'),
                 'desc' => '',
@@ -5389,10 +5286,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'email-expired-info-ads',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('<span class="font24">Expired Ad Campaign</span>', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Ad Campaign Expired email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
@@ -5401,10 +5294,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_subject_ads_expired',
                 'type' => 'text',
                 'title' => esc_html__('Ad Expired Subject', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email subject for expired ads campaign', 'listingpro'),
                 'desc' => '',
                 'default' => esc_html__('Your ad campaign has expired', 'listingpro'),
@@ -5413,10 +5302,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_ad_campaign_expired',
                 'type' => 'editor',
                 'title' => esc_html__('Ad Expired Content', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content for ads campaigns expired', 'listingpro'),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;">
@@ -5446,10 +5331,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'email-wire-invoice-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Wire Invoice', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Wire Invoice email. %listing_title as Listing title, %listing_url as Listing URL, %invoice_no as invoice number', 'listingpro')
@@ -5470,10 +5351,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_content_wire_invoice',
                 'type' => 'editor',
                 'title' => esc_html__('Invoice Email Content', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email content', 'listingpro'),
                 'desc' => '',
                 'default' => '<div style="width: 100%; background: #f0f1f3; padding: 50px 0px;">
@@ -5502,10 +5379,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'listingpro_subject_wire_invoice_admin',
                 'type' => 'text',
                 'title' => esc_html__('Invoice Email Subject(admin)', 'listingpro'),
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'subtitle' => esc_html__('Email subject(admin)', 'listingpro'),
                 'desc' => '',
                 'default' => esc_html__('Your new listing on %website_url', 'listingpro'),
@@ -5513,10 +5386,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_wire_invoice_admin',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Invoice Email Content (admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email content(admin)', 'listingpro'),
                 'desc' => '',
@@ -5548,20 +5417,12 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'type' => 'info',
                 'notice' => false,
                 'style' => 'info',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => wp_kses(__('Claim Listing ( submission )', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Claim email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
             ),
             array(
                 'id' => 'listingpro_subject_listing_claimer',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Submission Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for claimer', 'listingpro'),
                 'desc' => '',
@@ -5570,10 +5431,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_listing_claimer',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Submission Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for claimer', 'listingpro'),
                 'desc' => '',
@@ -5587,10 +5444,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_listing_author',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Submission Subject (Author)', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for Author', 'listingpro'),
                 'desc' => '',
@@ -5599,10 +5452,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_listing_author',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Submission Content (Author)', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Author', 'listingpro'),
                 'desc' => '',
@@ -5616,10 +5465,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_listing_claim_admin',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Submission Subject (Admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for Admin', 'listingpro'),
                 'desc' => '',
@@ -5628,10 +5473,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_listing_claim_admin',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Submission Content (Admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Admin', 'listingpro'),
                 'desc' => '',
@@ -5647,10 +5488,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'email-listing-claim-aproval-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Claim Listing ( Approval )', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Claim Approval email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
@@ -5658,10 +5495,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_listing_claim_approve',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Approval Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject(claimer)', 'listingpro'),
                 'desc' => '',
@@ -5670,10 +5503,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_listing_claim_approve',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Approval Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content(claimer)', 'listingpro'),
                 'desc' => '',
@@ -5687,10 +5516,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_listing_claim_approve_old_owner',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Approval Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject(old owner)', 'listingpro'),
                 'desc' => '',
@@ -5699,10 +5524,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_listing_claim_approve_old_owner',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Listing Claim Approval Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content(old owner)', 'listingpro'),
                 'desc' => '',
@@ -5718,10 +5539,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'lp-campaign-active-email-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Campaign Activation( ADMIN)', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Campaign Activation email. %listing_title as Listing title, %listing_url as Listing URL, %campaign_packages as Packages Purchased, %author_name as Author name', 'listingpro')
@@ -5729,10 +5546,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_campaign_activate',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Ad Campaign Active Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject campaign activation', 'listingpro'),
                 'desc' => '',
@@ -5741,10 +5554,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_campaign_activate',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Ad Campaign Active Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Admin', 'listingpro'),
                 'desc' => '',
@@ -5760,10 +5569,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'lp-campaign-active-email-info-author',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Campaign Activation(To Author)', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Author Campaign Activation email. %listing_title as Listing title, %listing_url as Listing URL, %campaign_packages as Packages Purchased', 'listingpro')
@@ -5771,10 +5576,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_campaign_activate_author',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Ad Campaign Active Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject campaign activation', 'listingpro'),
                 'desc' => '',
@@ -5783,10 +5584,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_campaign_activate_author',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Ad Campaign Active Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Admin', 'listingpro'),
                 'desc' => '',
@@ -5802,10 +5599,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'lp-recurring-payment-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Recurring Payment Reminder Email', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Recurring Payment Notification email. you can use %listing_title as listing title, %plan_title for Plan name,  %plan_price as Plan Price, %plan_duration as Plan Duration and %notifybefore as no. of  day/days before payment deduction. Use shortcodes only in editor', 'listingpro')
@@ -5813,10 +5606,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_recurring_payment',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Recurring Payment Reminder Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for recurring reminder', 'listingpro'),
                 'desc' => '',
@@ -5825,10 +5614,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_recurring_payment',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Recurring Payment Reminder Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for recurring reminder', 'listingpro'),
                 'desc' => '',
@@ -5843,10 +5628,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_recurring_payment_admin',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Recurring Payment Reminder Subject (Admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email subject by admin', 'listingpro'),
                 'desc' => '',
@@ -5855,10 +5636,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_recurring_payment_admin',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Recurring Payment Reminder Content (Admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email content by admin', 'listingpro'),
                 'desc' => '',
@@ -5874,10 +5651,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'lp-subscription-cancel-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Subscription Cancel Email', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for cancel recurring submission  email. %listing_title as Listing title, %listing_url as Listing URL', 'listingpro')
@@ -5885,10 +5658,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_cancel_subscription',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Subscription Cancelled Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for subscription cancel', 'listingpro'),
                 'desc' => '',
@@ -5897,10 +5666,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_cancel_subscription',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Subscription Cancelled Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for cancel subscription', 'listingpro'),
                 'desc' => '',
@@ -5915,10 +5680,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_cancel_subscription_admin',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Subscription Cancelled Subject (Admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email subject by admin', 'listingpro'),
                 'desc' => '',
@@ -5927,10 +5688,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_cancel_subscription_admin',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Subscription Cancelled Content (Admin)', 'listingpro'),
                 'subtitle' => esc_html__('Email content by admin', 'listingpro'),
                 'desc' => '',
@@ -5946,10 +5703,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'lp-lead-form-email-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Lead Form Email Template', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Lead form email. %listing_title as listing title, %sender_name for sender name, %sender_email for sender email, %sender_phone for sender phone and %sender_message for sender message', 'listingpro')
@@ -5957,10 +5710,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_lead_form',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Lead Form Subject', 'listingpro'),
                 'subtitle' => esc_html__('Email subject for lead form', 'listingpro'),
                 'desc' => '',
@@ -5969,10 +5718,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_lead_form',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Lead Form Content', 'listingpro'),
                 'subtitle' => esc_html__('Email content for lead form', 'listingpro'),
                 'desc' => '',
@@ -5988,10 +5733,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
                 'id' => 'lp-review-form-email-info',
                 'type' => 'info',
                 'notice' => false,
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'style' => 'info',
                 'title' => wp_kses(__('Reviews Email Templates', 'listingpro'), $allowed_html_array),
                 'desc' => esc_html__('Use these shortcodes only for Review email. %listing_title as listing title, %listing_url as listing link, %reviewtext as Review Message, and %reviewer_email for Reviewer Email in content', 'listingpro')
@@ -5999,10 +5740,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_review_author',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Review Submission Subject (Author)', 'listingpro'),
                 'subtitle' => esc_html__('Enter Subject of Email for Listing Author', 'listingpro'),
                 'desc' => '',
@@ -6011,10 +5748,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_review_author',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Review Submission Content (Author)', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Listing Author', 'listingpro'),
                 'desc' => '',
@@ -6028,10 +5761,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_subject_reviewer',
                 'type' => 'text',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Review Submission Subject(Reviewer)', 'listingpro'),
                 'subtitle' => esc_html__('Enter Subject of Email for Reviewer', 'listingpro'),
                 'desc' => '',
@@ -6040,10 +5769,6 @@ if (is_plugin_active('listingpro-plugin/plugin.php')) {
             array(
                 'id' => 'listingpro_content_reviewer',
                 'type' => 'editor',
-                'required' => array(
-                    array('lp_listing_general_switch', '=', 'yes'),
-                    array('lp_listing_general_switch', '=', 'yes'),
-                ),
                 'title' => esc_html__('Review Submission content(Reviewer)', 'listingpro'),
                 'subtitle' => esc_html__('Email content for Reviewer', 'listingpro'),
                 'desc' => '',

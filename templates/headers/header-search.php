@@ -15,6 +15,7 @@ $parent = '';
 $loc_ID = '';
 $lpstag =   '';
 $locationID = '';
+$sQuery = '';
 global $paged;
 $taxTaxDisplay = true;
 
@@ -117,7 +118,9 @@ elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s
         $loc_ID = wp_kses_post($_GET['lp_s_loc']);
     }
 }
-
+if (isset($_GET['select']) && !empty($_GET['select'])) {
+    $sQuery = $_GET['select'];
+}
 
 
 
@@ -237,7 +240,7 @@ elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s
                             <div class="what-placeholder pos-relative lp-search-form-what" data-holder="">
                                 <input autocomplete="off" type="text"
                                        class="lp-suggested-search js-typeahead-input lp-search-input form-control ui-autocomplete-input dropdown_fields"
-                                       name="select" id="skeyword-filter" placeholder="<?php echo $search_placeholder; ?>"
+                                       name="select" id="skeyword-filter" value="<?php echo esc_attr($sQuery); ?>" placeholder="<?php echo $search_placeholder; ?>"
                                        data-prev-value='0'
                                        data-noresult="<?php echo esc_html__('More results for', 'listingpro'); ?>">
                                 <i class="cross-search-q fa fa-times-circle" aria-hidden="true"></i>

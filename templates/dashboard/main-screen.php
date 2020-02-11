@@ -119,7 +119,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                 </div>
 
                 <div class="col-md-4 col-xs-12 padding-right-0">
-                    <div class="count-box blue-box lp_user_stats_btn lpviewchart" data-chartduration="weekly" data-type="view">
+                    <div class="count-box blue-box lp_user_stats_btn lpviewchart" data-chartduration="weekly" data-type="<?php echo esc_html__('view', 'listingpro'); ?>">
                         <div class="clearfix">
                             <p><span><?php esc_html_e('User Views','listingpro'); ?></span></p>
                             <div class="help-text">
@@ -145,7 +145,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-12 padding-0">
-                    <div class="count-box orange-box lp_user_stats_btn lpviewleads" data-chartduration="weekly" data-type="leads">
+                    <div class="count-box orange-box lp_user_stats_btn lpviewleads" data-chartduration="weekly" data-type="<?php echo esc_html__('leads', 'listingpro'); ?>">
                         <div class="clearfix">
                             <p><span><?php esc_html_e('Customer Leads','listingpro'); ?></span></p>
                             <div class="help-text">
@@ -171,7 +171,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-12 padding-left-0">
-                    <div class="count-box green-box lp_user_stats_btn lpviewreviews" data-chartduration="weekly" data-type="reviews">
+                    <div class="count-box green-box lp_user_stats_btn lpviewreviews" data-chartduration="weekly" data-type="<?php echo esc_html__('reviews', 'listingpro'); ?>">
                         <div class="clearfix">
                             <p><span><?php esc_html_e('Customer Reviews','listingpro'); ?></span></p>
                             <div class="help-text">

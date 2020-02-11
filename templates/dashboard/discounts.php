@@ -729,8 +729,8 @@ ajax_response_markup();
                                 </div>
 
                                 <ul class="lp-coupons-tab-nav text-right col-md-12 margin-top-10">
-                                    <li class="active"><a data-toggle="tab" href="#lp-doller">$ Dollar</a></li>
-                                    <li><a data-toggle="tab" href="#lp-percent">% Percent</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#lp-doller"><?php echo esc_html__('$ Dollar', 'listingpro'); ?></a></li>
+                                    <li><a data-toggle="tab" href="#lp-percent"><?php echo esc_html__('% Percent', 'listingpro'); ?></a></li>
                                 </ul>
 
 
@@ -745,7 +745,7 @@ ajax_response_markup();
 
                                         <div class="pos-relative">
                                             <span class="lp-field-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                            <input min="<?php echo date( 'Y-m-d' ); ?>" name="dis-expiry-s" id="dis-expiry-s" type="text" class="lp-pos-relative-input form-control discount-date lp-dashboard-text-field" placeholder="Date">
+                                            <input min="<?php echo date( 'Y-m-d' ); ?>" name="dis-expiry-s" id="dis-expiry-s" type="text" class="lp-pos-relative-input form-control discount-date lp-dashboard-text-field" placeholder="<?php echo esc_html__('Date', 'listingpro'); ?>">
                                         </div>
                                     </div>
 
@@ -754,7 +754,7 @@ ajax_response_markup();
 
                                     <div class="pos-relative" id="time-switch">
                                         <span class="lp-field-icon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-                                        <input name="event-time" id="event-time" type="text" class="form-control datetimepicker1 lp-dashboard-text-field lp-pos-relative-input " placeholder=" Time">
+                                        <input name="event-time" id="event-time" type="text" class="form-control datetimepicker1 lp-dashboard-text-field lp-pos-relative-input " placeholder=" <?php echo esc_html__('Time', 'listingpro'); ?>">
 
                                     </div>
 
@@ -777,14 +777,14 @@ ajax_response_markup();
                                 <div class="form-group col-sm-6 ">
                                     <div class="pos-relative">
                                         <span class="lp-field-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                        <input min="<?php echo date( 'Y-m-d' ); ?>" name="dis-expiry-e" id="dis-expiry-e" type="text" class="lp-pos-relative-input form-control discount-date lp-dashboard-text-field" placeholder="Date">
+                                        <input min="<?php echo date( 'Y-m-d' ); ?>" name="dis-expiry-e" id="dis-expiry-e" type="text" class="lp-pos-relative-input form-control discount-date lp-dashboard-text-field" placeholder="<?php echo esc_html__('Date', 'listingpro'); ?>">
                                     </div>
                                 </div>
                                 <div class="col-sm-6 ">
 
                                     <div class="pos-relative" id="time-switch">
                                         <span class="lp-field-icon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-                                        <input name="event-time" id="event-time" type="text" class="form-control datetimepicker1 lp-dashboard-text-field lp-pos-relative-input " placeholder=" Time">
+                                        <input name="event-time" id="event-time" type="text" class="form-control datetimepicker1 lp-dashboard-text-field lp-pos-relative-input " placeholder=" <?php echo esc_html__('Time', 'listingpro'); ?>">
 
                                     </div>
 

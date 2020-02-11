@@ -2039,7 +2039,6 @@ a:focus {
 
 .lp-locations .col-md-2 {
     padding: 0 0 0 4px;
-    float: none;
     display: inline-block
 }
 
@@ -13947,4 +13946,30 @@ display:none;
 }
 .get-directions {
     z-index: 99;
+}
+/*Listing Archive Near Me Tag Css*/
+.grid_view6 .lp-grid-box-thumb .lp-nearest-distance {
+    position: absolute;
+    top: 17px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    background: #42a7df;
+    width: 71px;
+    color: #fff;
+    line-height: 26px;
+    border-radius: 3px;
+}
+
+.grid-style-container .lp-listing-top .lp-nearest-distance, .list-style-cotainer .lp-listing-top .lp-nearest-distance {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    text-align: center;
+    background: #42a7df;
+    width: 71px;
+    color: #fff;
+    line-height: 26px;
+    border-radius: 3px;
 }

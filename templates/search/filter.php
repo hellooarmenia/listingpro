@@ -45,12 +45,13 @@ if( !isset($_GET['s'])){
 
     }
 }elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s_loc'])){
-
+    $termNameAJAX = esc_html__('Results For','listingpro').' <span class="font-bold term-name"></span>';
     if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat'])){
         $sterm = wp_kses_post($_GET['lp_s_cat']);
         $term_ID = wp_kses_post($_GET['lp_s_cat']);
         $termo = get_term_by('id', $sterm, 'listing-category');
         $termName = esc_html__('Results For','listingpro').' <span class="font-bold term-name">'.$termo->name.'</span>';
+        $termNameAJAX = esc_html__('Results For','listingpro').' <span class="font-bold term-name">'.$termo->name.'</span>';
         $parent = $termo->parent;
     }
     if(isset($_GET['lp_s_cat']) && empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
@@ -58,6 +59,7 @@ if( !isset($_GET['s'])){
         $lpstag = $sterm;
         $termo = get_term_by('id', $sterm, 'list-tags');
         $termName = esc_html__('Results For','listingpro').' <span class="font-bold">'.$termo->name.'</span>';
+        $termNameAJAX = esc_html__('Results For','listingpro').' <span class="font-bold">'.$termo->name.'</span>';
     }
 
     if(isset($_GET['lp_s_cat']) && !empty($_GET['lp_s_cat']) && isset($_GET['lp_s_tag']) && !empty($_GET['lp_s_tag'])){
@@ -66,6 +68,7 @@ if( !isset($_GET['s'])){
 
         $termo = get_term_by('id', $sterm, 'list-tags');
         $termName = esc_html__('Results For','listingpro').' <span class="font-bold">'.$termo->name.'</span>';
+        $termNameAJAX = esc_html__('Results For','listingpro').' <span class="font-bold">'.$termo->name.'</span>';
     }
 
     if(isset($_GET['lp_s_loc']) && !empty($_GET['lp_s_loc'])){
@@ -123,9 +126,9 @@ if($listingView == 'grid_view'){
                 <div class="filter-top-section pos-relative row">
                     <div class="lp-title col-md-10 col-sm-10">
                         <?php if(is_search()){ ?>
-                            <h3 class="test"><?php echo $termName; ?> <?php echo $emptySearchTitle; ?><span class="dename"></span><span class="font-bold"><?php echo esc_html__( ' Listings', 'listingpro' );?></span> <?php echo $locName; ?></h3>
+                            <h3 class="test" data-rstring='<?php echo $termNameAJAX; ?>'><?php echo $termName; ?> <?php echo $emptySearchTitle; ?><span class="dename"></span><span class="font-bold lstring"><?php echo esc_html__( ' Listings', 'listingpro' );?></span> <?php echo $locName; ?></h3>
                         <?php }else{ ?>
-                            <h3 class="test2"><?php echo esc_html__( 'Results For ', 'listingpro' );?> <span class="font-bold term-name"><?php echo $termName; ?></span><span class="font-bold"><?php echo esc_html__( ' Listings', 'listingpro' );?></span> </h3>
+                            <h3 class="test2" data-rstring='<?php echo $termNameAJAX; ?>'><?php echo esc_html__( 'Results For ', 'listingpro' );?> <span class="font-bold term-name"><?php echo $termName; ?></span> <span class="font-bold lstring"><?php echo esc_html__( ' Listings', 'listingpro' );?></span> </h3>
                         <?php } ?>
                     </div>
                     <?php
