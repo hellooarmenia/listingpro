@@ -89,7 +89,7 @@ ajax_response_markup();
 
             <div class="modal-body">
 
-                <?php echo esc_html__( 'Are you sure you want to delete?' ); ?>
+                <?php echo esc_html__( 'Are you sure you want to delete?', 'listingpro' ); ?>
 
             </div>
 
@@ -203,7 +203,8 @@ ajax_response_markup();
 
                     <div class="col-md-1 padding-0"><p><?php esc_html_e('start time','listingpro'); ?></p></div>
 
-                    <div class="col-md-3 text-center"><p><?php esc_html_e('status','listingpro'); ?></p></div>
+                    <div class="col-md-3 text-center" style="padding-right: 8%;"><p><?php esc_html_e('status','listingpro'); ?></p></div>
+
 
                 </div>
 

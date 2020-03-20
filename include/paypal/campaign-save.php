@@ -14,59 +14,59 @@ if(!function_exists('lp_save_campaign_data')){
         $packagesDetails ='';
 
         $expiryDate = '';
-		$currentdate = date("d-m-Y");
-		$expiryDate = date("d-m-Y", strtotime(' + '.$ads_days.' days'));
-		
-		$ad_title = lp_theme_option('lp_pro_title_offer');
-		if(empty($ad_title)){
-			$ad_title = esc_html__('Black Friday 50% Off', 'listingpro');
-		}
-		$my_post = array(
-			'post_title'    => $ad_title,
-			'post_status'   => 'publish',
-			'post_type' => 'lp-ads',
-		);
-		$adID = wp_insert_post( $my_post );
+        $currentdate = date("d-m-Y");
+        $expiryDate = date("d-m-Y", strtotime(' + '.$ads_days.' days'));
+        
+        $ad_title = lp_theme_option('lp_pro_title_offer');
+        if(empty($ad_title)){
+            $ad_title = esc_html__('Black Friday 50% Off', 'listingpro');
+        }
+        $my_post = array(
+            'post_title'    => $ad_title,
+            'post_status'   => 'publish',
+            'post_type' => 'lp-ads',
+        );
+        $adID = wp_insert_post( $my_post );
 
-		listing_set_metabox('ads_listing', $listing_id, $adID);
+        listing_set_metabox('ads_listing', $listing_id, $adID);
 
-		listing_set_metabox('ads_mode', $adsofType, $adID);
-		if($adsofType=="perclick"){
-			listing_set_metabox('remaining_balance', $budget, $adID);
-		}else{
+        listing_set_metabox('ads_mode', $adsofType, $adID);
+        if($adsofType=="perclick"){
+            listing_set_metabox('remaining_balance', $budget, $adID);
+        }else{
             update_post_meta($adID,'campain_expire_date', $expiryDate);
         }
-		
-		listing_set_metabox('duration', $ads_days, $adID);
-		listing_set_metabox('budget', $budget, $adID);
-		
+        
+        listing_set_metabox('duration', $ads_days, $adID);
+        listing_set_metabox('budget', $budget, $adID);
+        
 
-		listing_set_metabox('ad_status', 'Active', $adID);
-		listing_set_metabox('campaign_id', $adID, $listing_id);
-		update_post_meta( $listing_id, 'campaign_status', 'active' );
+        listing_set_metabox('ad_status', 'Active', $adID);
+        listing_set_metabox('campaign_id', $adID, $listing_id);
+        update_post_meta( $listing_id, 'campaign_status', 'active' );
 
-		$priceKeyArray = array();
-		if( !empty($price_packages) ){
-			foreach( $price_packages as $val ){
-				$priceKeyArray[] = $val;
-				update_post_meta( $listing_id, $val, 'active' );
-			}
-		}
+        $priceKeyArray = array();
+        if( !empty($price_packages) ){
+            foreach( $price_packages as $val ){
+                $priceKeyArray[] = $val;
+                update_post_meta( $listing_id, $val, 'active' );
+            }
+        }
 
-		if( !empty($priceKeyArray) ){
+        if( !empty($priceKeyArray) ){
 
-			listing_set_metabox('ad_type', $priceKeyArray, $adID);
-		}
-			
-		
- 	if(!empty($price_packages)){
+            listing_set_metabox('ad_type', $priceKeyArray, $adID);
+        }
+            
+        
+    if(!empty($price_packages)){
         //$price_packages = $_SESSION['price_package'];
         if(empty($budget)){
             if( !empty($price_packages) && is_array($price_packages) ){
-				$sepVar = ' and ';
-				if( count($price_packages) > 2 ){
-					$sepVar = ' , ';
-				}
+                $sepVar = ' and ';
+                if( count($price_packages) > 2 ){
+                    $sepVar = ' , ';
+                }
                 foreach( $price_packages as $val ){
                     if($val=="lp_random_ads"){
                         $packagesDetails .= esc_html__('Random Ads', 'listingpro');
@@ -74,23 +74,23 @@ if(!function_exists('lp_save_campaign_data')){
                     }
                     if($val=="lp_detail_page_ads"){
                         $packagesDetails .= esc_html__('Detail Page Ads', 'listingpro');
-						$packagesDetails .= $sepVar;
+                        $packagesDetails .= $sepVar;
                     }
                     if($val=="lp_top_in_search_page_ads"){
                         $packagesDetails .= esc_html__('Top in Search Page Ads', 'listingpro');
-						$packagesDetails .= $sepVar;
+                        $packagesDetails .= $sepVar;
                     }
                     
-					update_post_meta( $listing_id, $val, 'active' );
+                    update_post_meta( $listing_id, $val, 'active' );
                 }
             }
         }
         else{
             if( !empty($price_packages) && is_array($price_packages) ){
-				$sepVar = ' and ';
-				if( count($price_packages) > 2 ){
-					$sepVar = ' , ';
-				}
+                $sepVar = ' and ';
+                if( count($price_packages) > 2 ){
+                    $sepVar = ' , ';
+                }
                 foreach( $price_packages as $val ){
                     if($val=="lp_random_ads"){
                         $packagesDetails .= esc_html__('Random Ads', 'listingpro');
@@ -98,13 +98,13 @@ if(!function_exists('lp_save_campaign_data')){
                     }
                     if($val=="lp_detail_page_ads"){
                         $packagesDetails .= esc_html__('Detail Page Ads', 'listingpro');
-						$packagesDetails .= $sepVar;
+                        $packagesDetails .= $sepVar;
                     }
                     if($val=="lp_top_in_search_page_ads"){
                         $packagesDetails .= esc_html__('Top in Search Page Ads', 'listingpro');
-						$packagesDetails .= $sepVar;
+                        $packagesDetails .= $sepVar;
                     }
-					update_post_meta( $listing_id, $val, 'active' );
+                    update_post_meta( $listing_id, $val, 'active' );
                 }
             }
         }
@@ -113,34 +113,34 @@ if(!function_exists('lp_save_campaign_data')){
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         lp_create_campaign_table();
 
-		$insert_sql = array(
-			'user_id' => $user_ID,
-			'post_id' => $adID,
-			'payment_method' => $method,
-			'token' => $token,
-			'price' => $ads_price,
-			'currency' => $currency_code,
-			'status' => $status,
-			'transaction_id' => $transactionID,
-			'mode' => $adsofType,
-			'duration' => $ads_days,
-			'budget' => $budget,
-			'ad_date' => $currentdate,
-			'ad_expiryDate' => $expiryDate,
-			'tax' => $taxPrice
-		);
-		$table = 'listing_campaigns';
-		if($method=="wire"){
-			//for wire
-			
-			$data = array('post_id' => $adID,'status' => 'success');
-			$where = array('transaction_id' => $transactionID);
-			lp_update_data_in_db($table, $data, $where);
-			
-		}else{
-			lp_insert_data_in_db($table, $insert_sql);
-		}
-		
+        $insert_sql = array(
+            'user_id' => $user_ID,
+            'post_id' => $adID,
+            'payment_method' => $method,
+            'token' => $token,
+            'price' => $ads_price,
+            'currency' => $currency_code,
+            'status' => $status,
+            'transaction_id' => $transactionID,
+            'mode' => $adsofType,
+            'duration' => $ads_days,
+            'budget' => $budget,
+            'ad_date' => $currentdate,
+            'ad_expiryDate' => $expiryDate,
+            'tax' => $taxPrice
+        );
+        $table = 'listing_campaigns';
+        if($method=="wire"){
+            //for wire
+            
+            $data = array('post_id' => $adID,'status' => 'success');
+            $where = array('transaction_id' => $transactionID);
+            lp_update_data_in_db($table, $data, $where);
+            
+        }else{
+            lp_insert_data_in_db($table, $insert_sql);
+        }
+        
 
         $current_user = wp_get_current_user();
         $user_email = $current_user->user_email;
@@ -184,10 +184,10 @@ if(!function_exists('lp_save_campaign_data')){
             'website_name' => "$website_name",
             'user_name' => "$user_name",
         ));
-		lp_mail_headers_append();
+        lp_mail_headers_append();
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
         LP_send_mail( $user_email, $subject, $formated_mail_content, $headers);
-		lp_mail_headers_remove();
+        lp_mail_headers_remove();
 
     }
 }
@@ -197,32 +197,32 @@ if(!function_exists('lp_save_campaign_data')){
 
 /* =============================listingpro create campaign table=========================== */
 if(!function_exists('lp_create_campaign_table')){
-	function lp_create_campaign_table(){
-		global $wpdb,$listingpro_options;
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    function lp_create_campaign_table(){
+        global $wpdb,$listingpro_options;
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         $sql="
-		   CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_campaigns`
-		 (
-			  main_id bigint(20) NOT NULL auto_increment,
-			  user_id varchar(255) default NULL,
-			  post_id varchar(255) default NULL,
-			  payment_method varchar(255) default NULL,
-			  token varchar(255) default NULL,
-			  price varchar(255) default NULL,
-			  currency varchar(255) default NULL,
-			  status varchar(255) default NULL,
-			  transaction_id varchar(255) default NULL,
-			  PRIMARY KEY  (`main_id`),
-			  mode varchar(255) default NULL,
-			  duration varchar(255) default NULL,
-			  budget varchar(255) default NULL,
-			  ad_date varchar(255) default NULL,
-			  ad_expiryDate varchar(255) default NULL,
-			  tax varchar(255) default NULL
-			  
-		 );";
+           CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_campaigns`
+         (
+              main_id bigint(20) NOT NULL auto_increment,
+              user_id varchar(255) default NULL,
+              post_id varchar(255) default NULL,
+              payment_method varchar(255) default NULL,
+              token varchar(255) default NULL,
+              price varchar(255) default NULL,
+              currency varchar(255) default NULL,
+              status varchar(255) default NULL,
+              transaction_id varchar(255) default NULL,
+              PRIMARY KEY  (`main_id`),
+              mode varchar(255) default NULL,
+              duration varchar(255) default NULL,
+              budget varchar(255) default NULL,
+              ad_date varchar(255) default NULL,
+              ad_expiryDate varchar(255) default NULL,
+              tax varchar(255) default NULL
+              
+         );";
         dbDelta($sql);
-	}
+    }
 }
 
 /* =========================listingpro insert data in db============================================== */
@@ -309,25 +309,25 @@ if(!function_exists('lp_create_campaigns_table')){
         global $wpdb,$listingpro_options;
         $dbprefix = $wpdb->prefix;
         $sql="
-		   CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_campaigns`
-		 (
-			  main_id bigint(20) NOT NULL auto_increment,
-			  user_id varchar(255) default NULL,
-			  post_id varchar(255) default NULL,
-			  payment_method varchar(255) default NULL,
-			  token varchar(255) default NULL,
-			  price varchar(255) default NULL,
-			  currency varchar(255) default NULL,
-			  status varchar(255) default NULL,
-			  transaction_id varchar(255) default NULL,
-			  PRIMARY KEY  (`main_id`),
-			  mode varchar(255) default NULL,
-			  duration varchar(255) default NULL,
-			  budget varchar(255) default NULL,
-			  ad_date varchar(255) default NULL,
-			  ad_expiryDate varchar(255) default NULL
-			  
-		 );";
+           CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_campaigns`
+         (
+              main_id bigint(20) NOT NULL auto_increment,
+              user_id varchar(255) default NULL,
+              post_id varchar(255) default NULL,
+              payment_method varchar(255) default NULL,
+              token varchar(255) default NULL,
+              price varchar(255) default NULL,
+              currency varchar(255) default NULL,
+              status varchar(255) default NULL,
+              transaction_id varchar(255) default NULL,
+              PRIMARY KEY  (`main_id`),
+              mode varchar(255) default NULL,
+              duration varchar(255) default NULL,
+              budget varchar(255) default NULL,
+              ad_date varchar(255) default NULL,
+              ad_expiryDate varchar(255) default NULL
+              
+         );";
         dbDelta($sql);
     }
 }
@@ -340,28 +340,28 @@ if(!function_exists('lp_create_listings_orders_table')){
         global $wpdb,$listingpro_options;
         $dbprefix = $wpdb->prefix;
         $wpdb->query("CREATE TABLE IF NOT EXISTS `".$dbprefix."listing_orders` (
-		  `main_id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		  `user_id` TEXT NOT NULL ,
-		  `post_id` TEXT NOT NULL ,
-		  `plan_id` TEXT NOT NULL ,
-		  `plan_name` TEXT NOT NULL ,
-		  `plan_type` TEXT NOT NULL ,
-		  `payment_method` TEXT NOT NULL ,
-		  `token` TEXT NOT NULL ,
-		  `price` FLOAT UNSIGNED NOT NULL ,
-		  `currency` TEXT NOT NULL ,
-		  `days` TEXT NOT NULL ,
-		  `date` TEXT NOT NULL ,
-		  `status` TEXT NOT NULL ,
-		  `used` TEXT NOT NULL ,
-		  `transaction_id` TEXT NOT NULL ,
-		  `firstname` TEXT NOT NULL ,
-		  `lastname` TEXT NOT NULL ,
-		  `email` TEXT NOT NULL ,
-		  `description` TEXT NOT NULL ,
-		  `summary` TEXT NOT NULL ,
-		  `order_id` TEXT NOT NULL 
-		  ) ENGINE = MYISAM; ");
+          `main_id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          `user_id` TEXT NOT NULL ,
+          `post_id` TEXT NOT NULL ,
+          `plan_id` TEXT NOT NULL ,
+          `plan_name` TEXT NOT NULL ,
+          `plan_type` TEXT NOT NULL ,
+          `payment_method` TEXT NOT NULL ,
+          `token` TEXT NOT NULL ,
+          `price` FLOAT UNSIGNED NOT NULL ,
+          `currency` TEXT NOT NULL ,
+          `days` TEXT NOT NULL ,
+          `date` TEXT NOT NULL ,
+          `status` TEXT NOT NULL ,
+          `used` TEXT NOT NULL ,
+          `transaction_id` TEXT NOT NULL ,
+          `firstname` TEXT NOT NULL ,
+          `lastname` TEXT NOT NULL ,
+          `email` TEXT NOT NULL ,
+          `description` TEXT NOT NULL ,
+          `summary` TEXT NOT NULL ,
+          `order_id` TEXT NOT NULL 
+          ) ENGINE = MYISAM; ");
     }
 }
 
@@ -372,20 +372,22 @@ if(!function_exists('lp_create_stats_table_views')){
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         global $wpdb;
         $dbprefix = $wpdb->prefix;
+        if(!lp_table_exists_check($wpdb->prefix."listing_stats_views")) {
         $sql="
-		   CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_stats_views`
-		 (
-			  main_id bigint(20) NOT NULL auto_increment,
-			  user_id varchar(255) default NULL,
-			  listing_id varchar(255) default NULL,
-			  listing_title varchar(255) default NULL,
-			  action_type varchar(255) default NULL,
-			  month LONGTEXT default NULL,
-			  year LONGTEXT default NULL,
-			  count varchar(255) default NULL,
-			  PRIMARY KEY  (`main_id`)
-		 );";
+           CREATE TABLE `".$wpdb->prefix."listing_stats_views`
+         (
+              main_id bigint(20) NOT NULL auto_increment,
+              user_id varchar(255) default NULL,
+              listing_id varchar(255) default NULL,
+              listing_title varchar(255) default NULL,
+              action_type varchar(255) default NULL,
+              month LONGTEXT default NULL,
+              year LONGTEXT default NULL,
+              count varchar(255) default NULL,
+              PRIMARY KEY  (`main_id`)
+         );";
         dbDelta($sql);
+        }
     }
 }
 
@@ -396,20 +398,22 @@ if(!function_exists('lp_create_stats_table_reviews')){
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         global $wpdb;
         $dbprefix = $wpdb->prefix;
+        if(!lp_table_exists_check($wpdb->prefix."listing_stats_reviews")) {
         $sql="
-		   CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_stats_reviews`
-		 (
-			  main_id bigint(20) NOT NULL auto_increment,
-			  user_id varchar(255) default NULL,
-			  listing_id varchar(255) default NULL,
-			  listing_title varchar(255) default NULL,
-			  action_type varchar(255) default NULL,
-			  month LONGTEXT default NULL,
-			  year LONGTEXT default NULL,
-			  count varchar(255) default NULL,
-			  PRIMARY KEY  (`main_id`)
-		 );";
+           CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_stats_reviews`
+         (
+              main_id bigint(20) NOT NULL auto_increment,
+              user_id varchar(255) default NULL,
+              listing_id varchar(255) default NULL,
+              listing_title varchar(255) default NULL,
+              action_type varchar(255) default NULL,
+              month LONGTEXT default NULL,
+              year LONGTEXT default NULL,
+              count varchar(255) default NULL,
+              PRIMARY KEY  (`main_id`)
+         );";
         dbDelta($sql);
+        }
     }
 }
 
@@ -420,20 +424,22 @@ if(!function_exists('lp_create_stats_table_leads')){
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         global $wpdb;
         $dbprefix = $wpdb->prefix;
+        if(!lp_table_exists_check($wpdb->prefix."listing_stats_leads")) {
         $sql="
-		   CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_stats_leads`
-		 (
-			  main_id bigint(20) NOT NULL auto_increment,
-			  user_id varchar(255) default NULL,
-			  listing_id varchar(255) default NULL,
-			  listing_title varchar(255) default NULL,
-			  action_type varchar(255) default NULL,
-			  month LONGTEXT default NULL,
-			  year LONGTEXT default NULL,
-			  count varchar(255) default NULL,
-			  PRIMARY KEY  (`main_id`)
-		 );";
+           CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."listing_stats_leads`
+         (
+              main_id bigint(20) NOT NULL auto_increment,
+              user_id varchar(255) default NULL,
+              listing_id varchar(255) default NULL,
+              listing_title varchar(255) default NULL,
+              action_type varchar(255) default NULL,
+              month LONGTEXT default NULL,
+              year LONGTEXT default NULL,
+              count varchar(255) default NULL,
+              PRIMARY KEY  (`main_id`)
+         );";
         dbDelta($sql);
+        }
     }
 }
 

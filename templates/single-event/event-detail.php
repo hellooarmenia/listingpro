@@ -224,7 +224,7 @@ if (have_posts()) {
                                                 if (isset($item_arr[0]) && isset($item_arr[1])) { ?>
                                                     <a target="_blank" href="<?php echo $item_arr[1]; ?>"
                                                        class="lp-event-detail-ticket"><i class="fa fa-tag"
-                                                                                         aria-hidden="true"></i><?php echo esc_html__('Get Tickets', 'listingpro'); ?> <?php echo $item_arr[0]; ?>
+                                                                                         aria-hidden="true"></i><?php echo esc_html__('Get Tickets', 'listingpro'); ?> <?php echo esc_html__($item_arr[0], 'listingpro'); ?>
                                                     </a>                                                <?php
                                                 }
                                             }

@@ -448,40 +448,48 @@ jQuery('#contactOwner').on('submit', function(e){
 jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
 
      e.preventDefault();
-	 var $this = jQuery(this),
+     var $this = jQuery(this),
          cMsg   =   $this.data('cmsg');
 
 
      var r = confirm(cMsg);
+
+
      if( r == true )
      {
          jQuery('body').addClass('listingpro-loading');
          var subscript_id = jQuery(this).attr('href');
-         jQuery.ajax({
-             type: 'POST',
-             dataType: 'json',
-             url: single_ajax_object.ajaxurl,
-             data: {
-                 'action': 'listingpro_cancel_subscription_proceeding',
-                 'subscript_id': subscript_id,
-                 'lpNonce' : jQuery('#lpNonce').val()
-             },
-             success: function(data){
-                 jQuery('body').removeClass('listingpro-loading');
-                 alert(data.msg);
-                 if(data.status=="success"){
-                     $this.closest('tr').slideToggle();
-                 }
+        if($this.hasClass('paystack-unsub')) {
+            var mail_token  =   $this.attr('data-mailtoekn');
+            unsubsribe_paystack(subscript_id, mail_token, $this);
 
-             },
-             error: function(jqXHR, textStatus, errorThrown) {
-                 jQuery('body').removeClass('listingpro-loading');
-                 console.log(textStatus, errorThrown);
-             }
-         });
+        }else if ($this.hasClass('razorpay-unsub')) {
+            unsubsribe_razorpay(subscript_id, $this);
+        } else {
+            jQuery.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: single_ajax_object.ajaxurl,
+                data: {
+                    'action': 'listingpro_cancel_subscription_proceeding',
+                    'subscript_id': subscript_id,
+                    'lpNonce' : jQuery('#lpNonce').val()
+                },
+                success: function(data){
+                    jQuery('body').removeClass('listingpro-loading');
+                    alert(data.msg);
+                    if(data.status=="success"){
+                        $this.closest('tr').slideToggle();
+                    }
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    jQuery('body').removeClass('listingpro-loading');
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
      }
-
-
  });
  
  /* Report listing or Report Review */
@@ -537,7 +545,8 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
          jQuery( "#lpgraph" ).empty();
          $duration = jQuery('ul li .lp_stats_duratonBtn.active').data('chartduration');
          $type = $this.data('type');
-         jQuery('ul.lp_stats_duration_filter li button').data('type', $type);
+         $label = $this.data('label');
+         jQuery('ul.lp_stats_duration_filter li button').data('label', $label);
          jQuery('body').addClass('listingpro-loading');
          jQuery.ajax({
              type: 'POST',
@@ -545,14 +554,14 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
              url: single_ajax_object.ajaxurl,
              data: {
                  'action': 'listingpro_show_bar_chart',
-                 'type': $type,
+                 'type': $label,
                  'duration': $duration,
                  'lpNonce' : jQuery('#lpNonce').val()
              },
              success: function(data){
                  jQuery('body').removeClass('listingpro-loading');
                  jQuery('ul.lp_stats_duration_filter').show();
-                 showthischart(data.data, $type);
+                 showthischart(data.data, $type, $label);
                  jQuery('.lp_user_stats_btn.active p.lpstatsnumber').text('');
                  jQuery('.lp_user_stats_btn.active p.lpstatsnumber').text(data.counts);
                  jQuery('.lp_user_stats_btn.active').find('.lp_status_duration_counter').text('');
@@ -568,21 +577,21 @@ jQuery(document).on('click', 'a.delete-subsc-btn', function(e){
      }
  });
 
-function showthischart($datarray, $type){
-	Morris.Bar({
-	  element: 'lpgraph',
-	  data : $datarray,
-	  xkey: 'x',
-	  ykeys: ['y'],
-	  labels: [$type]
-	});
-	if($type=="view"){
-		jQuery('div.lpviewchart').addClass('active');
-	}else if($type=="leads"){
-		jQuery('div.lpviewleads').addClass('active');
-	}else if($type=="reviews"){
-		jQuery('div.lpviewreviews').addClass('active');
-	}
+function showthischart($datarray, $type, $label){
+    Morris.Bar({
+      element: 'lpgraph',
+      data : $datarray,
+      xkey: 'x',
+      ykeys: ['y'],
+      labels: [$type]
+    });
+    if($label=="view"){
+        jQuery('div.lpviewchart').addClass('active');
+    }else if($label=="leads"){
+        jQuery('div.lpviewleads').addClass('active');
+    }else if($label=="reviews"){
+        jQuery('div.lpviewreviews').addClass('active');
+    }
 }
 
 /* start for coupon button on checkout page */

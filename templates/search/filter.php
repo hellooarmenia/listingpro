@@ -41,7 +41,7 @@ if( !isset($_GET['s'])){
         elseif(is_tax('list-tags')){
             $lpstag = $termID->term_id;
         }
-
+        $termNameAJAX = esc_html__('Results For','listingpro').' <span class="font-bold">'.$termName.'</span>';
 
     }
 }elseif(isset($_GET['lp_s_cat']) || isset($_GET['lp_s_tag']) || isset($_GET['lp_s_loc'])){

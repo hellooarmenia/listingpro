@@ -1649,7 +1649,7 @@ a:focus {
     padding: 10px 15px;
     width: 100%;
     height: 165px;
-    top: 4px;
+    top: -4px;
     transition: top 0.20s ease-in-out;
     cursor: auto;
 
@@ -2003,7 +2003,7 @@ a:focus {
 
 .listing-slider .lp-listing .lp-listing-bottom .lp-listing-location {
     float: none;
-    margin-top: 3px
+    margin-top: 10px;
 }
 
 .lp-listings .more-listings {
@@ -13972,4 +13972,17 @@ display:none;
     color: #fff;
     line-height: 26px;
     border-radius: 3px;
+}
+.lp_show_hide_plans.active::before {
+    background-color: #cfcfcf !important;
+}
+.lp_button_switcher a.lp_show_hide_plans.active::after{
+	border: 2px solid #cfcfcf !important;
+    color: #cfcfcf !important;
+}
+.lp-grid-box {
+	border-radius: 7px;
+}
+.select2-container--default .select2-selection--multiple{
+	border-color: #dce0e2;
 }

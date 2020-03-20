@@ -48,8 +48,9 @@ if( !function_exists('listingpro_scripts_version2')){
     if( $current_page_url == $author_page_url ) {
         $lp_wp_lang    =   get_option('WPLANG');
         $available_locales  =   array(
+                'de_DE',
                 'af',
-                'ar-DZ',
+                'ar_DZ',
                 'ar',
                 'az',
                 'be',
@@ -57,13 +58,13 @@ if( !function_exists('listingpro_scripts_version2')){
                 'cs',
                 'bs',
                 'ca',
-                'cy-GB',
+                'cy_GB',
                 'da',
                 'de',
                 'el',
-                'en-AU',
-                'en-GB',
-                'en-NZ',
+                'en_AU',
+                'en_GB',
+                'en_NZ',
                 'eo',
                 'es',
                 'et',
@@ -71,8 +72,8 @@ if( !function_exists('listingpro_scripts_version2')){
                 'fa',
                 'fi',
                 'fo',
-                'fr-CA',
-                'fr-CH',
+                'fr_CA',
+                'fr_CH',
                 'fr',
                 'gl',
                 'he',
@@ -82,7 +83,7 @@ if( !function_exists('listingpro_scripts_version2')){
                 'hy',
                 'id',
                 'is',
-                'it-CH',
+                'it_CH',
                 'it',
                 'js',
                 'ka',
@@ -97,13 +98,13 @@ if( !function_exists('listingpro_scripts_version2')){
                 'ml',
                 'ms',
                 'nb',
-                'nl-BE',
+                'nl_BE',
                 'nl',
                 'nn',
                 'no',
                 'pl',
                 'pt',
-                'pt-BR',
+                'pt_BR',
                 'rm',
                 'ro',
                 'ru',
@@ -111,7 +112,7 @@ if( !function_exists('listingpro_scripts_version2')){
                 'sl',
                 'sq',
                 'sr',
-                'sr-SR',
+                'sr_SR',
                 'sv',
                 'ta',
                 'tj',
@@ -119,9 +120,9 @@ if( !function_exists('listingpro_scripts_version2')){
                 'tr',
                 'uk',
                 'vi',
-                'zh-CN',
-                'zh-HK',
-                'zh-TW'
+                'zh_CN',
+                'zh_HK',
+                'zh_TW'
         );
 
         if(!empty($lp_wp_lang) && in_array($lp_wp_lang, $available_locales)) {
@@ -2555,7 +2556,7 @@ if( !function_exists( 'add_menu_cb' ) )
             $menu_data['orderP']    =   $_POST['orderP'];
             $menu_data['popularItem']  =   $_POST['popularItem'];
             $menu_data['spiceLVL']  =   $_POST['spiceLVL'];
-
+            $menu_data['showQute']  =   $_POST['showQute'];
         }
 
         if( $user_id != $user_idd )
@@ -2584,6 +2585,7 @@ if( !function_exists( 'add_menu_cb' ) )
                 $target_arr['orderP']    =   $orderP;
                 $target_arr['popularItem']    =   $popularItem;
                 $target_arr['spiceLVL']    =   $spiceLVL;
+
 
 
 
@@ -2628,7 +2630,6 @@ if( !function_exists( 'add_menu_cb' ) )
                 $new_menu_data_arr['orderP']    =   $orderP;
                 $new_menu_data_arr['popularItem']    =   $popularItem;
                 $new_menu_data_arr['spiceLVL']    =   $spiceLVL;
-                
 
                 $existing_menus[$_POST['mType']][$_POST['mGroup']][]    =   $new_menu_data_arr;
                 update_post_meta( $LID, 'lp-listing-menu', $existing_menus );
@@ -4782,7 +4783,7 @@ if( !function_exists( 'render_event_calender_monthly' ) )
         if( $date > strtotime( 'first day of ' . date( 'F Y')) )
         {
             $events_args['meta_query']  =   array(
-                'relation' => 'OR',
+                'relation' => 'AND',
                 array(
                     'key'     => 'event-date',
                     'value'   => array( $first_day_timestapm, $last_day_timestapm ),
@@ -4823,10 +4824,11 @@ if( !function_exists( 'render_event_calender_monthly' ) )
         if( $get_events->have_posts() ): while ( $get_events->have_posts() ): $get_events->the_post();
             global $post;
             $event_id   =   $post->ID;
+            $timeNow = strtotime("-1 day");
             $eDate      =   get_post_meta( $event_id, 'event-date', true );
+            $event_date_end = get_post_meta($event_id, 'event-date-e', true);
+
             $event_check_arr[]  =   $eDate;
-
-
             $listing_id = get_post_meta($event_id, 'event-lsiting-id', true);
             $event_time =   get_post_meta( $event_id, 'event-time', true );
             $event_loc =   get_post_meta( $event_id, 'event-loc', true );
@@ -4836,7 +4838,6 @@ if( !function_exists( 'render_event_calender_monthly' ) )
             $event_img =   get_post_meta( $event_id, 'event-img', true );
             $event_utilities =   get_post_meta( $event_id, 'event-utilities', true );
             $attending_users    =   get_post_meta( $event_id, 'attending-users', true );
-
             $lp_map_pin = lp_theme_option_url('lp_map_pin');
 
             if( empty( $event_img ) )
@@ -4873,7 +4874,7 @@ if( !function_exists( 'render_event_calender_monthly' ) )
                 'event_id' => $event_id,
                 'event_utilities' => $event_utilities
             );
-
+            
         endwhile; wp_reset_postdata(); endif;
         ob_start();
         ?>
@@ -4998,12 +4999,12 @@ if( !function_exists( 'render_event_calender_monthly' ) )
                                             <ul>
                                                 <li class="col-md-6 text-center show-calander-map show-calander-map-ebdt-<?php echo $ed; ?>" data-targetdate="<?php echo $ed; ?>"><i class="fa fa-map-marker" aria-hidden="true"></i> Map View</li>
                                                 <li class="col-md-6 text-center active show-calader-list show-calader-list-ebdt-<?php echo $ed; ?>" data-targetdate="<?php echo $ed; ?>"><i class="fa fa-list-ul" aria-hidden="true"></i> List View</li>
-												
-												
+                                                
+                                                
                                             </ul>
-											
+                                            
                                         </div>
-										<div class="col-md-1 text-center lp-close-active-box-inner pull-right  padding-right-0"><span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i> Close</span></div>
+                                        <div class="col-md-1 text-center lp-close-active-box-inner pull-right  padding-right-0"><span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i> Close</span></div>
                                     </div>
                                     <?php
                                     foreach ($events_array as $k => $event_data) {
@@ -5147,10 +5148,10 @@ if( !function_exists( 'render_event_calender_monthly' ) )
                                 <ul>
                                     <li class="col-md-6 text-center show-calander-map"><i class="fa fa-map-marker" aria-hidden="true"></i> <?php echo esc_html__('Map View', 'listingpro'); ?></li>
                                     <li class="col-md-6 text-center active show-calader-list"><i class="fa fa-list-ul" aria-hidden="true"></i> <?php echo esc_html__('List View', 'listingpro'); ?></li>
-									
+                                    
                                 </ul>
                             </div>
-							<div class="col-md-1 text-center lp-close-active-box-inner pull-right  padding-right-0"><span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i> Close</span></div>
+                            <div class="col-md-1 text-center lp-close-active-box-inner pull-right  padding-right-0"><span class="close-active-box"><i class="fa fa-times" aria-hidden="true"></i> Close</span></div>
                         </div>
                         <?php
                         foreach ( $events_array as $k => $event_data )
@@ -5791,7 +5792,7 @@ if( !function_exists('listingpro_dashboard_menu_of_listing' ) ) {
                                                                                        value="<?php echo $lp_menu['mTitle']; ?>">
                                                                             </div>
                                                                             <?php
-                                                                            if (empty($lp_menu['mQuoteT'])):
+                                                                            if ($lp_menu['showQute'] == 'false'):
                                                                                 ?>
                                                                                 <div class="menu-price-wrap">
                                                                                     <div class="col-sm-2 padding-left-0">

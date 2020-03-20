@@ -161,155 +161,161 @@ jQuery('.lp-review-form-top-multi .lp-review-stars i').click(function (e) {
         }
     );
     
-if( jQuery('#lp-submit-form').length != 0 )
-    {
-        var lp_custom_title =   '';
-        if( jQuery('#lp_custom_title').length != 0 ){
-            lp_custom_title     =   jQuery('#lp_custom_title').offset().top;
+if (jQuery('#lp-submit-form').length != 0) {
+        var lp_custom_title = '';
+        if (jQuery('#lp_custom_title').length != 0) {
+            lp_custom_title = jQuery('#lp_custom_title').offset().top;
         }
-        var inputAddress =   '';
-        if( jQuery('#inputAddress').length != 0 ){
-            inputAddress     =   jQuery('#inputAddress').offset().top;
+        var inputAddress = '';
+        if (jQuery('#inputAddress').length != 0) {
+            inputAddress = jQuery('#inputAddress').offset().top;
         }
-        var inputCity =   '';
-        if( jQuery('.lp-new-cat-wrape label[for="inputTags"]').length != 0 ){
-            inputCity     =   jQuery('.lp-new-cat-wrape label[for="inputTags"]').offset().top;
+
+        var inputTagline = '';
+        if (jQuery('#lptagline').length != 0) {
+            inputTagline = jQuery('#lptagline').offset().top;
         }
-        var inputPhone =   '';
-        if( jQuery('#inputPhone').length != 0 ){
-            inputPhone     =   jQuery('label[for="inputPhone"]').offset().top;
+
+        var inputCity = '';
+        if (jQuery('.lp-new-cat-wrape label[for="inputTags"]').length != 0) {
+            inputCity = jQuery('.lp-new-cat-wrape label[for="inputTags"]').offset().top;
         }
-        var inputWebsite =   '';
-        if( jQuery('#inputWebsite').length != 0 ){
-            inputWebsite     =   jQuery('#inputWebsite').offset().top;
+        var inputPhone = '';
+        if (jQuery('#inputPhone').length != 0) {
+            inputPhone = jQuery('label[for="inputPhone"]').offset().top;
         }
-        var inputCategory =   '';
-        if( jQuery('label[for="inputCategory"]').length != 0 ){
-            inputCategory     =   jQuery('label[for="inputCategory"]').offset().top;
+        var inputWebsite = '';
+        if (jQuery('#inputWebsite').length != 0) {
+            inputWebsite = jQuery('#inputWebsite').offset().top;
         }
-        var price_status =   '';
-        if( jQuery('label[for="price_status"]').length != 0 ){
-            price_status     =   jQuery('label[for="price_status"]').offset().top;
+        var inputCategory = '';
+        if (jQuery('label[for="inputCategory"]').length != 0) {
+            inputCategory = jQuery('label[for="inputCategory"]').offset().top;
         }
-        var bussinTop   =   '';
-        if( jQuery('.bussin-top').length != 0 ){
-            bussinTop     =   jQuery('.bussin-top').offset().top;
+        var price_status = '';
+        if (jQuery('label[for="price_status"]').length != 0) {
+            price_status = jQuery('label[for="price_status"]').offset().top;
         }
-        var get_media_url =   '';
-        if( jQuery('#get_media_url').length != 0 ){
-            get_media_url     =   jQuery('#get_media_url').offset().top;
+        var bussinTop = '';
+        if (jQuery('.bussin-top').length != 0) {
+            bussinTop = jQuery('.bussin-top').offset().top;
         }
-        var inpuFaqsLp =   '';
-        if( jQuery('label[for="inpuFaqsLp"]').length != 0 ){
-            inpuFaqsLp     =   jQuery('label[for="inpuFaqsLp"]').offset().top;
+        var get_media_url = '';
+        if (jQuery('#get_media_url').length != 0) {
+            get_media_url = jQuery('#get_media_url').offset().top;
         }
-        var descTop     =   '';
-        if( jQuery('.description-tip').length != 0 ){
-            descTop     =   jQuery('.description-tip').offset().top;
+        var inpuFaqsLp = '';
+        if (jQuery('label[for="inpuFaqsLp"]').length != 0) {
+            inpuFaqsLp = jQuery('label[for="inpuFaqsLp"]').offset().top;
         }
-        var postVideo =   '';
-        if( jQuery('#postVideo').length != 0 ){
-            postVideo     =   jQuery('#postVideo').offset().top;
+        var descTop = '';
+        if (jQuery('.description-tip').length != 0) {
+            descTop = jQuery('.description-tip').offset().top;
         }
-        var gallTop     =   '';
-        if( jQuery('.lp-img-gall-upload-section').length != 0 ){
-            var gallTop     =   jQuery('.lp-img-gall-upload-section').offset().top;
+        if (jQuery('label[for="inputDescription"]').length != 0) {
+            descTop = jQuery('label[for="inputDescription"]').offset().top;
         }
-        var bLogoTop    = '';
-        if( jQuery('.b-logo-img-label').length != 0 ){
-            var bLogoTop    =   jQuery('.b-logo-img-label').offset().top;
+        var postVideo = '';
+        if (jQuery('#postVideo').length != 0) {
+            postVideo = jQuery('#postVideo').offset().top;
         }
-        var featTop     =   '';
-        if( jQuery('.featured-img-label').length != 0 ){
-            featTop     =   jQuery('.featured-img-label').offset().top;
+        var gallTop = '';
+        if (jQuery('.lp-img-gall-upload-section').length != 0) {
+            var gallTop = jQuery('.lp-img-gall-upload-section').offset().top;
+        }
+        var bLogoTop = '';
+        if (jQuery('.b-logo-img-label').length != 0) {
+            var bLogoTop = jQuery('.b-logo-img-label').offset().top;
+        }
+        var featTop = '';
+        if (jQuery('.featured-img-label').length != 0) {
+            featTop = jQuery('.featured-img-label').offset().top;
+        }
+
+        var quicktags = '';
+        if (jQuery('#inputtagsquicktip').length > 0) {
+            quicktags = jQuery('#inputtagsquicktip').offset().top;
         }
 
         jQuery(window).scroll(function (e) {
-            var scrollPos   =   jQuery(window).scrollTop()+400;
+            var scrollPos = jQuery(window).scrollTop() + 400;
 
-            if( scrollPos > lp_custom_title )
-            {
+            if (scrollPos > lp_custom_title) {
                 jQuery('.quick-tip-inner').html(jQuery('#lptitle').data('quick-tip'));
             }
-            if( scrollPos > inputAddress )
-            {
+            // if (scrollPos > inputTagline) {
+            //     jQuery('.quick-tip-inner').html(jQuery('#lptagline').data('quick-tip'));
+            // }
+            if (scrollPos > inputAddress) {
                 jQuery('.quick-tip-inner').html(jQuery('#inputAddress').data('quick-tip'));
             }
-            if( scrollPos > inputCity )
-            {
+            if (scrollPos > inputCity) {
                 jQuery('.quick-tip-inner').html(jQuery('#inputCity').data('quick-tip'));
             }
-            if( scrollPos > inputPhone )
-            {
+            if (scrollPos > inputPhone) {
                 jQuery('.quick-tip-inner').html(jQuery('#inputPhone').data('quick-tip'));
             }
-            if( scrollPos > inputWebsite )
-            {
+            if (scrollPos > inputWebsite) {
                 jQuery('.quick-tip-inner').html(jQuery('#inputWebsite').data('quick-tip'));
             }
-            if( scrollPos > inputCategory )
-            {
+            if (scrollPos > inputCategory) {
                 jQuery('.quick-tip-inner').html(jQuery('#inputCategory').data('quick-tip'));
             }
-            if( scrollPos > price_status )
-            {
+            if (scrollPos > price_status) {
                 jQuery('.quick-tip-inner').html(jQuery('#price_status').data('quick-tip'));
             }
-            if( scrollPos > bussinTop )
-            {
+            if (scrollPos > bussinTop) {
                 jQuery('.quick-tip-inner').html(jQuery('.bussin-top').data('quick-tip'));
             }
-            if( scrollPos > get_media_url )
-            {
+            if (scrollPos > get_media_url) {
                 jQuery('.quick-tip-inner').html(jQuery('#get_media').data('quick-tip'));
             }
-            if( scrollPos > inpuFaqsLp )
-            {
-                if(jQuery('#inpuFaqsLp').data('quick-tip')) {
+            if (scrollPos > inpuFaqsLp) {
+                if (jQuery('#inpuFaqsLp').data('quick-tip')) {
                     jQuery('.quick-tip-inner').html(jQuery('#inpuFaqsLp').data('quick-tip'));
                 } else {
                     jQuery('.quick-tip-inner').html(jQuery('#inpuFaqsLp1').data('quick-tip'));
                 }
 
             }
-            if( scrollPos > descTop )
-            {
-                jQuery('.quick-tip-inner').html(jQuery('.description-tip').data('quick-tip'));
+            if (scrollPos > descTop) {
+                if (jQuery('.description-tip').length > 0) {
+                    jQuery('.quick-tip-inner').html(jQuery('.description-tip').data('quick-tip'));
+                } else {
+                    jQuery('.quick-tip-inner').html(jQuery('label[for="inputDescription"]').data('quick-tip'));
+                }
             }
-            if( scrollPos > postVideo )
-            {
+            if (scrollPos > postVideo) {
                 jQuery('.quick-tip-inner').html(jQuery('#postVideo').data('quick-tip'));
             }
-            if( scrollPos > gallTop )
-            {
+            if (scrollPos > quicktags) {
+                jQuery('.quick-tip-inner').html(jQuery('#inputtagsquicktip').data('quick-tip'));
+            }
+            if (scrollPos > gallTop) {
                 jQuery('.quick-tip-inner').html(jQuery('.lp-img-gall-upload-section').data('quick-tip'));
             }
-            if( scrollPos > bLogoTop )
-            {
+            if (scrollPos > bLogoTop) {
                 jQuery('.quick-tip-inner').html(jQuery('.b-logo-img-label').data('quick-tip'));
             }
-            if( scrollPos > featTop )
-            {
+            if (scrollPos > featTop) {
                 jQuery('.quick-tip-inner').html(jQuery('.featured-img-label').data('quick-tip'));
             }
 
         });
 
 
-
         jQuery('#lp-submit-form input, #lp-submit-form textarea').on('focus', function (e) {
 
-            var quickTip    =   jQuery(this).data('quick-tip');
+            var quickTip = jQuery(this).data('quick-tip');
 
             jQuery('.quick-tip-inner').html(quickTip);
 
         });
 
 
-
         jQuery('select.select2').on('select2:open', function (e) {
 
-            var quickTip =  jQuery(this).data('quick-tip');
+            var quickTip = jQuery(this).data('quick-tip');
 
             jQuery('.quick-tip-inner').html(quickTip);
 
@@ -557,22 +563,62 @@ if( jQuery('#lp-submit-form').length != 0 )
                     'listingLayout' : listingLayout,
                     'lpNonce' : jQuery('#lpNonce').val()
                 },
-                success: function(data)
-                {
+                success: function(data) {
                     jQuery(targetID).find('.author-inner-content-wrap').removeClass('content-loading');
                     jQuery(targetID).find('.author-inner-content-wrap').html(data);
                     $this.addClass('data-available');
-                    jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled','disabled');
+                    jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled', 'disabled');
                     jQuery('.author-contact-wrap input, .author-contact-wrap textarea').keyup(function () {
                         var name = jQuery('.author-contact-wrap input#name7').val();
                         var email = jQuery('.author-contact-wrap input#email7').val();
                         var phone = jQuery('.author-contact-wrap input#phone7').val();
                         var message = jQuery('.author-contact-wrap textarea#message7').val();
-                        if ( name.length > 0 && email.length > 0 && phone.length > 0 && message.length > 0 ) {
+                        if (name.length > 0 && email.length > 0 && phone.length > 0 && message.length > 0) {
                             jQuery('.author-contact-wrap').find('.lp-review-btn').removeAttr('disabled');
-                        }else{
-                            jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled','disabled');
+                        } else {
+                            jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled', 'disabled');
                         }
+                    });
+                    jQuery('.author-contact-wrap .lp-review-btn').click(function (event) {
+                        event.preventDefault();
+                        var $this = jQuery(this),
+                            name = jQuery('.author-contact-wrap input#name7').val(),
+                            email = jQuery('.author-contact-wrap input#email7').val(),
+                            phone = jQuery('.author-contact-wrap input#phone7').val(),
+                            message = jQuery('.author-contact-wrap textarea#message7').val(),
+                            target_user_mail = jQuery('.mail_target_author').val();
+                        jQuery('.author-contact-wrap').find('.lp-review-btn').attr('disabled', 'disabled');
+                        jQuery('.author-contact-wrap').find('.lp-review-btn').closest('.form-group').find('.lp-search-icon').removeClass('fa-send');
+                        jQuery('.author-contact-wrap').find('.lp-review-btn').closest('.form-group').find('.lp-search-icon').addClass('fa-spinner fa-spin');
+                        jQuery('.author-contact-wrap input, .author-contact-wrap textarea').attr('disabled', 'disabled');
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: ajax_search_term_object.ajaxurl,
+                            data: {
+                                'action': 'send_author_mail',
+                                'field-name': name,
+                                'field-email': email,
+                                'field-phone': phone,
+                                'field-message': message,
+                                'data-userMail': target_user_mail,
+                                'lpNonce': jQuery('#lpNonce').val()
+                            },
+                            success: function (data) {
+                                jQuery('.author-contact-wrap').find('.lp-review-btn').closest('.form-group').find('.lp-search-icon').addClass('fa-check');
+                                jQuery('.author-contact-wrap').find('.lp-review-btn').closest('.form-group').find('.lp-search-icon').removeClass('fa-spinner fa-spin');
+                                setTimeout(function () {
+                                    jQuery('.author-contact-wrap').find('.lp-review-btn').removeAttr('disabled');
+                                    jQuery('.author-contact-wrap input, .author-contact-wrap textarea').removeAttr('disabled');
+                                    jQuery('.author-contact-wrap input#name7').val('');
+                                    jQuery('.author-contact-wrap input#email7').val('');
+                                    jQuery('.author-contact-wrap input#phone7').val('');
+                                    jQuery('.author-contact-wrap textarea#message7').val('');
+                                    jQuery('.author-contact-wrap').find('.lp-review-btn').closest('.form-group').find('.lp-search-icon').addClass('fa-send');
+                                    jQuery('.author-contact-wrap').find('.lp-review-btn').closest('.form-group').find('.lp-search-icon').removeClass('fa-check');
+                                }, 2000);
+                            },
+                        });
+                        return false;
                     });
                 }
             });
@@ -1971,8 +2017,21 @@ if (jQuery('#selected_image_menu_url').length != 0) {
         }
     });
 }
-    
-jQuery(document).on('click', '#lp-save-menu', function (e) {
+
+    jQuery(function (){
+        jQuery(document).on('change', '.coupons-fields-switch input[type="checkbox"]', function (e) {
+            var targetID = jQuery(this).data('target');
+            if (targetID == 'quote-button') {
+                if (jQuery(this).is(':checked')) {
+                    jQuery('#menu-old-price').val('');
+                    jQuery('#menu-new-price').val('');
+                    jQuery('#menu-quote-text').val('');
+                    jQuery('#menu-quote-link').val('');
+                }
+            }
+        });
+    });
+    jQuery(document).on('click', '#lp-save-menu', function (e) {
         e.preventDefault();
         var $this   =   jQuery(this),
             userID  =   $this.data('uid'),
@@ -1992,32 +2051,41 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
             calcPrice  =   '',
             popularItem  =   '';
 
-            if( jQuery('.menu_Popular_Item').is(':checked') )
-            {
-                popularItem = 'mItemPopularTrue';
-            }
-            else
-            {
-                popularItem = 'mItemPopularfalse';
-            }
-            var spiceLVL = jQuery('.menuSpice-control option:selected').data('level');
-            if ( spiceLVL == '1' ) {
-                spiceLVL    =   'spicelvl1';
-            }else if ( spiceLVL == '2' ) {
-                spiceLVL    =   'spicelvl2';
-            }else if ( spiceLVL == '3') {
-                spiceLVL    =   'spicelvl3';
-            }else if ( spiceLVL == '4') {
-                spiceLVL    =   'spicelvl4';
-            }else{
-                spiceLVL    =   'spicelvlunset';
-            }
+        if( jQuery('.menu_Popular_Item').is(':checked') )
+        {
+            popularItem = 'mItemPopularTrue';
+        }
+        else
+        {
+            popularItem = 'mItemPopularfalse';
+        }
 
-            if (mNewPrice.length > 0){
-                calcPrice   =   mNewPrice;
-            }else{
-                calcPrice   =   mOldPrice;
-            }
+        if( jQuery('.menu_Popular_Item').is(':checked') )
+        {
+            popularItem = 'mItemPopularTrue';
+        }
+        else
+        {
+            popularItem = 'mItemPopularfalse';
+        }
+        var spiceLVL = jQuery('.menuSpice-control option:selected').data('level');
+        if ( spiceLVL == '1' ) {
+            spiceLVL    =   'spicelvl1';
+        }else if ( spiceLVL == '2' ) {
+            spiceLVL    =   'spicelvl2';
+        }else if ( spiceLVL == '3') {
+            spiceLVL    =   'spicelvl3';
+        }else if ( spiceLVL == '4') {
+            spiceLVL    =   'spicelvl4';
+        }else{
+            spiceLVL    =   'spicelvlunset';
+        }
+
+        if (mNewPrice.length > 0){
+            calcPrice   =   mNewPrice;
+        }else{
+            calcPrice   =   mOldPrice;
+        }
         if( mImage == '' && jQuery('.new-file-upload .frontend-input-multiple').length != 0 )
         {
             mImage  =   jQuery('.new-file-upload .frontend-input-multiple').val();
@@ -2063,6 +2131,10 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
             ajax_success_popup( dataError, $this );
             return false;
         }
+        var QpriceTog = false;
+        if( jQuery('.coupons-fields-switch input[type="checkbox"]').is(':checked') ){
+            QpriceTog = true;
+        }
         $this.append('<i class="fa fa-spin fa-spinner"></i>');
         jQuery.ajax({
             type: 'POST',
@@ -2086,14 +2158,12 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
                 'orderU' : orderU,
                 'popularItem' : popularItem,
                 'spiceLVL'  :   spiceLVL,
+                'showQute'  : QpriceTog,
                 'lpNonce' : jQuery('#lpNonce').val()
             },
             success: function( res )
             {
-                console.log(res.menu_after_update);
-                console.log(res.menu_after_update[mType]);
-                console.log(res.menu_after_update[mType][mGroup]);
-                console.log(res.menu_after_update[mType][mGroup].length);
+                jQuery('.lp-menu-close-outer').prepend('<input type="hidden" id="lp-showQOrP" value="'+QpriceTog+'">');
                 var menuLength  =   parseInt(res.menu_after_update[mType][mGroup].length-1);
                 jQuery('#menu-group').val(null).trigger('change');
                 var  type_rep  =   mType.replace(/ /g,'-');
@@ -2101,20 +2171,31 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
                 var  listid  =   mListing;
                 var  menu_id  =  type_rep+'_'+grp_rep+'_'+menuLength+'_'+listid;
                 var regmQuoteT = '';
-                if(mQuoteT != ''){
-                regmQuoteT = '<div class="col-sm-6">' +
-                '<label class="lp-dashboard-top-label" for="menu-quote-text-'+menu_id+'">Quote Text</label>' +
-                '<input id="menu-quote-text-'+menu_id+'"     type="text"   class="form-control lp-dashboard-text-field"    value="'+mQuoteT+'"    placeholder="Ex: Quote">' +
-                '</div>';
-                }
                 var mQuoteLinK = '';
-                if(mQuoteL != ''){
-                mQuoteLinK = '<div class="col-sm-6">' +
-                '<label class="lp-dashboard-top-label" for="menu-quote-link-'+menu_id+'">Quote Link</label>' +
-                '<input id="menu-quote-link-'+menu_id+'"           type="text"          class="form-control lp-dashboard-text-field"            value="'+mQuoteL+'"              placeholder="Ex: hht://yourweb.com/page">' +
-                '</div>';
+                var $menu_price_check = '';
+                if (jQuery('#lp-showQOrP').val() == 'true') {
+                    regmQuoteT = '<div class="col-sm-6">' +
+                        '<label class="lp-dashboard-top-label" for="menu-quote-text-' + menu_id + '">Quote Text</label>' +
+                        '<input id="menu-quote-text-' + menu_id + '"     type="text"   class="form-control lp-dashboard-text-field"    value="' + mQuoteT + '"    placeholder="Ex: Quote">' +
+                        '</div>';
+                    mQuoteLinK = '<div class="col-sm-6">' +
+                        '<label class="lp-dashboard-top-label" for="menu-quote-link-' + menu_id + '">Quote Link</label>' +
+                        '<input id="menu-quote-link-' + menu_id + '"           type="text"          class="form-control lp-dashboard-text-field"            value="' + mQuoteL + '"              placeholder="Ex: hht://yourweb.com/page">' +
+                        '</div>';
                 }
-                    var checkedpoP = '';
+                if (jQuery('#lp-showQOrP').val() == 'false') {
+                    $menu_price_check = '<div class="menu-price-wrap">' +
+                        '<div class="col-sm-2 padding-left-0">' +
+                        '<label class="lp-dashboard-top-label" for="menu-old-price-' + menu_id + '">Reg. Price</label>' +
+                        '<input name="menu-old-price-' + menu_id + '"  id="menu-old-price-' + menu_id + '"  type="text" class="form-control lp-dashboard-text-field" placeholder="Ex: $10" value="' + mOldPrice + '">' +
+                        '</div>' +
+                        '<div class="col-sm-2 padding-left-0">' +
+                        '<label class="lp-dashboard-top-label" for="menu-new-price-' + menu_id + '">Sale Price</label>' +
+                        '<input id="menu-new-price-' + menu_id + '"  name="menu-new-price-' + menu_id + '"  type="text"  class="form-control lp-dashboard-text-field"  placeholder="Ex: $10"  value="' + mNewPrice + '">' +
+                        '</div>' +
+                        '</div>';
+                }
+                var checkedpoP = '';
                 if (popularItem == 'mItemPopularTrue') {
                     checkedpoP = 'checked';
                 }
@@ -2132,56 +2213,52 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
                 } else if (spiceLVL == 'spicelvl4') {
                     selected_spicelvl4 = 'selected';
                 }
-
+                var imagedivvar = '';
+                if ( mImage != '' ) {
+                    imagedivvar = '<div class="menu-edit-img-wrap gal-img-count-single">' +
+                    '<span data-src="'+mImage+'" data-target="dis-old-img-'+menu_id+'" class="remove-menu-img"><i class="fa fa-close"></i></span>' +
+                    '<img class="gal-img-count-single lp-uploaded-img event-old-img-'+menu_id+'" src="'+mImage+'" alt="">' +
+                    '</div>' ;
+                }
 
                 var html    =   '<div class="lp-menu-close-outer">' +
-                '<div class="lp-menu-closed clearfix ">' +
-                '<div class="row">' +
-                '<div class="col-md-6"><i class="fa fa-check-circle fa-check-circle2" aria-hidden="true"></i><h4 class="lp-right-side-title"><span>Item Name</span><br>'+ mTitle +'</h4></div>' +
-                '<div class="col-md-2"><span>Group</span><br>'+ mGroup +'</div>' +
-                '<div class="col-md-2 price"><span>Price</span><br>'+ calcPrice +'</div>' +
-                '<div class="col-md-2"><span class="lp-dot-extra-buttons"><i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
-                '<ul class="lp-user-menu list-style-none">' +
-                '<li><a class="edit-menu-item" data-menuID="'+menu_id+'" data-uid="'+ userID +'" href=""><i class="fa fa-pencil" aria-hidden="true"></i><span>Edit</span></a></li>' +
-                '<li><a href="" class="menu-del del-this" data-LID="'+mListing+'" data-targetid="'+menu_id+'" data-uid="'+ userID +'"><i class="fa fa-trash" aria-hidden="true"></i><span>Delete</span></a></li>' +
-                '</ul>' +
-                '</span></div>' +
-                '</div>' +
-                '</div>' +
-                '<div id="menu-update-'+menu_id+'" class="lp-menu-form-outer background-white" style="display: none">' +
-                '<div class="lp-menu-form-inner">' +
-                '<form class="row">' +
-                '<input value="'+mType+'" type="hidden" id="menu-type-'+menu_id+'" name="menu-type-'+menu_id+'">' +
-                '<input type="hidden" value="'+mGroup+'" id="menu-group-'+menu_id+'" name="menu-group-'+menu_id+'">' +
-                '<div class="col-sm-12 margin-top-10">' +
-                '<div class="lp-menu-form-feilds">' +
-                '<div class="row clearfix">' +
-                '<div class="col-md-12">' +
-                '<div class="row">' +
-                '<div class="margin-bottom-10 col-md-8">' +
-                '<label class="lp-dashboard-top-label" for="menu-title-'+menu_id+'">Menu Item</label>' +
-                '<input name="menu-title-'+menu_id+'"  id="menu-title-'+menu_id+'"  type="text"  class="form-control lp-dashboard-text-field" placeholder="Ex: Roasted Chicken" value="'+ mTitle +'">' +
-                '</div>' +
-                '<div class="menu-price-wrap">' +
-                '<div class="col-sm-2 padding-left-0">' +
-                '<label class="lp-dashboard-top-label" for="menu-old-price-'+menu_id+'">Reg. Price</label>' +
-                '<input name="menu-old-price-'+menu_id+'"  id="menu-old-price-'+menu_id+'"  type="text" class="form-control lp-dashboard-text-field" placeholder="Ex: $10" value="'+mOldPrice+'">' +
-                '</div>' +
-                '<div class="col-sm-2 padding-left-0">' +
-                '<label class="lp-dashboard-top-label" for="menu-new-price-'+menu_id+'">Sale Price</label>' +
-                '<input id="menu-new-price-'+menu_id+'"  name="menu-new-price-'+menu_id+'"  type="text"  class="form-control lp-dashboard-text-field"  placeholder="Ex: $10"  value="'+mNewPrice+'">' +
-                '</div>' +
-                '</div>' +
-                '<div class="menu-quote-wrap clearfix margin-bottom-20">' +
+                    '<div class="lp-menu-closed clearfix ">' +
+                    '<div class="row">' +
+                    '<div class="col-md-6"><i class="fa fa-check-circle fa-check-circle2" aria-hidden="true"></i><h4 class="lp-right-side-title"><span>Item Name</span><br>'+ mTitle +'</h4></div>' +
+                    '<div class="col-md-2"><span>Group</span><br>'+ mGroup +'</div>' +
+                    '<div class="col-md-2 price"><span>Price</span><br>'+ calcPrice +'</div>' +
+                    '<div class="col-md-2"><span class="lp-dot-extra-buttons"><i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
+                    '<ul class="lp-user-menu list-style-none">' +
+                    '<li><a class="edit-menu-item" data-menuID="'+menu_id+'" data-uid="'+ userID +'" href=""><i class="fa fa-pencil" aria-hidden="true"></i><span>Edit</span></a></li>' +
+                    '<li><a href="" class="menu-del del-this" data-LID="'+mListing+'" data-targetid="'+menu_id+'" data-uid="'+ userID +'"><i class="fa fa-trash" aria-hidden="true"></i><span>Delete</span></a></li>' +
+                    '</ul>' +
+                    '</span></div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div id="menu-update-'+menu_id+'" class="lp-menu-form-outer background-white" style="display: none">' +
+                    '<div class="lp-menu-form-inner">' +
+                    '<form class="row">' +
+                    '<input value="'+mType+'" type="hidden" id="menu-type-'+menu_id+'" name="menu-type-'+menu_id+'">' +
+                    '<input type="hidden" value="'+mGroup+'" id="menu-group-'+menu_id+'" name="menu-group-'+menu_id+'">' +
+                    '<div class="col-sm-12 margin-top-10">' +
+                    '<div class="lp-menu-form-feilds">' +
+                    '<div class="row clearfix">' +
+                    '<div class="col-md-12">' +
+                    '<div class="row">' +
+                    '<div class="margin-bottom-10 col-md-8">' +
+                    '<label class="lp-dashboard-top-label" for="menu-title-'+menu_id+'">Menu Item</label>' +
+                    '<input name="menu-title-'+menu_id+'"  id="menu-title-'+menu_id+'"  type="text"  class="form-control lp-dashboard-text-field" placeholder="Ex: Roasted Chicken" value="'+ mTitle +'">' +
+                    '</div>' + $menu_price_check +
+                    '<div class="menu-quote-wrap clearfix margin-bottom-20">' +
                     regmQuoteT +
                     mQuoteLinK +
-                '</div>' +
-                '</div>' +
-                '<div class="margin-bottom-30">' +
-                '<label class="lp-dashboard-top-label" for="menu-detail-'+menu_id+'">Short Description</label>' +
-                '<textarea name="menu-detail-'+menu_id+'" id="menu-detail-'+menu_id+'" type="text" class="form-control lp-dashboard-des-field" rows="3" placeholder="Ex: Roasted Chicken">'+mDetail+'</textarea>' +
-                '</div>' +
-                '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="margin-bottom-30">' +
+                    '<label class="lp-dashboard-top-label" for="menu-detail-'+menu_id+'">Short Description</label>' +
+                    '<textarea name="menu-detail-'+menu_id+'" id="menu-detail-'+menu_id+'" type="text" class="form-control lp-dashboard-des-field" rows="3" placeholder="Ex: Roasted Chicken">'+mDetail+'</textarea>' +
+                    '</div>' +
+                    '</div>' +
 
 
                     '<div class="lp-invoices-all-stats-on-off clearfix margin-bottom-10 Popular_item_container">' +
@@ -2196,10 +2273,10 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
                     '<option>Spice Level</option>' +
 
 
-                        '<option data-level="1" '+selected_spicelvl1+' >🌶</option>' +
-                        '<option data-level="2" '+selected_spicelvl2+' >🌶🌶</option>' +
-                        '<option data-level="3" '+selected_spicelvl3+' >🌶🌶🌶</option>' +
-                        
+                    '<option data-level="1" '+selected_spicelvl1+' >🌶</option>' +
+                    '<option data-level="2" '+selected_spicelvl2+' >🌶🌶</option>' +
+                    '<option data-level="3" '+selected_spicelvl3+' >🌶🌶🌶</option>' +
+
                     '</select>' +
                     '</div>' +
 
@@ -2207,45 +2284,42 @@ jQuery(document).on('click', '#lp-save-menu', function (e) {
                     '<div class="jFiler-input-dragDrop pos-relative event-featured-image-wrap-dash">' +
                     '<div class="upload-field dashboard-upload-field edit-upload-'+menu_id+'">' +
                     '<input class="frontend-input-multiple" type="hidden" id="dis-old-img-'+menu_id+'" value="'+mImage+'">' +
-                    '<input type="hidden" class="frontend-input" name="frontend_input"><label><a class="jFiler-input-choose-btn blue">Browse File</a><input class="frontend-button" type="button" value="" style="position: relative; z-index: 1;"> </label><div class="clearfix"></div><img class="frontend-image">    ' +
+                    '<input type="hidden" class="frontend-input" name="frontend_input"><label><a class="jFiler-input-choose-btn blue">Browse File</a><input class="frontend-button" type="button" value="" style="position: relative; z-index: 1;"> </label><div class="clearfix"></div><img class="frontend-image" alt="">    ' +
                     '<div class= "menu-edit-imgs-wrap" >' +
-                    '<div class="menu-edit-img-wrap gal-img-count-single">' +
-                    '<span data-src="'+mImage+'" data-target="dis-old-img-'+menu_id+'" class="remove-menu-img"><i class="fa fa-close"></i></span>' +
-                    '<img class="gal-img-count-single lp-uploaded-img event-old-img-'+menu_id+'" src="'+mImage+'" alt="">' +
-                    '</div>' +
+                    imagedivvar +
                     '</div>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
 
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="clearfix"></div>' +
-                '<div class="lp-menu-save-btns clearfix col-md-12 margin-bottom-20">' +
-                '<button class="lp-cancle-btn cancel-update-menu">Cancel</button>' +
-                '<button data-LID="'+mListing+'" data-menuID="'+menu_id+'"  data-uid="'+userID+'"  class="lp-save-btn lp-edit-menu">save</button>' +
-                '</div>' +
-                '</form>' +
-                '</div>' +
-                '</div>' +
-                '<div>';
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="clearfix"></div>' +
+                    '<div class="lp-menu-save-btns clearfix col-md-12 margin-bottom-20">' +
+                    '<button class="lp-cancle-btn cancel-update-menu">Cancel</button>' +
+                    '<button data-LID="'+mListing+'" data-menuID="'+menu_id+'"  data-uid="'+userID+'"  class="lp-save-btn lp-edit-menu">save</button>' +
+                    '</div>' +
+                    '</form>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div>';
                 jQuery('.panel-body.lp-panel-body-outer.lp-menu-panel-body-outer .tab-content.lp-tab-content-outer .tab-pane.fade.in.active').append( html );
                 $this.find('i.fa.fa-spin.fa-spinner').remove();
 
 
-            jQuery('.menu-edit-imgs-wrap .frontend-input-multiple').val('');
-            $this.closest('#menu-form-toggle').find('.lp-menu-close-outer.lp-menu-open').slideUp();
-            $this.attr('id', 'lp-save-menu-reopen');
-            jQuery('#menu-title').val('');
-            jQuery('#menu-detail').val('');
-            jQuery('#menu-old-price').val('');
-            jQuery('#menu-new-price').val('');
-            jQuery('#menu-quote-text').val('');
-            jQuery('#menu-quote-link').val('');
-            jQuery('#menu-link').val('');
-            jQuery('.new-file-upload .frontend-input').val('');
-
+                jQuery('.menu-edit-imgs-wrap .frontend-input-multiple').val('');
+                $this.closest('#menu-form-toggle').find('.lp-menu-close-outer.lp-menu-open').slideUp();
+                $this.attr('id', 'lp-save-menu-reopen');
+                jQuery('#menu-title').val('');
+                jQuery('#menu-detail').val('');
+                jQuery('#menu-old-price').val('');
+                jQuery('#menu-new-price').val('');
+                jQuery('#menu-quote-text').val('');
+                jQuery('#menu-quote-link').val('');
+                jQuery('#menu-link').val('');
+                jQuery('.new-file-upload .frontend-input').val('');
+                jQuery('.new-file-upload .frontend-image').hide('slow');
             },
             error: function( err )
             {
@@ -4256,11 +4330,23 @@ jQuery(document).on('click', '.lp-copy-code', function (e)
         {
             bottomPlus  =   49;
         }
-        $this.closest('.coupons-bottom-content-wrap').find(targetCodeELC).animate({
-            bottom: bottomPlus+'px'
+
+        var parent_class = '.coupons-bottom-content-wrap';
+
+        if (jQuery(parent_class).length > 0) {
+            parent_class = '.coupons-bottom-content-wrap';
+        }else {
+            parent_class = '.lp-deal';
+            if (jQuery(parent_class).length > 0) {
+                parent_class = '.lp-deal';
+            }else{
+                parent_class = '.lp-discount-widget';
+            }
+        }
+        $this.closest(parent_class).find(targetCodeELC).animate({
+            bottom: bottomPlus + 'px'
         }, 500, function (e) {
-            if( $this.hasClass('lp-discount-btn') )
-            {
+            if ($this.hasClass('lp-discount-btn')) {
                 $this.addClass('close-copy-pop');
                 $this.html('<span><i class="fa fa-times"></i></span>');
             }
@@ -4667,9 +4753,13 @@ jQuery(document).on('click', '.get-npm', function (e) {
                     {
                         jQuery('.event-calender-monthly').html(res.calender_markup);
                         if(cTypee == 'modern') {
-                            var target_first_event  =   jQuery('.month-dates-wrap .week-day-date-box.has-events:first').attr('data-ewt'),
-                                target_daytime      =   jQuery('.month-dates-wrap .week-day-date-box.has-events:first').attr('data-todaytime');
-
+                            if(jQuery('.month-dates-wrap .week-day-date-box.has-events').length) {
+                                var target_first_event  =   jQuery('.month-dates-wrap .week-day-date-box.has-events:first').attr('data-ewt'),
+                                    target_daytime      =   jQuery('.month-dates-wrap .week-day-date-box.has-events:first').attr('data-todaytime');
+                            } else {
+                                var target_first_event  =   jQuery('.month-dates-wrap .week-day-date-box.has-no-events:first').attr('data-ewt'),
+                                    target_daytime      =   jQuery('.month-dates-wrap .week-day-date-box.has-no-events:first').attr('data-todaytime');
+                            }
                             var target_daytime_arr  =   target_daytime.split('-');
                             var target_day_markup   =   target_daytime_arr[1]+' '+target_daytime_arr[0]+' <span>'+target_daytime_arr[2]+'</span>';
                             jQuery('.events-by-day-wrap[data-ebdt='+target_first_event+']').addClass('caew-box active-event-for-map').fadeIn();

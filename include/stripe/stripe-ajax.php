@@ -520,7 +520,8 @@ if(!function_exists('listingpro_save_package_stripe')){
         }
 		$ads_org_price = $ads_price;
         $ads_price = (float)$ads_price*100;
-		
+        $ads_price = round($ads_price, 2);
+        $ads_price = (int)$ads_price;
 
         \Stripe\Stripe::setApiKey("$secritKey");
         $charge = \Stripe\Charge::create(array(

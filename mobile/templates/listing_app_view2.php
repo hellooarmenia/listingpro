@@ -397,9 +397,10 @@ if ( have_posts() ) {
                             <div class="coupons-bottom-content-wrap">
                                 <div class="archive-countdown-wrap">
                                     <div id="lp-deals-countdown<?php echo get_the_ID(); ?>" class="lp-countdown lp-deals-countdown<?php echo get_the_ID(); ?>"
-                                         data-label-hours="hours"
-                                         data-label-mins="min"
-                                         data-label-secs="sec"
+                                         data-label-hours="<?php echo esc_html__( 'hours', 'listingpro' ); ?>"
+                                         data-label-mins="<?php echo esc_html__( 'min', 'listingpro' ); ?>"
+                                         data-label-secs="<?php echo esc_html__( 'sec', 'listingpro' ); ?>"
+                                         data-label-days="<?php echo esc_html__( 'days', 'listingpro' ); ?>"
                                          data-day="<?php echo date( 'd', $listing_discount_datum['disExpE'] ); ?>"
                                          data-month="<?php echo date( 'm', $listing_discount_datum['disExpE'] )-1; ?>"
                                          data-year="<?php echo date( 'Y', $listing_discount_datum['disExpE'] ); ?>"></div>
@@ -629,7 +630,28 @@ if ( have_posts() ) {
                                 }
                                 ?>
                                 <?php get_template_part('templates/single-list/claimed' ); ?>
-
+                                <?php
+                                        $whatsappStatus = $listingpro_options['lp_detail_page_whatsapp_button'];
+                                        $whatsappMsg = esc_html__('Hi, Contacting for you listing', 'listingpro');
+                                        if($whatsappStatus=="on" && !empty($whatsapp)){
+                                            
+                                            $whatsappobj = "https://api.whatsapp.com/send?";
+                                            $whatsappobj .= "phone=$whatsapp";
+                                            $whatsappobj .= "&";
+                                            $whatsappobj .= "text=$whatsappMsg";
+                                    ?>
+                                            <div class="lp-listing-phone-whatsapp claim-area ">
+                                                <a class="phone-icon" href="<?php echo $whatsappobj; ?>" target="_blank">
+                                                    <span class="cat-icon">
+                                                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                    </span>
+                                                    <strong>
+                                                        <?php echo esc_html__('Call on Whatsapp', 'listingpro'); ?>
+                                                    </strong>
+                                                </a>
+                                            </div>
+                                    
+                                <?php } ?>
                                 <?php
 
                                 if($lp_leadForm=="1"){

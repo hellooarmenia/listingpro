@@ -20,8 +20,15 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">		
 		<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" />
 
-		<?php listingpro_favicon(); 
-					$listing_detail_slider_style = lp_theme_option('lp_detail_slider_styles');
+		<?php 
+			if (isset($_GET['s'])){
+	            if ($_GET['select'] != ''){
+	                $siteTitle = get_bloginfo();
+	                echo '<title>Search Result For "'. $_GET['select'] .'" - '.$siteTitle.'</title>';
+	            }
+	        }
+			listingpro_favicon(); 
+			$listing_detail_slider_style = lp_theme_option('lp_detail_slider_styles');
 		?>	
 		<?php wp_head(); ?>
         <script type="text/javascript">

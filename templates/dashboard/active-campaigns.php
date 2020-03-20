@@ -977,6 +977,7 @@ if(!empty($all_success)){
                                             </div>
                                             <?php
                                         }
+                                        do_action('lp_add_custom_payment_method_html', 'ads');
                                         ?>
                                     </div>
                                     <?php

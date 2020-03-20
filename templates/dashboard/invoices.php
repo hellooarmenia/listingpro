@@ -727,7 +727,12 @@ if(!empty($resultsall)){
                                                 </ul>
                                             </div>
                                             <p class="text-right lp-pay-with"><?php esc_html_e('Paid with','listingpro'); ?><br />
-                                                <img data-srcwire="<?php echo get_template_directory_uri().'/assets/images/wire.png' ?>" data-srcpaypal="<?php echo get_template_directory_uri().'/assets/images/paypal.png' ?>" data-srcstripe="<?php echo get_template_directory_uri().'/assets/images/stripe.png' ?>" src="" />
+                                                <img data-srcwire="<?php echo get_template_directory_uri().'/assets/images/wire.png' ?>"
+                                                        data-srcpaypal="<?php echo get_template_directory_uri().'/assets/images/paypal.png' ?>"
+                                                        data-srcstripe="<?php echo get_template_directory_uri().'/assets/images/stripe.png' ?>"
+                                                        data-srcpaystack="<?php echo plugins_url('paystack-for-listingpro/assets/images/paystack.png'); ?>"
+                                                        data-srcrazorpay="<?php echo plugins_url('razorpay-for-listingpro/assets/images/logo.png'); ?>"
+                                                        src="" />
                                             </p>
                                         </div>
                                     </div>

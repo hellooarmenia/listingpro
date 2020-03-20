@@ -10,9 +10,10 @@ if(!function_exists('listingpro_social_sharing_buttons')){
 			$listingURL = urlencode(get_permalink());
 			$listingTitle = str_replace( ' ', '%20', get_the_title());
 			$listingThumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+			$img_url = urlencode($listingThumbnail[0]);
 			$twitterURL = 'https://twitter.com/intent/tweet?text='.$listingTitle.'&amp;url='.$listingURL.'';
 			$facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$listingURL;
-			$pinterest = 'https://pinterest.com/pin/create/button/?url='.$listingURL;
+			$pinterest = 'https://pinterest.com/pin/create/button/?url='.$listingURL.'&media='.$img_url.'&description='.$listingTitle;
 			$linkedin = 'http://www.linkedin.com/shareArticle?mini=true&url='.$listingURL;
 			$reddit = 'https://www.reddit.com/login?dest=https%3A%2F%2Fwww.reddit.com%2Fsubmit%3Ftitle%3D'.$listingTitle.'%26url%3D'.$listingURL;
 			$stumbleupon = 'https://www.stumbleupon.com/submit?title='.$listingTitle.'&url='.$listingURL;

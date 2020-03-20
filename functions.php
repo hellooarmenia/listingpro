@@ -1,4 +1,5 @@
 <?php
+update_option( 'theme_activation', 'activated' );
 /**
  * Listingpro Functions.
  *
@@ -9,10 +10,7 @@
 	define('STYLESHEET_DIR', get_stylesheet_directory_uri());
 	define('CRIDIO_API_URL', 'https://license.listingprowp.com/wp-json/verifier/v1/');
     define('CRIDIO_FILES_URL', 'https://license.listingprowp.com/wp-content/plugins/lpverifier/core-files');
-    update_option('theme_activation', 'activated' );
-    update_option('active_license','valid');
-    update_option('active_env','valid');
-	update_option('wrong-verification-attempts',0);
+
 
 	/* ============== Theme Setup ============ */
 
@@ -3274,7 +3272,7 @@ if(!function_exists('listingpro_pagination')){
 	/* ============== /// ============ */
 	
 	/* ==============  get post count of taxonomy term============ */
-	        if(!function_exists('lp_count_postcount_taxonomy_term_byID')){
+	if(!function_exists('lp_count_postcount_taxonomy_term_byID')){
         function lp_count_postcount_taxonomy_term_byID($post_type,$taxonomy, $termid){
             $postcounts = 0;
 
@@ -3908,108 +3906,114 @@ require_once THEME_PATH . "/include/functions-new.php";
 	add_action( 'wp_ajax_nopriv_search_posttype', 'lp_ja_ajax_search_posttype' );
 
 	/* ======================ajax pricing plan by month year ================== */
-	if(!function_exists('lp_filter_pricing_plans')){
-		function lp_filter_pricing_plans() {
+	    if(!function_exists('lp_filter_pricing_plans')){
+            function lp_filter_pricing_plans() {
 
-			$catId = '';
-			$planUsage = '';
-			$catTaxArray = array();
-			$catTax2Array = array();
-			
-			if(isset($_POST['planUsage'])){
-				$planUsage = sanitize_text_field(stripslashes( $_POST['planUsage']));
-			}
-			
-			if(isset($_POST['cat_id'])){
-				$catId = sanitize_text_field(stripslashes( $_POST['cat_id']));
-				if(!empty($catId)){
-					$catTaxArray = array(
-							'key' => 'lp_selected_cats',
-							'value' => $catId,
-							'compare' => 'LIKE',
-						);
-				}
-			}
-			
+                $catId = '';
+                $planUsage = '';
+                $catTaxArray = array();
+                $catTax2Array = array();
 
-			$durationType = sanitize_text_field(stripslashes( $_POST['duration_type']));
-			$relationParm = 'AND';
-			if( empty($durationType) && empty($catTaxArray) ){
-				$relationParm = 'OR';
-			}
-			
-			
-			$pricing_style_views = sanitize_text_field($_POST['currentStyle']);
-			$returnData = null;
-				/* code goes here */
-				$output = null;
-				$args = null;
-				$args = array(
-					'post_type' => 'price_plan',
-					'posts_per_page' => -1,
-					'post_status' => 'publish',
-					'meta_query'=>array(
-					'relation' => $relationParm,
-						$catTaxArray,
-						array(
-							'key' => 'plan_duration_type',
-							'value' => $durationType,
-							'compare' => 'LIKE',
-						),
-						$catTax2Array,
-						
-					),
-				);
+                if(isset($_POST['planUsage'])){
+                    $planUsage = sanitize_text_field(stripslashes( $_POST['planUsage']));
+                }
 
-				$cat_Plan_Query = null;
-				$output = null;
-				$gridNumber = 0;
-				$cat_Plan_Query = new WP_Query($args);
-				$count = $cat_Plan_Query->found_posts;
-                $GLOBALS['plans_count'] = $count;
-				if($cat_Plan_Query->have_posts()){
-					while ( $cat_Plan_Query->have_posts() ) {
-							$cat_Plan_Query->the_post();
-							$showplan = true;
-							$planfor = get_post_meta(get_the_ID(), 'plan_usge_for', true);
-							if(isset($_POST['cat_id'])){
-								if(!empty($_POST['cat_id'])){
-									if(!empty($planUsage)){
-										if($planUsage!=$planfor){
-											$showplan = false;
-										}
-									}
-								}else{
-									if(!empty($planfor)){
-										if($planUsage!=$planfor){
-											$showplan = false;
-										}
-									}
-								}
-							}
-							if(!empty($showplan)){
-								ob_start();
-								include( LISTINGPRO_PLUGIN_PATH . "templates/pricing/loop/".$pricing_style_views.'.php');
-								$output .= ob_get_contents();
-								ob_end_clean();
-								ob_flush();
-							}
-							
-					}//END WHILE
-					wp_reset_postdata();
-					if(!empty($output)){
-						$returnData = array('response'=>'success', 'plans'=>$output);
-					}else{
-						$returnData = array('response'=>'success', 'plans'=> esc_html__('Sorry! There is no plan associated with the category', 'listingpro'));
-					}
-				}else{
-					$returnData = array('response'=>'success', 'plans'=> esc_html__('Sorry! There is no plan associated with the category', 'listingpro'));
-				}
+                if(isset($_POST['cat_id'])){
+                    $catId = sanitize_text_field(stripslashes( $_POST['cat_id']));
+                    if(!empty($catId)){
+                        $catTaxArray = array(
+                                'key' => 'lp_selected_cats',
+                                'value' => $catId,
+                                'compare' => 'LIKE',
+                            );
+                    }
+                }
 
-			exit(json_encode($returnData ));
-			//wp_send_json_success( $returnData );
-		}
-	}
+
+                $durationType = sanitize_text_field(stripslashes( $_POST['duration_type']));
+                $relationParm = 'AND';
+                if( empty($durationType) && empty($catTaxArray) ){
+                    $relationParm = 'OR';
+                }
+
+
+                $pricing_style_views = sanitize_text_field($_POST['currentStyle']);
+                $returnData = null;
+                    /* code goes here */
+                    $output = null;
+                    $args = null;
+                    $args = array(
+                        'post_type' => 'price_plan',
+                        'posts_per_page' => -1,
+                        'post_status' => 'publish',
+                        'meta_query'=>array(
+                        'relation' => $relationParm,
+                            $catTaxArray,
+                            array(
+                                'key' => 'plan_duration_type',
+                                'value' => $durationType,
+                                'compare' => 'LIKE',
+                            ),
+                            $catTax2Array,
+
+                        ),
+                    );
+
+                    $cat_Plan_Query = null;
+                    $output = null;
+                    $gridNumber = 0;
+                    $cat_Plan_Query = new WP_Query($args);
+                    $count = $cat_Plan_Query->found_posts;
+                    $GLOBALS['plans_count'] = $count;
+                    if($cat_Plan_Query->have_posts()){
+                        while ( $cat_Plan_Query->have_posts() ) {
+                                $cat_Plan_Query->the_post();
+                                $showplan = true;
+                                $forListings = listing_get_metabox_by_ID('plan_for', get_the_ID());
+
+                                $planfor = get_post_meta(get_the_ID(), 'plan_usge_for', true);
+                                if(isset($_POST['cat_id'])){
+                                    if(!empty($_POST['cat_id'])){
+                                        if(!empty($planUsage)){
+                                            if($planUsage!=$forListings){
+                                                $showplan = false;
+                                            }
+                                        }
+                                    }else{
+                                        if(!empty($forListings)){
+                                            if($planUsage!=$forListings){
+                                                $showplan = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                if($forListings == 'listingandclaim' || $forListings == 'listingonly') {
+                                    $showplan   =   true;
+                                }
+                                if(!empty($showplan)){
+                                    ob_start();
+
+                                    include( LISTINGPRO_PLUGIN_PATH . "templates/pricing/loop/".$pricing_style_views.'.php');
+                                    $output .= ob_get_contents();
+                                    ob_end_clean();
+                                    ob_flush();
+                                }
+
+                        }//END WHILE
+                        wp_reset_postdata();
+                        if(!empty($output)){
+                            $returnData = array('response'=>'success', 'plans'=>$output);
+                        }else{
+                            $returnData = array('response'=>'success', 'plans'=> esc_html__('Sorry! There is no plan associated with the category', 'listingpro'));
+                        }
+                    }else{
+                        $returnData = array('response'=>'success', 'plans'=> esc_html__('Sorry! There is no plan associated with the category', 'listingpro'));
+                    }
+
+                exit(json_encode($returnData ));
+                //wp_send_json_success( $returnData );
+            }
+        }
 	add_action( 'wp_ajax_filter_pricingplan','lp_filter_pricing_plans' );
 	add_action( 'wp_ajax_nopriv_filter_pricingplan', 'lp_filter_pricing_plans' );
 
@@ -5104,7 +5108,7 @@ if(!function_exists('lp_notice_plugin_version')){
 	    $listing_plugins_arr =   array(
             'listingpro-plugin' => array(
                 'file' => 'listingpro-plugin/plugin.php',
-                'version' => '2.5.6',
+                'version' => '2.5.7',
             ),
             'listingpro-reviews' => array(
                 'file' => 'listingpro-reviews/plugin.php',
@@ -5727,9 +5731,9 @@ if(!function_exists('wrong_verification_attempt')){
             $attempts_num   =   1;
         }
         update_option( 'wrong-verification-attempts', $attempts_num );
-        //delete_option('theme_activation');
-        //delete_option('active_license');
-        //delete_option('active_env');
+        delete_option('theme_activation');
+        delete_option('active_license');
+        delete_option('active_env');
     }
 }
 
@@ -5752,9 +5756,10 @@ if( !function_exists( 'lp_verify_this_license' ) ){
     function lp_verify_this_license()
     {
         $license_key    =   get_option('active_license');
+        $active_env     =   get_option('active_env');
         if( $license_key && !empty( $license_key ) )
         {
-            lp_license_api_call( $license_key, true );
+            lp_license_api_call( $license_key, $active_env, true );
         }
         else
         {
@@ -6241,3 +6246,50 @@ add_action( 'admin_init', function() {
         remove_action( 'admin_init', [ \Elementor\Plugin::$instance->admin, 'maybe_redirect_to_getting_started' ] );
     }
 }, 1 );
+
+
+add_action('wp_ajax_send_author_mail', 'send_author_mail');
+add_action('wp_ajax_nopriv_send_author_mail', 'send_author_mail');
+if(!function_exists('send_author_mail')){
+	function send_author_mail(){
+	    check_ajax_referer( 'lp_ajax_nonce', 'lpNonce' );
+        // Nonce is checked, get the POST data and sign user on
+        if( !wp_verify_nonce(sanitize_text_field($_POST['lpNonce']), 'lp_ajax_nonce')) {
+            echo 'Please Check Nonce';
+            exit();
+        }
+        global $listingpro_options;
+	    $field_name = sanitize_text_field($_POST['field-name']);
+        $field_email = sanitize_text_field($_POST['field-email']);
+        $field_phone = sanitize_text_field($_POST['field-phone']);
+        $field_message = sanitize_text_field($_POST['field-message']);
+        $data_userMail = sanitize_text_field($_POST['data-userMail']);
+        $headers = "Content-Type: text/html; charset=UTF-8";
+        $website_url = site_url();
+        $website_name = get_option('blogname');
+        $body =  $listingpro_options['listingpro_content_lead_form'];
+        $subject =  $listingpro_options['listingpro_subject_lead_form'];
+
+        $formated_mail_content = lp_sprintf2("$body", array(
+            'listing_title' => '',
+            'sender_name' => "$field_name",
+            'sender_email' => "$field_email",
+            'sender_phone' => "$field_phone",
+            'sender_message' => "$field_message",
+            'user_name' => "$field_name",
+            'website_url' => "$website_url",
+            'website_name' => "$website_name",
+        ));
+        lp_mail_headers_append();
+        $result = LP_send_mail( $data_userMail, $subject, $formated_mail_content,$headers);
+        lp_mail_headers_remove();
+
+        if($result){
+            echo 'Success';
+        }else{
+            echo 'fail';
+        }
+
+	    exit();
+	}
+}

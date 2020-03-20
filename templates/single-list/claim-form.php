@@ -233,7 +233,7 @@ if(class_exists('ListingproPlugin')) {
                                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/claimsuccess.png" alt=""/>
                                         <div class="text-center lp-claim-cuccess">
                                         </div>
-                                        <a href="<?php echo $currentURL; ?>" class="lp-claim-cuccess-return"><?php echo esc_html__('Return to Dashboard', ''); ?></a>
+                                        <a href="<?php echo $currentURL; ?>" class="lp-claim-cuccess-return"><?php echo esc_html__('Return to Dashboard', 'listingpro'); ?></a>
                                     </div>
                                 </div>
 
@@ -444,7 +444,7 @@ if(class_exists('ListingproPlugin')) {
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/claimsuccess.png" alt=""/>
                         <div class="text-center lp-claim-cuccess">
                         </div>
-                        <a href="<?php echo $currentURL; ?>" class="lp-claim-cuccess-return"><?php echo esc_html__('Return to Dashboard', ''); ?></a>
+                        <a href="<?php echo $currentURL; ?>" class="lp-claim-cuccess-return"><?php echo esc_html__('Return to Dashboard', 'listingpro'); ?></a>
                     </div>
 
                 </div>

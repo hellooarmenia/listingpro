@@ -535,6 +535,7 @@ jQuery(document).on('change', '.lp_extrafields_select', function(event) {
             if (data) {
 				listing_update(data, new_design_v2, listStyle);
                 lp_append_distance_div();
+                remove_listing_skeletons();
 			}
 }
 	});
@@ -746,7 +747,7 @@ jQuery(document).ready(function($){
                 mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
                 averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
                 mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-                listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+                listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
                 seracLoc	=    jQuery("#lp_search_loc").val();
                 skeyword = jQuery('input#lp_current_query').val();
 
@@ -812,7 +813,7 @@ jQuery(document).ready(function($){
                     if(data){
                         listing_update(data, new_design_v2, listStyle);
                         lp_append_distance_div();
-
+                        remove_listing_skeletons();
                     }
                 }
             });
@@ -904,7 +905,7 @@ jQuery(document).ready(function($){
 		mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
 		averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 		mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
         seracLoc	=    jQuery("#lp_search_loc").val();
             skeyword = jQuery('input#lp_current_query').val();
             
@@ -970,7 +971,7 @@ jQuery(document).ready(function($){
 					if(data){
 						listing_update(data, new_design_v2, listStyle);
 						lp_append_distance_div();
-						
+						remove_listing_skeletons();
 					}
 				}
 			});
@@ -1067,7 +1068,7 @@ jQuery(document).ready(function($){
 		mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
 		averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 		mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
 		
 		skeyword = jQuery('input#lp_current_query').val();
 		seracLoc	= jQuery("#lp_search_loc").val();
@@ -1124,7 +1125,7 @@ jQuery(document).ready(function($){
 					if(data){
                         listing_update(data, new_design_v2, listStyle);
 						lp_append_distance_div();
-						
+						remove_listing_skeletons();
 					}
 				}
 			});
@@ -1473,7 +1474,7 @@ jQuery(document).ready(function($){
             mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
             averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
             mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-            listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+            listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
 
             
             skeyword = jQuery('input#lp_current_query').val();
@@ -1546,7 +1547,7 @@ jQuery(document).ready(function($){
                 if(data){
                     listing_update(data , new_design_v2, listStyle);
                     lp_append_distance_div();
-
+                    remove_listing_skeletons();
                 }
             }
         });
@@ -1614,7 +1615,7 @@ jQuery(document).ready(function($){
                 if(data){
                     listing_update(data);
                     lp_append_distance_div();
-
+                    remove_listing_skeletons();
                 }
             }
         });
@@ -1680,7 +1681,7 @@ jQuery(document).ready(function($){
                 if(data){
                     listing_update(data);
                     lp_append_distance_div();
-
+                    remove_listing_skeletons();
                 }
             }
         });
@@ -1824,7 +1825,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 		mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
 		averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 		mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+		listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
 		
 		
 		skeyword = jQuery('input#lp_current_query').val();
@@ -1893,7 +1894,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					$this.addClass('active');
 					jQuery('#full-overlay').remove();
 					if(data){
-
+                        remove_listing_skeletons();
 						listing_update(data, new_design_v2, listStyle);
 						lp_append_distance_div();	
 					}
@@ -1991,7 +1992,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
                 if(data){
                     listing_update(data, new_design_v2, listStyle);
                     lp_append_distance_div();
-
+                    remove_listing_skeletons();
                 }
             }
         });
@@ -2044,7 +2045,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
             mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
 			averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 			mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-			listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+			listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
             coupons = jQuery('.search-filters li.listing_coupons').find('a.active').data('value');
            if( jQuery('.search-filters li.listing_coupons a.active').length > 0 )
            {
@@ -2143,6 +2144,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
 					jQuery('#full-overlay').remove();					
 					if(data){
+                        remove_listing_skeletons();
 						listing_update(data , new_design_v2, listStyle)
 						lp_append_distance_div();
 						if(data.opentime!=''){
@@ -2242,7 +2244,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
             mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
 			averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 			mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-			listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+			listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
 		}
 		else
 		{
@@ -2335,6 +2337,7 @@ jQuery(document).on('click', '.lp-filter-pagination-ajx ul li span.haspaglink', 
 					jQuery('.app-filter-loader-active').html('<i class="fa fa-check-circle" aria-hidden="true"></i>');
 					jQuery('#full-overlay').remove();
 					if(data){
+                        remove_listing_skeletons();
 						listing_update(data, new_design_v2, listStyle);
 						lp_append_distance_div();
 						if(data.opentime!=''){
@@ -2555,7 +2558,7 @@ jQuery(document).ready(function($){
 				mostViewed = jQuery('.search-filters li#mostviewed').find('.active').data('value');
 				averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 				mostRewvied = jQuery('.search-filters li.listingReviewed').find('.active').data('value');
-               listing_openTime = jQuery('.search-filters li#listing_openTime, .search-filters li.listing_openTime').find('.active').data('value');
+               listing_openTime = jQuery('.search-filters li#listing_openTime, .search-filters li.listing_openTime').find('.active').data('time');
                     
 				skeyword = jQuery('input#lp_current_query').val();
 				seracLoc			=	jQuery("#lp_search_loc").val();
@@ -2606,6 +2609,7 @@ jQuery(document).ready(function($){
 					success: function(data){
 						jQuery('#full-overlay').remove();
 						if(data){
+                            remove_listing_skeletons();
                             listing_update(data, new_design_v2, listStyle);
 							lp_append_distance_div();
 						}
@@ -2943,7 +2947,7 @@ function listingproc_update_results() {
 	
 	averageRate = jQuery('.search-filters li#listingRate').find('.active').data('value');
 	mostRewvied = jQuery('.search-filters li#listingReviewed').find('.active').data('value');
-	listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('value');
+	listing_openTime = jQuery('.search-filters li.listing_openTime').find('.active').data('time');
 	
 	var clatval = jQuery('#searchform input[name=clat]').val();
 	var clongval = jQuery('#searchform input[name=clong]').val();
@@ -3005,6 +3009,7 @@ function listingproc_update_results() {
 			if(data){
 				listing_update(data, new_design_v2, listStyle);
 				lp_append_distance_div();
+                remove_listing_skeletons();
 			}
 		}
 	});

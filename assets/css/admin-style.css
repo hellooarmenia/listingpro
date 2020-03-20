@@ -1703,3 +1703,9 @@ width:100%;
 .bg-red,.bg-red h3{
     color:#fff;
 }
+#lpinvoiceadminpop .lp-in-trns-id.padding-left-0{
+	overflow: hidden;
+}
+div[data-vc-shortcode="listing_cats"] .edit_form_line label {
+    display: block !important;
+}

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: listingpro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-27 14:06+0500\n"
+"POT-Creation-Date: 2020-03-17 22:19+0500\n"
 "POT-Revision-Date: Tue Mar 08 2016 16:05:54 GMT+0500 (Pakistan Standard Time)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cland <cland@gmail.com>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;__:1;"
 "_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;_x:1,2c;"
 "_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;esc_attr__:1;"
@@ -265,12 +265,12 @@ msgstr ""
 msgid "1 Review"
 msgstr ""
 
-#: comments.php:32 include/functions-new.php:732 include/functions-new.php:1123
+#: comments.php:32 include/functions-new.php:733 include/functions-new.php:1124
 #: include/options-config.php:298 include/options-config.php:3318
 #: include/reviews/all-reviews.php:145 include/single-ajax.php:1847
 #: include/single-ajax.php:2167
 #: mobile/templates/dashboard/main-screen-app-view.php:62
-#: mobile/templates/listing_app_view2.php:821 template-dashboard.php:639
+#: mobile/templates/listing_app_view2.php:843 template-dashboard.php:639
 #: templates/author/author-content.php:1 templates/listing_detail5.php:518
 #: templates/single-list/listing-detail-style5/reviews.php:11
 #: templates/single-list/listing-details-style3/content/title-bar.php:172
@@ -368,7 +368,7 @@ msgstr ""
 msgid "&raquo;"
 msgstr ""
 
-#: functions.php:1222 functions.php:1277 include/functions-new.php:1376
+#: functions.php:1222 functions.php:1277 include/functions-new.php:1377
 #: mobile/templates/listing-with-map-app.php:302
 #: mobile/templates/search/filter-app-view.php:136
 #: templates/headers/filters-in-header.php:135 templates/search/filter.php:186
@@ -378,7 +378,7 @@ msgstr ""
 msgid "Inexpensive"
 msgstr ""
 
-#: functions.php:1226 functions.php:1281 include/functions-new.php:1388
+#: functions.php:1226 functions.php:1281 include/functions-new.php:1389
 #: mobile/templates/listing-with-map-app.php:303
 #: mobile/templates/search/filter-app-view.php:137
 #: templates/headers/filters-in-header.php:136 templates/search/filter.php:187
@@ -388,7 +388,7 @@ msgstr ""
 msgid "Moderate"
 msgstr ""
 
-#: functions.php:1230 functions.php:1285 include/functions-new.php:1400
+#: functions.php:1230 functions.php:1285 include/functions-new.php:1401
 #: mobile/templates/listing-with-map-app.php:304
 #: mobile/templates/search/filter-app-view.php:138
 #: templates/headers/filters-in-header.php:137 templates/search/filter.php:188
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Pricey"
 msgstr ""
 
-#: functions.php:1234 functions.php:1289 include/functions-new.php:1412
+#: functions.php:1234 functions.php:1289 include/functions-new.php:1413
 #: mobile/templates/listing-with-map-app.php:305
 #: mobile/templates/search/filter-app-view.php:139
 #: templates/headers/filters-in-header.php:138 templates/search/filter.php:189
@@ -415,7 +415,7 @@ msgstr ""
 msgid "Price Range"
 msgstr ""
 
-#: functions.php:1657 include/functions-new.php:1806
+#: functions.php:1657 include/functions-new.php:1807
 msgid "Share"
 msgstr ""
 
@@ -485,18 +485,18 @@ msgstr ""
 #: include/options-config.php:3459 include/options-config.php:3482
 #: include/options-config.php:4062 include/options-config.php:4074
 #: include/options-config.php:4086 include/options-config.php:4098
-#: include/options-config.php:4445 include/options-config.php:4458
-#: include/options-config.php:4471 include/options-config.php:4483
-#: include/options-config.php:4608 include/options-config.php:4620
-#: include/options-config.php:5809 include/options-config.php:5821
-#: include/options-config.php:5833 include/options-config.php:5845
-#: include/options-config.php:5857 include/options-config.php:5869
+#: include/options-config.php:4434 include/options-config.php:4447
+#: include/options-config.php:4460 include/options-config.php:4472
+#: include/options-config.php:4597 include/options-config.php:4609
+#: include/options-config.php:5794 include/options-config.php:5806
+#: include/options-config.php:5818 include/options-config.php:5830
+#: include/options-config.php:5842 include/options-config.php:5854
 #: templates/dashboard/expired.php:159 templates/dashboard/listing.php:192
 #: templates/dashboard/listings.php:42 templates/dashboard/pending.php:171
 msgid "Yes"
 msgstr ""
 
-#: functions.php:3629 functions.php:4000 functions.php:4003
+#: functions.php:3629 functions.php:4006 functions.php:4009
 msgid "Sorry! There is no plan associated with the category"
 msgstr ""
 
@@ -532,18 +532,18 @@ msgstr ""
 msgid "Problem in email sending"
 msgstr ""
 
-#: functions.php:4385 include/functions-new.php:4308 include/functions-new.php:4321
+#: functions.php:4391 include/functions-new.php:4309 include/functions-new.php:4322
 msgid "Something went wrong!"
 msgstr ""
 
-#: functions.php:4621
+#: functions.php:4627
 msgid "Lead message reply"
 msgstr ""
 
-#: functions.php:4705 include/functions-new.php:5766
+#: functions.php:4711 include/functions-new.php:5767
 #: templates/dashboard/announcements.php:32 templates/dashboard/announcements.php:118
-#: templates/dashboard/discounts.php:33 templates/dashboard/discounts.php:178
-#: templates/dashboard/events.php:100 templates/dashboard/events.php:339
+#: templates/dashboard/discounts.php:33 templates/dashboard/discounts.php:188
+#: templates/dashboard/events.php:100 templates/dashboard/events.php:340
 #: templates/dashboard/inbox.php:219 templates/dashboard/lead_form.php:27
 #: templates/dashboard/lead_form.php:75
 #: templates/dashboard/manage-types-groups.php:34 templates/dashboard/menus.php:125
@@ -552,37 +552,37 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: functions.php:4787 templates/dashboard/inbox.php:315
+#: functions.php:4793 templates/dashboard/inbox.php:315
 msgid "Reply to this"
 msgstr ""
 
-#: functions.php:4790 templates/dashboard/inbox.php:318
+#: functions.php:4796 templates/dashboard/inbox.php:318
 msgid "Send message"
 msgstr ""
 
-#: functions.php:4805 templates/dashboard/inbox.php:93
+#: functions.php:4811 templates/dashboard/inbox.php:93
 msgid "Registered User"
 msgstr ""
 
-#: functions.php:4807 templates/dashboard/inbox.php:97
+#: functions.php:4813 templates/dashboard/inbox.php:97
 msgid "Unregistered User"
 msgstr ""
 
-#: functions.php:4813 mobile/templates/listing_app_view.php:639
-#: mobile/templates/listing_app_view2.php:806 templates/dashboard/inbox.php:106
-#: templates/dashboard/invoices.php:756 templates/listing_detail3.php:288
+#: functions.php:4819 mobile/templates/listing_app_view.php:639
+#: mobile/templates/listing_app_view2.php:828 templates/dashboard/inbox.php:106
+#: templates/dashboard/invoices.php:761 templates/listing_detail3.php:288
 msgid "Details"
 msgstr ""
 
-#: functions.php:4818 include/options-config.php:1808 include/single-ajax.php:2533
+#: functions.php:4824 include/options-config.php:1808 include/single-ajax.php:2533
 #: templates/author/author-banner.php:108 templates/child-cats.php:56
 #: templates/dashboard/active-campaigns.php:386
 #: templates/dashboard/create-menu.php:82 templates/dashboard/create-menu.php:154
-#: templates/dashboard/events.php:200 templates/dashboard/events.php:258
+#: templates/dashboard/events.php:200 templates/dashboard/events.php:259
 msgid "Listing"
 msgstr ""
 
-#: functions.php:4821 include/options-config.php:6358
+#: functions.php:4827 include/options-config.php:6300
 #: include/reviews/reviews-form.php:265 include/reviews/reviews-form.php:820
 #: mobile/templates/login-reg-popup.php:180 templates/blog-comments.php:90
 #: templates/blog-comments.php:117 templates/dashboard/event-attendees.php:90
@@ -594,9 +594,10 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: functions.php:4825 include/options-config.php:2942 include/options-config.php:6350
-#: include/options-config.php:6750 mobile/templates/listing_app_view_leadform.php:117
-#: templates/author/author-about.php:78 templates/dashboard/event-attendees.php:91
+#: functions.php:4831 include/options-config.php:2942 include/options-config.php:6292
+#: include/options-config.php:6692 mobile/templates/listing_app_view_leadform.php:117
+#: templates/author/author-about.php:78 templates/author/author-contact.php:1
+#: templates/dashboard/event-attendees.php:91
 #: templates/dashboard/event-attendees.php:130 templates/dashboard/lead_form.php:107
 #: templates/dashboard/lead_form.php:232 templates/dashboard/lead_form.php:264
 #: templates/dashboard/lead_form.php:382 templates/dashboard/update-profile.php:203
@@ -604,190 +605,190 @@ msgstr ""
 #: templates/popups/checkout2-popup.php:108 templates/single-list/claim-form.php:108
 #: templates/single-list/claim-form.php:339
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:154
-#: templates/single-list/listing-details-style2/content/contacts.php:170
+#: templates/single-list/listing-details-style2/content/contacts.php:139
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:140
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:118
 #: templates/single-list/listing-details-style4/sidebar/lead-form.php:119
 msgid "Phone"
 msgstr ""
 
-#: functions.php:5137
+#: functions.php:5143
 msgid "Important Update Notice!"
 msgstr ""
 
-#: functions.php:5139
+#: functions.php:5145
 msgid ""
 "Thanks for updating your theme, now we highly recommend you to also update the "
 "following plugins."
 msgstr ""
 
-#: functions.php:5148
+#: functions.php:5154
 msgid ""
 "<br /><br /><strong>Before doing anything please take backup of your plugins in "
 "case if you have made any changes in CODE files directly or you have made "
 "translations</strong><br /><br />"
 msgstr ""
 
-#: functions.php:5149
+#: functions.php:5155
 msgid ""
 "  Go to Plugins, deactivate and delete all mentioned plugins. After deleting, the "
 "following notice will appear,  "
 msgstr ""
 
-#: functions.php:5151
+#: functions.php:5157
 msgid "This theme requires the following plugin"
 msgstr ""
 
-#: functions.php:5153
+#: functions.php:5159
 msgid "  Click  "
 msgstr ""
 
-#: functions.php:5156
+#: functions.php:5162
 msgid "begin installing plugin"
 msgstr ""
 
-#: functions.php:5158
+#: functions.php:5164
 msgid ""
 "  link.<br /><br /> After installation is complete, activate the plugin. "
 "Listingpro plugins will be up to dated"
 msgstr ""
 
-#: functions.php:5160
+#: functions.php:5166
 msgid ""
 " <strong> Additional Note for CHILD THEME Users: If you are using child theme then "
 "please switch to parent theme and follow the above steps and then switch back to "
 "child theme</strong>"
 msgstr ""
 
-#: functions.php:5172
+#: functions.php:5178
 msgid "Select Plan"
 msgstr ""
 
-#: functions.php:5506
+#: functions.php:5510
 msgid "Verify your purchase code to unlock all features, see "
 msgstr ""
 
-#: functions.php:5506
+#: functions.php:5510
 msgid "instructions"
 msgstr ""
 
-#: functions.php:5739
+#: functions.php:5743
 msgid "Twice a Month"
 msgstr ""
 
-#: functions.php:5813 templates/dashboard/create-menu.php:156
+#: functions.php:5818 templates/dashboard/create-menu.php:156
 #: templates/dashboard/lead_form.php:339 templates/dashboard/lead_form.php:341
 #: templates/dashboard/services-screen.php:95
 msgid "Select Listing"
 msgstr ""
 
-#: functions.php:5851 templates/dashboard/listings.php:216
+#: functions.php:5856 templates/dashboard/listings.php:216
 #: templates/dashboard/listings.php:383 templates/dashboard/listings.php:564
 #: templates/dashboard/listings.php:722
 msgid "N/A"
 msgstr ""
 
-#: functions.php:5864 templates/dashboard/active-campaigns.php:178
+#: functions.php:5869 templates/dashboard/active-campaigns.php:178
 msgid "PAYED WITH"
 msgstr ""
 
-#: functions.php:5874 include/options-config.php:2553 include/options-config.php:2564
+#: functions.php:5879 include/options-config.php:2553 include/options-config.php:2564
 #: include/options-config.php:2584 include/options-config.php:3460
 #: include/options-config.php:3483 include/options-config.php:4063
 #: include/options-config.php:4075 include/options-config.php:4087
-#: include/options-config.php:4099 include/options-config.php:4446
-#: include/options-config.php:4457 include/options-config.php:4470
-#: include/options-config.php:4484 include/options-config.php:4609
-#: include/options-config.php:4621 include/options-config.php:5810
-#: include/options-config.php:5822 include/options-config.php:5834
-#: include/options-config.php:5846 include/options-config.php:5858
-#: include/options-config.php:5870 templates/dashboard/active-campaigns.php:466
+#: include/options-config.php:4099 include/options-config.php:4435
+#: include/options-config.php:4446 include/options-config.php:4459
+#: include/options-config.php:4473 include/options-config.php:4598
+#: include/options-config.php:4610 include/options-config.php:5795
+#: include/options-config.php:5807 include/options-config.php:5819
+#: include/options-config.php:5831 include/options-config.php:5843
+#: include/options-config.php:5855 templates/dashboard/active-campaigns.php:466
 #: templates/dashboard/active-campaigns.php:491 templates/dashboard/expired.php:157
 #: templates/dashboard/listing.php:190 templates/dashboard/listings.php:40
 #: templates/dashboard/pending.php:169
 msgid "No"
 msgstr ""
 
-#: functions.php:5888
+#: functions.php:5893
 msgid "TOTAL BUDGET"
 msgstr ""
 
-#: functions.php:5890 templates/dashboard/active-campaigns.php:602
+#: functions.php:5895 templates/dashboard/active-campaigns.php:602
 msgid "Amount paid"
 msgstr ""
 
-#: functions.php:5895 functions.php:5898 templates/dashboard/active-campaigns.php:556
+#: functions.php:5900 functions.php:5903 templates/dashboard/active-campaigns.php:556
 msgid "REMAINING BALANCE"
 msgstr ""
 
-#: functions.php:5903 templates/dashboard/active-campaigns.php:608
-#: templates/dashboard/active-campaigns.php:1120 templates/dashboard/invoices.php:796
-#: templates/dashboard/subscription.php:32
+#: functions.php:5908 templates/dashboard/active-campaigns.php:608
+#: templates/dashboard/active-campaigns.php:1121 templates/dashboard/invoices.php:801
+#: templates/dashboard/subscription.php:33
 msgid "Duration"
 msgstr ""
 
-#: functions.php:5903 include/single-ajax.php:2545 include/single-ajax.php:2549
+#: functions.php:5908 include/single-ajax.php:2545 include/single-ajax.php:2549
 #: templates/dashboard/active-campaigns.php:612
-#: templates/dashboard/active-campaigns.php:1123
+#: templates/dashboard/active-campaigns.php:1124
 #: templates/dashboard/campaigns.php:302 templates/dashboard/list-invoices.php:74
 #: templates/dashboard/listings.php:126 templates/dashboard/listings.php:322
-#: templates/dashboard/listings.php:649 templates/dashboard/subscription.php:100
-#: templates/dashboard/subscription.php:142
+#: templates/dashboard/listings.php:649 templates/dashboard/subscription.php:112
+#: templates/dashboard/subscription.php:164
 msgid "Days"
 msgstr ""
 
-#: functions.php:5916 templates/dashboard/active-campaigns.php:214
+#: functions.php:5921 templates/dashboard/active-campaigns.php:214
 #: templates/dashboard/active-campaigns.php:749
 #: templates/dashboard/active-campaigns.php:762
 msgid "Spotlight"
 msgstr ""
 
-#: functions.php:5920 templates/dashboard/active-campaigns.php:220
+#: functions.php:5925 templates/dashboard/active-campaigns.php:220
 #: templates/dashboard/active-campaigns.php:844
 #: templates/dashboard/active-campaigns.php:857
 msgid "Sidebar"
 msgstr ""
 
-#: functions.php:5924 templates/dashboard/active-campaigns.php:227
+#: functions.php:5929 templates/dashboard/active-campaigns.php:227
 msgid "Top of Search"
 msgstr ""
 
-#: functions.php:5939 include/plugins/class-tgm-plugin-activation.php:2634
+#: functions.php:5944 include/plugins/class-tgm-plugin-activation.php:2634
 msgid "Type"
 msgstr ""
 
-#: functions.php:5967 templates/dashboard/discounts.php:142
-#: templates/dashboard/discounts.php:415 templates/dashboard/discounts.php:531
-#: templates/dashboard/discounts.php:576
+#: functions.php:5972 templates/dashboard/discounts.php:142
+#: templates/dashboard/discounts.php:425 templates/dashboard/discounts.php:541
+#: templates/dashboard/discounts.php:586
 msgid "Start Date"
 msgstr ""
 
-#: functions.php:5974 templates/dashboard/discounts.php:151
-#: templates/dashboard/discounts.php:375 templates/dashboard/discounts.php:422
-#: templates/dashboard/discounts.php:536 templates/dashboard/discounts.php:583
+#: functions.php:5979 templates/dashboard/discounts.php:151
+#: templates/dashboard/discounts.php:385 templates/dashboard/discounts.php:432
+#: templates/dashboard/discounts.php:546 templates/dashboard/discounts.php:593
 msgid "End Date"
 msgstr ""
 
-#: functions.php:5981 include/plugins/class-tgm-plugin-activation.php:2639
-#: templates/dashboard/discounts.php:160 templates/dashboard/discounts.php:385
-#: templates/dashboard/discounts.php:546 templates/dashboard/events.php:292
-#: templates/dashboard/events.php:711 templates/dashboard/events.php:826
-#: templates/dashboard/events.php:927 templates/dashboard/invoices.php:79
-#: templates/dashboard/invoices.php:766 templates/dashboard/listings.php:224
+#: functions.php:5986 include/plugins/class-tgm-plugin-activation.php:2639
+#: templates/dashboard/discounts.php:160 templates/dashboard/discounts.php:395
+#: templates/dashboard/discounts.php:556 templates/dashboard/events.php:293
+#: templates/dashboard/events.php:712 templates/dashboard/events.php:827
+#: templates/dashboard/events.php:928 templates/dashboard/invoices.php:79
+#: templates/dashboard/invoices.php:771 templates/dashboard/listings.php:224
 #: templates/dashboard/listings.php:391 templates/dashboard/listings.php:572
 #: templates/dashboard/listings.php:731
 msgid "Status"
 msgstr ""
 
-#: functions.php:5985
+#: functions.php:5990
 msgid "ACTIVE"
 msgstr ""
 
-#: functions.php:5990
+#: functions.php:5995
 msgid "PENDING"
 msgstr ""
 
-#: functions.php:5993
+#: functions.php:5998
 msgid "INACTIVE"
 msgstr ""
 
@@ -806,8 +807,8 @@ msgstr ""
 msgid " Top in Search Page Ads "
 msgstr ""
 
-#: include/all-extra-fields.php:18 include/functions-new.php:1580
-#: include/functions-new.php:1735
+#: include/all-extra-fields.php:18 include/functions-new.php:1581
+#: include/functions-new.php:1736
 msgid "Additional Details"
 msgstr ""
 
@@ -816,7 +817,7 @@ msgid "Show all"
 msgstr ""
 
 #: include/favorite-function.php:108 include/favorite-function.php:145
-#: include/favorite-function.php:180 include/functions-new.php:2064
+#: include/favorite-function.php:180 include/functions-new.php:2065
 #: templates/dashboard/announcements.php:165 templates/dashboard/create-menu.php:100
 #: templates/dashboard/listings.php:78 templates/listing-style3.php:240
 #: templates/single-list/listing-details-style4/content/title-bar.php:52
@@ -824,9 +825,9 @@ msgid "Save"
 msgstr ""
 
 #: include/favorite-function.php:143 include/favorite-function.php:178
-#: include/functions-new.php:1979 include/options-config.php:270 listing-loop.php:222
+#: include/functions-new.php:1980 include/options-config.php:270 listing-loop.php:222
 #: listing-loop.php:430 listing-loop.php:652 listing-loop.php:971
-#: listing-loop.php:1195 mobile/listing-loop-app-view.php:394
+#: listing-loop.php:1195 mobile/listing-loop-app-view.php:341
 #: mobile/template-dashboard-app-view.php:588
 #: mobile/template-dashboard-app-view.php:605
 #: mobile/templates/listing_app_view.php:223
@@ -849,19 +850,19 @@ msgstr ""
 msgid "Sorry! No more filter found for current selections"
 msgstr ""
 
-#: include/function-filter.php:232 include/functions-new.php:5942
+#: include/function-filter.php:232 include/functions-new.php:5943
 #: include/lp-needlogin.php:281 mobile/templates/listing-with-map-app-new.php:262
 #: mobile/templates/listing-with-map-app.php:261
 #: mobile/templates/login-reg-popup.php:189 template-login.php:292
-#: templates/dashboard/active-campaigns.php:990
-#: templates/dashboard/active-campaigns.php:1048
+#: templates/dashboard/active-campaigns.php:991
+#: templates/dashboard/active-campaigns.php:1049
 #: templates/dashboard/announcements.php:31 templates/dashboard/announcements.php:166
 #: templates/dashboard/announcements.php:363 templates/dashboard/create-menu.php:101
-#: templates/dashboard/discounts.php:32 templates/dashboard/discounts.php:316
-#: templates/dashboard/discounts.php:472 templates/dashboard/discounts.php:633
-#: templates/dashboard/discounts.php:870 templates/dashboard/event-attendees.php:196
-#: templates/dashboard/events.php:98 templates/dashboard/events.php:600
-#: templates/dashboard/events.php:1251 templates/dashboard/lead_form.php:26
+#: templates/dashboard/discounts.php:32 templates/dashboard/discounts.php:326
+#: templates/dashboard/discounts.php:482 templates/dashboard/discounts.php:643
+#: templates/dashboard/discounts.php:880 templates/dashboard/event-attendees.php:196
+#: templates/dashboard/events.php:98 templates/dashboard/events.php:601
+#: templates/dashboard/events.php:1252 templates/dashboard/lead_form.php:26
 #: templates/dashboard/lead_form.php:172 templates/dashboard/lead_form.php:186
 #: templates/dashboard/lead_form.php:329 templates/dashboard/lead_form.php:345
 #: templates/dashboard/manage-types-groups.php:33
@@ -876,63 +877,63 @@ msgstr ""
 msgid "Show Results"
 msgstr ""
 
-#: include/functions-new.php:197 include/timings.php:346
+#: include/functions-new.php:198 include/timings.php:346
 msgid "Today"
 msgstr ""
 
-#: include/functions-new.php:233 include/time-status.php:353 include/timings.php:358
+#: include/functions-new.php:234 include/time-status.php:353 include/timings.php:358
 #: include/timings.php:361 include/timings.php:510
 msgid "24 hours open"
 msgstr ""
 
-#: include/functions-new.php:247
+#: include/functions-new.php:248
 msgid "Open"
 msgstr ""
 
-#: include/functions-new.php:259
+#: include/functions-new.php:260
 msgid "Closed"
 msgstr ""
 
-#: include/functions-new.php:277 include/time-status.php:408
+#: include/functions-new.php:278 include/time-status.php:408
 #: include/time-status.php:416 include/timings.php:392 include/timings.php:394
 msgid "Day Off!"
 msgstr ""
 
-#: include/functions-new.php:509 include/reviews/all-reviews.php:43
+#: include/functions-new.php:510 include/reviews/all-reviews.php:43
 #: include/reviews/all-reviews.php:357
 msgid "Review for "
 msgstr ""
 
-#: include/functions-new.php:513 include/reviews/all-reviews.php:45
+#: include/functions-new.php:514 include/reviews/all-reviews.php:45
 #: include/reviews/all-reviews.php:359
 msgid "Reviews for "
 msgstr ""
 
-#: include/functions-new.php:533 include/reviews/all-reviews.php:64
+#: include/functions-new.php:534 include/reviews/all-reviews.php:64
 msgid "Filter By : "
 msgstr ""
 
-#: include/functions-new.php:535 include/reviews/all-reviews.php:66
+#: include/functions-new.php:536 include/reviews/all-reviews.php:66
 msgid "Newest"
 msgstr ""
 
-#: include/functions-new.php:536 include/reviews/all-reviews.php:67
+#: include/functions-new.php:537 include/reviews/all-reviews.php:67
 msgid "Oldest"
 msgstr ""
 
-#: include/functions-new.php:537 include/options-config.php:4166
+#: include/functions-new.php:538 include/options-config.php:4155
 #: include/reviews/all-reviews.php:68 mobile/templates/search/filter-app-view.php:223
 #: templates/listing-with-header-filters.php:632 templates/search/filter.php:413
 #: templates/search/filter2.php:423 templates/search/sidebar-filter.php:325
 msgid "Highest Rated"
 msgstr ""
 
-#: include/functions-new.php:538 include/reviews/all-reviews.php:69
+#: include/functions-new.php:539 include/reviews/all-reviews.php:69
 msgid "Lowest Rated"
 msgstr ""
 
-#: include/functions-new.php:667 include/functions-new.php:887
-#: include/functions-new.php:1046 include/functions-new.php:1296
+#: include/functions-new.php:668 include/functions-new.php:888
+#: include/functions-new.php:1047 include/functions-new.php:1297
 #: include/reviews/all-reviews.php:237 include/reviews/all-reviews.php:262
 #: include/reviews/all-reviews.php:496 include/reviews/all-reviews.php:518
 #: include/single-ajax.php:1926 include/single-ajax.php:1951
@@ -940,7 +941,7 @@ msgstr ""
 msgid "Interesting"
 msgstr ""
 
-#: include/functions-new.php:669 include/functions-new.php:1048
+#: include/functions-new.php:670 include/functions-new.php:1049
 #: include/reviews/all-reviews.php:238 include/reviews/all-reviews.php:269
 #: include/reviews/all-reviews.php:497 include/reviews/all-reviews.php:524
 #: include/single-ajax.php:1927 include/single-ajax.php:1958
@@ -948,8 +949,8 @@ msgstr ""
 msgid "Lol"
 msgstr ""
 
-#: include/functions-new.php:671 include/functions-new.php:891
-#: include/functions-new.php:1050 include/functions-new.php:1300
+#: include/functions-new.php:672 include/functions-new.php:892
+#: include/functions-new.php:1051 include/functions-new.php:1301
 #: include/reviews/all-reviews.php:239 include/reviews/all-reviews.php:276
 #: include/reviews/all-reviews.php:498 include/reviews/all-reviews.php:530
 #: include/single-ajax.php:1928 include/single-ajax.php:1965
@@ -957,7 +958,7 @@ msgstr ""
 msgid "Love"
 msgstr ""
 
-#: include/functions-new.php:707 include/functions-new.php:1088
+#: include/functions-new.php:708 include/functions-new.php:1089
 #: include/reviews/all-reviews.php:261 include/reviews/all-reviews.php:268
 #: include/reviews/all-reviews.php:275 include/reviews/all-reviews.php:517
 #: include/reviews/all-reviews.php:523 include/reviews/all-reviews.php:529
@@ -967,132 +968,132 @@ msgstr ""
 msgid "You already reacted"
 msgstr ""
 
-#: include/functions-new.php:758 include/functions-new.php:1155
+#: include/functions-new.php:759 include/functions-new.php:1156
 #: include/reviews/all-reviews.php:168 include/reviews/all-reviews.php:425
 #: include/single-ajax.php:1860 include/single-ajax.php:2189
 msgid "View All"
 msgstr ""
 
-#: include/functions-new.php:885 include/functions-new.php:1294
+#: include/functions-new.php:886 include/functions-new.php:1295
 #: include/reviews/all-reviews.php:258 include/reviews/all-reviews.php:514
 #: include/single-ajax.php:1947 include/single-ajax.php:2315
 msgid "Was this review ...?"
 msgstr ""
 
-#: include/functions-new.php:889 include/functions-new.php:1298
+#: include/functions-new.php:890 include/functions-new.php:1299
 #: include/single-ajax.php:2319
 msgid "LOL"
 msgstr ""
 
-#: include/functions-new.php:899 include/functions-new.php:1308
+#: include/functions-new.php:900 include/functions-new.php:1309
 #: include/reviews/all-reviews.php:284 include/reviews/all-reviews.php:537
 #: include/single-ajax.php:1973 include/single-ajax.php:2329
 msgid "Report"
 msgstr ""
 
-#: include/functions-new.php:913 include/single-ajax.php:2343
+#: include/functions-new.php:914 include/single-ajax.php:2343
 msgid "Author Response"
 msgstr ""
 
-#: include/functions-new.php:1139
+#: include/functions-new.php:1140
 msgid "ago"
 msgstr ""
 
-#: include/functions-new.php:1693 include/timings.php:575
+#: include/functions-new.php:1694 include/timings.php:575
 msgid "Contract"
 msgstr ""
 
-#: include/functions-new.php:1693 include/timings.php:575
+#: include/functions-new.php:1694 include/timings.php:575
 msgid "Expand"
 msgstr ""
 
-#: include/functions-new.php:2114 include/functions-new.php:2258
-#: include/functions-new.php:2363 include/functions-new.php:2402
-#: include/functions-new.php:2442 include/functions-new.php:2474
-#: include/functions-new.php:2564 include/functions-new.php:2770
-#: include/functions-new.php:2866 include/functions-new.php:3093
-#: include/functions-new.php:3132 include/functions-new.php:3181
-#: include/functions-new.php:4057 include/functions-new.php:6037
+#: include/functions-new.php:2115 include/functions-new.php:2259
+#: include/functions-new.php:2364 include/functions-new.php:2403
+#: include/functions-new.php:2443 include/functions-new.php:2475
+#: include/functions-new.php:2565 include/functions-new.php:2771
+#: include/functions-new.php:2867 include/functions-new.php:3094
+#: include/functions-new.php:3133 include/functions-new.php:3182
+#: include/functions-new.php:4058 include/functions-new.php:6038
 msgid "Invalid User Session"
 msgstr ""
 
-#: include/functions-new.php:2136
+#: include/functions-new.php:2137
 msgid "Announcement updated"
 msgstr ""
 
-#: include/functions-new.php:2174
+#: include/functions-new.php:2175
 msgid "Announcements are not allowed with this listing"
 msgstr ""
 
-#: include/functions-new.php:2189 include/functions-new.php:2198
+#: include/functions-new.php:2190 include/functions-new.php:2199
 msgid "Announcement added successfully"
 msgstr ""
 
-#: include/functions-new.php:2288
+#: include/functions-new.php:2289
 msgid "offer updated"
 msgstr ""
 
-#: include/functions-new.php:2314 include/functions-new.php:2330
+#: include/functions-new.php:2315 include/functions-new.php:2331
 msgid "offer added"
 msgstr ""
 
-#: include/functions-new.php:2340 templates/dashboard/event-attendees.php:61
+#: include/functions-new.php:2341 templates/dashboard/event-attendees.php:61
 msgid "Something went wrong"
 msgstr ""
 
-#: include/functions-new.php:2594 include/functions-new.php:2637
+#: include/functions-new.php:2596 include/functions-new.php:2638
 msgid "Menu item updated successfully"
 msgstr ""
 
-#: include/functions-new.php:2679 include/functions-new.php:2715
+#: include/functions-new.php:2680 include/functions-new.php:2716
 msgid "Menu item added successfully"
 msgstr ""
 
-#: include/functions-new.php:2795
+#: include/functions-new.php:2796
 msgid "Coupon Updated successfully"
 msgstr ""
 
-#: include/functions-new.php:2803
+#: include/functions-new.php:2804
 msgid "Coupons are not allowed with this listing"
 msgstr ""
 
-#: include/functions-new.php:2814 include/functions-new.php:2821
-#: include/functions-new.php:2826
+#: include/functions-new.php:2815 include/functions-new.php:2822
+#: include/functions-new.php:2827
 msgid "Coupon Created successfully"
 msgstr ""
 
-#: include/functions-new.php:2879 include/functions-new.php:2902
-#: include/functions-new.php:2946 include/functions-new.php:2978
-#: include/functions-new.php:3020 include/functions-new.php:3042
-#: include/functions-new.php:3062
+#: include/functions-new.php:2880 include/functions-new.php:2903
+#: include/functions-new.php:2947 include/functions-new.php:2979
+#: include/functions-new.php:3021 include/functions-new.php:3043
+#: include/functions-new.php:3063
 msgid "Data deleted"
 msgstr ""
 
-#: include/functions-new.php:3067
+#: include/functions-new.php:3068
 msgid "Bad Request"
 msgstr ""
 
-#: include/functions-new.php:3100 include/functions-new.php:6044
+#: include/functions-new.php:3101 include/functions-new.php:6045
 msgid "Menu Items deleted successfully"
 msgstr ""
 
-#: include/functions-new.php:4097
+#: include/functions-new.php:4098
 msgid "event updated successfully"
 msgstr ""
 
-#: include/functions-new.php:4103
+#: include/functions-new.php:4104
 msgid "Error while updating event"
 msgstr ""
 
-#: include/functions-new.php:4176
+#: include/functions-new.php:4177
 msgid "event created successfully"
 msgstr ""
 
-#: include/functions-new.php:4182
+#: include/functions-new.php:4183
 msgid "Error while creating event"
 msgstr ""
 
-#: include/functions-new.php:4256 mobile/templates/events-app-view.php:78
+#: include/functions-new.php:4257 mobile/templates/events-app-view.php:78
 #: templates/loop-events.php:189 templates/single-event/event-detail.php:200
 #: templates/single-list/event.php:240
 #: templates/single-list/listing-details-style1/sidebar/event.php:60
@@ -1102,107 +1103,107 @@ msgstr ""
 msgid "going"
 msgstr ""
 
-#: include/functions-new.php:4631
+#: include/functions-new.php:4632
 msgid "Event Message"
 msgstr ""
 
-#: include/functions-new.php:5079 include/functions-new.php:5144
-#: include/functions-new.php:5223 include/functions-new.php:5531
+#: include/functions-new.php:5080 include/functions-new.php:5145
+#: include/functions-new.php:5224 include/functions-new.php:5532
 msgid "Events For"
-msgstr ""
-
-#: include/functions-new.php:5083 include/functions-new.php:5148
-#: include/functions-new.php:5227 include/functions-new.php:5535
-msgid "Map View"
 msgstr ""
 
 #: include/functions-new.php:5084 include/functions-new.php:5149
 #: include/functions-new.php:5228 include/functions-new.php:5536
+msgid "Map View"
+msgstr ""
+
+#: include/functions-new.php:5085 include/functions-new.php:5150
+#: include/functions-new.php:5229 include/functions-new.php:5537
 msgid "List View"
 msgstr ""
 
-#: include/functions-new.php:5600
+#: include/functions-new.php:5601
 msgid "Who is going?"
 msgstr ""
 
-#: include/functions-new.php:5601
+#: include/functions-new.php:5602
 msgid "people are going"
 msgstr ""
 
-#: include/functions-new.php:5751
+#: include/functions-new.php:5752
 msgid "Item Name"
 msgstr ""
 
-#: include/functions-new.php:5752
+#: include/functions-new.php:5753
 msgid "Group"
 msgstr ""
 
-#: include/functions-new.php:5753 include/options-config.php:4133
+#: include/functions-new.php:5754 include/options-config.php:4133
 #: templates/dashboard/ads-invoices.php:91 templates/dashboard/list-invoices.php:69
-#: templates/dashboard/subscription.php:33 templates/search/filter.php:179
+#: templates/dashboard/subscription.php:34 templates/search/filter.php:179
 msgid "Price"
 msgstr ""
 
-#: include/functions-new.php:5760 include/list-confirmation.php:84
+#: include/functions-new.php:5761 include/list-confirmation.php:84
 #: templates/blog-comments.php:45 templates/dashboard/announcements.php:117
-#: templates/dashboard/create-menu.php:110 templates/dashboard/discounts.php:177
-#: templates/dashboard/events.php:337 templates/dashboard/lead_form.php:74
+#: templates/dashboard/create-menu.php:110 templates/dashboard/discounts.php:187
+#: templates/dashboard/events.php:338 templates/dashboard/lead_form.php:74
 #: templates/dashboard/listing.php:171 templates/dashboard/listings.php:231
 #: templates/dashboard/listings.php:400 templates/dashboard/listings.php:581
 #: templates/dashboard/listings.php:740 templates/dashboard/menus.php:238
 msgid "Edit"
 msgstr ""
 
-#: include/functions-new.php:5785
+#: include/functions-new.php:5786
 msgid "Menu Item"
 msgstr ""
 
-#: include/functions-new.php:5790 include/functions-new.php:5847
+#: include/functions-new.php:5791 include/functions-new.php:5848
 #: templates/dashboard/menus.php:444
 msgid "Ex: Roasted Chicken"
 msgstr ""
 
-#: include/functions-new.php:5798 templates/dashboard/menus.php:449
+#: include/functions-new.php:5799 templates/dashboard/menus.php:449
 msgid "Reg. Price"
 msgstr ""
 
-#: include/functions-new.php:5803 include/functions-new.php:5812
+#: include/functions-new.php:5804 include/functions-new.php:5813
 #: templates/dashboard/menus.php:452
 msgid "Ex: $10"
 msgstr ""
 
-#: include/functions-new.php:5807 templates/dashboard/menus.php:456
+#: include/functions-new.php:5808 templates/dashboard/menus.php:456
 msgid "Sale Price"
 msgstr ""
 
-#: include/functions-new.php:5821
+#: include/functions-new.php:5822
 msgid "Quote Text"
 msgstr ""
 
-#: include/functions-new.php:5826
+#: include/functions-new.php:5827
 msgid "Ex: Quote"
 msgstr ""
 
-#: include/functions-new.php:5829
+#: include/functions-new.php:5830
 msgid "Quote Link"
 msgstr ""
 
-#: include/functions-new.php:5834 templates/dashboard/menus.php:501
+#: include/functions-new.php:5835 templates/dashboard/menus.php:501
 msgid "Ex: hht://yourweb.com/page"
 msgstr ""
 
-#: include/functions-new.php:5840
+#: include/functions-new.php:5841
 msgid "Short Description"
 msgstr ""
 
-#: include/functions-new.php:5858
+#: include/functions-new.php:5859
 msgid "Popular Item"
 msgstr ""
 
-#: include/functions-new.php:5946 templates/dashboard/announcements.php:362
-#: templates/dashboard/discounts.php:317 templates/dashboard/discounts.php:473
-#: templates/dashboard/discounts.php:634 templates/dashboard/discounts.php:869
-#: templates/dashboard/events.php:602 templates/dashboard/events.php:1249
+#: include/functions-new.php:5947 templates/dashboard/announcements.php:362
+#: templates/dashboard/discounts.php:327 templates/dashboard/discounts.php:483
+#: templates/dashboard/discounts.php:644 templates/dashboard/discounts.php:879
+#: templates/dashboard/events.php:603 templates/dashboard/events.php:1250
 #: templates/dashboard/lead_form.php:173 templates/dashboard/lead_form.php:187
 #: templates/dashboard/lead_form.php:330 templates/dashboard/lead_form.php:346
 #: templates/dashboard/manage-types-groups.php:128
@@ -1241,7 +1242,7 @@ msgstr ""
 #: templates/dashboard/announcements.php:61 templates/dashboard/announcements.php:97
 #: templates/dashboard/announcements.php:161
 #: templates/dashboard/announcements.php:327 templates/dashboard/create-menu.php:143
-#: templates/dashboard/discounts.php:405 templates/dashboard/discounts.php:566
+#: templates/dashboard/discounts.php:415 templates/dashboard/discounts.php:576
 msgid "Description"
 msgstr ""
 
@@ -1281,11 +1282,11 @@ msgid "Congratulations! Transaction is pending."
 msgstr ""
 
 #: include/invoices/invoice-functions.php:518 templates/dashboard/ads-invoices.php:88
-#: templates/dashboard/list-invoices.php:65 templates/dashboard/subscription.php:29
+#: templates/dashboard/list-invoices.php:65 templates/dashboard/subscription.php:30
 msgid "No."
 msgstr ""
 
-#: include/invoices/invoice-functions.php:532 templates/dashboard/invoices.php:830
+#: include/invoices/invoice-functions.php:532 templates/dashboard/invoices.php:835
 msgid "Amount"
 msgstr ""
 
@@ -1333,8 +1334,8 @@ msgstr ""
 msgid "Ad For"
 msgstr ""
 
-#: include/invoices/invoice-modal.php:180 include/options-config.php:4852
-#: templates/dashboard/active-campaigns.php:1158
+#: include/invoices/invoice-modal.php:180 include/options-config.php:4841
+#: templates/dashboard/active-campaigns.php:1159
 #: templates/dashboard/ads-invoices.php:93 templates/dashboard/invoices.php:724
 #: templates/dashboard/list-invoices.php:71
 msgid "Tax"
@@ -1511,10 +1512,11 @@ msgstr ""
 #: include/reviews/reviews-form.php:855
 #: mobile/templates/listing_app_view_leadform.php:141
 #: mobile/templates/login-reg-popup.php:157 template-contact.php:291
-#: template-login.php:183 templates/single-list/claim-form.php:203
-#: templates/single-list/claim-form.php:415 templates/single-list/claim-form.php:543
+#: template-login.php:183 templates/author/author-contact.php:1
+#: templates/single-list/claim-form.php:203 templates/single-list/claim-form.php:415
+#: templates/single-list/claim-form.php:543
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:167
-#: templates/single-list/listing-details-style2/content/contacts.php:196
+#: templates/single-list/listing-details-style2/content/contacts.php:155
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:152
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:133
 #: templates/single-list/listing-details-style4/sidebar/lead-form.php:137
@@ -1556,7 +1558,7 @@ msgid "Theme Options"
 msgstr ""
 
 #: include/options-config.php:134 include/options-config.php:1815
-#: include/options-config.php:4433
+#: include/options-config.php:4422
 msgid "General"
 msgstr ""
 
@@ -1826,7 +1828,7 @@ msgid ""
 msgstr ""
 
 #: include/options-config.php:342 mobile/template-dashboard-app-view.php:549
-#: mobile/templates/listing_app_view2.php:817 template-dashboard.php:526
+#: mobile/templates/listing_app_view2.php:839 template-dashboard.php:526
 #: templates/listing_detail3.php:275
 msgid "Events"
 msgstr ""
@@ -2015,43 +2017,43 @@ msgstr ""
 msgid " Categories in Header"
 msgstr ""
 
-#: include/options-config.php:748 include/options-config.php:6374
-#: include/options-config.php:6660
+#: include/options-config.php:748 include/options-config.php:6316
+#: include/options-config.php:6602
 msgid "Facebook URL"
 msgstr ""
 
-#: include/options-config.php:756 include/options-config.php:6382
-#: include/options-config.php:6668
+#: include/options-config.php:756 include/options-config.php:6324
+#: include/options-config.php:6610
 msgid "Twitter URL"
 msgstr ""
 
-#: include/options-config.php:764 include/options-config.php:6390
-#: include/options-config.php:6676
+#: include/options-config.php:764 include/options-config.php:6332
+#: include/options-config.php:6618
 msgid "Instagram URL"
 msgstr ""
 
-#: include/options-config.php:772 include/options-config.php:6398
-#: include/options-config.php:6684
+#: include/options-config.php:772 include/options-config.php:6340
+#: include/options-config.php:6626
 msgid "Tumbler URL"
 msgstr ""
 
-#: include/options-config.php:780 include/options-config.php:6406
-#: include/options-config.php:6692
+#: include/options-config.php:780 include/options-config.php:6348
+#: include/options-config.php:6634
 msgid "Youtube URL"
 msgstr ""
 
-#: include/options-config.php:788 include/options-config.php:6414
-#: include/options-config.php:6700
+#: include/options-config.php:788 include/options-config.php:6356
+#: include/options-config.php:6642
 msgid "LinkedIn URL"
 msgstr ""
 
-#: include/options-config.php:796 include/options-config.php:6422
-#: include/options-config.php:6708
+#: include/options-config.php:796 include/options-config.php:6364
+#: include/options-config.php:6650
 msgid "Pinterest URL"
 msgstr ""
 
-#: include/options-config.php:804 include/options-config.php:6430
-#: include/options-config.php:6716
+#: include/options-config.php:804 include/options-config.php:6372
+#: include/options-config.php:6658
 msgid "VK URL"
 msgstr ""
 
@@ -2986,8 +2988,8 @@ msgstr ""
 msgid "Choose if multiple locations can be selected"
 msgstr ""
 
-#: include/options-config.php:2917 include/options-config.php:6342
-#: include/options-config.php:6742 templates/author/author-about.php:88
+#: include/options-config.php:2917 include/options-config.php:6284
+#: include/options-config.php:6684 templates/author/author-about.php:88
 #: templates/dashboard/update-profile.php:381
 #: templates/popups/checkout2-popup.php:112
 msgid "Address"
@@ -3191,9 +3193,9 @@ msgstr ""
 msgid "Edit Listing Button Text"
 msgstr ""
 
-#: include/options-config.php:3267 include/options-config.php:4236
-#: templates/dashboard/events.php:677 templates/dashboard/events.php:792
-#: templates/dashboard/events.php:897 templates/headers/header-search.php:339
+#: include/options-config.php:3267 include/options-config.php:4225
+#: templates/dashboard/events.php:678 templates/dashboard/events.php:793
+#: templates/dashboard/events.php:898 templates/headers/header-search.php:339
 #: templates/headers/header-search.php:358 templates/headers/sidesearch.php:295
 #: templates/headers/sidesearch.php:317 templates/search/template_search2.php:44
 msgid "Location"
@@ -3223,7 +3225,7 @@ msgstr ""
 msgid "Add Location Code"
 msgstr ""
 
-#: include/options-config.php:3294 include/options-config.php:4409
+#: include/options-config.php:3294 include/options-config.php:4398
 msgid "Shortcode to restrict locations for specific country "
 msgstr ""
 
@@ -3233,7 +3235,7 @@ msgid ""
 "viewed here"
 msgstr ""
 
-#: include/options-config.php:3295 include/options-config.php:4410
+#: include/options-config.php:3295 include/options-config.php:4399
 msgid "here"
 msgstr ""
 
@@ -3370,7 +3372,7 @@ msgstr ""
 msgid "Show / Hide leads form from listing detail page"
 msgstr ""
 
-#: include/options-config.php:3532 include/options-config.php:6438
+#: include/options-config.php:3532 include/options-config.php:6380
 msgid "Form"
 msgstr ""
 
@@ -3541,11 +3543,10 @@ msgstr ""
 #: include/options-config.php:4159 include/options-config.php:4170
 #: include/options-config.php:4181 include/options-config.php:4192
 #: include/options-config.php:4203 include/options-config.php:4214
-#: include/options-config.php:4225 include/options-config.php:4240
-#: include/options-config.php:4303 include/options-config.php:4650
-#: include/options-config.php:4718 include/options-config.php:4768
-#: include/options-config.php:4806 include/options-config.php:4864
-#: include/options-config.php:4893
+#: include/options-config.php:4229 include/options-config.php:4292
+#: include/options-config.php:4639 include/options-config.php:4707
+#: include/options-config.php:4757 include/options-config.php:4795
+#: include/options-config.php:4853 include/options-config.php:4882
 msgid "Enabled"
 msgstr ""
 
@@ -3559,11 +3560,10 @@ msgstr ""
 #: include/options-config.php:4160 include/options-config.php:4171
 #: include/options-config.php:4182 include/options-config.php:4193
 #: include/options-config.php:4204 include/options-config.php:4215
-#: include/options-config.php:4226 include/options-config.php:4241
-#: include/options-config.php:4304 include/options-config.php:4651
-#: include/options-config.php:4719 include/options-config.php:4769
-#: include/options-config.php:4807 include/options-config.php:4865
-#: include/options-config.php:4894
+#: include/options-config.php:4230 include/options-config.php:4293
+#: include/options-config.php:4640 include/options-config.php:4708
+#: include/options-config.php:4758 include/options-config.php:4796
+#: include/options-config.php:4854 include/options-config.php:4883
 msgid "Disabled"
 msgstr ""
 
@@ -3723,83 +3723,77 @@ msgstr ""
 msgid "Search Filter"
 msgstr ""
 
-#: include/options-config.php:4144 include/options-config.php:4604
-#: mobile/templates/search/filter-app-view.php:184 template-dashboard.php:554
-#: templates/search/sidebar-filter.php:369
-msgid "Coupons"
-msgstr ""
-
-#: include/options-config.php:4155
+#: include/options-config.php:4144
 msgid "Open Time"
 msgstr ""
 
-#: include/options-config.php:4177 mobile/templates/search/filter-app-view.php:235
+#: include/options-config.php:4166 mobile/templates/search/filter-app-view.php:235
 #: templates/listing-with-header-filters.php:620 templates/search/filter.php:407
 #: templates/search/filter2.php:417 templates/search/sidebar-filter.php:295
 msgid "Most Reviewed"
 msgstr ""
 
-#: include/options-config.php:4188 mobile/templates/search/filter-app-view.php:168
+#: include/options-config.php:4177 mobile/templates/search/filter-app-view.php:168
 #: templates/listing-with-header-filters.php:626 templates/search/filter.php:410
 #: templates/search/filter2.php:420 templates/search/sidebar-filter.php:310
 msgid "Most Viewed"
 msgstr ""
 
-#: include/options-config.php:4199 mobile/templates/search/filter-app-view.php:152
+#: include/options-config.php:4188 mobile/templates/search/filter-app-view.php:152
 #: templates/listing-with-header-filters.php:517 templates/search/filter.php:327
 #: templates/search/filter2.php:337 templates/search/sidebar-filter.php:341
 msgid "Best Match"
 msgstr ""
 
-#: include/options-config.php:4210 templates/search/sidebar-filter.php:146
+#: include/options-config.php:4199 templates/search/sidebar-filter.php:146
 msgid "Categories"
 msgstr ""
 
-#: include/options-config.php:4221 mobile/templates/listing-with-map-app.php:325
+#: include/options-config.php:4210 mobile/templates/listing-with-map-app.php:325
 #: templates/listing-with-header-filters.php:431 templates/search/filter.php:262
 #: templates/search/filter2.php:276 templates/search/sidebar-filter.php:394
 msgid "Near Me"
 msgstr ""
 
-#: include/options-config.php:4222
+#: include/options-config.php:4211
 msgid "This option will be enabled only if your site has SSL enabled"
 msgstr ""
 
-#: include/options-config.php:4237
+#: include/options-config.php:4226
 msgid ""
 "IF you enable this option, when near me filter is active, location will be "
 "excluded in all filter results"
 msgstr ""
 
-#: include/options-config.php:4247
+#: include/options-config.php:4236
 msgid "Location Distance unit"
 msgstr ""
 
-#: include/options-config.php:4249
+#: include/options-config.php:4238
 msgid "Nearme Destination Calculate in"
 msgstr ""
 
-#: include/options-config.php:4272
+#: include/options-config.php:4261
 msgid "Default Near Me Value"
 msgstr ""
 
-#: include/options-config.php:4274
+#: include/options-config.php:4263
 msgid "Set default value of near me"
 msgstr ""
 
-#: include/options-config.php:4281
+#: include/options-config.php:4270
 msgid "Min Near Me Range"
 msgstr ""
 
-#: include/options-config.php:4290
+#: include/options-config.php:4279
 msgid "Max Near Me Range"
 msgstr ""
 
-#: include/options-config.php:4299
+#: include/options-config.php:4288
 msgid "Additional Filter options"
 msgstr ""
 
-#: include/options-config.php:4309 mobile/templates/listing-with-map-app-new.php:261
+#: include/options-config.php:4298 mobile/templates/listing-with-map-app-new.php:261
 #: mobile/templates/listing-with-map-app.php:260
 #: mobile/templates/search/home-search-app-view.php:180
 #: templates/headers/header-style5.php:129 templates/headers/header-style6.php:124
@@ -3808,346 +3802,351 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: include/options-config.php:4317
+#: include/options-config.php:4306
 msgid "What Field"
 msgstr ""
 
-#: include/options-config.php:4318
+#: include/options-config.php:4307
 msgid "Enable to show What Field within the search bar."
 msgstr ""
 
-#: include/options-config.php:4319 include/options-config.php:4354
+#: include/options-config.php:4308 include/options-config.php:4343
 msgid "on=hide  off=show"
 msgstr ""
 
-#: include/options-config.php:4326
+#: include/options-config.php:4315
 msgid "Search mode for home banner search WHAT field"
 msgstr ""
 
-#: include/options-config.php:4340
+#: include/options-config.php:4329
 msgid "Default Search By"
 msgstr ""
 
-#: include/options-config.php:4342
+#: include/options-config.php:4331
 msgid ""
 "If someone does not select any suggestion from \"What\" field in the search form, "
 "then this option will show its impact on search results."
 msgstr ""
 
-#: include/options-config.php:4353
+#: include/options-config.php:4342
 msgid "Where Field (Location)"
 msgstr ""
 
-#: include/options-config.php:4355
+#: include/options-config.php:4344
 msgid "Enable to show Location Field within the search bar."
 msgstr ""
 
-#: include/options-config.php:4365
+#: include/options-config.php:4354
 msgid "Pre populated location in homepage search"
 msgstr ""
 
-#: include/options-config.php:4367
+#: include/options-config.php:4356
 msgid "This require auto location enable"
 msgstr ""
 
-#: include/options-config.php:4379
+#: include/options-config.php:4368
 msgid "Enable typing in homepage location search field"
 msgstr ""
 
-#: include/options-config.php:4387
+#: include/options-config.php:4376
 msgid "Enable typing in inner pages location search field"
 msgstr ""
 
-#: include/options-config.php:4394
+#: include/options-config.php:4383
 msgid "Select Location Search Type"
 msgstr ""
 
-#: include/options-config.php:4395
+#: include/options-config.php:4384
 msgid "Select option about locations Search"
 msgstr ""
 
-#: include/options-config.php:4397
+#: include/options-config.php:4386
 msgid "locations option for listing search in search form"
 msgstr ""
 
-#: include/options-config.php:4407
+#: include/options-config.php:4396
 msgid "Add Location Shortcode"
 msgstr ""
 
-#: include/options-config.php:4410
+#: include/options-config.php:4399
 msgid "For locations codes, visit here."
 msgstr ""
 
-#: include/options-config.php:4416
+#: include/options-config.php:4405
 msgid "Exclude Listing Title From Suggestions in Search"
 msgstr ""
 
-#: include/options-config.php:4417
+#: include/options-config.php:4406
 msgid "on=exclude,  off=include"
 msgstr ""
 
-#: include/options-config.php:4426
+#: include/options-config.php:4415
 msgid "Payment"
 msgstr ""
 
-#: include/options-config.php:4441
+#: include/options-config.php:4430
 msgid "Submitted Listing Require Approval"
 msgstr ""
 
-#: include/options-config.php:4453
+#: include/options-config.php:4442
 msgid "Paid Submission"
 msgstr ""
 
-#: include/options-config.php:4465
+#: include/options-config.php:4454
 msgid "Recurring Payment"
 msgstr ""
 
-#: include/options-config.php:4479
+#: include/options-config.php:4468
 msgid "Auto Recurring Payment "
 msgstr ""
 
-#: include/options-config.php:4492
+#: include/options-config.php:4481
 msgid "Notify User before Expiry"
 msgstr ""
 
-#: include/options-config.php:4501
+#: include/options-config.php:4490
 msgid "Number of Expire Days"
 msgstr ""
 
-#: include/options-config.php:4509
+#: include/options-config.php:4498
 msgid "Currency For Paid Submission"
 msgstr ""
 
-#: include/options-config.php:4556
+#: include/options-config.php:4545
 msgid "Currency Position for pricing plan"
 msgstr ""
 
-#: include/options-config.php:4557
+#: include/options-config.php:4546
 msgid "Symbol of currency to left or right side of price in pricing plans"
 msgstr ""
 
-#: include/options-config.php:4558
+#: include/options-config.php:4547
 msgid "Select the position for the currency symbol."
 msgstr ""
 
-#: include/options-config.php:4569
+#: include/options-config.php:4558
 msgid "Terms & Conditions Page"
 msgstr ""
 
-#: include/options-config.php:4570
+#: include/options-config.php:4559
 msgid "Select terms & conditions page"
 msgstr ""
 
-#: include/options-config.php:4578
+#: include/options-config.php:4567
 msgid "Checkout Page"
 msgstr ""
 
-#: include/options-config.php:4579
+#: include/options-config.php:4568
 msgid "Select checkout page"
 msgstr ""
 
-#: include/options-config.php:4587
+#: include/options-config.php:4576
 msgid "Failed Payment page - after failed payment"
 msgstr ""
 
-#: include/options-config.php:4588 include/options-config.php:4597
-#: include/options-config.php:6271 include/options-config.php:6280
-#: include/options-config.php:6289 include/options-config.php:6298
+#: include/options-config.php:4577 include/options-config.php:4586
+#: include/options-config.php:6213 include/options-config.php:6222
+#: include/options-config.php:6231 include/options-config.php:6240
 msgid "This must be an URL."
 msgstr ""
 
-#: include/options-config.php:4589
+#: include/options-config.php:4578
 msgid "Select page used for Failed Payment. Page requires Failed Payment Shortcode."
 msgstr ""
 
-#: include/options-config.php:4596
+#: include/options-config.php:4585
 msgid "Thank you page - after successful payment"
 msgstr ""
 
-#: include/options-config.php:4598
+#: include/options-config.php:4587
 msgid ""
 "Select page used for Successful Payment. Page requires Successful Payment "
 "Shortcode."
 msgstr ""
 
-#: include/options-config.php:4605
+#: include/options-config.php:4593 mobile/templates/search/filter-app-view.php:184
+#: template-dashboard.php:554 templates/search/sidebar-filter.php:369
+msgid "Coupons"
+msgstr ""
+
+#: include/options-config.php:4594
 msgid "Enable disable on checkout page"
 msgstr ""
 
-#: include/options-config.php:4606
+#: include/options-config.php:4595
 msgid "Enable to allow coupons during checkout."
 msgstr ""
 
-#: include/options-config.php:4616
+#: include/options-config.php:4605
 msgid "Set Invoice Start"
 msgstr ""
 
-#: include/options-config.php:4617
+#: include/options-config.php:4606
 msgid "Enable disable for Custom Inovice Start No."
 msgstr ""
 
-#: include/options-config.php:4618
+#: include/options-config.php:4607
 msgid "Enable to set custom invoice numbering."
 msgstr ""
 
-#: include/options-config.php:4629
+#: include/options-config.php:4618
 msgid "Invoice Start Number"
 msgstr ""
 
-#: include/options-config.php:4630
+#: include/options-config.php:4619
 msgid "Set you own start no. of Invoice for payment"
 msgstr ""
 
-#: include/options-config.php:4637 include/options-config.php:4645
+#: include/options-config.php:4626 include/options-config.php:4634
 msgid "Paypal"
 msgstr ""
 
-#: include/options-config.php:4657 include/options-config.php:4725
+#: include/options-config.php:4646 include/options-config.php:4714
 msgid "Api Type"
 msgstr ""
 
-#: include/options-config.php:4658 include/options-config.php:4726
-#: include/options-config.php:4814
+#: include/options-config.php:4647 include/options-config.php:4715
+#: include/options-config.php:4803
 msgid "Sandbox = test API. LIVE = real payments API"
 msgstr ""
 
-#: include/options-config.php:4659
+#: include/options-config.php:4648
 msgid "Select between Live and Sandbox. Sandbox is used for testing"
 msgstr ""
 
-#: include/options-config.php:4670
+#: include/options-config.php:4659
 msgid "Paypal API Username"
 msgstr ""
 
-#: include/options-config.php:4679
+#: include/options-config.php:4668
 msgid "Paypal API Password"
 msgstr ""
 
-#: include/options-config.php:4688
+#: include/options-config.php:4677
 msgid "Paypal API Signature"
 msgstr ""
 
-#: include/options-config.php:4697
+#: include/options-config.php:4686
 msgid "Paypal Receiving Email"
 msgstr ""
 
-#: include/options-config.php:4705 include/options-config.php:4713
+#: include/options-config.php:4694 include/options-config.php:4702
 msgid "Stripe"
 msgstr ""
 
-#: include/options-config.php:4727 include/options-config.php:4815
+#: include/options-config.php:4716 include/options-config.php:4804
 msgid "Select between Live and Sandbox. Sandbox is used for testing "
 msgstr ""
 
-#: include/options-config.php:4738
+#: include/options-config.php:4727
 msgid "Secret Key"
 msgstr ""
 
-#: include/options-config.php:4747 include/options-config.php:4835
+#: include/options-config.php:4736 include/options-config.php:4824
 msgid "Publishable Key"
 msgstr ""
 
-#: include/options-config.php:4755
+#: include/options-config.php:4744
 msgid "Direct Payment / Wire Payment"
 msgstr ""
 
-#: include/options-config.php:4763
+#: include/options-config.php:4752
 msgid "Bank Transfer"
 msgstr ""
 
-#: include/options-config.php:4775
+#: include/options-config.php:4764
 msgid "Instructions for Bank Transfer"
 msgstr ""
 
-#: include/options-config.php:4794 include/options-config.php:4802
+#: include/options-config.php:4783 include/options-config.php:4791
 #: templates/popups/checkout2-popup.php:52
 msgid "2Checkout"
 msgstr ""
 
-#: include/options-config.php:4813
+#: include/options-config.php:4802
 msgid "API Type"
 msgstr ""
 
-#: include/options-config.php:4826
+#: include/options-config.php:4815
 msgid "Account ID"
 msgstr ""
 
-#: include/options-config.php:4844
+#: include/options-config.php:4833
 msgid "Private Key"
 msgstr ""
 
-#: include/options-config.php:4860
+#: include/options-config.php:4849
 msgid "Taxes"
 msgstr ""
 
-#: include/options-config.php:4872
+#: include/options-config.php:4861
 msgid "Tax Title"
 msgstr ""
 
-#: include/options-config.php:4875
+#: include/options-config.php:4864
 msgid "Value-Added Tax"
 msgstr ""
 
-#: include/options-config.php:4881
+#: include/options-config.php:4870
 msgid "Tax Rate"
 msgstr ""
 
-#: include/options-config.php:4882
+#: include/options-config.php:4871
 #, php-format
 msgid "Add rate without % sign"
 msgstr ""
 
-#: include/options-config.php:4883
+#: include/options-config.php:4872
 msgid "Enter rate without percentage sign"
 msgstr ""
 
-#: include/options-config.php:4889
+#: include/options-config.php:4878
 msgid "Include Taxes with Pricing Plans"
 msgstr ""
 
-#: include/options-config.php:4905
+#: include/options-config.php:4894
 msgid "Email Management"
 msgstr ""
 
-#: include/options-config.php:4916
+#: include/options-config.php:4905
 msgid "<span class=\"font24\">General Email Settings</span>"
 msgstr ""
 
-#: include/options-config.php:4917
+#: include/options-config.php:4906
 msgid "Set email address and email sender name here"
 msgstr ""
 
-#: include/options-config.php:4923
+#: include/options-config.php:4912
 msgid "Email Address"
 msgstr ""
 
-#: include/options-config.php:4924
+#: include/options-config.php:4913
 msgid "Email address for general email sending"
 msgstr ""
 
-#: include/options-config.php:4931
+#: include/options-config.php:4920
 msgid "Email From"
 msgstr ""
 
-#: include/options-config.php:4932
+#: include/options-config.php:4921
 msgid "Email sender name for general email sending"
 msgstr ""
 
-#: include/options-config.php:4942
+#: include/options-config.php:4931
 msgid "<span class=\"font24\">Global Shortcodes</span>"
 msgstr ""
 
-#: include/options-config.php:4943
+#: include/options-config.php:4932
 msgid ""
 "Shotcodes for every Email Template . %website_name as Website Name, %website_url "
 "as Website URL, %user_name as User Name"
 msgstr ""
 
-#: include/options-config.php:4951
+#: include/options-config.php:4940
 msgid "<span class=\"font24\">New Registered User</span>"
 msgstr ""
 
-#: include/options-config.php:4952
+#: include/options-config.php:4941
 #, php-format
 msgid ""
 "Use these shortcodes only for user registertaion email. %user_login_register as "
@@ -4155,491 +4154,491 @@ msgid ""
 "email"
 msgstr ""
 
-#: include/options-config.php:4957
+#: include/options-config.php:4946
 msgid "Subject for New User Notification"
 msgstr ""
 
-#: include/options-config.php:4958
+#: include/options-config.php:4947
 msgid "Email subject for new user notification"
 msgstr ""
 
-#: include/options-config.php:4960
+#: include/options-config.php:4949
 msgid "Your username and password on %website_url"
 msgstr ""
 
-#: include/options-config.php:4965
+#: include/options-config.php:4954
 msgid "Content for New User Notification"
 msgstr ""
 
-#: include/options-config.php:4966
+#: include/options-config.php:4955
 msgid "Email content for new user notification"
 msgstr ""
 
-#: include/options-config.php:4988
+#: include/options-config.php:4973
 msgid "Subject for New User Admin Notification"
 msgstr ""
 
-#: include/options-config.php:4989
+#: include/options-config.php:4974
 msgid "Email subject for new user admin notification"
 msgstr ""
 
-#: include/options-config.php:4991
+#: include/options-config.php:4976
 msgid "New User Registration"
 msgstr ""
 
-#: include/options-config.php:4996
+#: include/options-config.php:4981
 msgid "Content for New User Admin Notification"
 msgstr ""
 
-#: include/options-config.php:4997
+#: include/options-config.php:4982
 msgid "Email content for new user admin notification"
 msgstr ""
 
-#: include/options-config.php:5014
+#: include/options-config.php:4999
 msgid "<span class=\"font24\">Submit Listing</span>"
 msgstr ""
 
-#: include/options-config.php:5015
+#: include/options-config.php:5000
 msgid ""
 "Use these shortcodes only for listng submission email. %listing_title as Listing "
 "title, %listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5020
+#: include/options-config.php:5005
 msgid "New Listing Submission Subject"
 msgstr ""
 
-#: include/options-config.php:5021 include/options-config.php:5061
+#: include/options-config.php:5006 include/options-config.php:5046
 msgid "Email subject"
 msgstr ""
 
-#: include/options-config.php:5027
+#: include/options-config.php:5012
 msgid "Your listing has been submitted"
 msgstr ""
 
-#: include/options-config.php:5032
+#: include/options-config.php:5017
 msgid "New Listing Submission Content"
 msgstr ""
 
-#: include/options-config.php:5033 include/options-config.php:5069
-#: include/options-config.php:5152 include/options-config.php:5354
+#: include/options-config.php:5018 include/options-config.php:5054
+#: include/options-config.php:5137 include/options-config.php:5339
 msgid "Email content"
 msgstr ""
 
-#: include/options-config.php:5060
+#: include/options-config.php:5045
 msgid "New Listing Submission Subject(for admin)"
 msgstr ""
 
-#: include/options-config.php:5063
+#: include/options-config.php:5048
 msgid "New listing has been submitted"
 msgstr ""
 
-#: include/options-config.php:5068
+#: include/options-config.php:5053
 msgid "New Listing Submission Content(for admin)"
 msgstr ""
 
-#: include/options-config.php:5100
+#: include/options-config.php:5085
 msgid "<span class=\"font24\">Purchase Activated</span>"
 msgstr ""
 
-#: include/options-config.php:5101
+#: include/options-config.php:5086
 msgid ""
 "Use these shortcodes only for purchased activated email. %listing_title as Listing "
 "title, %listing_url as Listing URL, %plan_title as Plan Title, %invoice_no as "
 "Invoice Number"
 msgstr ""
 
-#: include/options-config.php:5106
+#: include/options-config.php:5091
 msgid "Purchase Activated Subject"
 msgstr ""
 
-#: include/options-config.php:5107 include/options-config.php:5144
+#: include/options-config.php:5092 include/options-config.php:5129
 msgid "Email subject for purchase activated"
 msgstr ""
 
-#: include/options-config.php:5109
+#: include/options-config.php:5094
 msgid "Your purchase has  activated"
 msgstr ""
 
-#: include/options-config.php:5114
+#: include/options-config.php:5099
 msgid "Purchase Activated Content"
 msgstr ""
 
-#: include/options-config.php:5115
+#: include/options-config.php:5100
 msgid "Email content for Purchase Activated"
 msgstr ""
 
-#: include/options-config.php:5143
+#: include/options-config.php:5128
 msgid "Purchase Activated Subject(for admin)"
 msgstr ""
 
-#: include/options-config.php:5146
+#: include/options-config.php:5131
 msgid "A purchased has been made"
 msgstr ""
 
-#: include/options-config.php:5151
+#: include/options-config.php:5136
 msgid "Purchase Activated Content(for admin)"
 msgstr ""
 
-#: include/options-config.php:5183
+#: include/options-config.php:5168
 msgid "<span class=\"font24\">Review Reply</span>"
 msgstr ""
 
-#: include/options-config.php:5184
+#: include/options-config.php:5169
 msgid ""
 "Use these shortcodes only for review reply email. %listing_title as Listing title, "
 "%listing_url as Listing URL, %sender_name as Sender Name, %reply as Review Reply "
 msgstr ""
 
-#: include/options-config.php:5189
+#: include/options-config.php:5174
 msgid "Review Reply Subject"
 msgstr ""
 
-#: include/options-config.php:5190
+#: include/options-config.php:5175
 msgid "Email subject for Review Reply"
 msgstr ""
 
-#: include/options-config.php:5192
+#: include/options-config.php:5177
 msgid "Review Reply"
 msgstr ""
 
-#: include/options-config.php:5197
+#: include/options-config.php:5182
 msgid "Review Reply Content"
 msgstr ""
 
-#: include/options-config.php:5198
+#: include/options-config.php:5183
 msgid "Email content for Review Reply"
 msgstr ""
 
-#: include/options-config.php:5215
+#: include/options-config.php:5200
 msgid "<span class=\"font24\">Approved Listing</span>"
 msgstr ""
 
-#: include/options-config.php:5216
+#: include/options-config.php:5201
 msgid ""
 "Use these shortcodes only for Listing Approve email. %listing_title as Listing "
 "title, %listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5221
+#: include/options-config.php:5206
 msgid "Listing Approved Subject"
 msgstr ""
 
-#: include/options-config.php:5222
+#: include/options-config.php:5207
 msgid "Email subject for approved listing"
 msgstr ""
 
-#: include/options-config.php:5224
+#: include/options-config.php:5209
 msgid "Your listing approved"
 msgstr ""
 
-#: include/options-config.php:5229
+#: include/options-config.php:5214
 msgid "Listing Approved Content"
 msgstr ""
 
-#: include/options-config.php:5230
+#: include/options-config.php:5215
 msgid "Email content for listing approved"
 msgstr ""
 
-#: include/options-config.php:5260
+#: include/options-config.php:5245
 msgid "<span class=\"font24\">Expired Listing</span>"
 msgstr ""
 
-#: include/options-config.php:5261
+#: include/options-config.php:5246
 msgid ""
 "Use these shortcodes only for Listing Expired email. %listing_title as Listing "
 "title, %listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5266
+#: include/options-config.php:5251
 msgid "Listing Expired Subject"
 msgstr ""
 
-#: include/options-config.php:5267
+#: include/options-config.php:5252
 msgid "Email subject for expired listing"
 msgstr ""
 
-#: include/options-config.php:5269
+#: include/options-config.php:5254
 msgid "Your listing expired"
 msgstr ""
 
-#: include/options-config.php:5274
+#: include/options-config.php:5259
 msgid "Listing Expired Content"
 msgstr ""
 
-#: include/options-config.php:5275
+#: include/options-config.php:5260
 msgid "Email content for listing expired"
 msgstr ""
 
-#: include/options-config.php:5290
+#: include/options-config.php:5275
 msgid "<span class=\"font24\">Expired Ad Campaign</span>"
 msgstr ""
 
-#: include/options-config.php:5291
+#: include/options-config.php:5276
 msgid ""
 "Use these shortcodes only for Ad Campaign Expired email. %listing_title as Listing "
 "title, %listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5296
+#: include/options-config.php:5281
 msgid "Ad Expired Subject"
 msgstr ""
 
-#: include/options-config.php:5297
+#: include/options-config.php:5282
 msgid "Email subject for expired ads campaign"
 msgstr ""
 
-#: include/options-config.php:5299
+#: include/options-config.php:5284
 msgid "Your ad campaign has expired"
 msgstr ""
 
-#: include/options-config.php:5304
+#: include/options-config.php:5289
 msgid "Ad Expired Content"
 msgstr ""
 
-#: include/options-config.php:5305
+#: include/options-config.php:5290
 msgid "Email content for ads campaigns expired"
 msgstr ""
 
-#: include/options-config.php:5335
+#: include/options-config.php:5320
 msgid "Wire Invoice"
 msgstr ""
 
-#: include/options-config.php:5336
+#: include/options-config.php:5321
 msgid ""
 "Use these shortcodes only for Wire Invoice email. %listing_title as Listing title, "
 "%listing_url as Listing URL, %invoice_no as invoice number"
 msgstr ""
 
-#: include/options-config.php:5341
+#: include/options-config.php:5326
 msgid "Invoice Email Subject"
 msgstr ""
 
-#: include/options-config.php:5346
+#: include/options-config.php:5331
 msgid "Email subject wire inovice"
 msgstr ""
 
-#: include/options-config.php:5348 include/options-config.php:5384
+#: include/options-config.php:5333 include/options-config.php:5369
 msgid "Your new listing on %website_url"
 msgstr ""
 
-#: include/options-config.php:5353
+#: include/options-config.php:5338
 msgid "Invoice Email Content"
 msgstr ""
 
-#: include/options-config.php:5381
+#: include/options-config.php:5366
 msgid "Invoice Email Subject(admin)"
 msgstr ""
 
-#: include/options-config.php:5382
+#: include/options-config.php:5367
 msgid "Email subject(admin)"
 msgstr ""
 
-#: include/options-config.php:5389
+#: include/options-config.php:5374
 msgid "Invoice Email Content (admin)"
 msgstr ""
 
-#: include/options-config.php:5390
+#: include/options-config.php:5375
 msgid "Email content(admin)"
 msgstr ""
 
-#: include/options-config.php:5420
+#: include/options-config.php:5405
 msgid "Claim Listing ( submission )"
 msgstr ""
 
-#: include/options-config.php:5421
+#: include/options-config.php:5406
 msgid ""
 "Use these shortcodes only for Claim email. %listing_title as Listing title, "
 "%listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5426
+#: include/options-config.php:5411
 msgid "Listing Claim Submission Subject"
 msgstr ""
 
-#: include/options-config.php:5427
+#: include/options-config.php:5412
 msgid "Email subject for claimer"
 msgstr ""
 
-#: include/options-config.php:5429
+#: include/options-config.php:5414
 msgid "Your claim has submitted"
 msgstr ""
 
-#: include/options-config.php:5434
+#: include/options-config.php:5419
 msgid "Listing Claim Submission Content"
 msgstr ""
 
-#: include/options-config.php:5435
+#: include/options-config.php:5420
 msgid "Email content for claimer"
 msgstr ""
 
-#: include/options-config.php:5437
+#: include/options-config.php:5422
 msgid ""
 "Your Claim on listing <a href=\"%listing_url\">%listing_title</a> has been "
 "submitted"
 msgstr ""
 
-#: include/options-config.php:5447
+#: include/options-config.php:5432
 msgid "Listing Claim Submission Subject (Author)"
 msgstr ""
 
-#: include/options-config.php:5448
+#: include/options-config.php:5433
 msgid "Email subject for Author"
 msgstr ""
 
-#: include/options-config.php:5450
+#: include/options-config.php:5435
 msgid "A claim has been submitted on your listing"
 msgstr ""
 
-#: include/options-config.php:5455
+#: include/options-config.php:5440
 msgid "Listing Claim Submission Content (Author)"
 msgstr ""
 
-#: include/options-config.php:5456
+#: include/options-config.php:5441
 msgid "Email content for Author"
 msgstr ""
 
-#: include/options-config.php:5458
+#: include/options-config.php:5443
 msgid ""
 "Hi, A claim has been submitted on your listing <a href=\"%listing_url\">"
 "%listing_title</a>. Please contact admin for further details"
 msgstr ""
 
-#: include/options-config.php:5468
+#: include/options-config.php:5453
 msgid "Listing Claim Submission Subject (Admin)"
 msgstr ""
 
-#: include/options-config.php:5469
+#: include/options-config.php:5454
 msgid "Email subject for Admin"
 msgstr ""
 
-#: include/options-config.php:5471
+#: include/options-config.php:5456
 msgid "New Claim has been submitted"
 msgstr ""
 
-#: include/options-config.php:5476
+#: include/options-config.php:5461
 msgid "Listing Claim Submission Content (Admin)"
 msgstr ""
 
-#: include/options-config.php:5477 include/options-config.php:5558
-#: include/options-config.php:5588
+#: include/options-config.php:5462 include/options-config.php:5543
+#: include/options-config.php:5573
 msgid "Email content for Admin"
 msgstr ""
 
-#: include/options-config.php:5479
+#: include/options-config.php:5464
 msgid ""
 "You have received a new claim on a listing <a href=\"%listing_url\">"
 "%listing_title</a> Please login on dashboard for more details"
 msgstr ""
 
-#: include/options-config.php:5492
+#: include/options-config.php:5477
 msgid "Claim Listing ( Approval )"
 msgstr ""
 
-#: include/options-config.php:5493
+#: include/options-config.php:5478
 msgid ""
 "Use these shortcodes only for Claim Approval email. %listing_title as Listing "
 "title, %listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5498 include/options-config.php:5519
+#: include/options-config.php:5483 include/options-config.php:5504
 msgid "Listing Claim Approval Subject"
 msgstr ""
 
-#: include/options-config.php:5499
+#: include/options-config.php:5484
 msgid "Email subject(claimer)"
 msgstr ""
 
-#: include/options-config.php:5501
+#: include/options-config.php:5486
 msgid "Your claim has approved"
 msgstr ""
 
-#: include/options-config.php:5506 include/options-config.php:5527
+#: include/options-config.php:5491 include/options-config.php:5512
 msgid "Listing Claim Approval Content"
 msgstr ""
 
-#: include/options-config.php:5507
+#: include/options-config.php:5492
 msgid "Email content(claimer)"
 msgstr ""
 
-#: include/options-config.php:5509
+#: include/options-config.php:5494
 msgid ""
 "Your Claim on listing <a href=\"%listing_url\">%listing_title</a> has been approved"
 msgstr ""
 
-#: include/options-config.php:5520
+#: include/options-config.php:5505
 msgid "Email subject(old owner)"
 msgstr ""
 
-#: include/options-config.php:5522
+#: include/options-config.php:5507
 msgid "Listing Claim notice"
 msgstr ""
 
-#: include/options-config.php:5528
+#: include/options-config.php:5513
 msgid "Email content(old owner)"
 msgstr ""
 
-#: include/options-config.php:5530
+#: include/options-config.php:5515
 msgid ""
 "Claim against your listing has been has been approved.Details are : <a href="
 "\"%listing_url\">%listing_title</a>"
 msgstr ""
 
-#: include/options-config.php:5543
+#: include/options-config.php:5528
 msgid "Campaign Activation( ADMIN)"
 msgstr ""
 
-#: include/options-config.php:5544
+#: include/options-config.php:5529
 msgid ""
 "Use these shortcodes only for Campaign Activation email. %listing_title as Listing "
 "title, %listing_url as Listing URL, %campaign_packages as Packages Purchased, "
 "%author_name as Author name"
 msgstr ""
 
-#: include/options-config.php:5549 include/options-config.php:5579
+#: include/options-config.php:5534 include/options-config.php:5564
 msgid "Ad Campaign Active Subject"
 msgstr ""
 
-#: include/options-config.php:5550 include/options-config.php:5580
+#: include/options-config.php:5535 include/options-config.php:5565
 msgid "Email subject campaign activation"
 msgstr ""
 
-#: include/options-config.php:5552 include/options-config.php:5582
+#: include/options-config.php:5537 include/options-config.php:5567
 msgid "Ad Campaign Activated"
 msgstr ""
 
-#: include/options-config.php:5557 include/options-config.php:5587
+#: include/options-config.php:5542 include/options-config.php:5572
 msgid "Ad Campaign Active Content"
 msgstr ""
 
-#: include/options-config.php:5560
+#: include/options-config.php:5545
 msgid ""
 "%author_name just activated an ad campaign for a listing <a href=\"%listing_url\">"
 "%listing_title</a> with packages %campaign_packages"
 msgstr ""
 
-#: include/options-config.php:5573
+#: include/options-config.php:5558
 msgid "Campaign Activation(To Author)"
 msgstr ""
 
-#: include/options-config.php:5574
+#: include/options-config.php:5559
 msgid ""
 "Use these shortcodes only for Author Campaign Activation email. %listing_title as "
 "Listing title, %listing_url as Listing URL, %campaign_packages as Packages "
 "Purchased"
 msgstr ""
 
-#: include/options-config.php:5590
+#: include/options-config.php:5575
 msgid ""
 "You have activated a campaign on a listing <a href=\"%listing_url\">"
 "%listing_title</a>  With packages %campaign_packages "
 msgstr ""
 
-#: include/options-config.php:5603
+#: include/options-config.php:5588
 msgid "Recurring Payment Reminder Email"
 msgstr ""
 
-#: include/options-config.php:5604
+#: include/options-config.php:5589
 msgid ""
 "Use these shortcodes only for Recurring Payment Notification email. you can use "
 "%listing_title as listing title, %plan_title for Plan name,  %plan_price as Plan "
@@ -4647,802 +4646,778 @@ msgid ""
 "before payment deduction. Use shortcodes only in editor"
 msgstr ""
 
-#: include/options-config.php:5609
+#: include/options-config.php:5594
 msgid "Recurring Payment Reminder Subject"
 msgstr ""
 
-#: include/options-config.php:5610
+#: include/options-config.php:5595
 msgid "Email subject for recurring reminder"
 msgstr ""
 
-#: include/options-config.php:5612
+#: include/options-config.php:5597
 msgid "Recurring Payment Reminder"
 msgstr ""
 
-#: include/options-config.php:5617
+#: include/options-config.php:5602
 msgid "Recurring Payment Reminder Content"
 msgstr ""
 
-#: include/options-config.php:5618
+#: include/options-config.php:5603
 msgid "Email content for recurring reminder"
 msgstr ""
 
-#: include/options-config.php:5620
+#: include/options-config.php:5605
 msgid ""
 "A Payment will be deduct from your card after %notifybefore day/days. Details are: "
 "Listing: %listing_title, Plan: %plan_title, Price: %plan_price, Duration: "
 "%plan_duration day/days   "
 msgstr ""
 
-#: include/options-config.php:5631
+#: include/options-config.php:5616
 msgid "Recurring Payment Reminder Subject (Admin)"
 msgstr ""
 
-#: include/options-config.php:5632 include/options-config.php:5684
+#: include/options-config.php:5617 include/options-config.php:5669
 msgid "Email subject by admin"
 msgstr ""
 
-#: include/options-config.php:5634
+#: include/options-config.php:5619
 msgid "Recurring Payment is due"
 msgstr ""
 
-#: include/options-config.php:5639
+#: include/options-config.php:5624
 msgid "Recurring Payment Reminder Content (Admin)"
 msgstr ""
 
-#: include/options-config.php:5640 include/options-config.php:5692
+#: include/options-config.php:5625 include/options-config.php:5677
 msgid "Email content by admin"
 msgstr ""
 
-#: include/options-config.php:5642
+#: include/options-config.php:5627
 msgid ""
 "A Payment is due by a user after %notifybefore day/days. Details are: Listing: "
 "%listing_title, Plan: %plan_title, Price: %plan_price, Duration: %plan_duration "
 "day/days   "
 msgstr ""
 
-#: include/options-config.php:5655
+#: include/options-config.php:5640
 msgid "Subscription Cancel Email"
 msgstr ""
 
-#: include/options-config.php:5656
+#: include/options-config.php:5641
 msgid ""
 "Use these shortcodes only for cancel recurring submission  email. %listing_title "
 "as Listing title, %listing_url as Listing URL"
 msgstr ""
 
-#: include/options-config.php:5661
+#: include/options-config.php:5646
 msgid "Subscription Cancelled Subject"
 msgstr ""
 
-#: include/options-config.php:5662
+#: include/options-config.php:5647
 msgid "Email subject for subscription cancel"
 msgstr ""
 
-#: include/options-config.php:5664
+#: include/options-config.php:5649
 msgid "Cancel Subscription Notification"
 msgstr ""
 
-#: include/options-config.php:5669
+#: include/options-config.php:5654
 msgid "Subscription Cancelled Content"
 msgstr ""
 
-#: include/options-config.php:5670
+#: include/options-config.php:5655
 msgid "Email content for cancel subscription"
 msgstr ""
 
-#: include/options-config.php:5672
+#: include/options-config.php:5657
 msgid "Your subscription has been canceled successfully"
 msgstr ""
 
-#: include/options-config.php:5683
+#: include/options-config.php:5668
 msgid "Subscription Cancelled Subject (Admin)"
 msgstr ""
 
-#: include/options-config.php:5686
+#: include/options-config.php:5671
 msgid "Subscription cancel notification"
 msgstr ""
 
-#: include/options-config.php:5691
+#: include/options-config.php:5676
 msgid "Subscription Cancelled Content (Admin)"
 msgstr ""
 
-#: include/options-config.php:5694
+#: include/options-config.php:5679
 msgid "A subscription has been cancelled."
 msgstr ""
 
-#: include/options-config.php:5707
+#: include/options-config.php:5692
 msgid "Lead Form Email Template"
 msgstr ""
 
-#: include/options-config.php:5708
+#: include/options-config.php:5693
 msgid ""
 "Use these shortcodes only for Lead form email. %listing_title as listing title, "
 "%sender_name for sender name, %sender_email for sender email, %sender_phone for "
 "sender phone and %sender_message for sender message"
 msgstr ""
 
-#: include/options-config.php:5713
+#: include/options-config.php:5698
 msgid "Lead Form Subject"
 msgstr ""
 
-#: include/options-config.php:5714
+#: include/options-config.php:5699
 msgid "Email subject for lead form"
 msgstr ""
 
-#: include/options-config.php:5716
+#: include/options-config.php:5701
 msgid "Somone contacted for a listing"
 msgstr ""
 
-#: include/options-config.php:5721
+#: include/options-config.php:5706
 msgid "Lead Form Content"
 msgstr ""
 
-#: include/options-config.php:5722
+#: include/options-config.php:5707
 msgid "Email content for lead form"
 msgstr ""
 
-#: include/options-config.php:5724
+#: include/options-config.php:5709
 msgid ""
 "Someone has contacted you for the listing \"%listing_title\". Details are "
 "following<br>Name: %sender_name<br>Email: %sender_email<br>Phone:"
 "%sender_phone<br>Message: %sender_message"
 msgstr ""
 
-#: include/options-config.php:5737
+#: include/options-config.php:5722
 msgid "Reviews Email Templates"
 msgstr ""
 
-#: include/options-config.php:5738
+#: include/options-config.php:5723
 msgid ""
 "Use these shortcodes only for Review email. %listing_title as listing title, "
 "%listing_url as listing link, %reviewtext as Review Message, and %reviewer_email "
 "for Reviewer Email in content"
 msgstr ""
 
-#: include/options-config.php:5743
+#: include/options-config.php:5728
 msgid "Review Submission Subject (Author)"
 msgstr ""
 
-#: include/options-config.php:5744
+#: include/options-config.php:5729
 msgid "Enter Subject of Email for Listing Author"
 msgstr ""
 
-#: include/options-config.php:5746 include/options-config.php:5767
+#: include/options-config.php:5731 include/options-config.php:5752
 msgid "Review Submit Email"
 msgstr ""
 
-#: include/options-config.php:5751
+#: include/options-config.php:5736
 msgid "Review Submission Content (Author)"
 msgstr ""
 
-#: include/options-config.php:5752
+#: include/options-config.php:5737
 msgid "Email content for Listing Author"
 msgstr ""
 
-#: include/options-config.php:5754
+#: include/options-config.php:5739
 msgid ""
 "Someone has reviewed on the listing \"%listing_title\" which is yours. Details are "
 "following<br>Reviewer: %reviewer_email<br>Review: %reviewtext<br>Listing:"
 "%listing_title<br>URL: %listing_url"
 msgstr ""
 
-#: include/options-config.php:5764
+#: include/options-config.php:5749
 msgid "Review Submission Subject(Reviewer)"
 msgstr ""
 
-#: include/options-config.php:5765
+#: include/options-config.php:5750
 msgid "Enter Subject of Email for Reviewer"
 msgstr ""
 
-#: include/options-config.php:5772
+#: include/options-config.php:5757
 msgid "Review Submission content(Reviewer)"
 msgstr ""
 
-#: include/options-config.php:5773
+#: include/options-config.php:5758
 msgid "Email content for Reviewer"
 msgstr ""
 
-#: include/options-config.php:5775
+#: include/options-config.php:5760
 msgid ""
 "You have reviewed on the listing \"%listing_title\". Details are "
 "following<br>Listing:%listing_title<br>URL: %listing_url"
 msgstr ""
 
-#: include/options-config.php:5788
+#: include/options-config.php:5773
 msgid "Privacy"
 msgstr ""
 
-#: include/options-config.php:5797
+#: include/options-config.php:5782
 msgid "Privacy Page"
 msgstr ""
 
-#: include/options-config.php:5805
+#: include/options-config.php:5790
 msgid "Signup"
 msgstr ""
 
-#: include/options-config.php:5807
+#: include/options-config.php:5792
 msgid "Show Agree to the Privacy Policy during using Signup"
 msgstr ""
 
-#: include/options-config.php:5817 include/options-config.php:6169
+#: include/options-config.php:5802 include/options-config.php:6111
 msgid "Listing Submission"
 msgstr ""
 
-#: include/options-config.php:5819
+#: include/options-config.php:5804
 msgid "Show Agree to the Privacy Policy during Listing Submission"
 msgstr ""
 
-#: include/options-config.php:5829
+#: include/options-config.php:5814
 msgid "Review Submission"
 msgstr ""
 
-#: include/options-config.php:5831
+#: include/options-config.php:5816
 msgid "Show Agree to the Privacy Policy during Review Submission"
 msgstr ""
 
-#: include/options-config.php:5841 include/options-config.php:6185
+#: include/options-config.php:5826 include/options-config.php:6127
 #: mobile/template-dashboard-app-view.php:562 template-dashboard.php:546
 #: template-dashboard.php:548
 msgid "Lead Form"
 msgstr ""
 
-#: include/options-config.php:5843
+#: include/options-config.php:5828
 msgid "Show Agree to the Privacy Policy on Lead Forms"
 msgstr ""
 
-#: include/options-config.php:5853
+#: include/options-config.php:5838
 msgid "Listing Claim Form"
 msgstr ""
 
-#: include/options-config.php:5855
+#: include/options-config.php:5840
 msgid "Show Agree to the Privacy Policy during Listing Claim Submission"
 msgstr ""
 
-#: include/options-config.php:5865
+#: include/options-config.php:5850
 msgid "Contact Form"
 msgstr ""
 
-#: include/options-config.php:5867
+#: include/options-config.php:5852
 msgid "Show Agree to the Privacy Policy on Contact Page Form"
 msgstr ""
 
-#: include/options-config.php:5880
+#: include/options-config.php:5865
 msgid "Invoice"
 msgstr ""
 
-#: include/options-config.php:5889
+#: include/options-config.php:5874
 msgid "Company Logo"
 msgstr ""
 
-#: include/options-config.php:5892
+#: include/options-config.php:5877
 msgid "Upload company logo for invoices."
 msgstr ""
 
-#: include/options-config.php:5897
+#: include/options-config.php:5882
 msgid "Company Name"
 msgstr ""
 
-#: include/options-config.php:5899
+#: include/options-config.php:5884
 msgid "Enter company full name"
 msgstr ""
 
-#: include/options-config.php:5904
+#: include/options-config.php:5889
 msgid "Company Address"
 msgstr ""
 
-#: include/options-config.php:5906
+#: include/options-config.php:5891
 msgid "Enter company full address"
 msgstr ""
 
-#: include/options-config.php:5916
+#: include/options-config.php:5901
 msgid "Company Phone"
 msgstr ""
 
-#: include/options-config.php:5923
+#: include/options-config.php:5908
 msgid "Additional Info"
 msgstr ""
 
-#: include/options-config.php:5930
+#: include/options-config.php:5915
 msgid "Thank You text"
 msgstr ""
 
-#: include/options-config.php:5940
+#: include/options-config.php:5925
 msgid "Ads"
 msgstr ""
 
-#: include/options-config.php:5948
+#: include/options-config.php:5933
 msgid "Campaign type"
 msgstr ""
 
-#: include/options-config.php:5949
+#: include/options-config.php:5934
 msgid "Select type of campaign"
 msgstr ""
 
-#: include/options-config.php:5950
+#: include/options-config.php:5935
 msgid "Select Type of Ad Campaign Used"
 msgstr ""
 
-#: include/options-config.php:5952
+#: include/options-config.php:5937
 msgid "Pay Per Day (PPD)"
 msgstr ""
 
-#: include/options-config.php:5953
+#: include/options-config.php:5938
 msgid "Pay Per Click (PPC)"
 msgstr ""
 
-#: include/options-config.php:5961
+#: include/options-config.php:5946
 msgid "Promotion Title"
 msgstr ""
 
-#: include/options-config.php:5969
-msgid "Create ad popup image"
-msgstr ""
-
-#: include/options-config.php:5972
-msgid "Select Image used for Create Ad Popup"
-msgstr ""
-
-#: include/options-config.php:5979
-msgid "Create ad popup Title"
-msgstr ""
-
-#: include/options-config.php:5988
-msgid "Create ad popup text list 1"
-msgstr ""
-
-#: include/options-config.php:5996
-msgid "Create ad popup text list 2"
-msgstr ""
-
-#: include/options-config.php:6004
-msgid "Create ad popup text list 3"
-msgstr ""
-
-#: include/options-config.php:6011
+#: include/options-config.php:5953
 msgid "Spotlight Ads"
 msgstr ""
 
-#: include/options-config.php:6012
+#: include/options-config.php:5954
 msgid "Enable Spotlight Ads. Spotlight Ads show in the Listing Posts Element"
 msgstr ""
 
-#: include/options-config.php:6019
+#: include/options-config.php:5961
 msgid "Spotlight Price (PPD)"
 msgstr ""
 
-#: include/options-config.php:6027 include/options-config.php:6041
+#: include/options-config.php:5969 include/options-config.php:5983
 msgid ""
 "Enter the amount you want to charge business owners to promote their listings for "
 "this format and placement( Do not include any currency sign )."
 msgstr ""
 
-#: include/options-config.php:6033
+#: include/options-config.php:5975
 msgid "Spotlight Price (PPC)"
 msgstr ""
 
-#: include/options-config.php:6046
+#: include/options-config.php:5988
 msgid "Side of Listing Ads"
 msgstr ""
 
-#: include/options-config.php:6047
+#: include/options-config.php:5989
 msgid ""
 "Enable Side of Listing Ads. Side of Listing ads requires Widget within Listing"
 msgstr ""
 
-#: include/options-config.php:6054
+#: include/options-config.php:5996
 msgid "Side of Listing (PPD)"
 msgstr ""
 
-#: include/options-config.php:6062 include/options-config.php:6076
-#: include/options-config.php:6097 include/options-config.php:6111
+#: include/options-config.php:6004 include/options-config.php:6018
+#: include/options-config.php:6039 include/options-config.php:6053
 msgid ""
 "Enter the amount you want to charge business owners to promote their listings for "
 "this format and placement( Do not include currency sign )."
 msgstr ""
 
-#: include/options-config.php:6068
+#: include/options-config.php:6010
 msgid "Side of Listing (PPC)"
 msgstr ""
 
-#: include/options-config.php:6081
+#: include/options-config.php:6023
 msgid "Top of Search Ads"
 msgstr ""
 
-#: include/options-config.php:6089
+#: include/options-config.php:6031
 msgid "Top of Search Ads Price (PPD)"
 msgstr ""
 
-#: include/options-config.php:6103
+#: include/options-config.php:6045
 msgid "Top of Search Price (PPC)"
 msgstr ""
 
-#: include/options-config.php:6120
+#: include/options-config.php:6062
 msgid "Form reCaptcha"
 msgstr ""
 
-#: include/options-config.php:6128
+#: include/options-config.php:6070
 msgid "Google reCAPTCHA v3"
 msgstr ""
 
-#: include/options-config.php:6129
+#: include/options-config.php:6071
 msgid "Enable to display Google reCAPTCHA and Load Script"
 msgstr ""
 
-#: include/options-config.php:6135
+#: include/options-config.php:6077
 msgid "Google reCAPTCHA v3 Site Key"
 msgstr ""
 
-#: include/options-config.php:6136 include/options-config.php:6145
+#: include/options-config.php:6078 include/options-config.php:6087
 msgid ""
 "Create Key <a href=\"https://www.google.com/recaptcha/admin\" target=\"_blank"
 "\">here</a>"
 msgstr ""
 
-#: include/options-config.php:6138
+#: include/options-config.php:6080
 msgid "Site Key For Google Recaptcha"
 msgstr ""
 
-#: include/options-config.php:6144
+#: include/options-config.php:6086
 msgid "Google reCAPTCHA v3 Secret Key"
 msgstr ""
 
-#: include/options-config.php:6147
+#: include/options-config.php:6089
 msgid "Secret Key For Google Recaptcha"
 msgstr ""
 
-#: include/options-config.php:6153
+#: include/options-config.php:6095
 msgid "User registeration"
 msgstr ""
 
-#: include/options-config.php:6154
+#: include/options-config.php:6096
 msgid "Show Google reCAPTCHA during User Registration"
 msgstr ""
 
-#: include/options-config.php:6161
+#: include/options-config.php:6103
 msgid "User login"
 msgstr ""
 
-#: include/options-config.php:6162
+#: include/options-config.php:6104
 msgid "Show Google reCAPTCHA during User Login"
 msgstr ""
 
-#: include/options-config.php:6170
+#: include/options-config.php:6112
 msgid "Show Google reCAPTCHA during Listing Submission"
 msgstr ""
 
-#: include/options-config.php:6177
+#: include/options-config.php:6119
 msgid "Listing Edit"
 msgstr ""
 
-#: include/options-config.php:6178
+#: include/options-config.php:6120
 msgid "Show Google reCAPTCHA during Edit Listing"
 msgstr ""
 
-#: include/options-config.php:6186
+#: include/options-config.php:6128
 msgid "Show Google reCAPTCHA on Listing Lead Form"
 msgstr ""
 
-#: include/options-config.php:6193
+#: include/options-config.php:6135
 msgid "Review Form"
 msgstr ""
 
-#: include/options-config.php:6194
+#: include/options-config.php:6136
 msgid "Show Google reCAPTCHA on Listing Review Submission"
 msgstr ""
 
-#: include/options-config.php:6201
+#: include/options-config.php:6143
 msgid "Contact Page Form"
 msgstr ""
 
-#: include/options-config.php:6202
+#: include/options-config.php:6144
 msgid "Show Google reCAPTCHA on Contact Page Form"
 msgstr ""
 
-#: include/options-config.php:6209
+#: include/options-config.php:6151
 msgid "User Profile"
 msgstr ""
 
-#: include/options-config.php:6210
+#: include/options-config.php:6152
 msgid "Show Google reCAPTCHA v3 on user profile"
 msgstr ""
 
-#: include/options-config.php:6220
+#: include/options-config.php:6162
 msgid "URL Config"
 msgstr ""
 
-#: include/options-config.php:6228
+#: include/options-config.php:6170
 msgid "URL Rewrite"
 msgstr ""
 
-#: include/options-config.php:6230
+#: include/options-config.php:6172
 msgid ""
 "Please update permalinks ( under Settings menu ) after any changes you make in "
 "following slugs ( to avoid a 404 error page )"
 msgstr ""
 
-#: include/options-config.php:6235
+#: include/options-config.php:6177
 msgid "listing slug"
 msgstr ""
 
-#: include/options-config.php:6236
+#: include/options-config.php:6178
 msgid "Default is \"listing\""
 msgstr ""
 
-#: include/options-config.php:6242
+#: include/options-config.php:6184
 msgid "listing category slug"
 msgstr ""
 
-#: include/options-config.php:6243
+#: include/options-config.php:6185
 msgid "Default is \"listing-category\""
 msgstr ""
 
-#: include/options-config.php:6249
+#: include/options-config.php:6191
 msgid "Location slug"
 msgstr ""
 
-#: include/options-config.php:6250
+#: include/options-config.php:6192
 msgid "Default is \"location\""
 msgstr ""
 
-#: include/options-config.php:6256
+#: include/options-config.php:6198
 msgid "Features slug"
 msgstr ""
 
-#: include/options-config.php:6257
+#: include/options-config.php:6199
 msgid "Default is \"features\""
 msgstr ""
 
-#: include/options-config.php:6263
+#: include/options-config.php:6205
 msgid "Events slug"
 msgstr ""
 
-#: include/options-config.php:6264
+#: include/options-config.php:6206
 msgid "Default is \"events\""
 msgstr ""
 
-#: include/options-config.php:6270
+#: include/options-config.php:6212
 msgid "Frontend Dashboard Page"
 msgstr ""
 
-#: include/options-config.php:6279
+#: include/options-config.php:6221
 msgid "Submit Listing Page"
 msgstr ""
 
-#: include/options-config.php:6281
+#: include/options-config.php:6223
 msgid ""
 "Select the page used for Listing Submission (Page must include the Submit Listing "
 "Shortcode)"
 msgstr ""
 
-#: include/options-config.php:6288
+#: include/options-config.php:6230
 msgid "Edit Listing Page"
 msgstr ""
 
-#: include/options-config.php:6290
+#: include/options-config.php:6232
 msgid ""
 "Select the page used for Editing Listings (Page must include the Edit Listing "
 "Shortcode)"
 msgstr ""
 
-#: include/options-config.php:6297
+#: include/options-config.php:6239
 msgid "Price plans Page"
 msgstr ""
 
-#: include/options-config.php:6299
+#: include/options-config.php:6241
 msgid ""
 "Select the page used for Price Plans (Page must include the Price Plan Shortcode)"
 msgstr ""
 
-#: include/options-config.php:6308
+#: include/options-config.php:6250
 msgid "Contact Page"
 msgstr ""
 
-#: include/options-config.php:6309
+#: include/options-config.php:6251
 msgid "Translate all text strings into your own language"
 msgstr ""
 
-#: include/options-config.php:6316
+#: include/options-config.php:6258
 msgid "Contact Information"
 msgstr ""
 
-#: include/options-config.php:6317
+#: include/options-config.php:6259
 msgid "Enable Contact Information to show on the Contact Page"
 msgstr ""
 
-#: include/options-config.php:6326
+#: include/options-config.php:6268
 msgid "Contact information"
 msgstr ""
 
-#: include/options-config.php:6327
+#: include/options-config.php:6269
 msgid "ON=SHOW, OFF= HIDE"
 msgstr ""
 
-#: include/options-config.php:6334
+#: include/options-config.php:6276
 msgid "Title for contact information"
 msgstr ""
 
-#: include/options-config.php:6366
+#: include/options-config.php:6308
 msgid "Social Links"
 msgstr ""
 
-#: include/options-config.php:6367
+#: include/options-config.php:6309
 msgid "Enable Social Media Links to show"
 msgstr ""
 
-#: include/options-config.php:6375 include/options-config.php:6383
-#: include/options-config.php:6391 include/options-config.php:6399
-#: include/options-config.php:6407 include/options-config.php:6415
-#: include/options-config.php:6423 include/options-config.php:6431
+#: include/options-config.php:6317 include/options-config.php:6325
+#: include/options-config.php:6333 include/options-config.php:6341
+#: include/options-config.php:6349 include/options-config.php:6357
+#: include/options-config.php:6365 include/options-config.php:6373
 msgid "Enter full URL including HTTPS://"
 msgstr ""
 
-#: include/options-config.php:6439
+#: include/options-config.php:6381
 msgid "Add or edit Form settings"
 msgstr ""
 
-#: include/options-config.php:6448
+#: include/options-config.php:6390
 msgid "Cotact Form Provider"
 msgstr ""
 
-#: include/options-config.php:6449
+#: include/options-config.php:6391
 msgid ""
 "Enter the Shortcode for your preferred form. (be sure to install wpforms lite.)"
 msgstr ""
 
-#: include/options-config.php:6459
+#: include/options-config.php:6401
 msgid "Header for From"
 msgstr ""
 
-#: include/options-config.php:6466
+#: include/options-config.php:6408
 msgid "Successful Submission Message"
 msgstr ""
 
-#: include/options-config.php:6474
+#: include/options-config.php:6416
 msgid "Failed Submission Message"
 msgstr ""
 
-#: include/options-config.php:6482
+#: include/options-config.php:6424
 msgid "Shortcode for WPForms Lite"
 msgstr ""
 
-#: include/options-config.php:6483
+#: include/options-config.php:6425
 msgid "Enter the Shortcode for your preferred form."
 msgstr ""
 
-#: include/options-config.php:6490
+#: include/options-config.php:6432
 msgid "Contact Map"
 msgstr ""
 
-#: include/options-config.php:6491
+#: include/options-config.php:6433
 msgid "Set Latitude and longitude for contact page map"
 msgstr ""
 
-#: include/options-config.php:6500
+#: include/options-config.php:6442
 msgid "Contact Page Map"
 msgstr ""
 
-#: include/options-config.php:6501
+#: include/options-config.php:6443
 msgid "Enable to show Map"
 msgstr ""
 
-#: include/options-config.php:6507 templates/dashboard/events.php:1061
+#: include/options-config.php:6449 templates/dashboard/events.php:1062
 msgid "Latitude"
 msgstr ""
 
-#: include/options-config.php:6515 templates/dashboard/events.php:1069
+#: include/options-config.php:6457 templates/dashboard/events.php:1070
 msgid "Longitude"
 msgstr ""
 
-#: include/options-config.php:6524
+#: include/options-config.php:6466
 msgid "Footer"
 msgstr ""
 
-#: include/options-config.php:6525
+#: include/options-config.php:6467
 msgid "Add or edit Footer information"
 msgstr ""
 
-#: include/options-config.php:6534
+#: include/options-config.php:6476
 msgid "Footer Layout"
 msgstr ""
 
-#: include/options-config.php:6535
+#: include/options-config.php:6477
 msgid "Select Footer layout"
 msgstr ""
 
-#: include/options-config.php:6536
+#: include/options-config.php:6478
 msgid "Select from 1 of 11 Layout Styles."
 msgstr ""
 
-#: include/options-config.php:6590 include/options-config.php:6591
+#: include/options-config.php:6532 include/options-config.php:6533
 msgid "Select  footer widget layout"
 msgstr ""
 
-#: include/options-config.php:6592
+#: include/options-config.php:6534
 msgid "Control the number of columns in the footer"
 msgstr ""
 
-#: include/options-config.php:6607
+#: include/options-config.php:6549
 msgid "Footer top area Background color"
 msgstr ""
 
-#: include/options-config.php:6608 include/options-config.php:6635
+#: include/options-config.php:6550 include/options-config.php:6577
 msgid "(default: #363f48)."
 msgstr ""
 
-#: include/options-config.php:6609
+#: include/options-config.php:6551
 msgid "Controls the Background Color of the Footer "
 msgstr ""
 
-#: include/options-config.php:6617
+#: include/options-config.php:6559
 msgid "Footer bottom area Background color"
 msgstr ""
 
-#: include/options-config.php:6618 include/options-config.php:6652
+#: include/options-config.php:6560 include/options-config.php:6594
 msgid "(default: #45505b)."
 msgstr ""
 
-#: include/options-config.php:6626
+#: include/options-config.php:6568
 msgid "Footer Top Text Color ON/OFF"
 msgstr ""
 
-#: include/options-config.php:6634
+#: include/options-config.php:6576
 msgid "Footer top area text color"
 msgstr ""
 
-#: include/options-config.php:6643
+#: include/options-config.php:6585
 msgid "Footer Bottom Text Color ON/OFF"
 msgstr ""
 
-#: include/options-config.php:6651
+#: include/options-config.php:6593
 msgid "Footer bottom area text color"
 msgstr ""
 
-#: include/options-config.php:6724
+#: include/options-config.php:6666
 msgid "Copyright text"
 msgstr ""
 
-#: include/options-config.php:6725
+#: include/options-config.php:6667
 msgid "Enter the text that displays in the Copyright Bar"
 msgstr ""
 
-#: include/options-config.php:6732
+#: include/options-config.php:6674
 msgid "Footer Logo"
 msgstr ""
 
-#: include/options-config.php:6735
+#: include/options-config.php:6677
 msgid "Select Image to show with the Page Footer"
 msgstr ""
 
-#: include/options-config.php:6758
+#: include/options-config.php:6700
 msgid "Theme Author Information"
 msgstr ""
 
-#: include/options-config.php:6766
+#: include/options-config.php:6708
 msgid "Footer Text Section Heading"
 msgstr ""
 
-#: include/options-config.php:6774
+#: include/options-config.php:6716
 msgid "Footer Text Section Content"
 msgstr ""
 
-#: include/options-config.php:6782
+#: include/options-config.php:6724
 msgid "Footer Button Text"
 msgstr ""
 
-#: include/options-config.php:6790
+#: include/options-config.php:6732
 msgid "Footer Button URL"
 msgstr ""
 
-#: include/options-config.php:6801
+#: include/options-config.php:6743
 msgid "Documentation"
 msgstr ""
 
-#: include/options-config.php:6903
+#: include/options-config.php:6845
 msgid "Section via hook"
 msgstr ""
 
-#: include/options-config.php:6904
+#: include/options-config.php:6846
 msgid ""
 "<p class=\"description\">This is a section created by adding a filter to the "
 "sections array. Can be used by child themes to add/remove sections from the "
@@ -5687,7 +5662,7 @@ msgstr ""
 
 #: include/plugins/class-tgm-plugin-activation.php:2406
 #: templates/dashboard/active-campaigns.php:330 templates/dashboard/discounts.php:111
-#: templates/dashboard/discounts.php:350 templates/dashboard/discounts.php:511
+#: templates/dashboard/discounts.php:360 templates/dashboard/discounts.php:521
 #: templates/dashboard/invoices.php:62 templates/dashboard/packages.php:157
 #: templates/dashboard/packages.php:372
 msgid "Active"
@@ -5962,9 +5937,9 @@ msgstr ""
 #: include/reviews/reviews-form.php:124 include/reviews/reviews-form.php:271
 #: include/reviews/reviews-form.php:574 include/reviews/reviews-form.php:832
 #: templates/dashboard/create-menu.php:60 templates/dashboard/create-menu.php:132
-#: templates/dashboard/discounts.php:401 templates/dashboard/discounts.php:562
-#: templates/dashboard/events.php:246 templates/dashboard/events.php:667
-#: templates/dashboard/events.php:782 templates/dashboard/events.php:887
+#: templates/dashboard/discounts.php:411 templates/dashboard/discounts.php:572
+#: templates/dashboard/events.php:247 templates/dashboard/events.php:668
+#: templates/dashboard/events.php:783 templates/dashboard/events.php:888
 #: templates/dashboard/listings.php:159 templates/dashboard/listings.php:327
 #: templates/dashboard/listings.php:508 templates/dashboard/listings.php:671
 #: templates/dashboard/review-edit.php:210 templates/dashboard/saved.php:39
@@ -6054,8 +6029,8 @@ msgstr ""
 
 #: include/search-filter.php:86 mobile/templates/listing_app_view.php:715
 #: mobile/templates/listing_app_view.php:717
-#: mobile/templates/listing_app_view2.php:889
-#: mobile/templates/listing_app_view2.php:891
+#: mobile/templates/listing_app_view2.php:911
+#: mobile/templates/listing_app_view2.php:913
 #: templates/headers/filters-in-header.php:214 templates/listing_app_view.php:540
 #: templates/listing_detail5.php:437 templates/search/template_search2.php:79
 #: templates/single-list/listing-details-style1/content/features.php:18
@@ -6657,8 +6632,8 @@ msgid "Something Wrong"
 msgstr ""
 
 #: include/single-ajax.php:1194 include/single-ajax.php:1228 listing-loop.php:67
-#: mobile/listing-loop-app-view-adds.php:89 mobile/listing-loop-app-view-new.php:89
-#: mobile/listing-loop-app-view.php:177 mobile/listing-loop-app-view2.php:49
+#: mobile/listing-loop-app-view-adds.php:63 mobile/listing-loop-app-view-new.php:62
+#: mobile/listing-loop-app-view.php:124 mobile/listing-loop-app-view2.php:49
 #: templates/details-page-ads.php:87 templates/details-page-nearby.php:27
 #: templates/loop-grid-view.php:26 templates/loop-list-view.php:12
 #: templates/loop/loop2.php:48 templates/loop/loop3.php:59
@@ -6667,9 +6642,9 @@ msgid "Ad"
 msgstr ""
 
 #: include/single-ajax.php:1199 listing-loop.php:79 listing-loop.php:81
-#: mobile/listing-loop-app-view-adds.php:99 mobile/listing-loop-app-view-adds.php:101
-#: mobile/listing-loop-app-view-new.php:99 mobile/listing-loop-app-view-new.php:101
-#: mobile/listing-loop-app-view.php:197 mobile/listing-loop-app-view.php:201
+#: mobile/listing-loop-app-view-adds.php:73 mobile/listing-loop-app-view-adds.php:75
+#: mobile/listing-loop-app-view-new.php:72 mobile/listing-loop-app-view-new.php:74
+#: mobile/listing-loop-app-view.php:144 mobile/listing-loop-app-view.php:148
 #: mobile/listing-loop-app-view2.php:59 mobile/listing-loop-app-view2.php:61
 #: mobile/templates/listing_app_view.php:51 templates/details-page-nearby.php:37
 #: templates/details-page-nearby.php:39 templates/listing-style3.php:196
@@ -6766,7 +6741,7 @@ msgid "Unlimited Listing"
 msgstr ""
 
 #: include/single-ajax.php:2542 templates/dashboard/campaigns.php:299
-#: templates/dashboard/subscription.php:103 templates/dashboard/subscription.php:145
+#: templates/dashboard/subscription.php:115 templates/dashboard/subscription.php:167
 msgid "Day"
 msgstr ""
 
@@ -6791,7 +6766,7 @@ msgid "Sorry! A plan should have a duration for recurring payment"
 msgstr ""
 
 #: include/stripe/stripe-ajax.php:194 include/stripe/stripe-ajax.php:459
-#: include/stripe/stripe-ajax.php:633
+#: include/stripe/stripe-ajax.php:634
 msgid "Sorry! Error in transaction"
 msgstr ""
 
@@ -6799,7 +6774,7 @@ msgstr ""
 msgid "Sorry! There is some problem in your stripe payment"
 msgstr ""
 
-#: include/stripe/stripe-ajax.php:554
+#: include/stripe/stripe-ajax.php:555
 msgid "Sorry!, error in transaction"
 msgstr ""
 
@@ -6843,7 +6818,7 @@ msgstr ""
 
 #: listing-loop.php:250 listing-loop.php:456 listing-loop.php:741
 #: listing-loop.php:842 listing-loop.php:999 listing-loop.php:1284
-#: listing-loop.php:1384 mobile/listing-loop-app-view.php:440
+#: listing-loop.php:1384 mobile/listing-loop-app-view.php:387
 #: mobile/listing-loop-app-view2.php:142 templates/details-page-nearby.php:139
 #: templates/loop/loop2.php:160
 msgid "Rating"
@@ -6851,7 +6826,7 @@ msgstr ""
 
 #: listing-loop.php:252 listing-loop.php:458 listing-loop.php:743
 #: listing-loop.php:844 listing-loop.php:1001 listing-loop.php:1286
-#: listing-loop.php:1386 mobile/listing-loop-app-view.php:444
+#: listing-loop.php:1386 mobile/listing-loop-app-view.php:391
 #: mobile/listing-loop-app-view2.php:144 mobile/templates/listing_app_view.php:198
 #: mobile/templates/listing_app_view.php:210
 #: mobile/templates/listing_app_view2.php:218 templates/details-page-nearby.php:141
@@ -6910,25 +6885,25 @@ msgstr ""
 msgid "Try changing your search Keyword"
 msgstr ""
 
-#: mobile/listing-loop-app-view-adds.php:223
-#: mobile/listing-loop-app-view-adds.php:228
+#: mobile/listing-loop-app-view-adds.php:197
+#: mobile/listing-loop-app-view-adds.php:202
 msgid "https://via.placeholder.com/370x240"
 msgstr ""
 
-#: mobile/listing-loop-app-view-adds.php:282 mobile/listing-loop-app-view-new.php:223
+#: mobile/listing-loop-app-view-adds.php:256 mobile/listing-loop-app-view-new.php:196
 #: templates/lp-list-view-compact.php:122
 msgid "Call Now"
 msgstr ""
 
-#: mobile/listing-loop-app-view-new.php:158 mobile/listing-loop-app-view-new.php:163
+#: mobile/listing-loop-app-view-new.php:131 mobile/listing-loop-app-view-new.php:136
 msgid "https://via.placeholder.com/69x69"
 msgstr ""
 
-#: mobile/listing-loop-app-view.php:304 mobile/listing-loop-app-view.php:328
+#: mobile/listing-loop-app-view.php:251 mobile/listing-loop-app-view.php:275
 msgid "https://via.placeholder.com/272x300"
 msgstr ""
 
-#: mobile/listing-loop-app-view.php:362 mobile/listing-loop-app-view.php:382
+#: mobile/listing-loop-app-view.php:309 mobile/listing-loop-app-view.php:329
 #: mobile/listing-loop-app-view2.php:109 mobile/listing-loop-app-view2.php:119
 msgid "https://via.placeholder.com/63x63"
 msgstr ""
@@ -6979,7 +6954,7 @@ msgstr ""
 #: mobile/template-dashboard-app-view.php:572
 #: mobile/template-dashboard-app-view.php:574
 #: mobile/templates/listing_app_view.php:644
-#: mobile/templates/listing_app_view2.php:811 template-dashboard.php:560
+#: mobile/templates/listing_app_view2.php:833 template-dashboard.php:560
 #: templates/headers/header-with-bigmenu.php:118 templates/listing_detail3.php:549
 #: templates/loop/loop3.php:361
 #: templates/single-list/listing-details-style1/content/list-menu.php:52
@@ -7448,6 +7423,7 @@ msgstr ""
 
 #: mobile/templates/listing_app_view.php:109
 #: mobile/templates/listing_app_view2.php:112
+#: mobile/templates/listing_app_view2.php:635
 #: templates/single-list/listing-details-style1/sidebar/map-contacts.php:125
 #: templates/single-list/listing-details-style2/sidebar/map-contacts.php:122
 #: templates/single-list/listing-details-style3/sidebar/map-social.php:53
@@ -7466,7 +7442,7 @@ msgid "Book Now"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:352
-#: mobile/templates/listing_app_view2.php:761 templates/listing_app_view.php:271
+#: mobile/templates/listing_app_view2.php:783 templates/listing_app_view.php:271
 #: templates/single-list/listing-details-style1/sidebar/map-contacts.php:58
 #: templates/single-list/listing-details-style2/sidebar/map-contacts.php:57
 msgid "View Large Map"
@@ -7481,13 +7457,14 @@ msgid "Get Directions"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:435
+#: mobile/templates/listing_app_view2.php:649
 #: templates/single-list/listing-details-style1/sidebar/map-contacts.php:139
 #: templates/single-list/listing-details-style2/sidebar/map-contacts.php:136
 msgid "Call on Whatsapp"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:557
-#: mobile/templates/listing_app_view2.php:613
+#: mobile/templates/listing_app_view2.php:614
 #: templates/dashboard/services-screen.php:79 templates/listing_app_view.php:438
 #: templates/single-list/listing-details-style1/sidebar/quicks.php:76
 #: templates/single-list/listing-details-style2/sidebar/quicks.php:75
@@ -7497,24 +7474,24 @@ msgid "See Full Menu"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:587
-#: mobile/templates/listing_app_view2.php:642
+#: mobile/templates/listing_app_view2.php:664
 msgid "Contact Listing Owner"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:590
-#: mobile/templates/listing_app_view2.php:645
+#: mobile/templates/listing_app_view2.php:667
 msgid "Contact Now!"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:603
-#: mobile/templates/listing_app_view2.php:658
+#: mobile/templates/listing_app_view2.php:680
 #: templates/single-list/listing-details-style1/sidebar/quicks.php:128
 #: templates/single-list/listing-details-style2/sidebar/quicks.php:127
 msgid "See something wrong? "
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:605
-#: mobile/templates/listing_app_view2.php:660
+#: mobile/templates/listing_app_view2.php:682
 #: templates/single-list/listing-details-style1/sidebar/quicks.php:130
 #: templates/single-list/listing-details-style2/sidebar/quicks.php:129
 #: templates/single-list/listing-details-style3/sidebar/quicks.php:140
@@ -7523,30 +7500,30 @@ msgid "Report Now!"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:635
-#: mobile/templates/listing_app_view2.php:802
+#: mobile/templates/listing_app_view2.php:824
 msgid "Description  "
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:641
-#: mobile/templates/listing_app_view2.php:808 templates/listing_app_view.php:474
+#: mobile/templates/listing_app_view2.php:830 templates/listing_app_view.php:474
 #: templates/listing_detail3.php:314 templates/listing_detail5.php:304
 msgid "Video"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:642
-#: mobile/templates/listing_app_view2.php:809 templates/listing_app_view.php:473
+#: mobile/templates/listing_app_view2.php:831 templates/listing_app_view.php:473
 msgid "FAQ's"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:667
-#: mobile/templates/listing_app_view2.php:841 templates/listing_app_view.php:495
+#: mobile/templates/listing_app_view2.php:863 templates/listing_app_view.php:495
 #: templates/single-list/listing-details-style1/content/faqs.php:25
 #: templates/single-list/listing-details-style2/content/faqs.php:28
 msgid "Quick questions"
 msgstr ""
 
 #: mobile/templates/listing_app_view.php:674
-#: mobile/templates/listing_app_view2.php:848 templates/listing_app_view.php:502
+#: mobile/templates/listing_app_view2.php:870 templates/listing_app_view.php:502
 #: templates/single-list/listing-detail-style5/faq.php:41
 #: templates/single-list/listing-details-style1/content/faqs.php:32
 #: templates/single-list/listing-details-style2/content/faqs.php:35
@@ -7555,8 +7532,70 @@ msgstr ""
 msgid "Q"
 msgstr ""
 
-#: mobile/templates/listing_app_view.php:973
-#: mobile/templates/listing_app_view2.php:414 templates/loop-list-view.php:536
+#: mobile/templates/listing_app_view.php:959
+#: mobile/templates/listing_app_view2.php:400 templates/discount-template.php:28
+#: templates/loop-list-view.php:522
+#: templates/single-list/listing-detail-style5/deals.php:62
+#: templates/single-list/listing-detail-style5/offers.php:38
+#: templates/single-list/listing-details-style1/content/list-deals.php:82
+#: templates/single-list/listing-details-style1/content/list-discount.php:98
+#: templates/single-list/listing-details-style1/content/list-offers.php:61
+#: templates/single-list/listing-details-style2/content/list-deals.php:82
+#: templates/single-list/listing-details-style2/content/list-discount.php:98
+#: templates/single-list/listing-details-style2/content/list-offers.php:61
+#: templates/single-list/listing-details-style3/content/list-deals.php:90
+#: templates/single-list/listing-details-style3/content/list-discount.php:65
+#: templates/single-list/listing-details-style3/content/list-offers.php:43
+#: templates/single-list/listing-details-style4/content/list-deals.php:82
+#: templates/single-list/listing-details-style4/content/list-discount.php:97
+#: templates/single-list/listing-details-style4/content/list-offers.php:46
+msgid "hours"
+msgstr ""
+
+#: mobile/templates/listing_app_view.php:960
+#: mobile/templates/listing_app_view2.php:401 templates/loop-list-view.php:523
+#: templates/single-list/listing-detail-style5/deals.php:63
+#: templates/single-list/listing-details-style1/content/list-deals.php:83
+#: templates/single-list/listing-details-style1/content/list-discount.php:99
+#: templates/single-list/listing-details-style1/content/list-offers.php:62
+#: templates/single-list/listing-details-style2/content/list-deals.php:83
+#: templates/single-list/listing-details-style2/content/list-discount.php:99
+#: templates/single-list/listing-details-style2/content/list-offers.php:62
+#: templates/single-list/listing-details-style3/content/list-deals.php:91
+#: templates/single-list/listing-details-style3/content/list-discount.php:66
+#: templates/single-list/listing-details-style3/content/list-offers.php:44
+#: templates/single-list/listing-details-style4/content/list-deals.php:83
+#: templates/single-list/listing-details-style4/content/list-discount.php:98
+#: templates/single-list/listing-details-style4/content/list-offers.php:47
+msgid "min"
+msgstr ""
+
+#: mobile/templates/listing_app_view.php:961
+#: mobile/templates/listing_app_view2.php:402 templates/loop-list-view.php:524
+#: templates/single-list/listing-detail-style5/deals.php:64
+msgid "sec"
+msgstr ""
+
+#: mobile/templates/listing_app_view.php:962
+#: mobile/templates/listing_app_view2.php:403 templates/loop-list-view.php:525
+#: templates/single-list/listing-detail-style5/deals.php:65
+#: templates/single-list/listing-details-style1/content/list-deals.php:81
+#: templates/single-list/listing-details-style1/content/list-discount.php:97
+#: templates/single-list/listing-details-style1/content/list-offers.php:60
+#: templates/single-list/listing-details-style2/content/list-deals.php:81
+#: templates/single-list/listing-details-style2/content/list-discount.php:97
+#: templates/single-list/listing-details-style2/content/list-offers.php:60
+#: templates/single-list/listing-details-style3/content/list-deals.php:89
+#: templates/single-list/listing-details-style3/content/list-discount.php:64
+#: templates/single-list/listing-details-style3/content/list-offers.php:42
+#: templates/single-list/listing-details-style4/content/list-deals.php:81
+#: templates/single-list/listing-details-style4/content/list-discount.php:96
+#: templates/single-list/listing-details-style4/content/list-offers.php:45
+msgid "days"
+msgstr ""
+
+#: mobile/templates/listing_app_view.php:974
+#: mobile/templates/listing_app_view2.php:415 templates/loop-list-view.php:537
 #: templates/single-list/listing-details-style1/content/list-deals.php:151
 #: templates/single-list/listing-details-style1/content/list-discount.php:137
 #: templates/single-list/listing-details-style1/content/list-offers.php:133
@@ -7572,8 +7611,8 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-#: mobile/templates/listing_app_view.php:974
-#: mobile/templates/listing_app_view2.php:415 templates/loop-list-view.php:537
+#: mobile/templates/listing_app_view.php:975
+#: mobile/templates/listing_app_view2.php:416 templates/loop-list-view.php:538
 #: templates/single-list/listing-details-style1/content/list-deals.php:152
 #: templates/single-list/listing-details-style1/content/list-discount.php:139
 #: templates/single-list/listing-details-style1/content/list-offers.php:134
@@ -7589,8 +7628,8 @@ msgstr ""
 msgid "Copied"
 msgstr ""
 
-#: mobile/templates/listing_app_view.php:974
-#: mobile/templates/listing_app_view2.php:415 templates/loop-list-view.php:537
+#: mobile/templates/listing_app_view.php:975
+#: mobile/templates/listing_app_view2.php:416 templates/loop-list-view.php:538
 #: templates/single-list/listing-details-style1/content/list-deals.php:152
 #: templates/single-list/listing-details-style1/content/list-discount.php:139
 #: templates/single-list/listing-details-style1/content/list-offers.php:134
@@ -7607,38 +7646,38 @@ msgid "Copy"
 msgstr ""
 
 #: mobile/templates/listing_app_view2.php:282 templates/loop-grid-view.php:743
-#: templates/loop-list-view.php:314 templates/loop-list-view.php:577
+#: templates/loop-list-view.php:314 templates/loop-list-view.php:578
 msgid "View Menu"
 msgstr ""
 
-#: mobile/templates/listing_app_view2.php:437
+#: mobile/templates/listing_app_view2.php:438
 msgid "RATING"
 msgstr ""
 
-#: mobile/templates/listing_app_view2.php:440
+#: mobile/templates/listing_app_view2.php:441
 msgid "Rated"
 msgstr ""
 
-#: mobile/templates/listing_app_view2.php:440
+#: mobile/templates/listing_app_view2.php:441
 msgid "out of 5.0 based on "
 msgstr ""
 
-#: mobile/templates/listing_app_view2.php:440
+#: mobile/templates/listing_app_view2.php:441
 msgid "ratings"
 msgstr ""
 
-#: mobile/templates/listing_app_view2.php:572
+#: mobile/templates/listing_app_view2.php:573
 msgid "INFORMATION"
 msgstr ""
 
-#: mobile/templates/listing_app_view2.php:742
+#: mobile/templates/listing_app_view2.php:764
 msgid "LOCATION"
 msgstr ""
 
 #: mobile/templates/listing_app_view_leadform.php:111 template-contact.php:268
-#: templates/popups.php:111
+#: templates/author/author-contact.php:1 templates/popups.php:111
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:146
-#: templates/single-list/listing-details-style2/content/contacts.php:161
+#: templates/single-list/listing-details-style2/content/contacts.php:131
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:134
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:107
 #: templates/single-list/listing-details-style4/sidebar/lead-form.php:108
@@ -7646,9 +7685,9 @@ msgid "Name:"
 msgstr ""
 
 #: mobile/templates/listing_app_view_leadform.php:114 template-contact.php:271
-#: templates/popups.php:114
+#: templates/author/author-contact.php:1 templates/popups.php:114
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:151
-#: templates/single-list/listing-details-style2/content/contacts.php:166
+#: templates/single-list/listing-details-style2/content/contacts.php:135
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:137
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:113
 #: templates/single-list/listing-details-style4/sidebar/lead-form.php:114
@@ -7656,9 +7695,10 @@ msgid "Email:"
 msgstr ""
 
 #: mobile/templates/listing_app_view_leadform.php:120 template-contact.php:281
-#: templates/popups.php:117 templates/single-list/claim-form.php:529
+#: templates/author/author-contact.php:1 templates/popups.php:117
+#: templates/single-list/claim-form.php:529
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:158
-#: templates/single-list/listing-details-style2/content/contacts.php:174
+#: templates/single-list/listing-details-style2/content/contacts.php:143
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:143
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:123
 #: templates/single-list/listing-details-style4/sidebar/lead-form.php:125
@@ -7666,7 +7706,9 @@ msgid "Message:"
 msgstr ""
 
 #: mobile/templates/listing_app_view_leadform.php:145
+#: templates/author/author-contact.php:1
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:171
+#: templates/single-list/listing-details-style2/content/contacts.php:159
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:156
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:137
 #: templates/single-list/listing-details-style4/sidebar/lead-form.php:141
@@ -7675,11 +7717,11 @@ msgstr ""
 
 #: mobile/templates/listing_app_view_leadform.php:150
 #: mobile/templates/listing_app_view_leadform.php:162
-#: templates/dashboard/event-attendees.php:197
+#: templates/author/author-contact.php:1 templates/dashboard/event-attendees.php:197
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:176
 #: templates/single-list/listing-details-style1/sidebar/leadform.php:189
-#: templates/single-list/listing-details-style2/content/contacts.php:206
-#: templates/single-list/listing-details-style2/content/contacts.php:216
+#: templates/single-list/listing-details-style2/content/contacts.php:164
+#: templates/single-list/listing-details-style2/content/contacts.php:175
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:161
 #: templates/single-list/listing-details-style2/sidebar/leadform.php:174
 #: templates/single-list/listing-details-style3/sidebar/lead-form.php:142
@@ -7726,12 +7768,13 @@ msgstr ""
 #: templates/listing-with-sidebar-filters.php:269
 #: templates/listing-with-sidebar-filters.php:279
 #: templates/listing-with-sidebar.php:210 templates/listing-with-sidebar.php:217
-#: templates/search/filter.php:48 templates/search/filter.php:53
-#: templates/search/filter.php:54 templates/search/filter.php:61
-#: templates/search/filter.php:62 templates/search/filter.php:70
-#: templates/search/filter.php:71 templates/search/filter2.php:49
-#: templates/search/filter2.php:56 templates/search/sidebar-filter.php:53
-#: templates/search/sidebar-filter.php:60 templates/search/sidebar-filter.php:68
+#: templates/search/filter.php:44 templates/search/filter.php:48
+#: templates/search/filter.php:53 templates/search/filter.php:54
+#: templates/search/filter.php:61 templates/search/filter.php:62
+#: templates/search/filter.php:70 templates/search/filter.php:71
+#: templates/search/filter2.php:49 templates/search/filter2.php:56
+#: templates/search/sidebar-filter.php:53 templates/search/sidebar-filter.php:60
+#: templates/search/sidebar-filter.php:68
 msgid "Results For"
 msgstr ""
 
@@ -7792,7 +7835,7 @@ msgstr ""
 #: templates/search/home-search-view1.php:65
 #: templates/search/home-search-view2.php:65
 #: templates/search/home-search-view3.php:65 templates/search/home-search.php:61
-#: templates/search/top_search.php:160
+#: templates/search/top_search.php:158
 msgid "What"
 msgstr ""
 
@@ -7803,7 +7846,7 @@ msgstr ""
 #: templates/search/home-search-view1.php:68
 #: templates/search/home-search-view2.php:68
 #: templates/search/home-search-view3.php:68 templates/search/home-search.php:64
-#: templates/search/top_search.php:166
+#: templates/search/top_search.php:164
 msgid "More results for"
 msgstr ""
 
@@ -7819,8 +7862,8 @@ msgstr ""
 #: templates/search/home-search-view2.php:144
 #: templates/search/home-search-view3.php:132
 #: templates/search/home-search-view3.php:144 templates/search/home-search.php:128
-#: templates/search/home-search.php:140 templates/search/top_search.php:273
-#: templates/search/top_search.php:289
+#: templates/search/home-search.php:140 templates/search/top_search.php:271
+#: templates/search/top_search.php:287
 msgid "Where"
 msgstr ""
 
@@ -7937,6 +7980,19 @@ msgstr ""
 msgid "Reviews Submitted"
 msgstr ""
 
+#: templates/author/author-contact.php:1
+#: templates/single-list/listing-details-style3/sidebar/lead-form.php:85
+#: templates/single-list/listing-details-style4/sidebar/lead-form.php:86
+msgid "Contact with business owner"
+msgstr ""
+
+#: templates/author/author-contact.php:1
+#: templates/single-list/listing-details-style1/sidebar/leadform.php:203
+#: templates/single-list/listing-details-style3/sidebar/lead-form.php:168
+#: templates/single-list/listing-details-style4/sidebar/lead-form.php:172
+msgid "Your request has been submitted successfully."
+msgstr ""
+
 #: templates/author/author-content.php:1
 msgid "My Listing"
 msgstr ""
@@ -8009,8 +8065,8 @@ msgid "All"
 msgstr ""
 
 #: templates/dashboard/active-campaigns.php:350 templates/dashboard/discounts.php:106
-#: templates/dashboard/discounts.php:345 templates/dashboard/discounts.php:506
-#: templates/dashboard/events.php:935 templates/dashboard/packages.php:263
+#: templates/dashboard/discounts.php:355 templates/dashboard/discounts.php:516
+#: templates/dashboard/events.php:936 templates/dashboard/packages.php:263
 #: templates/dashboard/packages.php:480
 msgid "Inactive"
 msgstr ""
@@ -8041,11 +8097,11 @@ msgstr ""
 #: templates/dashboard/active-campaigns.php:430
 #: templates/dashboard/announcements.php:44 templates/dashboard/discounts.php:45
 #: templates/dashboard/event-attendees.php:69 templates/dashboard/events.php:126
-#: templates/dashboard/inbox.php:14 templates/dashboard/invoices.php:810
+#: templates/dashboard/inbox.php:14 templates/dashboard/invoices.php:815
 #: templates/dashboard/listings.php:794 templates/dashboard/packages.php:506
 #: templates/dashboard/reviews-submited.php:153 templates/dashboard/reviews.php:128
 #: templates/dashboard/reviews.php:482 templates/dashboard/reviews.php:601
-#: templates/dashboard/saved.php:111 templates/dashboard/subscription.php:196
+#: templates/dashboard/saved.php:111 templates/dashboard/subscription.php:218
 msgid "Nothing but this golden trophy!"
 msgstr ""
 
@@ -8098,8 +8154,8 @@ msgid "Create Ad Campaign"
 msgstr ""
 
 #: templates/dashboard/active-campaigns.php:648
-#: templates/dashboard/announcements.php:189 templates/dashboard/discounts.php:667
-#: templates/dashboard/events.php:980 templates/dashboard/menus.php:363
+#: templates/dashboard/announcements.php:189 templates/dashboard/discounts.php:677
+#: templates/dashboard/events.php:981 templates/dashboard/menus.php:363
 msgid "Full View Example"
 msgstr ""
 
@@ -8161,86 +8217,86 @@ msgstr ""
 msgid "Please Select Your Payment Method To Pay Ad Charges"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:995
-#: templates/dashboard/active-campaigns.php:1045
+#: templates/dashboard/active-campaigns.php:996
+#: templates/dashboard/active-campaigns.php:1046
 msgid "Pay Now"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1027
+#: templates/dashboard/active-campaigns.php:1028
 msgid "Campaign Payment"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1038
+#: templates/dashboard/active-campaigns.php:1039
 msgid ""
 "I accept that I have reviewed all the above details before proceedings. I "
 "understand the ad campaign cannot be edited or cancelled without getting in touch "
 "with the site admin"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1041
-#: templates/dashboard/announcements.php:361 templates/dashboard/discounts.php:868
-#: templates/dashboard/events.php:1247 templates/dashboard/menus.php:554
+#: templates/dashboard/active-campaigns.php:1042
+#: templates/dashboard/announcements.php:361 templates/dashboard/discounts.php:878
+#: templates/dashboard/events.php:1248 templates/dashboard/menus.php:554
 msgid "Unsaved Event"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1069
+#: templates/dashboard/active-campaigns.php:1070
 msgid "Summary"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1075
+#: templates/dashboard/active-campaigns.php:1076
 msgid "ITEM"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1079
+#: templates/dashboard/active-campaigns.php:1080
 msgid "AMOUNT"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1087
+#: templates/dashboard/active-campaigns.php:1088
 msgid "Spotlight Ad"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1096
+#: templates/dashboard/active-campaigns.php:1097
 msgid "Top of Search Ad"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1105
+#: templates/dashboard/active-campaigns.php:1106
 msgid "Sidebar Ad"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1133
+#: templates/dashboard/active-campaigns.php:1134
 msgid "Budget"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1148
+#: templates/dashboard/active-campaigns.php:1149
 msgid "Subtotal"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1173 templates/dashboard/invoices.php:726
-#: templates/dashboard/invoices.php:787 templates/dashboard/invoices.php:833
+#: templates/dashboard/active-campaigns.php:1174 templates/dashboard/invoices.php:726
+#: templates/dashboard/invoices.php:792 templates/dashboard/invoices.php:838
 msgid "Total"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1189
+#: templates/dashboard/active-campaigns.php:1190
 msgid "Get results with no surprises"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1191
+#: templates/dashboard/active-campaigns.php:1192
 msgid "Get on top of the organic results intantly."
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1193
+#: templates/dashboard/active-campaigns.php:1194
 msgid "Pay only when ads are clicked."
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1195
+#: templates/dashboard/active-campaigns.php:1196
 msgid "Never Spend more than your budget limit."
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1200
+#: templates/dashboard/active-campaigns.php:1201
 msgid "Need help getting started?"
 msgstr ""
 
-#: templates/dashboard/active-campaigns.php:1202
+#: templates/dashboard/active-campaigns.php:1203
 msgid "Call (877) 777-7777"
 msgstr ""
 
@@ -8461,8 +8517,8 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
-#: templates/dashboard/announcements.php:280 templates/dashboard/discounts.php:194
-#: templates/dashboard/discounts.php:696
+#: templates/dashboard/announcements.php:280 templates/dashboard/discounts.php:204
+#: templates/dashboard/discounts.php:706
 msgid "Coupon Title"
 msgstr ""
 
@@ -8680,7 +8736,7 @@ msgstr ""
 msgid "Add new "
 msgstr ""
 
-#: templates/dashboard/discounts.php:56 templates/dashboard/discounts.php:665
+#: templates/dashboard/discounts.php:56 templates/dashboard/discounts.php:675
 msgid "All Coupons"
 msgstr ""
 
@@ -8689,9 +8745,9 @@ msgid "all deals"
 msgstr ""
 
 #: templates/dashboard/discounts.php:59 templates/dashboard/discounts.php:168
-#: templates/dashboard/events.php:152 templates/dashboard/events.php:300
-#: templates/dashboard/events.php:312 templates/dashboard/events.php:833
-#: templates/dashboard/packages.php:42
+#: templates/dashboard/discounts.php:177 templates/dashboard/events.php:152
+#: templates/dashboard/events.php:301 templates/dashboard/events.php:313
+#: templates/dashboard/events.php:834 templates/dashboard/packages.php:42
 msgid "active"
 msgstr ""
 
@@ -8727,16 +8783,16 @@ msgstr ""
 msgid "discount"
 msgstr ""
 
-#: templates/dashboard/discounts.php:121 templates/dashboard/discounts.php:355
-#: templates/dashboard/discounts.php:516
+#: templates/dashboard/discounts.php:121 templates/dashboard/discounts.php:365
+#: templates/dashboard/discounts.php:526
 msgid "Deal"
 msgstr ""
 
-#: templates/dashboard/discounts.php:126 templates/dashboard/discounts.php:270
-#: templates/dashboard/discounts.php:360 templates/dashboard/discounts.php:433
-#: templates/dashboard/discounts.php:521 templates/dashboard/discounts.php:594
-#: templates/dashboard/discounts.php:706 templates/loop-list-view.php:475
-#: templates/single-list/listing-detail-style5/deals.php:86
+#: templates/dashboard/discounts.php:126 templates/dashboard/discounts.php:280
+#: templates/dashboard/discounts.php:370 templates/dashboard/discounts.php:443
+#: templates/dashboard/discounts.php:531 templates/dashboard/discounts.php:604
+#: templates/dashboard/discounts.php:716 templates/loop-list-view.php:475
+#: templates/single-list/listing-detail-style5/deals.php:87
 #: templates/single-list/listing-detail-style5/offers.php:65
 #: templates/single-list/listing-details-style1/content/list-offers.php:92
 #: templates/single-list/listing-details-style2/content/list-offers.php:92
@@ -8745,173 +8801,173 @@ msgstr ""
 msgid "Coupon Code"
 msgstr ""
 
-#: templates/dashboard/discounts.php:132 templates/dashboard/discounts.php:364
-#: templates/dashboard/discounts.php:525
+#: templates/dashboard/discounts.php:132 templates/dashboard/discounts.php:374
+#: templates/dashboard/discounts.php:535
 msgid "Discount"
 msgstr ""
 
-#: templates/dashboard/discounts.php:170 templates/dashboard/discounts.php:550
-#: templates/dashboard/events.php:154 templates/dashboard/events.php:319
+#: templates/dashboard/discounts.php:173 templates/dashboard/discounts.php:560
+#: templates/dashboard/events.php:154 templates/dashboard/events.php:320
 #: templates/dashboard/packages.php:43
 msgid "inactive"
 msgstr ""
 
-#: templates/dashboard/discounts.php:195 templates/dashboard/discounts.php:402
-#: templates/dashboard/discounts.php:563 templates/dashboard/discounts.php:697
+#: templates/dashboard/discounts.php:205 templates/dashboard/discounts.php:412
+#: templates/dashboard/discounts.php:573 templates/dashboard/discounts.php:707
 msgid "e.g. 46% Off -  One Large Specialty Pizza"
 msgstr ""
 
-#: templates/dashboard/discounts.php:198 templates/dashboard/discounts.php:840
+#: templates/dashboard/discounts.php:208 templates/dashboard/discounts.php:850
 msgid "Coupon Details"
 msgstr ""
 
-#: templates/dashboard/discounts.php:199 templates/dashboard/discounts.php:406
-#: templates/dashboard/discounts.php:567 templates/dashboard/discounts.php:841
+#: templates/dashboard/discounts.php:209 templates/dashboard/discounts.php:416
+#: templates/dashboard/discounts.php:577 templates/dashboard/discounts.php:851
 msgid ""
 "e.g. Choice of: Two vouchers: Each Good for One Large Specialty Pizza $20 Value"
 msgstr ""
 
-#: templates/dashboard/discounts.php:218
+#: templates/dashboard/discounts.php:228
 msgid "Coupon Starts"
 msgstr ""
 
-#: templates/dashboard/discounts.php:241
+#: templates/dashboard/discounts.php:251
 msgid "Coupon Ends"
 msgstr ""
 
-#: templates/dashboard/discounts.php:271 templates/dashboard/discounts.php:434
-#: templates/dashboard/discounts.php:595 templates/dashboard/discounts.php:708
+#: templates/dashboard/discounts.php:281 templates/dashboard/discounts.php:444
+#: templates/dashboard/discounts.php:605 templates/dashboard/discounts.php:718
 msgid "e.g. SUMMER50"
 msgstr ""
 
-#: templates/dashboard/discounts.php:280 templates/dashboard/discounts.php:807
-#: templates/dashboard/discounts.php:815 templates/dashboard/menus.php:497
+#: templates/dashboard/discounts.php:290 templates/dashboard/discounts.php:817
+#: templates/dashboard/discounts.php:825 templates/dashboard/menus.php:497
 msgid "Button URL"
 msgstr ""
 
-#: templates/dashboard/discounts.php:281 templates/dashboard/discounts.php:457
-#: templates/dashboard/discounts.php:808 templates/dashboard/discounts.php:816
+#: templates/dashboard/discounts.php:291 templates/dashboard/discounts.php:467
+#: templates/dashboard/discounts.php:818 templates/dashboard/discounts.php:826
 msgid "e.g. http://www.example.com"
 msgstr ""
 
-#: templates/dashboard/discounts.php:287 templates/dashboard/discounts.php:716
-#: templates/dashboard/discounts.php:724
+#: templates/dashboard/discounts.php:297 templates/dashboard/discounts.php:726
+#: templates/dashboard/discounts.php:734
 msgid "Discount Value"
 msgstr ""
 
-#: templates/dashboard/discounts.php:288 templates/dashboard/discounts.php:440
+#: templates/dashboard/discounts.php:298 templates/dashboard/discounts.php:450
 msgid "e.g. 50% || $50"
 msgstr ""
 
-#: templates/dashboard/discounts.php:292 templates/dashboard/discounts.php:443
-#: templates/dashboard/discounts.php:604
+#: templates/dashboard/discounts.php:302 templates/dashboard/discounts.php:453
+#: templates/dashboard/discounts.php:614
 msgid "*Skip this if your deal doesn't include a coupon"
 msgstr ""
 
-#: templates/dashboard/discounts.php:299 templates/dashboard/discounts.php:800
+#: templates/dashboard/discounts.php:309 templates/dashboard/discounts.php:810
 #: templates/dashboard/menus.php:489
 msgid "Button Name"
 msgstr ""
 
-#: templates/dashboard/discounts.php:300 templates/dashboard/discounts.php:451
-#: templates/dashboard/discounts.php:612 templates/dashboard/discounts.php:801
+#: templates/dashboard/discounts.php:310 templates/dashboard/discounts.php:461
+#: templates/dashboard/discounts.php:622 templates/dashboard/discounts.php:811
 #: templates/dashboard/menus.php:493
 msgid "e.g. CLICK HERE"
 msgstr ""
 
-#: templates/dashboard/discounts.php:304 templates/dashboard/discounts.php:460
-#: templates/dashboard/discounts.php:621
+#: templates/dashboard/discounts.php:314 templates/dashboard/discounts.php:470
+#: templates/dashboard/discounts.php:631
 msgid "*If left blank the default text \"CLICK HERE\" will be used. "
 msgstr ""
 
-#: templates/dashboard/discounts.php:305 templates/dashboard/discounts.php:461
-#: templates/dashboard/discounts.php:622
+#: templates/dashboard/discounts.php:315 templates/dashboard/discounts.php:471
+#: templates/dashboard/discounts.php:632
 msgid ""
 "*Only enable Custom URL if you would like to redirect users to an external link. "
 msgstr ""
 
-#: templates/dashboard/discounts.php:326 templates/dashboard/discounts.php:486
+#: templates/dashboard/discounts.php:336 templates/dashboard/discounts.php:496
 msgid "nothing found"
 msgstr ""
 
-#: templates/dashboard/discounts.php:370
+#: templates/dashboard/discounts.php:380
 msgid "Start End"
 msgstr ""
 
-#: templates/dashboard/discounts.php:439 templates/dashboard/discounts.php:600
+#: templates/dashboard/discounts.php:449 templates/dashboard/discounts.php:610
 msgid "Discount Value %"
 msgstr ""
 
-#: templates/dashboard/discounts.php:450 templates/dashboard/discounts.php:611
+#: templates/dashboard/discounts.php:460 templates/dashboard/discounts.php:621
 msgid "Custom Text (Button)"
 msgstr ""
 
-#: templates/dashboard/discounts.php:456 templates/dashboard/discounts.php:617
+#: templates/dashboard/discounts.php:466 templates/dashboard/discounts.php:627
 msgid "Custom URL (Button)"
 msgstr ""
 
-#: templates/dashboard/discounts.php:618
+#: templates/dashboard/discounts.php:628
 msgid "e.g. http://www.listingprowp.com"
 msgstr ""
 
-#: templates/dashboard/discounts.php:666
+#: templates/dashboard/discounts.php:676
 msgid "Create Coupon"
 msgstr ""
 
-#: templates/dashboard/discounts.php:675
+#: templates/dashboard/discounts.php:685
 msgid "Choose a listing for the coupon"
 msgstr ""
 
-#: templates/dashboard/discounts.php:681
+#: templates/dashboard/discounts.php:691
 msgid "Discount/Deals not allowed with this listing. Please upgrade your plan."
 msgstr ""
 
-#: templates/dashboard/discounts.php:717
+#: templates/dashboard/discounts.php:727
 msgid "$ 0.00"
 msgstr ""
 
-#: templates/dashboard/discounts.php:725
+#: templates/dashboard/discounts.php:735
 msgid "% 0.00"
 msgstr ""
 
-#: templates/dashboard/discounts.php:732
+#: templates/dashboard/discounts.php:742
 msgid "$ Dollar"
 msgstr ""
 
-#: templates/dashboard/discounts.php:733
+#: templates/dashboard/discounts.php:743
 msgid "% Percent"
 msgstr ""
 
-#: templates/dashboard/discounts.php:741
+#: templates/dashboard/discounts.php:751
 msgid " Coupon Starts "
 msgstr ""
 
-#: templates/dashboard/discounts.php:748 templates/dashboard/discounts.php:780
-#: templates/dashboard/events.php:1097 templates/dashboard/events.php:1145
-#: templates/dashboard/invoices.php:763 templates/dashboard/lead_form.php:109
+#: templates/dashboard/discounts.php:758 templates/dashboard/discounts.php:790
+#: templates/dashboard/events.php:1098 templates/dashboard/events.php:1146
+#: templates/dashboard/invoices.php:768 templates/dashboard/lead_form.php:109
 #: templates/dashboard/lead_form.php:266 templates/dashboard/list-invoices.php:73
 msgid "Date"
 msgstr ""
 
-#: templates/dashboard/discounts.php:757 templates/dashboard/discounts.php:787
-#: templates/dashboard/events.php:1155 templates/dashboard/lead_form.php:110
+#: templates/dashboard/discounts.php:767 templates/dashboard/discounts.php:797
+#: templates/dashboard/events.php:1156 templates/dashboard/lead_form.php:110
 #: templates/dashboard/lead_form.php:267
 msgid "Time"
 msgstr ""
 
-#: templates/dashboard/discounts.php:770
+#: templates/dashboard/discounts.php:780
 msgid "set end date"
 msgstr ""
 
-#: templates/dashboard/discounts.php:776
+#: templates/dashboard/discounts.php:786
 msgid "Coupon Ends "
 msgstr ""
 
-#: templates/dashboard/discounts.php:826
+#: templates/dashboard/discounts.php:836
 msgid "External Coupon URL"
 msgstr ""
 
-#: templates/dashboard/discounts.php:852
+#: templates/dashboard/discounts.php:862
 msgid "Coupon Featured Image"
 msgstr ""
 
@@ -8964,7 +9020,7 @@ msgstr ""
 msgid "Your Location"
 msgstr ""
 
-#: templates/dashboard/events.php:72 templates/dashboard/events.php:1040
+#: templates/dashboard/events.php:72 templates/dashboard/events.php:1041
 #: templates/popups.php:183
 msgid "Drop Pin"
 msgstr ""
@@ -8973,7 +9029,7 @@ msgstr ""
 msgid "Are you sure you want to delete?"
 msgstr ""
 
-#: templates/dashboard/events.php:145 templates/dashboard/events.php:976
+#: templates/dashboard/events.php:145 templates/dashboard/events.php:977
 msgid "All Events"
 msgstr ""
 
@@ -8981,8 +9037,8 @@ msgstr ""
 msgid "all events"
 msgstr ""
 
-#: templates/dashboard/events.php:150 templates/dashboard/events.php:306
-#: templates/dashboard/events.php:719
+#: templates/dashboard/events.php:150 templates/dashboard/events.php:307
+#: templates/dashboard/events.php:720
 msgid "upcoming"
 msgstr ""
 
@@ -8998,129 +9054,129 @@ msgstr ""
 msgid "start time"
 msgstr ""
 
-#: templates/dashboard/events.php:252
+#: templates/dashboard/events.php:253
 msgid "View Attendees"
 msgstr ""
 
-#: templates/dashboard/events.php:268 templates/dashboard/events.php:687
-#: templates/dashboard/events.php:802 templates/dashboard/events.php:907
+#: templates/dashboard/events.php:269 templates/dashboard/events.php:688
+#: templates/dashboard/events.php:803 templates/dashboard/events.php:908
 msgid "Event Date"
 msgstr ""
 
-#: templates/dashboard/events.php:282 templates/dashboard/events.php:701
-#: templates/dashboard/events.php:816 templates/dashboard/events.php:917
+#: templates/dashboard/events.php:283 templates/dashboard/events.php:702
+#: templates/dashboard/events.php:817 templates/dashboard/events.php:918
 msgid "Event Time"
 msgstr ""
 
-#: templates/dashboard/events.php:373
+#: templates/dashboard/events.php:374
 msgid "Event Name"
 msgstr ""
 
-#: templates/dashboard/events.php:375 templates/dashboard/events.php:1022
+#: templates/dashboard/events.php:376 templates/dashboard/events.php:1023
 msgid "Give it a short quick name"
 msgstr ""
 
-#: templates/dashboard/events.php:381 templates/dashboard/events.php:1171
+#: templates/dashboard/events.php:382 templates/dashboard/events.php:1172
 msgid "Event Description"
 msgstr ""
 
-#: templates/dashboard/events.php:449 templates/dashboard/events.php:1089
+#: templates/dashboard/events.php:450 templates/dashboard/events.php:1090
 msgid "Event Starts"
 msgstr ""
 
-#: templates/dashboard/events.php:461
+#: templates/dashboard/events.php:462
 msgid "Event start Time"
 msgstr ""
 
-#: templates/dashboard/events.php:463 templates/dashboard/events.php:480
+#: templates/dashboard/events.php:464 templates/dashboard/events.php:481
 msgid "1:00 am"
 msgstr ""
 
-#: templates/dashboard/events.php:473 templates/dashboard/events.php:1137
+#: templates/dashboard/events.php:474 templates/dashboard/events.php:1138
 msgid "Event Ends"
 msgstr ""
 
-#: templates/dashboard/events.php:479
+#: templates/dashboard/events.php:480
 msgid "Event End Time"
 msgstr ""
 
-#: templates/dashboard/events.php:497
+#: templates/dashboard/events.php:498
 msgid "Address "
 msgstr ""
 
-#: templates/dashboard/events.php:499
+#: templates/dashboard/events.php:500
 msgid "e.g. Country, City, Location"
 msgstr ""
 
-#: templates/dashboard/events.php:519
+#: templates/dashboard/events.php:520
 msgid "Ticket URL"
 msgstr ""
 
-#: templates/dashboard/events.php:566
+#: templates/dashboard/events.php:567
 msgid "https://facebook.com/listingprowp"
 msgstr ""
 
-#: templates/dashboard/events.php:978
+#: templates/dashboard/events.php:979
 msgid "Create New event"
 msgstr ""
 
-#: templates/dashboard/events.php:994
+#: templates/dashboard/events.php:995
 msgid "Choose an event organizer's listing"
 msgstr ""
 
-#: templates/dashboard/events.php:1000
+#: templates/dashboard/events.php:1001
 msgid "Event not allowed or already an event with this listing."
 msgstr ""
 
-#: templates/dashboard/events.php:1020
+#: templates/dashboard/events.php:1021
 msgid "Event Title"
 msgstr ""
 
-#: templates/dashboard/events.php:1036
+#: templates/dashboard/events.php:1037
 msgid "Search By Google"
 msgstr ""
 
-#: templates/dashboard/events.php:1038
+#: templates/dashboard/events.php:1039
 msgid "Manual Coordinates"
 msgstr ""
 
-#: templates/dashboard/events.php:1044
+#: templates/dashboard/events.php:1045
 msgid "Event Location"
 msgstr ""
 
-#: templates/dashboard/events.php:1048
+#: templates/dashboard/events.php:1049
 msgid "Address for Google Maps"
 msgstr ""
 
-#: templates/dashboard/events.php:1053
+#: templates/dashboard/events.php:1054
 msgid "Add Custom Address"
 msgstr ""
 
-#: templates/dashboard/events.php:1055
+#: templates/dashboard/events.php:1056
 msgid "Add address here"
 msgstr ""
 
-#: templates/dashboard/events.php:1107
+#: templates/dashboard/events.php:1108
 msgid " Time"
 msgstr ""
 
-#: templates/dashboard/events.php:1121
+#: templates/dashboard/events.php:1122
 msgid "Set end date "
 msgstr ""
 
-#: templates/dashboard/events.php:1173
+#: templates/dashboard/events.php:1174
 msgid "e.g Enter description about your event"
 msgstr ""
 
-#: templates/dashboard/events.php:1183
+#: templates/dashboard/events.php:1184
 msgid "Event Tickets"
 msgstr ""
 
-#: templates/dashboard/events.php:1209
+#: templates/dashboard/events.php:1210
 msgid "Event URL"
 msgstr ""
 
-#: templates/dashboard/events.php:1227
+#: templates/dashboard/events.php:1228
 msgid "Event Featured Image"
 msgstr ""
 
@@ -9194,11 +9250,11 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: templates/dashboard/invoices.php:621 templates/dashboard/invoices.php:818
+#: templates/dashboard/invoices.php:621 templates/dashboard/invoices.php:823
 msgid "Invoice#"
 msgstr ""
 
-#: templates/dashboard/invoices.php:628 templates/dashboard/invoices.php:819
+#: templates/dashboard/invoices.php:628 templates/dashboard/invoices.php:824
 msgid "Date: "
 msgstr ""
 
@@ -9238,47 +9294,47 @@ msgstr ""
 msgid " Amount "
 msgstr ""
 
-#: templates/dashboard/invoices.php:725 templates/dashboard/invoices.php:781
+#: templates/dashboard/invoices.php:725 templates/dashboard/invoices.php:786
 msgid "Plan Price"
 msgstr ""
 
-#: templates/dashboard/invoices.php:729 templates/dashboard/invoices.php:834
+#: templates/dashboard/invoices.php:729 templates/dashboard/invoices.php:839
 msgid "Paid with"
 msgstr ""
 
-#: templates/dashboard/invoices.php:742
+#: templates/dashboard/invoices.php:747
 msgid "Download PDF"
 msgstr ""
 
-#: templates/dashboard/invoices.php:745 templates/popups.php:13
+#: templates/dashboard/invoices.php:750 templates/popups.php:13
 msgid "Print"
 msgstr ""
 
-#: templates/dashboard/invoices.php:760
+#: templates/dashboard/invoices.php:765
 msgid "INVOICE#"
 msgstr ""
 
-#: templates/dashboard/invoices.php:778 templates/dashboard/invoices.php:832
+#: templates/dashboard/invoices.php:783 templates/dashboard/invoices.php:837
 msgid "Tax Price"
 msgstr ""
 
-#: templates/dashboard/invoices.php:790 templates/dashboard/list-invoices.php:67
+#: templates/dashboard/invoices.php:795 templates/dashboard/list-invoices.php:67
 msgid "Method"
 msgstr ""
 
-#: templates/dashboard/invoices.php:793
+#: templates/dashboard/invoices.php:798
 msgid "plan"
 msgstr ""
 
-#: templates/dashboard/invoices.php:811
+#: templates/dashboard/invoices.php:816
 msgid "You must be here for the first time. You will see Listing invoices here."
 msgstr ""
 
-#: templates/dashboard/invoices.php:820
+#: templates/dashboard/invoices.php:825
 msgid "Billed To: "
 msgstr ""
 
-#: templates/dashboard/invoices.php:825
+#: templates/dashboard/invoices.php:830
 msgid "List Name : "
 msgstr ""
 
@@ -9903,7 +9959,7 @@ msgid "All Saved Listings"
 msgstr ""
 
 #: templates/dashboard/saved.php:29 templates/dashboard/saved.php:77
-#: templates/dashboard/subscription.php:35
+#: templates/dashboard/subscription.php:36
 msgid "Action"
 msgstr ""
 
@@ -9931,36 +9987,38 @@ msgstr ""
 msgid "Menu Option is Currently Active On"
 msgstr ""
 
-#: templates/dashboard/subscription.php:26
+#: templates/dashboard/subscription.php:27
 msgid "All Subscriptions"
 msgstr ""
 
-#: templates/dashboard/subscription.php:30
+#: templates/dashboard/subscription.php:31
 msgid "Subscription"
 msgstr ""
 
-#: templates/dashboard/subscription.php:31
+#: templates/dashboard/subscription.php:32
 msgid "Listing Title"
 msgstr ""
 
-#: templates/dashboard/subscription.php:34
+#: templates/dashboard/subscription.php:35
 msgid "Upcoming renewal"
 msgstr ""
 
-#: templates/dashboard/subscription.php:88 templates/dashboard/subscription.php:152
-msgid "exc. tax"
-msgstr ""
-
-#: templates/dashboard/subscription.php:92 templates/dashboard/subscription.php:156
-msgid "inc. tax"
-msgstr ""
-
-#: templates/dashboard/subscription.php:114 templates/dashboard/subscription.php:173
+#: templates/dashboard/subscription.php:63 templates/dashboard/subscription.php:69
+#: templates/dashboard/subscription.php:78 templates/dashboard/subscription.php:195
 msgid "Are you sure you want to proceed action?"
 msgstr ""
 
-#: templates/dashboard/subscription.php:114 templates/dashboard/subscription.php:173
+#: templates/dashboard/subscription.php:63 templates/dashboard/subscription.php:69
+#: templates/dashboard/subscription.php:78 templates/dashboard/subscription.php:195
 msgid "Unsubscribe"
+msgstr ""
+
+#: templates/dashboard/subscription.php:100 templates/dashboard/subscription.php:174
+msgid "exc. tax"
+msgstr ""
+
+#: templates/dashboard/subscription.php:104 templates/dashboard/subscription.php:178
+msgid "inc. tax"
 msgstr ""
 
 #: templates/dashboard/update-profile.php:136
@@ -10157,23 +10215,6 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
-#: templates/discount-template.php:28
-#: templates/single-list/listing-detail-style5/offers.php:38
-#: templates/single-list/listing-details-style1/content/list-deals.php:82
-#: templates/single-list/listing-details-style1/content/list-discount.php:98
-#: templates/single-list/listing-details-style1/content/list-offers.php:61
-#: templates/single-list/listing-details-style2/content/list-deals.php:82
-#: templates/single-list/listing-details-style2/content/list-discount.php:98
-#: templates/single-list/listing-details-style2/content/list-offers.php:61
-#: templates/single-list/listing-details-style3/content/list-deals.php:90
-#: templates/single-list/listing-details-style3/content/list-discount.php:65
-#: templates/single-list/listing-details-style3/content/list-offers.php:43
-#: templates/single-list/listing-details-style4/content/list-deals.php:82
-#: templates/single-list/listing-details-style4/content/list-discount.php:97
-#: templates/single-list/listing-details-style4/content/list-offers.php:46
-msgid "hours"
-msgstr ""
-
 #: templates/discount-template.php:29
 #: templates/single-list/listing-detail-style5/offers.php:39
 msgid "mins"
@@ -10182,6 +10223,14 @@ msgstr ""
 #: templates/discount-template.php:30
 #: templates/single-list/listing-detail-style5/offers.php:40
 msgid "secs"
+msgstr ""
+
+#: templates/events-calender/event-calender-modern.php:1
+msgid " Map View"
+msgstr ""
+
+#: templates/events-calender/event-calender-modern.php:1
+msgid " List View"
 msgstr ""
 
 #: templates/footers/company-info.php:28
@@ -10383,12 +10432,12 @@ msgid "Be the first to review!"
 msgstr ""
 
 #: templates/loop-grid-view.php:715 templates/loop-list-view.php:300
-#: templates/loop-list-view.php:563
+#: templates/loop-list-view.php:564
 msgid "call"
 msgstr ""
 
 #: templates/loop-grid-view.php:729 templates/loop-list-view.php:307
-#: templates/loop-list-view.php:570 templates/lp-list-view-compact.php:123
+#: templates/loop-list-view.php:571 templates/lp-list-view-compact.php:123
 msgid "Show Map"
 msgstr ""
 
@@ -10472,7 +10521,7 @@ msgstr ""
 msgid "features/tags"
 msgstr ""
 
-#: templates/search/header-search-view.php:49 templates/search/top_search.php:50
+#: templates/search/header-search-view.php:49 templates/search/top_search.php:48
 msgid "City..."
 msgstr ""
 
@@ -10614,7 +10663,6 @@ msgstr ""
 
 #: templates/single-list/claim-form.php:207 templates/single-list/claim-form.php:419
 #: templates/single-list/claim-form.php:547
-#: templates/single-list/listing-details-style2/content/contacts.php:200
 msgid "You agree & accept our Terms & Conditions for posting this information?."
 msgstr ""
 
@@ -10656,11 +10704,11 @@ msgstr ""
 msgid "Special Deals"
 msgstr ""
 
-#: templates/single-list/listing-detail-style5/deals.php:80
+#: templates/single-list/listing-detail-style5/deals.php:81
 msgid "Validity: "
 msgstr ""
 
-#: templates/single-list/listing-detail-style5/deals.php:90
+#: templates/single-list/listing-detail-style5/deals.php:91
 #: templates/single-list/listing-detail-style5/offers.php:71
 #: templates/single-list/listing-details-style1/content/list-offers.php:98
 #: templates/single-list/listing-details-style2/content/list-offers.php:98
@@ -10748,36 +10796,6 @@ msgstr ""
 msgid "Deals"
 msgstr ""
 
-#: templates/single-list/listing-details-style1/content/list-deals.php:81
-#: templates/single-list/listing-details-style1/content/list-discount.php:97
-#: templates/single-list/listing-details-style1/content/list-offers.php:60
-#: templates/single-list/listing-details-style2/content/list-deals.php:81
-#: templates/single-list/listing-details-style2/content/list-discount.php:97
-#: templates/single-list/listing-details-style2/content/list-offers.php:60
-#: templates/single-list/listing-details-style3/content/list-deals.php:89
-#: templates/single-list/listing-details-style3/content/list-discount.php:64
-#: templates/single-list/listing-details-style3/content/list-offers.php:42
-#: templates/single-list/listing-details-style4/content/list-deals.php:81
-#: templates/single-list/listing-details-style4/content/list-discount.php:96
-#: templates/single-list/listing-details-style4/content/list-offers.php:45
-msgid "days"
-msgstr ""
-
-#: templates/single-list/listing-details-style1/content/list-deals.php:83
-#: templates/single-list/listing-details-style1/content/list-discount.php:99
-#: templates/single-list/listing-details-style1/content/list-offers.php:62
-#: templates/single-list/listing-details-style2/content/list-deals.php:83
-#: templates/single-list/listing-details-style2/content/list-discount.php:99
-#: templates/single-list/listing-details-style2/content/list-offers.php:62
-#: templates/single-list/listing-details-style3/content/list-deals.php:91
-#: templates/single-list/listing-details-style3/content/list-discount.php:66
-#: templates/single-list/listing-details-style3/content/list-offers.php:44
-#: templates/single-list/listing-details-style4/content/list-deals.php:83
-#: templates/single-list/listing-details-style4/content/list-discount.php:98
-#: templates/single-list/listing-details-style4/content/list-offers.php:47
-msgid "min"
-msgstr ""
-
 #: templates/single-list/listing-details-style1/content/list-menu.php:59
 #: templates/single-list/listing-details-style2/content/list-menu.php:62
 #: templates/single-list/listing-details-style3/content/list-menu.php:56
@@ -10803,20 +10821,8 @@ msgstr ""
 msgid "Checkout"
 msgstr ""
 
-#: templates/single-list/listing-details-style1/sidebar/leadform.php:203
-#: templates/single-list/listing-details-style2/content/contacts.php:229
-#: templates/single-list/listing-details-style3/sidebar/lead-form.php:168
-#: templates/single-list/listing-details-style4/sidebar/lead-form.php:172
-msgid "Your request has been submitted successfully."
-msgstr ""
-
 #: templates/single-list/listing-details-style3/content/title-bar.php:182
 msgid "Be the first to review"
-msgstr ""
-
-#: templates/single-list/listing-details-style3/sidebar/lead-form.php:85
-#: templates/single-list/listing-details-style4/sidebar/lead-form.php:86
-msgid "Contact with business owner"
 msgstr ""
 
 #: templates/single-list/listing-details-style3/sidebar/quicks.php:139

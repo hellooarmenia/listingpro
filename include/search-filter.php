@@ -319,7 +319,7 @@ if (!function_exists('ajax_search_tags')) {
 				'taxonomy' => 'features',
 				'field' => 'id',
 				'terms' => $info['tag_name'],
-				'operator' => 'AND',
+				'operator' => 'IN',
             );
         }
 		
@@ -385,7 +385,7 @@ if (!function_exists('ajax_search_tags')) {
         $rateArray      = array();
         $reviewedArray  = array();
         $viewedArray    = array();
-		$orderBy = '';
+		$orderBy = $metakeyOrderBy;
 		$sortBy = '';
 		if(!empty($info['averageRate'])){
 			$sortBy = array(

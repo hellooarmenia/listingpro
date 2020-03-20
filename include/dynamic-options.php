@@ -273,7 +273,7 @@ if( !function_exists('listingpro_dynamic_options')){
     }
 
     .widget-box.business-contact.lp-lead-form-st .contact-form.quickform form.form-horizontal .form-group.pos-relative i.lp-search-icon,
-    .listing-app-view .listing-app-view2 .single_listing .review-form .form-submit .lp-review-btn{
+    .listing-app-view .listing-app-view2 .single_listing .review-form .form-submit .lp-review-btn, .lp-dashboard-event-tick-btn .fa{
     color: <?php echo esc_html($themeClr); ?>;
     }
 

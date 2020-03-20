@@ -341,12 +341,12 @@
 
             if( isset( $_POST[ 'formData' ] ) ) {
 
-                parse_str( sanitize_text_field($_POST[ 'formData' ]), $formData );
+                parse_str( $_POST[ 'formData' ], $formData );
                 $post_id = sanitize_text_field($formData['post_id']);
                 $post_title = get_the_title($post_id);
                 $post_url = get_the_permalink($post_id);
                 $name1 = sanitize_text_field($formData['name7']);
-                $email = sanitize_text_field($formData['email7']);
+                $email = sanitize_email($formData['email7']);
                 $phone = sanitize_text_field($formData['phone7']);
                 $message = sanitize_text_field($formData['message7']);
                 $authorID = sanitize_text_field($formData['author_id']);

@@ -956,9 +956,10 @@ if ( have_posts() ) {
                             <div class="coupons-bottom-content-wrap">
                                 <div class="archive-countdown-wrap">
                                     <div id="lp-deals-countdown<?php echo get_the_ID(); ?>" class="lp-countdown lp-deals-countdown<?php echo get_the_ID(); ?>"
-                                         data-label-hours="hours"
-                                         data-label-mins="min"
-                                         data-label-secs="sec"
+                                         data-label-hours="<?php echo esc_html__( 'hours', 'listingpro' ); ?>"
+                                         data-label-mins="<?php echo esc_html__( 'min', 'listingpro' ); ?>"
+                                         data-label-secs="<?php echo esc_html__( 'sec', 'listingpro' ); ?>"
+                                         data-label-days="<?php echo esc_html__( 'days', 'listingpro' ); ?>"
                                          data-day="<?php echo date( 'd', $listing_discount_datum['disExpE'] ); ?>"
                                          data-month="<?php echo date( 'm', $listing_discount_datum['disExpE'] )-1; ?>"
                                          data-year="<?php echo date( 'Y', $listing_discount_datum['disExpE'] ); ?>"></div>

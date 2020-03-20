@@ -38115,3 +38115,15 @@ div[data-style="horizontal_view_1"] .lp-plane-top-wrape .clearfix:nth-child(2){
 .lp-ad-click-outer .add-new-form-field{
     display: none;
 }
+.lp-menu-step-two-outer .lp-lead-form-options-wraper input{
+    height: 46px!important;
+    width: 100%;
+    line-height: 46px!important;
+    border: 1px solid #dedede!important;
+    padding: 6px 12px;
+    border-radius: 5px;
+    color: #818181!important;
+}
+.lp-menu-step-two-outer .lp-lead-form-options-wraper .lp-option-wrap{
+    margin-top:15px;
+}

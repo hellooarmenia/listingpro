@@ -9,33 +9,7 @@ $lpThisPostPlan = listing_get_metabox_by_ID('Plan_id', $lpThisPost);
 $restrictCampaign = get_post_meta($lpThisPostPlan, 'listingproc_plan_campaigns', true);
 
 $showthisadinSidebar = true;
-if (!empty($restrictCampaign)) {
-    if ($restrictCampaign != "false") {
-        $thisCats = get_the_terms($lpThisPost, 'listing-category');
-        if (!empty($thisCats)) {
-            foreach ($thisCats as $thisCat) {
-                $thisCatsArray[] = $thisCat->term_id;
 
-            }
-        }
-
-        /* for campagins cats */
-        $thisCatss = get_the_terms(get_the_ID(), 'listing-category');
-        if (!empty($thisCatss)) {
-            foreach ($thisCatss as $thisCat) {
-                $thisAdCatArray[] = $thisCat->term_id;
-            }
-        }
-
-
-        if (!empty($thisCatsArray) && !empty($thisAdCatArray)) {
-            $checkCommon = array_intersect($thisCatsArray, $thisAdCatArray);
-            if (count($checkCommon) > 0) {
-                $showthisadinSidebar = false;
-            }
-        }
-    }
-}
 if (!empty($showthisadinSidebar)) {
     $output = null;
     global $listingpro_options;

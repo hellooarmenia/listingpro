@@ -1842,7 +1842,7 @@ L.Google.asyncInitialize = function() {
 					
 				});
 				
-				jQuery(document).on('click', '.v2-map-load .v2mapwrap, .listing-app-view-bar .right-icons a, .sidemap-fixed .sidemarpInside', function(e){
+				jQuery(document).on('click', '.footer-btn-right.map-view-btn, .v2-map-load .v2mapwrap, .listing-app-view-bar .right-icons a, .sidemap-fixed .sidemarpInside', function(e){
 					if(jQuery('#map').is('.mapSidebar')) {
 						
 						var defmaplat = jQuery('body').data('defaultmaplat');
@@ -1946,9 +1946,15 @@ L.Google.asyncInitialize = function() {
                                                 LPiconSrc = jQuery(this).find('.cat-icon').find('img').attr('src');
                                             }
                                         }
-                                    } else {
+                                    }  else {
                                         var LPaddress = jQuery(this).find('.gaddress').text();
                                         var LPimageSrc = jQuery(this).find('.listing-app-view-new-wrap').find('img').attr('src');
+                                        if ( LPimageSrc === undefined){
+                                            LPimageSrc = jQuery(this).data('feaimg');
+                                        }
+                                        if ( LPimageSrc === undefined){
+                                            LPimageSrc = jQuery(this).find('.lp-grid-box-thumb .show-img img').attr('src');
+                                        }
                                         if (typeof jQuery("body").data('deficon') !== 'undefined') {
                                             // your code here
                                             LPiconSrc = jQuery("body").data('deficon');
@@ -3600,6 +3606,9 @@ jQuery(document).ready(function(){
 	
 	/* first step */
     jQuery(document).on('click', 'button.firstStep', function(){
+    	if(jQuery('.inactive-payment-mode').length) {
+		    jQuery('.inactive-payment-mode').hide();
+		}
         jQuery('#listings_checkout_form input[name=listing_id]').not(':checked').closest('.lp-user-listings').css('display', 'none');
         jQuery('#listings_checkout_form input[name=plan]').not(':checked').closest('.lp-method-wrap').css('display', 'none');
         lp_show_mini_subtotal();
@@ -3807,7 +3816,13 @@ jQuery(document).ready(function(){
             }else if($method=="paypal"){
                 $imgSrc = jQuery('p.lp-pay-with img').data('srcpaypal');
                 jQuery('p.lp-pay-with img').attr('src', $imgSrc);
-            }
+            }else if($method == 'paystack') {
+             	$imgSrc = jQuery('p.lp-pay-with img').data('srcpaystack');
+            	jQuery('p.lp-pay-with img').attr('src', $imgSrc);
+			}else if($method == 'razorpay') {
+			    $imgSrc = jQuery('p.lp-pay-with img').data('srcrazorpay');
+			    jQuery('p.lp-pay-with img').attr('src', $imgSrc);
+			}
             jQuery('div.lp_popup_preview_invoice .lppopmethod').text($method);
             jQuery('div.lp_popup_preview_invoice .lppopplan').text($plan);
             jQuery('div.lp_popup_preview_invoice .lppopduration').text($duration);
@@ -4330,19 +4345,20 @@ function lp_make_campaign_paybutton_active(){
     var selected_option = jQuery('.lp-search-listing-camp').val();
     var atLeastOnePlaceAd = jQuery('input[name="lpadsoftype[]"]:checked').length > 0;
     var atLeastOneMethodAd = jQuery('input[name="method"]:checked').length > 0;
-	
-	var adPriceField = 1;
-	var adDurationField = 1;
-	
-	if(jQuery('input[name="adsduration_pd"]').length > 0){
-		adDurationField = jQuery('input[name="adsduration_pd"]').val();
-	}
-	
-	if(jQuery('input[name="adsprice_pc"]').length > 0){
-		adPriceField = jQuery('input[name="adsprice_pc"]').val();
-	}
-	
-    if( selected_option!='' && selected_option!='0' &&  atLeastOnePlaceAd!='' && atLeastOnePlaceAd!='0' && atLeastOneMethodAd!='' && atLeastOneMethodAd!='0' && adDurationField!='' && adDurationField!='0' && adPriceField!='' && adPriceField!='0' ){
+    var adsterms = jQuery('#lp-campaignTerms:checked').length > 0;
+
+    var adPriceField = 1;
+    var adDurationField = 1;
+
+    if(jQuery('input[name="adsduration_pd"]').length > 0){
+        adDurationField = jQuery('input[name="adsduration_pd"]').val();
+    }
+
+    if(jQuery('input[name="adsprice_pc"]').length > 0){
+        adPriceField = jQuery('input[name="adsprice_pc"]').val();
+    }
+
+    if( selected_option!='' && selected_option!='0' &&  atLeastOnePlaceAd!='' &&  adsterms!='' &&  adsterms!='0' && atLeastOnePlaceAd!='0' && atLeastOneMethodAd!='' && atLeastOneMethodAd!='0' && adDurationField!='' && adDurationField!='0' && adPriceField!='' && adPriceField!='0' ){
         jQuery('button.lp_campaign_paynow').attr('disabled', false);
         jQuery('button.lp_campaign_paynow').attr('type', 'submit');
     }else{
@@ -4350,6 +4366,10 @@ function lp_make_campaign_paybutton_active(){
         jQuery('button.lp_campaign_paynow').attr('type', 'button');
     }
 }
+
+jQuery(document).on('click', '#lp-campaignTerms', function () {
+    lp_make_campaign_paybutton_active();
+});
 
 jQuery(document).on('click', '.show-loop-map-popup', function (e) {
     e.preventDefault();

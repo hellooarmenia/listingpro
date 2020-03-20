@@ -159,16 +159,26 @@ ajax_response_markup();
                                     </div>
                                     <div class="padding-0 col-md-2 text-center lp-content-before-after" data-content="<?php esc_html_e('Status','listingpro'); ?>">
                                         <div class="clearfix">
-											<div class="lp-display-inline lp-listing-pay-outer lp-coupon-listing-pay-outer <?php echo $active_class; ?>">
+                                            <div class="lp-display-inline lp-listing-pay-outer lp-coupon-listing-pay-outer <?php echo $active_class; ?>">
                                                 <?php
                                                 $expiry_date    =   $discount_data['disExpE'];
                                                 $date_start     =   $discount_data['disExpS'];
                                                 if( ( !empty( $expiry_date ) && $time_now < $expiry_date ) && ( !empty( $date_start ) && $time_now > $date_start ) ):
                                                     ?>
                                                     <a class="lp-listing-pay-button"> <?php esc_html_e('active','listingpro'); ?></a>
-                                                <?php else: ?>
-                                                    <a class="lp-listing-pay-button inactive"> <?php esc_html_e('inactive','listingpro'); ?></a>
-                                                <?php endif; ?>
+                                                    <?php
+                                                else:
+                                                    if (!empty($expiry_date)) {
+                                                        ?>
+                                                        <a class="lp-listing-pay-button inactive"> <?php esc_html_e('inactive', 'listingpro'); ?></a>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <a class="lp-listing-pay-button"> <?php esc_html_e('active', 'listingpro'); ?></a>
+                                                        <?php
+                                                    }
+                                                endif;
+                                                ?>
                                             </div>
                                             <div class="lp-display-inline">
                                                 <div class="lp-dot-extra-buttons">

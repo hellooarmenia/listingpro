@@ -59,9 +59,10 @@ if( is_array( $listing_discount_data_final ) && !empty( $listing_discount_data_f
                             ?>
                             <div class="deal-countdown-wrap">
                                 <div id="lp-deals-countdown<?php echo $deal_counter; ?>" class="lp-countdown lp-deals-countdown<?php echo $deal_counter; ?>"
-                                     data-label-hours="hours"
-                                     data-label-mins="min"
-                                     data-label-secs="sec"
+                                     data-label-hours="<?php echo esc_html__( 'hours', 'listingpro' ); ?>"
+                                         data-label-mins="<?php echo esc_html__( 'min', 'listingpro' ); ?>"
+                                         data-label-secs="<?php echo esc_html__( 'sec', 'listingpro' ); ?>"
+                                         data-label-days="<?php echo esc_html__( 'days', 'listingpro' ); ?>"
                                      data-day="<?php echo date( 'd', $discount_data['disExp'] ); ?>"
                                      data-month="<?php echo date( 'm', $discount_data['disExp'] )-1; ?>"
                                      data-year="<?php echo date( 'Y', $discount_data['disExp'] ); ?>"></div>

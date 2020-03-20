@@ -89,20 +89,20 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                     <div class="pull-right">
                         <ul class="lp_stats_duration_filter clearfix" style="display:none">
                             <li>
-                                <button type="button" class="lp_stats_duratonBtn active" data-chartduration="weekly" data-type=""><?php echo esc_html__('Weekly', 'listingpro'); ?></button>
+                                <button type="button" class="lp_stats_duratonBtn active" data-chartduration="weekly" data-label="" data-type=""><?php echo esc_html__('Weekly', 'listingpro'); ?></button>
                             </li>
                             <li>
-                                <button type="button" class="lp_stats_duratonBtn" data-chartduration="monthly" data-type=""><?php echo esc_html__('Monthly', 'listingpro'); ?></button>
+                                <button type="button" class="lp_stats_duratonBtn" data-chartduration="monthly" data-label="" data-type=""><?php echo esc_html__('Monthly', 'listingpro'); ?></button>
                             </li>
-							<?php
-								if(!empty($yearsStats)){
-							?>
-								<li>
-									<button type="button" class="lp_stats_duratonBtn" data-chartduration="yearly" data-type=""><?php echo esc_html__('Yearly', 'listingpro'); ?></button>
-								</li>
-								<?php
-								}
-							?>
+                            <?php
+                                if(!empty($yearsStats)){
+                            ?>
+                                <li>
+                                    <button type="button" class="lp_stats_duratonBtn" data-chartduration="yearly" data-label="" data-type=""><?php echo esc_html__('Yearly', 'listingpro'); ?></button>
+                                </li>
+                                <?php
+                                }
+                            ?>
                         </ul>
                         <div class="lp-dash-search-stats-outer" style="display:none">
                             <button type="button" class="lp-filter-search-listing"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -119,7 +119,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                 </div>
 
                 <div class="col-md-4 col-xs-12 padding-right-0">
-                    <div class="count-box blue-box lp_user_stats_btn lpviewchart" data-chartduration="weekly" data-type="<?php echo esc_html__('view', 'listingpro'); ?>">
+                    <div class="count-box blue-box lp_user_stats_btn lpviewchart" data-chartduration="weekly" data-type="<?php echo esc_html__('view', 'listingpro'); ?>" data-label="view">
                         <div class="clearfix">
                             <p><span><?php esc_html_e('User Views','listingpro'); ?></span></p>
                             <div class="help-text">
@@ -145,7 +145,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-12 padding-0">
-                    <div class="count-box orange-box lp_user_stats_btn lpviewleads" data-chartduration="weekly" data-type="<?php echo esc_html__('leads', 'listingpro'); ?>">
+                    <div class="count-box orange-box lp_user_stats_btn lpviewleads" data-chartduration="weekly" data-type="<?php echo esc_html__('leads', 'listingpro'); ?>" data-label="leads">
                         <div class="clearfix">
                             <p><span><?php esc_html_e('Customer Leads','listingpro'); ?></span></p>
                             <div class="help-text">
@@ -171,7 +171,7 @@ if( empty($lpalertsRatings) && empty($lptotalClicks) ){
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-12 padding-left-0">
-                    <div class="count-box green-box lp_user_stats_btn lpviewreviews" data-chartduration="weekly" data-type="<?php echo esc_html__('reviews', 'listingpro'); ?>">
+                    <div class="count-box green-box lp_user_stats_btn lpviewreviews" data-chartduration="weekly" data-type="<?php echo esc_html__('reviews', 'listingpro'); ?>" data-label="reviews">
                         <div class="clearfix">
                             <p><span><?php esc_html_e('Customer Reviews','listingpro'); ?></span></p>
                             <div class="help-text">
